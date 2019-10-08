@@ -57,9 +57,11 @@ poll_duration <- poll_LPT %>%
 
 names(poll_duration)
 head(poll_duration)
+
 #4) Arrange data by the number of insects
 poll_duration %>%
   arrange(numinsects)
+
 #5) Print tidied, wrangled database
 getwd()
 ?write.csv
@@ -87,17 +89,20 @@ Insects <- poll_duration %>%
   group_by(site) %>%
   summarise(SumInsects = sum(numinsects, na.rm = T))
 Insects
+
 #8b) a table that shows the mean number of insects per island "per bowl"
 names(poll_duration)
 InsectAvg <- poll_duration %>%
   group_by(island) %>%
   summarise(AvgInsects = mean(numinsects, na.rm = T))
 InsectAvg
+
 #8c) a table that shows the min and max number of insects per transect
 min_max <- poll_duration %>%
   group_by(transect) %>%
   summarise(Maximum = max(numinsects, na.rm = T), Minimum = min(numinsects, na.rm = T))
 head(min_max)
+
 #9a) Figure out which insect order is found across the greatest number of sites
 no_hope <- poll_duration %>%
   mutate(Presence = ifelse(numinsects > 0,"1","0")) 
