@@ -1,0 +1,197 @@
+c(1.1,2.2,4.1)
+c(1.1,2.2,4.1)
+x <- c(1.1,2.2,4.1)
+x
+length(x)
+str(x)
+x2 <- rnorm(100, 5, 0.2)
+summary(x2)
+c(mean(x2),sd(x2))
+1:9
+?sum
+x
+xm <- matrix(1:9, nrow=3)
+xm
+diag(xm)
+xm[1:2,1:2]
+xm[1,]
+xm2 <- matrix(0, nrow=3, ncol=3)
+xm2
+diag(xm2) <- 1
+xm2
+xm3 <- as.matrix(x)
+xm3
+t(xm3)
+t(xm)
+citation()
+install.packages('FSA')
+install.packages('FSAdata')
+library(FSA)
+library(FSAdata)
+?FSAdata
+help.search("Length Frequency",package=c("FSAdata","FSA"))
+data("BullTroutRML1")
+trout <- data("BullTroutRML1")
+View(trout)
+View(BullTroutRML1)
+trout <- BullTroutRML1
+View(trout)
+hist(trout$fl)
+?hist
+hist(trout$fl, col = 4)
+hist(trout$fl, col = 4, xlim = 550, ylim = 60)
+trout$fl <- trout$fl*0.01
+hist(trout$fl, col = 4, xlim = 550, ylim = 60)
+hist(trout$fl, col = 4, ylim = 60)
+hist(trout$fl, col = 4)
+hist(trout$fl, breaks = c(10,20,30,40,50,60,70) col = 4)
+hist(trout$fl, breaks = c(10,20,30,40,50,60,70), col = 4)
+hist(trout$fl, breaks = c(1,2,3,4,5), col = 4)
+hist(trout$fl, breaks = c(1,2,3,4,5,6), col = 4)
+hist(trout$fl, breaks = c(0,1,2,3,4,5,6), col = 4)
+hist(trout$fl, breaks = c(0,1,2,3,4,5), col = 4)
+str(BullTroutRML1)
+head(BullTroutRML1)
+plot(mass~fl,data=BullTroutRML1,subset=era=="1977-79",main="1977-79")
+op <- par(mfrow=c(1,2),pch=19)
+plot(mass~fl,data=BullTroutRML1,subset=era=="1977-79",main="1977-79")
+plot(mass~fl,data=BullTroutRML1,subset=era=="2001",main="2001")
+par(op)
+trout$fl <- trout$fl*100
+hist(trout$fl, breaks = c(0,50,100,150,200,250,300,350,400,450,500), col = 4)
+?ylim
+?hist
+hist(trout$fl, breaks = c(0,50,100,150,200,250,300,350,400,450,500), col = 4, axes=T, labels=T)
+?par
+hist(trout$fl, breaks = c(0,50,100,150,200,250,300,350,400,450,500), col = 4, axes=T, labels=T)
+trout_hist <- hist(trout$fl, breaks = 20, col = 4, axes=T, labels=T)
+trout_hist <- hist(trout$fl, breaks = 20, main = "Breaks=20" col = 4, axes=T, labels=T)
+trout_hist <- hist(trout$fl, breaks = 20, main = "Breaks=20", col = 4, axes=T, labels=T)
+trout_hist <- hist(trout$fl, breaks = 20, main = "Breaks=20", right = F, col = 4, axes=T, labels=T)
+trout_hist <- hist(trout$fl, breaks = 20, main = "Breaks=20", right = T, col = 4, axes=T, labels=T)
+trout_hist <- hist(trout$fl, breaks = 20, main = "Breaks=20", freq=F, col = 4, axes=T, labels=T)
+trout_hist <- hist(trout$fl, breaks = 20, main = "Breaks=20", freq=F, col = 4, axes=T)
+trout_hist <- hist(trout$fl, breaks = 10, main = "Breaks=20", freq=F, col = 4, axes=T)
+trout_hist <- hist(trout$fl, breaks = 10, main = "Breaks=10", freq=F, col = 4, axes=T)
+trout_hist <- hist(trout$fl, breaks = 10, main = "Density", freq=F, col = 4, axes=T)
+trout_hist <- hist(trout$fl, breaks = 10, main = "Density", freq=T, col = 4, axes=T)
+trout_hist <- hist(trout$fl, breaks = 10, main = "Density", freq=T, col = 4, axes=T, xlim=c(0,500),
+ylim = c(0,50))
+trout_hist <- hist(trout$fl, breaks = 10, main = "Density", freq=T, col = 4, axes=T, xlim=c(80,500),
+ylim = c(0,50))
+trout_hist <- hist(trout$fl, breaks = 10, main = "Density", freq=T, col = 4, axes=T, xlim=c(50,500),
+ylim = c(0,50))
+trout_hist <- hist(trout$fl, breaks = 10, main = "Density", freq=T, col = 4, axes=T, xlim=c(0,500),
+ylim = c(0,50))
+trout_hist <- hist(trout$fl, breaks = 10, main = "Density", freq=T, col = 4, axes=T, xlim=c(0,600),
+ylim = c(0,50))
+trout_hist <- hist(trout$fl, breaks = 10, main = "Density", freq=T, col = 4, axes=T, xlim=c(0,550),
+ylim = c(0,50))
+trout_hist <- hist(trout$fl, breaks = 10, main = "Density", freq=T, col = 4, axes=T, xlim=c(0,550),
+ylim = c(0,50))
+trout_hist <- hist(trout$fl, breaks = 10, main = "Density", freq=T, col = 4, axes=T, xlim=c(0,600),
+ylim = c(0,50))
+trout_hist <- hist(trout$fl, breaks = 10, main = "Density", freq=T, col = 4, axes=T, xlim=c(0:600),
+ylim = c(0,50))
+trout_hist <- hist(trout$fl, breaks = 10, main = "Density", freq=T, col = 4, axes=T, xlim=c(0,600),
+ylim = c(0,50))
+trout_hist <- hist(trout$fl, breaks = 15, main = "Density", freq=T, col = 4, axes=T, xlim=c(0,600),
+ylim = c(0,50))
+trout_hist <- hist(trout$fl, breaks = 10, main = "Density", freq=T, col = 4, axes=T, xlim=c(0,600),
+ylim = c(0,50))
+trout_hist <- hist(trout$fl, breaks = 15, main = "Density", freq=T, col = 4, axes=T, xlim=c(0,600),
+ylim = c(0,50))
+trout_hist <- hist(trout$fl, breaks = 15, main = "Density", freq=T, col = 4, axes=T, xlim=c(0,600),
+ylim = c(0,30))
+trout_hist <- hist(trout$fl, breaks = 15, main = "Density", freq=T, col = 4, axes=T, xlim=c(0,500),
+ylim = c(0,30))
+trout_hist <- hist(trout$fl, breaks = 15, main = "Density", freq=T, col = 4, axes=T, xlim=c(0,500),
+ylim = c(0,30), labels = T)
+library(ggplot2)
+ggplot(data=trout, aes(trout$fl))+geom_histogram()
+ggplot(data=trout, aes(trout$fl))+geom_histogram(breaks=seq(50,500, by=50))
+ggplot(data=trout, aes(trout$fl))+geom_histogram(breaks=seq(50,500, by=50), col=4, fill="green")
+ggplot(data=trout, aes(trout$fl))+geom_histogram(breaks=seq(50,500, by=50), col="green")
+ggplot(data=trout, aes(trout$fl))+geom_histogram(breaks=seq(50,500, by=50), col="green",
++ labs(title="Length Frequency")+ labs(x="Fork Lenght (mm)"
+)+ylim(c(0,50)))
+ggplot(data=trout, aes(trout$fl))+geom_histogram(breaks=seq(50,500, by=50), col="green",
++ labs(title="Length Frequency") + labs(x="Fork Lenght (mm)"
+)+ylim(c(0,50)))
+ggplot(data=trout, aes(trout$fl))+geom_histogram(breaks=seq(50,500, by=50), col="green"),
++ labs(title="Length Frequency")
++ labs(title="Length Frequency")
+ggplot(data=trout, aes(trout$fl))+geom_histogram(breaks=seq(50,500, by=50), col="green") + labs(title="Length Frequency")
++ labs(x="Fork Length (mm)")
+ggplot(data=trout, aes(trout$fl))+geom_histogram(breaks=seq(50,500, by=50), col="green") + labs(title="Length Frequency") + labs(x="Fork Length (mm)")
+ggplot(data=trout, aes(trout$fl))+geom_histogram(breaks=seq(50,500, by=50), col="green") + labs(title="Length Frequency") + labs(x="Fork Length (mm)") + ylim(c(0,50))
+ggplot(data=trout, aes(trout$fl))+geom_histogram(breaks=seq(50,500, by=50), col="green") + labs(title="Length Frequency") + labs(x="Fork Length (mm)") + ylim(c(0,45))
+ggplot(data=trout, aes(trout$fl))+geom_histogram(breaks=seq(50,500, by=50), col="green", aes(fill=..count..)) + labs(title="Length Frequency") + labs(x="Fork Length (mm)") + ylim(c(0,45))
+ggplot(data=trout, aes(trout$fl))+geom_histogram(breaks=seq(50,500, by=50), col="grey", aes(fill=..count..)) + labs(title="Length Frequency") + labs(x="Fork Length (mm)") + ylim(c(0,45)) +
+str(BullTroutRML1)
+ggplot(data=trout, aes(trout$fl))+geom_histogram(breaks=seq(50,500, by=50), col="grey", aes(fill=..count..)) + labs(title="Length Frequency") + labs(x="Fork Length (mm)") + ylim(c(0,45)) +
+aes(y=..density..)
+ggplot(data=trout, aes(trout$fl))+geom_histogram(breaks=seq(50,500, by=50), col="grey", aes(fill=..count..)) + labs(title="Length Frequency") + labs(x="Fork Length (mm)") + ylim(c(0,45))
+setwd("~/Brook Trout_Brett/Data 2018/Analysis")
+dat <- as.data.frame(read.csv(file.choose(),header = T))
+names(dat)
+dat$LND <- as.factor(dat$LND)
+dat$SRD <- as.factor(dat$SRD)
+dat$Sculpins <- as.factor(dat$Sculpins)
+class(dat$LND)
+log_dat <- log(1+dat[10:22])
+log_dat
+install.packages("corrplot")
+library(corrplot)
+matrix2 <- cor(log_dat)
+corrplot(matrix2)
+matrix <- cor(dat[10:22])
+corrplot(matrix)
+View(matrix)
+View(log_dat)
+dat2 <- dat[,-[89:91]]
+dat2
+dat2 <- dat[,-89:91]
+dat2 <- dat[-c(89:91),]
+dat2
+View(log_dat)
+View(dat2)
+log_dat <- log_dat[-c(89:91),]
+matrix2 <- cor(log_dat)
+corrplot(matrix2)
+mod5 <- glm(dat$LND ~ Temp + mWid, family = binomial(link = 'logit'), data = log_dat)
+summary(mod5) ### BEST MODEL ###
+mod5 <- glm(dat2$LND ~ Temp + mWid, family = binomial(link = 'logit'), data = log_dat)
+summary(mod5) ### BEST MODEL ###
+dat <- dat[-c(89:91),]
+dat
+matrix <- cor(dat[10:22])
+corrplot(matrix)
+library(ggplot2)
+effort <- as.data.frame(read.csv(file.choose(), header=T))
+head(effort)
+hist(effort$effort_hrs)
+log_dat$LND_cpue <- 1+(dat$LND_ab/effort$effort_hrs)
+head(log_dat$LND_cpue)
+hist(log_dat$LND_cpue)
+log_dat$LND_cpue <- log(log_dat$LND_cpue)
+log_dat$LND_cpue
+hist(log_dat$LND_cpue)
+lnd_lm4 <- lm(LND_cpue ~ (Temp^2) + pctFines + mWid, data = log_dat)
+summary(lnd_lm4) #
+srd_lm4 <- lm(SRD_cpue ~ pct_TC + pct_Tol, data = log_dat)
+summary(srd_lm4) ##
+log_dat$SRD_cpue <- 1+(dat$SRD_ab/effort$effort_hrs)
+head(log_dat$SRD_cpue)
+hist(log_dat$SRD_cpue)
+log_dat$SRD_cpue <- log(log_dat$SRD_cpue)
+log_dat$SRD_cpue
+srd_lm4 <- lm(SRD_cpue ~ pct_TC + pct_Tol, data = log_dat)
+summary(srd_lm4) ## BEST
+log_dat$cot_cpue <- 1+(dat$Sculpins_ab/effort$effort_hrs)
+head(log_dat$cot_cpue)
+hist(log_dat$cot_cpue)
+log_dat$cot_cpue <- log(log_dat$cot_cpue)
+log_dat$cot_cpue
+cot_lm6 <- lm(cot_cpue ~ pct_Tol + mWid, data = log_dat)
+summary(cot_lm6)
