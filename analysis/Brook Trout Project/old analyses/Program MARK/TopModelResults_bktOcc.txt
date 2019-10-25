@@ -1,0 +1,58 @@
+Brook Trout Occupancy Analysis 2018 
+
+           Real Function Parameters of {p(.)Psi(temp+pctSlow+bnkbare+pctCbble)}
+
+
+  								95% Confidence Interval
+  Parameter                  Estimate       Standard Error      Lower           Upper
+ --------------------------  --------------  --------------  --------------  --------------
+     1:p                     0.7474600       0.0729831       0.5811026       0.8632938                           
+     2:p                     0.7474600       0.0729831       0.5811026       0.8632938                           
+     3:p                     0.7474600       0.0729831       0.5811026       0.8632938                           
+     4:Psi                   0.0294970       0.0248040       0.0055313       0.1424278                           
+
+
+  95% Confidence Interval
+ Parameter                    Beta         Standard Error      Lower           Upper
+ -------------------------  --------------  --------------  --------------  --------------
+    1:p-Int                 1.0851112       0.3866377       0.3273012       1.8429211     
+    2:Psi-Int               6.7439098       9.2427401       -11.371861      24.859681     
+    3:Psi-temp              -9.1619264      3.1784955       -15.391778      -2.9320751    
+    4:Psi-pctSlow           1.6445206       0.5936156       0.4810340       2.8080072     
+    5:Psi-bankBare          -3.8854139      1.7114856       -7.2399258      -0.5309020    
+    6:pctCbble              3.1774889       1.5664421       0.1072624       6.2477155     
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+                                                                                                  Delta    AICc     Model                      
+Model                                                                                      AICc    AICc   Weight  Likelihood   #Par    Deviance
+-----------------------------------------------------------------------------------------------------------------------------------------------
+{p(.)Psi(temp+pctSlow+bnkbare+pctCbble)}                                                104.880    0.00  0.15068      1.0000  6.0000     91.843
+{p(.)Psi(temp+pctSlow+bnkbare+pctRock)}                                                 105.052    0.17  0.13826      0.9176  6.0000     92.015
+{p(.)Psi(temp+pctSlow+bnkbare+WDratio+pctCbble)}                                        105.522    0.64  0.10932      0.7255  7.0000     90.122
+{p(.)Psi(temp+pctSlow+bnkbare+WDratio+pctRock)}                                         105.965    1.09  0.08758      0.5812  7.0000     90.565
+{p(.)Psi(temp+pctSlow+bnkbare+boulder+pctRock)}                                         106.104    1.22  0.08170      0.5422  7.0000     90.704
+{p(.)Psi(temp+pctSlow+bnkbare+AvBnkAnlge+pctCbble)}                                     106.628    1.75  0.06289      0.4174  7.0000     91.227
+{p(.)Psi(temp+pctSlow+bnkbare+AvBnkAng+pctRock)}                                        106.884    2.00  0.05532      0.3671  7.0000     91.484
+{p(.)Psi(temp+pctSlow+bnkbare+pctCbble+AvChnlOpn)}                                      106.890    2.01  0.05516      0.3661  7.0000     91.490
+{p(.)Psi(temp+pctSlow+bnkbare+AvgWidth+pctRock)}                                        106.892    2.01  0.05511      0.3657  7.0000     91.492
+{p(.)Psi(temp+pctSlow+bnkbare+effort+pctRock)}                                          107.106    2.23  0.04952      0.3286  7.0000     91.706
+{p(.)Psi(temp+pctSlow+bnkbare+brtCPUE+pctRock)}                                         107.232    2.35  0.04649      0.3085  7.0000     91.832
+{p(.)Psi(temp+pctSlow+bnkbare+MaxDepth+pctRock)}                                        107.414    2.53  0.04245      0.2817  7.0000     92.014
+{p(.)Psi(temp+pctSlow+bnkbare+sdDepth+pctRock)}                                         107.414    2.53  0.04244      0.2817  7.0000     92.014
+{p(.)Psi(temp+macrohabprop+bnkbare+pctCbble)}                                           110.430    5.55  0.00940      0.0624  6.0000     97.392
+{p(.)Psi(temp+pctSlow+bnkbare)}                                                         112.541    7.66  0.00327      0.0217  5.0000    101.809
+{p(effort)Psi(temp+pctSlow+bnkbare)}                                                    112.815    7.93  0.00285      0.0189  6.0000     99.778
+{p(MaxDepth)Psi(temp+pctSlow+bnkbare)}                                                  113.199    8.32  0.00235      0.0156  6.0000    100.161
+{p(eff+undcut)Psi(temp+pctSlow+bnkbare)}                                                113.782    8.90  0.00176      0.0117  7.0000     98.382
+{p(.)Psi(temp+pctSlow+bnkbare+pctGrvl)}                                                 114.821    9.94  0.00105      0.0070  6.0000    101.784
+{p(effort+maxdepth)Psi(temp+pctSlow+bnkbare)}                                           115.016   10.14  0.00095      0.0063  7.0000     99.616
+{p(.)Psi(temp+pctSlow)}                                                                 115.983   11.10  0.00058      0.0038  4.0000    107.501
+{p(.)Psi(temp+DepthPool+bnkbare+pctCbble)}                                              116.180   11.30  0.00053      0.0035  6.0000    103.142
+{p(.)Psi(temp+bnkbare)}                                                                 119.332   14.45  0.00011      0.0007  4.0000    110.850
+{p(.)Psi(pctSlow+bnkbare)}                                                              119.417   14.54  0.00011      0.0007  4.0000    110.935
+{p(.)Psi(temp+pctRiffle+bnkbare+pctRock)}                                               120.735   15.85  0.00005      0.0003  6.0000    107.697
+{p(.)Psi(temp)}                                                                         121.233   16.35  0.00004      0.0003  3.0000    114.947
+{p(eff+Avdep+avFlw+lwd+undcut+dp)Psi(brt+sdDep+fines+slow+emb1+avchnlshd+bnkbare)}      124.414   19.53  0.00001      0.0001  17.000     81.671
+{p(.)Psi(.)}                                                                            126.954   22.07  0.00000      0.0000  2.0000    122.813
+{p(time)Psi(.)}                                                                         129.549   24.67  0.00000      0.0000  4.0000    121.067
+-----------------------------------------------------------------------------------------------------------------------------------------------
