@@ -70,7 +70,7 @@ metrics <- metrics %>%
 summary(metrics$numBENspp)
 
 #Metric 6: Percent coldwater individuals
-#CW species = trout + Cottus + ABL 
+#CW species = trout + Cottus + ABL +BSB
 cold_abundance <- metrics %>%
   select(BKT_ab, BRT_ab, RBT_ab, TGT_ab, Cottus_ab, BSB_ab, ABL_ab)
 summary(cold_abundance)

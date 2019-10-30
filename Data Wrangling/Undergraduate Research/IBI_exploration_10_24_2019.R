@@ -6,10 +6,10 @@ library(tidyverse)
 getwd()
 
 ?read_csv
-IBI <- read_csv("data/Tidy/tidy_IBI1.csv", col_names = TRUE)
+IBI <- read_csv("Data/Thesis/Tidy/tidy_IBI1.csv", col_names = TRUE)
 
 #explore data
 skim(IBI)
 create_report(IBI)
-
 summary(IBI)
+
