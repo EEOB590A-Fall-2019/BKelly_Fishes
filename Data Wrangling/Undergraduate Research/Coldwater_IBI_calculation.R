@@ -10,7 +10,7 @@ library(forcats)
 library(readxl)
 #load data
 getwd()
-metrics <- read_excel("C:/Users/bbkelly/Documents/Brook Trout_Brett/Thesis/data/tidyfish1.xlsx")
+metrics <- read_excel("/Users/brettkelly/Documents/MyFiles/Iowa State/EEOB590B/BKelly_Fishes/Data/Thesis/Tidy/tidyfish1.xlsx")
 names(metrics)
 
 #remove MTS and SLS columns - use select function
@@ -138,7 +138,7 @@ summary(metrics$pctTOPCARNindv)
 
 #join df "reach" to "metrics" 
 getwd()
-reach <- read.csv("C:/Users/bbkelly/Documents/Brook Trout_Brett/Thesis/data/reachlengths.csv", header = T)
+reach <- read_csv("/Users/brettkelly/Documents/MyFiles/Iowa State/EEOB590B/BKelly_Fishes/Data/Thesis/Raw/All Years/reachlengths.csv", col_names = T)
 reach
 metrics2 <- metrics %>%
   left_join(reach, by = "uid")
@@ -179,7 +179,7 @@ head(IBI)
 
 #M1
 IBI <- IBI %>%
-  mutate(M1_spp = ifelse(IBI$numspecies<5, 10, ifelse(IBI$numspecies<9, 5, 0)))
+  mutate(M1_spp = ifelse(IBI$numspecies<5, 10, ifelse(IBI$numspecies<10, 5, 0)))
 summary(IBI$M1_spp)
 check_M1 <- IBI %>%
   select(numspecies, M1_spp)
@@ -307,7 +307,8 @@ max(IBI$IBIScore)
 IBI$IBIScore[105]
 
 #write tidy csv of IBI 
-write.csv(IBI, "C:/Users/bbkelly/Documents/Brook Trout_Brett/Thesis/data/tidy_IBI1.csv", row.names = F)
+getwd()
+write.csv(IBI, "/Users/brettkelly/Documents/MyFiles/Iowa State/EEOB590B/BKelly_Fishes/Data/Thesis/Tidy/tidy_IBI1.csv", row.names = F)
 
 
 
