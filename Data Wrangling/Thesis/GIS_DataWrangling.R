@@ -105,5 +105,36 @@ lmaq <- LMAQfls %>%
 IDW1 <- full_join(UPIfls, yel, by=NULL)
 IDW <- full_join(IDW1, lmaq, by=NULL)
 
+#################################
+#combine all and write tidy csv
+#################################
+
+#create uid for joining
+IDW <- IDW %>%
+  unite(uid, c(HUC8, Site), remove = F)
+stvars[133,3] <- 48
+stvars <- stvars %>%
+  unite(uid, c(HUC8, Site), remove = F)
+stvars[133,3] <- 48
+
+trial <- inner_join(IDW, stvars, by = "uid")
+#delete repeats
+names(trial)
+landscape <- trial %>%
+  select(-HUC8.y, -Site.y)%>%
+  rename(HUC8 = HUC8.x, Site = Site.x)
+
+#############
+#Write tidy
+#############
+getwd()
+
+write.csv(landscape, "Data/Thesis/Tidy/LandscapeCovars_tidy.csv", row.names = F)
+
+
+
+
+
+
 
 
