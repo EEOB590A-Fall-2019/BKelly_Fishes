@@ -105,6 +105,5 @@ lmaq <- LMAQfls %>%
 IDW1 <- full_join(UPIfls, yel, by=NULL)
 IDW <- full_join(IDW1, lmaq, by=NULL)
 
-##Ghost levels
-#Brook trout are ghosts #browntroutgang #unlockedcomputer
+
 
