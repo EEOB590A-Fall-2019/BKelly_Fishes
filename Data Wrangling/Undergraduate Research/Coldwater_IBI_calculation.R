@@ -309,10 +309,4 @@ IBI$IBIScore[105]
 #write tidy csv of IBI 
 getwd()
 write.csv(IBI, "/Users/brettkelly/Documents/MyFiles/Iowa State/EEOB590B/BKelly_Fishes/Data/Thesis/Tidy/tidy_IBI1.csv", row.names = F)
-
-
-
-
-
-
   
