@@ -52,6 +52,7 @@ names(gis)
 g2 <- gis %>%
   select(-uid, -YrSmpld)%>%
   unite(HUC_Site, c(HUC8, Site), sep = "_", remove = T)
+g2[125,1] <- "YEL_97b"
 
 ##########
 #temp data
@@ -60,6 +61,8 @@ names(temp)
 t2 <- temp %>%
   select(-uid, -HUCsite)%>%
   unite(HUC_Site, c(HUC8, Site), sep = "_", remove = T)
+t2[122,1] <- "YEL_97b"
+t2[122,]
 
 ###########
 #local Data
@@ -107,13 +110,55 @@ envars <- big2 %>%
   rename(RchLen = RchLength, pH = ph, DO = do, WidDep = `W/D`, pctVertbnk = `bnkavr%`, pctBrBnk = `bnkbare%`,
          pctShade = `AvChnlShd%`, pctShadeSD = `chshdSD%`, HAiFLS_nat = HAiFLS_bmp)
 
-#need to fill in info for YEL97
+#explore data
+skim(envars)
+
+#missing values seem to be accounted for:
+  # i.e. loggers were lost, or broken, 
+  # or UPI_165 not included due to the site being thrown out. 
+
+#Let's remove sites we won't analyze for various reasons
+EnVars <- envars %>%
+  unite(newID, c(HUC8, Site), sep = "_", remove = F)%>%
+  filter(!newID %in% c("UPI_29", "UPI_165", "YEL_33", "YEL_98"))%>%
+  select(-newID)
+
+#now let's check for NA's again
+skim(EnVars)
+
+## Only NA's are for missing temp logger data, and one missing Dissolved Oxygen datapoint
+## For occupancy analysis we will plug in the overall mean of the data for these values
 
 
+########################################################
+#Replace NA's with averages of variable across all sites
+########################################################
 
+pctmiss = 8/138*100 #~6% of obs have data missing for instream temp variables (8/138)
 
+notemp <- EnVars %>%
+  filter(is.na(avgT))
+means <- c(mean(EnVars$avgT, na.rm = T), mean(EnVars$sdT, na.rm = T), mean(EnVars$MAXT, na.rm = T), mean(EnVars$MEANT, na.rm = T),
+           mean(EnVars$RNGT, na.rm = T), mean(EnVars$pctex21, na.rm = T))
+means
 
+names(EnVars)
+EnVars[18,15:20] <- means
+EnVars[28,15:20] <- means
+EnVars[53,15:20] <- means
+EnVars[58,15:20] <- means
+EnVars[63,15:20] <- means
+EnVars[70,15:20] <- means
+EnVars[81,15:20] <- means
+EnVars[83,15:20] <- means
+skim(EnVars)
 
+EnVars[115,13] <- mean(EnVars$DO, na.rm = T)
+EnVars[115,]
 
+################
+#Write tidy csv
+################
+write.csv(EnVars, "Data/Thesis/Tidy/enviro_tidy.csv", row.names = F)
 
 
