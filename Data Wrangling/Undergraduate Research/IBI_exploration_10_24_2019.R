@@ -27,3 +27,11 @@ summary(SamScores)
 plot(SamScores$TOTSPscore, IBI$M1_spp)
 plot(SamScores$`#CWSPscore`, IBI$M2_CWspp)
 plot(SamScores$`#CWINDscore`, IBI$M11_CWindv150)
+
+class(IBI$Rating)
+hist(IBI$Rating)
+IBI$Rating <- as.factor(IBI$Rating)
+plot_bar(IBI$Rating)
+levels(IBI$Rating)
+
+x <- IBI[4,]
