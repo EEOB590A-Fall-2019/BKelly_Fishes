@@ -9,9 +9,9 @@
 #Random effects: none for right now, but could add some later
 
 #Load libraries (you'll need the tidyverse)
-
+library(tidyverse)
 #Load dataset (tidyREUtraits.csv) and name it "traits". 
-
+traits <- read_csv()
 ### Part 1: explore the dataset  #######
 
 #1. Look at structure of dataset. 
