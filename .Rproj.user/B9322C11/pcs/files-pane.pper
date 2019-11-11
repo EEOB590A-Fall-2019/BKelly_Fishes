@@ -1,0 +1,13 @@
+{
+    "path" : "~/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Data/Thesis/Tidy",
+    "sortOrder" : [
+        {
+            "ascending" : false,
+            "columnIndex" : 4
+        },
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}
