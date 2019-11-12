@@ -12,7 +12,7 @@
 library(tidyverse)
 library(skimr)
 library(ggplot2)
-install.packages("ggResidpanel")
+#install.packages("ggResidpanel")
 library(ggResidpanel)
 
 #Load dataset (tidyREUtraits.csv) and name it "traits". 
