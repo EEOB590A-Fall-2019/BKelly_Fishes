@@ -107,7 +107,10 @@ ggplot(data = traits, aes(species, thickness, fill = island))+
 ggplot(combined.count, aes(n))+
   geom_bar()+facet_grid(rows = vars(island))+
   aes(fill = as.factor(species))
-
+#Way better plot from homework answers
+ggplot(traits, aes(island))+
+  geom_bar()+
+  facet_grid(.~species)
 #---------------------------------------------------------------------------------------------------------------------------------------------
 #6) Look at relationships of Y vs X’s to see if variances are similar for each X value, identify the type of relationship (linear, log, etc.)
 #plot each predictor and random effect against the response
@@ -136,11 +139,26 @@ lmfull <- lm(thickness ~ island*species, data = traits)
 summary(lmfull)
 
 #Option 2: Create a full model, remove any non-significant interactions to get final model. 
-mod1 <- lm(thickness ~ island*species, ddata = traits)
-
+mod1 <- lm(thickness ~ island*species, data = traits)
+summary(mod1)
 #Option 3: Create a full model, and all submodels, and compare using Likelihood ratio tests (anova(mod1, mod2)) to choose the best fitting model. 
+av1 <- lm(thickness ~ island*species, data = traits)
+av2 <- lm(thickness ~ island+species, data = traits)
+av3 <- lm(thickness ~ island, data = traits)
+av4 <- lm(thickness ~ 1, data = traits) 
+#cannot compare using LRT to av3 but another "submodel"
+av5 <- lm(thickness ~ species, data = traits)
+
+#LRT's
+anova(av1, av2)
+anova(av2, av3)
+anova(av3, av4)
+#full mod sig better than submodels
 
 #Option 4: Create a full model and all submodels and compare AIC values to choose the best fitting model
+AIC(av1, av2, av3, av5, av4)
+#full model lowest AIC by way more than 2 points
 
-
-#Next week, we will assess model fit, and then interpret results. 
+#----------------------------------------------------------------
+#Next week, we will assess model fit, and then interpret results.
+#----------------------------------------------------------------
