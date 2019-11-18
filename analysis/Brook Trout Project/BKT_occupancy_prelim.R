@@ -18,6 +18,7 @@
 #install.packages("RMark")
 library(RMark)
 library(tidyselect)
+library(tidyverse)
 
 ##--------------------------------------------------------------------------------------------------------------------------------##
 #read in data, rearrange and change some labels to work with grouping ("freq"), and time-varying covariates ("Effort1 --> Effort3")
