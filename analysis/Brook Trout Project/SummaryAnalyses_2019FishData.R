@@ -32,7 +32,7 @@ presence <- f2 %>%
 
 occ.sums <- colSums(presence[,4:39])  
 
-presence[53,] <- c(142, "ALL", 9999, occ.sums)
+presence[54,] <- c(142, "ALL", 9999, occ.sums)
 
 occ.summed <- presence %>%
   filter(uid == 142)
@@ -44,15 +44,38 @@ occ.wide$Occurrence <- as.numeric(occ.wide$Occurrence)
 
 ##abundances
 abundance <- f2%>%
-  select_at(vars(contains("_ab")))
+  select_at(vars(c(1:3,contains("_ab"))))
 
 ab.sums <- colSums(abundance[,1:37])
 
 abundance[54,] <- ab.sums
 
 ab.wide <- abundance %>%
-  filter(uid == 54)%>%
-  pivot_longer(cols = 1:35,names_to = "Species",values_to = "Count")
+  filter(BKT_ab == 47)%>%
+  pivot_longer(cols = 1:35,names_to = "Species",values_to = "Count")%>%
+  separate(col = Species, into = c("Species", NA), sep = "_", remove = T)
 
+ab.wide <- ab.wide[,c(3,4,1,2)]
 
+##join together
+summary.fish19 <- left_join(occ.wide, ab.wide, by = "Species")
+
+##Remove species that were not encountered in 2019
+summary_fish19 <- summary.fish19 %>%
+  filter(Occurrence > 0)
+
+##exploration of richness
+rich <- presence %>%
+  filter(HUC8 != "ALL")%>%
+  select(HUC8, site, richness)
+rich$richness <- as.numeric(rich$richness)
+summary(rich)
+
+##exploration of SGCN
+#Species of Greatest Conservation Need: BKT, SRD, LND, Cottus, ABL
+sgcn <- f2 %>%
+  select(uid, HUC8, site, BKT, BKT_ab, SRD, SRD_ab, LND, LND_ab, Cottus, Cottus_ab, ABL, ABL_ab,SPS,SPS_ab)%>%
+  mutate(SGCN_pres = ifelse(BKT+SRD+LND+Cottus+ABL+SPS>0,1,0), SGCN_rich = BKT + SRD + LND + Cottus + ABL + SPS,
+         SGCN_ab = (BKT_ab+SRD_ab+LND_ab+Cottus_ab+ABL_ab+SPS_ab))%>%
+  select(HUC8, site, SGCN_pres, SGCN_rich, SGCN_ab)
 
