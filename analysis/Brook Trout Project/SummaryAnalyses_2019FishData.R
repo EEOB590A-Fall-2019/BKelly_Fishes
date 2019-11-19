@@ -39,23 +39,27 @@ occ.summed <- presence %>%
 
 occ.wide <- occ.summed %>%
   select(-c(uid,HUC8,site))%>%
-  pivot_longer(cols = 1:35,names_to = "Species", values_to = "Occurrence")%>%
+  pivot_longer(cols = 1:35,names_to = "Species", values_to = "Occurrence")
 occ.wide$Occurrence <- as.numeric(occ.wide$Occurrence)
+
+occ.wide <- occ.wide[,c(2,3)]
 
 ##abundances
 abundance <- f2%>%
   select_at(vars(c(1:3,contains("_ab"))))
 
-ab.sums <- colSums(abundance[,1:37])
+class(abundance$BKT_ab)
+str(abundance)
+ab.sums <- colSums(abundance[,4:40])
 
-abundance[54,] <- ab.sums
+abundance[54,] <- c(142, "ALL", 9999, ab.sums)
 
 ab.wide <- abundance %>%
   filter(BKT_ab == 47)%>%
-  pivot_longer(cols = 1:35,names_to = "Species",values_to = "Count")%>%
-  separate(col = Species, into = c("Species", NA), sep = "_", remove = T)
+  pivot_longer(cols = 4:40,names_to = "Species",values_to = "Count")%>%
+  separate(col = Species, into = c("Species", NA), sep = "_", remove = T)%>%
+  select(-uid,-HUC8,-site)
 
-ab.wide <- ab.wide[,c(3,4,1,2)]
 
 ##join together
 summary.fish19 <- left_join(occ.wide, ab.wide, by = "Species")
@@ -75,7 +79,10 @@ summary(rich)
 #Species of Greatest Conservation Need: BKT, SRD, LND, Cottus, ABL
 sgcn <- f2 %>%
   select(uid, HUC8, site, BKT, BKT_ab, SRD, SRD_ab, LND, LND_ab, Cottus, Cottus_ab, ABL, ABL_ab,SPS,SPS_ab)%>%
-  mutate(SGCN_pres = ifelse(BKT+SRD+LND+Cottus+ABL+SPS>0,1,0), SGCN_rich = BKT + SRD + LND + Cottus + ABL + SPS,
+  mutate(SGCN_pres = ifelse(BKT+SRD+LND+Cottus+ABL+SPS>0,1,0), SGCN_rich = (BKT + SRD + LND + Cottus + ABL + SPS),
          SGCN_ab = (BKT_ab+SRD_ab+LND_ab+Cottus_ab+ABL_ab+SPS_ab))%>%
   select(HUC8, site, SGCN_pres, SGCN_rich, SGCN_ab)
 
+sgcn_summary <- sgcn %>%
+  group_by(HUC8)%>%
+  summarise(SGCN_sites = sum(SGCN_pres), )
