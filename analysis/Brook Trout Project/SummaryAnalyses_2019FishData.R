@@ -85,4 +85,20 @@ sgcn <- f2 %>%
 
 sgcn_summary <- sgcn %>%
   group_by(HUC8)%>%
-  summarise(SGCN_sites = sum(SGCN_pres), )
+  summarise(SGCN_sites = sum(SGCN_pres), SGCN_totals = sum(SGCN_ab))
+
+##trout summary
+trout <- f2 %>%
+  select(uid, HUC8, site, BKT, BKT_ab, BRT, BRT_ab, RBT, RBT_ab)%>%
+  mutate(BKT_BRT = ifelse(BKT+BRT>1,1,0), BKT_RBT = ifelse(BKT+RBT>1,1,0), BRT_RBT = ifelse(BRT+RBT>1,1,0),
+         BK_BR_RB = ifelse(BKT+BRT+RBT>2,1,0))
+
+tws <- trout %>%
+  group_by(HUC8) %>%
+  summarise(BK_total = sum(BKT_ab), BR_total = sum(BRT_ab), RB_total = sum(RBT_ab), 
+            BkBr_Coex = sum(BKT_BRT), BkRb_Coex = sum(BKT_RBT), BrRb_Coex = sum(BRT_RBT),
+            All_coex = sum(BK_BR_RB), PCT_BKT = (sum(BKT_ab)/(sum(BRT_ab+RBT_ab))*100))
+ts <- trout %>%
+  summarise(BK_total = sum(BKT_ab), BR_total = sum(BRT_ab), RB_total = sum(RBT_ab), 
+            BkBr_Coex = sum(BKT_BRT), BkRb_Coex = sum(BKT_RBT), BrRb_Coex = sum(BRT_RBT),
+            All_coex = sum(BK_BR_RB), PCT_BKT = (sum(BKT_ab)/(sum(BRT_ab+RBT_ab))*100))
