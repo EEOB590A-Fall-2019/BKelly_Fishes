@@ -1,7 +1,7 @@
 ###########################################
 ### Stream Temperature Data Exploration ###
 ###########################################
-
+library(extrafont)
 library(tidyverse)
 library(skimr)
 #install.packages("ggridges")
@@ -11,7 +11,8 @@ library(ggridges)
 library(viridis)
 library(hrbrthemes)
 library(lubridate)
-
+hrbrthemes::import_roboto_condensed()
+hrbrthemes::font_an
 ################################
 
 ##load temp data##
@@ -102,11 +103,79 @@ tmp19.summ <- temp19.months %>%
                                                                                     ifelse(month_x == 9, "September","NA")))))%>%
   mutate(Year_logger = 2019)
 
-ggplot(data = tmp19.summ, aes(x = meanT_C, y = month_name, fill = ..x..)) +  
-  geom_density_ridges_gradient(scale = 3, rel_min_height = 0.01) +
-  scale_fill_viridis(name = "Temp [C]", option = "C")+
-  theme_ipsum()#+
-  #facet_grid(rows = vars(HUC8), scales = "free_x", space = "fixed")
-##try cowplot instead??
+class(tmp19.summ$HUC8)
+tmp19.summ$HUC8 <- as.factor(tmp19.summ$HUC8)
+
+
+ggplot(data = tmp19.summ, aes(x = meanT_C, y = month_name, fill = ..x..))+
+  geom_density_ridges_gradient(scale = 3, rel_min_height = 0.01, alpha = 0.5)+
+  scale_fill_viridis(name = "Temp [C]", option = "D")+
+  theme_ipsum()
+#+ facet_wrap(~ HUC8, ncol = 1) ***not working!***
+
+##try geom_density instead
+ggplot()+
+  geom_density_ridges(data = tv19,
+                      aes(x = avgT, y = HUC8, fill = HUC8), alpha = 0.5)+
+  theme_ridges()+
+  theme(legend.position = "bottom")+
+  labs(x = "Mean August/September Temperature (Celcius)",
+       y = "Watershed (HUC8)")+
+  theme(axis.text.y = element_blank())+
+  scale_fill_brewer(name = "Watershed",
+                    labels = c("Grant-Little Maquoketa","Upper Iowa","Yellow"),
+                    palette = "Dark2")+
+  facet_grid(HUC8 ~ .)
+
+
+
+tmp19.summ <- tmp19.summ %>%
+  unite(HUC_month, c(HUC8,month_name), sep = "_", remove = F)
+
+font_import(paths = NULL, recursive = TRUE, prompt = TRUE,
+            pattern = NULL)
+
+
+
+####################################################
+### Tired of the above garbage - try violin plots###
+####################################################
+
+ggplot()+
+  geom_violin(data = tmp19.summ, aes(fill = month_name, x = month_name, y = meanT_C), alpha = 0.5)+
+  facet_grid(HUC8 ~ .)
+
+
+write.csv(tmp19.summ, "Data/Thesis/Tidy/summary2019temps.csv", row.names = F)
+
+
+new <- read_csv("Data/Thesis/Tidy/summary2019temps.csv", col_names = T)
+
+new$mNAME <- as.factor(new$month_name)
+new$HUC8 <- as.factor(new$HUC8)
+
+##### THE HOLY GRAIL #####
+flabels <- c(LMAQ = "Grant-Little Maquoketa",
+             UPI = "Upper Iowa",
+             YEL = "Yellow")
+plot2019 <-ggplot(data = temp19.months, aes(x = Temp_C, y = factor(month_x), fill = ..x..))+
+  geom_density_ridges_gradient(scale = 0.9, rel_min_height = 0.01)+
+  facet_grid(HUC8 ~ ., labeller = labeller(HUC8 = flabels))+
+  theme_ipsum()+
+  scale_fill_viridis(name = "Temp [C]",option = "D", begin = .4, end = 1)+
+  scale_y_discrete(limits = c("9","8","7","6"),
+                   labels = c("September", "August", "July", "June"))+
+  xlim(10,30)+
+  labs(x="Summer Stream Temperature (Celcius)", y="Month")+
+  theme(legend.position = "none",
+        axis.title.x = element_text(face = "bold", size = "14"),
+        axis.title.y = element_text(face = "bold", size = "14"))
+
+
+
+
+
+
+
 
 
