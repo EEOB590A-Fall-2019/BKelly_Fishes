@@ -11,8 +11,9 @@ library(ggridges)
 library(viridis)
 library(hrbrthemes)
 library(lubridate)
-hrbrthemes::import_roboto_condensed()
-hrbrthemes::font_an
+library(cowplot)
+#hrbrthemes::import_roboto_condensed()
+#hrbrthemes::font_an
 ################################
 
 ##load temp data##
@@ -137,27 +138,13 @@ font_import(paths = NULL, recursive = TRUE, prompt = TRUE,
 
 
 
-####################################################
-### Tired of the above garbage - try violin plots###
-####################################################
-
-ggplot()+
-  geom_violin(data = tmp19.summ, aes(fill = month_name, x = month_name, y = meanT_C), alpha = 0.5)+
-  facet_grid(HUC8 ~ .)
-
-
-write.csv(tmp19.summ, "Data/Thesis/Tidy/summary2019temps.csv", row.names = F)
-
-
-new <- read_csv("Data/Thesis/Tidy/summary2019temps.csv", col_names = T)
-
-new$mNAME <- as.factor(new$month_name)
-new$HUC8 <- as.factor(new$HUC8)
-
-##### THE HOLY GRAIL #####
+##################################
+##### THE HOLY RIDGE -- 2019 #####
+##################################
 flabels <- c(LMAQ = "Grant-Little Maquoketa",
              UPI = "Upper Iowa",
              YEL = "Yellow")
+
 plot2019 <-ggplot(data = temp19.months, aes(x = Temp_C, y = factor(month_x), fill = ..x..))+
   geom_density_ridges_gradient(scale = 0.9, rel_min_height = 0.01)+
   facet_grid(HUC8 ~ ., labeller = labeller(HUC8 = flabels))+
@@ -166,16 +153,49 @@ plot2019 <-ggplot(data = temp19.months, aes(x = Temp_C, y = factor(month_x), fil
   scale_y_discrete(limits = c("9","8","7","6"),
                    labels = c("September", "August", "July", "June"))+
   xlim(10,30)+
-  labs(x="Summer Stream Temperature (Celcius)", y="Month")+
+  labs(x="Summer Stream Temperature (Celcius)", y="Month", title = '2019')+
   theme(legend.position = "none",
-        axis.title.x = element_text(face = "bold", size = "14"),
-        axis.title.y = element_text(face = "bold", size = "14"))
+        axis.title.x = element_text(size = "14"),
+        axis.title.y = element_text(size = "14"))
+ggsave("plot2019.png",width = 10, height = 8, units = "in", dpi = 350)
+
+
+##################################
+##### THE HOLY RIDGE -- 2019 #####
+##################################
+
+temp18.months <- temp18 %>%
+  mutate(month_x = month(Date), day_x = day(Date))%>%
+  filter(Date > "2018-6-20" & Date < "2018-9-23")
+
+plot2018 <-ggplot(data = temp18.months, aes(x = Temp_C, y = factor(month_x), fill = ..x..))+
+  geom_density_ridges_gradient(scale = 0.9, rel_min_height = 0.01)+
+  facet_grid(HUC8 ~ ., labeller = labeller(HUC8 = flabels))+
+  theme_ipsum()+
+  scale_fill_viridis(name = "Temp [C]",option = "D", begin = .4, end = 1)+
+  scale_y_discrete(limits = c("9","8","7","6"),
+                   labels = c("September", "August", "July", "June"))+
+  xlim(10,30)+
+  labs(x="Summer Stream Temperature (Celcius)", y="Month", title = 2018)+
+  theme(legend.position = "none",
+        axis.title.x = element_text(size = "14"),
+        axis.title.y = element_text(size = "14"))
+ggsave("plot2018.png",width = 10, height = 8, units = "in", dpi = 350)
+#plot2018
 
 
 
+####################
+####################
+## The Grand Finale 
+####################
+####################
 
+TemperatureRidges <- plot_grid(plot2018,plot2019,
+          labels = "auto")
 
-
+ggsave("TemperatureRidges.png", 
+       width = 10, height = 8, units = "in", dpi = 350)
 
 
 
