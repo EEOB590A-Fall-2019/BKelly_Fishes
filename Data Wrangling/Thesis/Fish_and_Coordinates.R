@@ -1,8 +1,7 @@
-##################################################
 
-###   Making Maps with Fish and Enviro Data   ###
 
-#################################################
+###   Make new DF with location, environmental vars, and fish data for later mapping   ###
+
 
 library(tidyverse)
 
@@ -26,3 +25,24 @@ fish2 <- fish %>%
   mutate(BKT_BRT = ifelse(BKT+BRT>1,1,0), BKT_RBT = ifelse(BKT+RBT>1,1,0), BRT_RBT = ifelse(BRT+RBT>1,1,0),
          BK_BR_RB = ifelse(BKT+BRT+RBT>2,1,0)) %>%
   select(uid, HUC8, site, richness, total_ab, SGCN_pres, SGCN_rich, SGCN_ab, BKT, BRT, BKT_BRT, BK_BR_RB)
+
+#join together
+
+fish_loc <- left_join(locs, fish2, by = "uid")
+
+names(fish_loc)
+
+fish_loc <- fish_loc %>%
+  select(-HUC8.y, -site,)
+
+fish_loc <- fish_loc %>%
+  rename(HUC8 = HUC8.x)
+
+write.csv(fish_loc, "Data/Thesis/Spatial/Fish_Temp_Locs.csv", row.names = F) #all
+
+
+#2019
+fish_loc19 <- fish_loc %>%
+  filter(Year == 2019)
+
+write.csv(fish_loc19, "Data/Thesis/Spatial/Fish_Temp_Locs19.csv", row.names = F) #2019
