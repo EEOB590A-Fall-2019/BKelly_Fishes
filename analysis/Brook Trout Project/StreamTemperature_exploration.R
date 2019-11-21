@@ -41,6 +41,12 @@ class(temp18$DateTime)
 temp18 <- temp18[,c(4,5,6,7,1,3,2,8)]
 #################################################################################################
 
+
+##---------------------------------##
+### Data Visualization (graphing) ###
+##---------------------------------##
+
+
 ##simple ridgeline plot
 ggplot()+
   geom_density_ridges(data = tv19,
@@ -196,6 +202,66 @@ TemperatureRidges <- plot_grid(plot2018,plot2019,
 
 ggsave("TemperatureRidges.png", 
        width = 10, height = 8, units = "in", dpi = 350)
+
+
+####################################################################################################
+####################################################################################################
+
+
+#----------------------------#
+##### Data Summarization #####
+#----------------------------#
+
+skim(tv19)
+names(tv19)
+
+tv19 <- tv19[,c(8,9,1,2:7)]
+
+
+temp19.months <- temp19 %>%
+  mutate(month_x = month(Date), day_x = day(Date))%>%
+  filter(Date > "2019-6-20" & Date < "2019-9-23")
+
+tmp19.summ <- temp19.months %>%
+  group_by(HUC8, month_x)%>%
+  summarise(meanT_C = mean(Temp_C), meanT_F = mean(Temp_F), minT_C = min(Temp_C), minT_F = min(Temp_F),
+            maxT_C = max(Temp_C), maxT_F = max(Temp_F), sdT_C = sd(Temp_C), sdT_F = sd(Temp_F))%>%
+  mutate(month_name = ifelse(month_x == 6,"June",ifelse(month_x == 7,"July", ifelse(month_x == 8, "August",
+                                                                                    ifelse(month_x == 9, "September","NA")))))%>%
+  mutate(Year_logger = 2019)
+
+
+##make reduced df for table 
+names(tmp19.summ)
+
+temp19_table <- tmp19.summ %>%
+  select(month_name, HUC8, minT_C, meanT_C, maxT_C, sdT_C)%>%
+  rename(Month = month_name, Watershed = HUC8)
+table <- temp19_table %>%
+  group_by(Watershed) %>%
+  summarise(meanT_Cx = mean(meanT_C), minT_Cx = min(minT_C), maxT_Cx = max(maxT_C), sdT_Cx = sd(sdT_C))
+  
+write.csv(table, "Data/Thesis/Tidy/SummaryTemperatures_table2019.csv", row.names = F)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
