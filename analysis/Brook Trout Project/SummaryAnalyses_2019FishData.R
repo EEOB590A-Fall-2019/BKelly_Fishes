@@ -106,3 +106,4 @@ ts <- trout %>%
 
 
 #Write summary csv's for tables
+write.csv(summary_fish19, "Data/Thesis/Tidy/FishTable_2019.csv", row.names = F)
