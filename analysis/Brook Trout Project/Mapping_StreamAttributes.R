@@ -121,7 +121,7 @@ base + geom_path(data = strm12_broom,
   theme(legend.position = "bottom")+
   scale_fill_brewer(palette = "PiYG", 
                     name="2019 Sampling Locations",
-                    labels = c("Little Maquoketa (HUC8)",
+                    labels = c("Grant-Little Maquoketa (HUC8)",
                                "Upper Iowa (HUC8)",
                                "Yellow (HUC8)"))+
   labs(x = "Easting (UTM)", y = "Northing (UTM)",title = "Study Area Watersheds")+
@@ -131,7 +131,7 @@ base + geom_path(data = strm12_broom,
         legend.text = element_text(size = "14"))+
   theme(axis.title.x = element_text(size = "14"),
         axis.title.y = element_text(size = "14"),
-        plot.title = element_text(size = "14"))
+        plot.title = element_text(size = "16"))
 
 ggsave("StudyAreaMap.png", 
        width = 12, height = 10, units = "in", dpi = 350)
@@ -293,11 +293,11 @@ bkt.brt.lmaq <- base.lmaq + geom_path(data = LMAQ_streams_broom,
   geom_point(data = lmaq.sites.v2, aes(x = long, y = lat, group = NULL, fill = factor(Trout_Status)),
              shape = 21, size = 4)+
   theme(legend.position = "bottom")+
-  scale_fill_brewer(palette = "Set1", 
+  scale_fill_manual(values = c("red", "blue", "purple"), 
                     name="Trout Status",
                     labels = c("Neither Species Present", "Brown Trout Only",
-                               "Brook Trout Only", "Brook & Brown Trout"))+
-  labs(x = "Easting (UTM)", y = "Northing (UTM)", title = "Little Maquoketa River Watershed")+
+                               "Brook & Brown Trout"))+
+  labs(x = "Easting (UTM)", y = "Northing (UTM)", title = "Grant-Little Maquoketa River Watershed")+
   theme(legend.justification = c(0,0), legend.position = c(0.05,0.05),
         legend.background = element_rect(fill = "gray90", size = 0.5, linetype = "solid"),
         legend.title = element_text(size = "12", face = "bold"),
@@ -305,7 +305,7 @@ bkt.brt.lmaq <- base.lmaq + geom_path(data = LMAQ_streams_broom,
   theme(axis.title.x = element_text(size = "14"),
         axis.title.y = element_text(size = "14"),
         plot.title = element_text(size = "14"))
-#bkt.brt.lmaq
+bkt.brt.lmaq
 
 ggsave("LittleMaqMap.png", 
        width = 8, height = 9, units = "in", dpi = 350)
