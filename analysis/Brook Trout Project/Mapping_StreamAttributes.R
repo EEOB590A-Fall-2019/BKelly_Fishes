@@ -10,6 +10,12 @@ library(rgdal)
 library(mapproj)
 
 
+#################################
+#*******************************#
+## skip to Broom method -line 79#
+#*******************************#
+#################################
+
 
 #polygons - watershed boundaries
 huc12 <- shapefile("Data/Thesis/Spatial/HUC12_project.shp")
