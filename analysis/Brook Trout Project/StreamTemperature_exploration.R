@@ -159,7 +159,7 @@ plot2019 <-ggplot(data = temp19.months, aes(x = Temp_C, y = factor(month_x), fil
   scale_y_discrete(limits = c("9","8","7","6"),
                    labels = c("September", "August", "July", "June"))+
   xlim(10,30)+
-  labs(x="Summer Stream Temperature (Celcius)", y="Month", title = '2019')+
+  labs(x="Summer Stream Temperature (Celsius)", y="Month", title = '2019')+
   theme(legend.position = "none",
         axis.title.x = element_text(size = "14"),
         axis.title.y = element_text(size = "14"))
@@ -167,7 +167,7 @@ ggsave("plot2019.png",width = 10, height = 8, units = "in", dpi = 350)
 
 
 ##################################
-##### THE HOLY RIDGE -- 2019 #####
+##### THE HOLY RIDGE -- 2018 #####
 ##################################
 
 temp18.months <- temp18 %>%
@@ -182,7 +182,7 @@ plot2018 <-ggplot(data = temp18.months, aes(x = Temp_C, y = factor(month_x), fil
   scale_y_discrete(limits = c("9","8","7","6"),
                    labels = c("September", "August", "July", "June"))+
   xlim(10,30)+
-  labs(x="Summer Stream Temperature (Celcius)", y="Month", title = 2018)+
+  labs(x="Summer Stream Temperature (Celsius)", y="Month", title = 2018)+
   theme(legend.position = "none",
         axis.title.x = element_text(size = "14"),
         axis.title.y = element_text(size = "14"))
