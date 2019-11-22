@@ -7,6 +7,7 @@ library(sp)
 library(maps)
 library(raster)
 library(rgdal)
+library(mapproj)
 #install.packages("rgdal")
 
 
@@ -64,8 +65,38 @@ basemap + geom_path(data = streams12.df,
   theme(legend.position = "bottom")+
   labs(x = "Easting (UTM)", y = "Northing (UTM)")
 
+##lets try with the tidy::broom funtion instead
+library(broom)
 
+#polygons - watershed boundaries
+huc12v2 <- readOGR("Data/Thesis/Spatial/HUC12_project.shp")
+UPI_wbdv2 <- readOGR("Data/Thesis/Spatial/UPI_by_HUC12.shp")
+YEL_wbdv2 <- readOGR("Data/Thesis/Spatial/Yellow_by_HUC12.shp")
+LMAQ_wbdv2 <- readOGR("Data/Thesis/Spatial/LMAQ_by_HUC12.shp")
 
+#polylines - streams
+streams12v2 <- readOGR("Data/Thesis/Spatial/streams_by_HUC12.shp")
+UPI_strmv2 <- readOGR("Data/Thesis/Spatial/UPI_streams.shp")
+YEL_strmv2 <- readOGR("Data/Thesis/Spatial/YEL_streams.shp")
+LMAQ_strmv2 <- readOGR("Data/Thesis/Spatial/LMAQ_streams.shp")
 
+head(huc12v2)
+huc12_broom <- tidy(huc12v2, region = NULL)
+strm12_broom <- tidy(streams12v2, region = NULL)
+
+# Plot it
+base <- ggplot() +
+  geom_polygon(data = huc12_broom, aes(x = long, y = lat, group = group),
+               fill="gray60", color="black") +
+  theme_bw()
+
+base + geom_path(data = strm12_broom,
+                           aes(x = long, y = lat, group = group),
+                           color = "lightblue")+
+  geom_point(data = sites, aes(x = long, y = lat, group = NULL, fill=HUC8),
+             shape = 21, size = 4)+
+  theme(legend.position = "bottom")+
+  scale_fill_brewer(palette = "PRGn")+
+  labs(x = "Easting (UTM)", y = "Northing (UTM)")
 
 
