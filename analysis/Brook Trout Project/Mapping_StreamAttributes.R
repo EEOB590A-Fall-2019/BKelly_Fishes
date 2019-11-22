@@ -124,13 +124,14 @@ base + geom_path(data = strm12_broom,
                     labels = c("Little Maquoketa (HUC8)",
                                "Upper Iowa (HUC8)",
                                "Yellow (HUC8)"))+
-  labs(x = "Easting (UTM)", y = "Northing (UTM)")+
-  theme(legend.justification = c(0,0), legend.position = c(0,0),
+  labs(x = "Easting (UTM)", y = "Northing (UTM)",title = "Study Area Watersheds")+
+  theme(legend.justification = c(0,0), legend.position = c(.05,.05),
         legend.background = element_rect(fill = "gray90", size = 0.5, linetype = "solid"),
-        legend.title = element_text(size = "12", face = "bold"),
-        legend.text = element_text(size = "12"))+
+        legend.title = element_text(size = "14", face = "bold"),
+        legend.text = element_text(size = "14"))+
   theme(axis.title.x = element_text(size = "14"),
-        axis.title.y = element_text(size = "14"))
+        axis.title.y = element_text(size = "14"),
+        plot.title = element_text(size = "14"))
 
 ggsave("StudyAreaMap.png", 
        width = 12, height = 10, units = "in", dpi = 350)
@@ -196,7 +197,7 @@ bkt.brt.upi <- base.upi + geom_path(data = UPI_streams_broom,
                     labels = c("Neither Species Present", "Brown Trout Only",
                                "Brook Trout Only", "Brook & Brown Trout"))+
   labs(x = "Easting (UTM)", y = "Northing (UTM)", title = "Upper Iowa River Watershed")+
-  theme(legend.justification = c(0,0), legend.position = c(0,0),
+  theme(legend.justification = c(0,0), legend.position = c(0.05,0.05),
         legend.background = element_rect(fill = "gray90", size = 0.5, linetype = "solid"),
         legend.title = element_text(size = "12", face = "bold"),
         legend.text = element_text(size = "12"))+
@@ -246,7 +247,7 @@ bkt.brt.yel <- base.yel + geom_path(data = YEL_streams_broom,
                     labels = c("Neither Species Present", "Brown Trout Only",
                                "Brook Trout Only", "Brook & Brown Trout"))+
   labs(x = "Easting (UTM)", y = "Northing (UTM)", title = "Yellow River Watershed")+
-  theme(legend.justification = c(0,0), legend.position = c(0,0),
+  theme(legend.justification = c(0,0), legend.position = c(0.05,0.05),
         legend.background = element_rect(fill = "gray90", size = 0.5, linetype = "solid"),
         legend.title = element_text(size = "12", face = "bold"),
         legend.text = element_text(size = "12"))+
@@ -297,7 +298,7 @@ bkt.brt.lmaq <- base.lmaq + geom_path(data = LMAQ_streams_broom,
                     labels = c("Neither Species Present", "Brown Trout Only",
                                "Brook Trout Only", "Brook & Brown Trout"))+
   labs(x = "Easting (UTM)", y = "Northing (UTM)", title = "Little Maquoketa River Watershed")+
-  theme(legend.justification = c(0,0), legend.position = c(0,0),
+  theme(legend.justification = c(0,0), legend.position = c(0.05,0.05),
         legend.background = element_rect(fill = "gray90", size = 0.5, linetype = "solid"),
         legend.title = element_text(size = "12", face = "bold"),
         legend.text = element_text(size = "12"))+
