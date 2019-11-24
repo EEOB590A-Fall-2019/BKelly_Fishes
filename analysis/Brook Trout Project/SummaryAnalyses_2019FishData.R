@@ -11,7 +11,6 @@
 #libraries
 library(tidyverse)
 library(skimr)
-library(ggplot2)
 
 #load data
 getwd()
@@ -79,8 +78,8 @@ summary(rich)
 #Species of Greatest Conservation Need: BKT, SRD, LND, Cottus, ABL
 sgcn <- f2 %>%
   select(uid, HUC8, site, BKT, BKT_ab, SRD, SRD_ab, LND, LND_ab, Cottus, Cottus_ab, ABL, ABL_ab,SPS,SPS_ab)%>%
-  mutate(SGCN_pres = ifelse(BKT+SRD+LND+Cottus+ABL+SPS>0,1,0), SGCN_rich = (BKT + SRD + LND + Cottus + ABL + SPS),
-         SGCN_ab = (BKT_ab+SRD_ab+LND_ab+Cottus_ab+ABL_ab+SPS_ab))%>%
+  mutate(SGCN_pres = ifelse(BKT+SRD+LND+Cottus+ABL+SPS>0,1,0), SGCN_rich = (BKT + SRD + LND + Cottus + ABL),
+         SGCN_ab = (BKT_ab+SRD_ab+LND_ab+Cottus_ab+ABL_ab))%>%
   select(HUC8, site, SGCN_pres, SGCN_rich, SGCN_ab)
 
 sgcn_summary <- sgcn %>%
