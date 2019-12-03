@@ -1,0 +1,154 @@
+
+   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018     3-Dec-2019 11:00:25    Page  001
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+   This version was compiled by GCC version 7.2.0 using the options: 
+     -cpp -iprefix C:/Program Files/mingw-w64/x86_64-7.2.0-posix-seh-rt_v5-rev1/
+     mingw64/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/ -D_MT -D_REENTRANT
+     -U_REENTRANT -D IEEE -D DBLEPRECISION -m64 -mtune=core2 -march=nocona -mthreads
+     -O2 -fimplicit-none -fbounds-check -funroll-loops -ftree-vectorize
+     -ffpe-summary=invalid,zero,overflow,underflow -fno-unsafe-math-optimizations
+     -frounding-math -fsignaling-nans -fopenmp.
+
+   This problem will use 7 of 8 possible threads.
+
+
+  INPUT --- proc title ;
+
+   CPU Time for the last procedure was 0.01 seconds.     
+
+
+  INPUT --- proc chmatrix occasions= 3 groups= 1 etype= Occupancy 
+  INPUT --- Nodes= 101 icovar = 3 ICMeans  NoHist hist= 138 ;
+
+  INPUT ---    time interval 1 1 1 ;
+
+  INPUT ---     icovariates LWD pctex21 HAiFLS_nat ;
+
+  INPUT ---    glabel(1)=freq1;
+
+      Number of unique encounter histories read was 138.
+
+      Number of individual covariates read was 3.
+      Time interval lengths are all equal to 1.
+
+      Data type number is 27
+      Data type is Occupancy Estimation with Detection < 1                                                             
+
+   CPU Time for the last procedure was 0.01 seconds.     
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018     3-Dec-2019 11:00:25    Page  002
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+
+
+  INPUT --- proc estimate link=Logit NOLOOP varest=2ndPart    ;
+
+
+  INPUT --- model={ p(~LWD)Psi(~pctex21 + HAiFLS_nat) };
+
+  INPUT ---    group=1 p    rows=1 cols=3 Square ;
+  INPUT ---        1 1 1 ;
+
+  INPUT ---    group=1 Psi    rows=1 cols=1 Square ;
+  INPUT ---        2 ;
+
+  INPUT ---    design matrix constraints=2 covariates=5;
+  INPUT ---        1 LWD 0 0 0;
+  INPUT ---        0 0 1 pctex21 HAiFLS_nat;
+  INPUT ---       blabel(1)=p:(Intercept);
+  INPUT ---       blabel(2)=p:LWD;
+  INPUT ---       blabel(3)=Psi:(Intercept);
+  INPUT ---       blabel(4)=Psi:pctex21;
+  INPUT ---       blabel(5)=Psi:HAiFLS_nat;
+  INPUT ---       rlabel(1)=p g1 a0 t1;
+  INPUT ---       rlabel(2)=Psi g1 a0 t1;
+
+ Link Function Used is LOGIT        
+
+ Variance Estimation Procedure Used is 2ndPart 
+ -2logL(saturated) = 0.0000000     
+ Effective Sample Size = 138
+
+ Number of function evaluations was 18 for 5 parameters.
+ Time for numerical optimization was 0.05 seconds.     
+ -2logL { p(~LWD)Psi(~pctex21 + HAiFLS_nat) } = 147.87963     
+ Penalty { p(~LWD)Psi(~pctex21 + HAiFLS_nat) } = 0.0000000     
+ Gradient { p(~LWD)Psi(~pctex21 + HAiFLS_nat) }:
+   0.000000      0.2401360E-05  0.2953733E-05  0.1599176E-06  0.1165415E-05
+ Maximum ABS(G) { p(~LWD)Psi(~pctex21 + HAiFLS_nat) } = 0.2953733E-05 
+ S Vector { p(~LWD)Psi(~pctex21 + HAiFLS_nat) }:
+   15.54965      9.924161     0.9342260     0.2640245     0.1572042E-01
+ Time to compute number of parameters was 0.01 seconds.     
+ Ratio Threshold = 50.000000       Max Gap (4/5) = 16.794995       Next Max Gap (2/3) = 10.622869     
+ Gap Method for Num. of Estimated Parameters { p(~LWD)Psi(~pctex21 + HAiFLS_nat) } = 5          
+ Threshold { p(~LWD)Psi(~pctex21 + HAiFLS_nat) } = 0.5907467E-05                 
+ Numerical Threshold Method for Num. of Estimated Parameters { p(~LWD)Psi(~pctex21 + HAiFLS_nat) } = 5          
+ Number of Estimated Parameters { p(~LWD)Psi(~pctex21 + HAiFLS_nat) } = 5          
+ DEVIANCE { p(~LWD)Psi(~pctex21 + HAiFLS_nat) } = 147.87963                     
+ DEVIANCE Degrees of Freedom { p(~LWD)Psi(~pctex21 + HAiFLS_nat) } = 133            
+ c-hat { p(~LWD)Psi(~pctex21 + HAiFLS_nat) } = 1.1118769                     
+ AIC { p(~LWD)Psi(~pctex21 + HAiFLS_nat) } = 157.87963                  
+ AICc { p(~LWD)Psi(~pctex21 + HAiFLS_nat) } = 158.33418                    
+ BIC { p(~LWD)Psi(~pctex21 + HAiFLS_nat) } = 172.51590                    
+ Pearson Chisquare { p(~LWD)Psi(~pctex21 + HAiFLS_nat) } = 699.14106                  
+
+
+            LOGIT Link Function Parameters of { p(~LWD)Psi(~pctex21 + HAiFLS_nat) }
+                                                              95% Confidence Interval
+ Parameter                    Beta         Standard Error      Lower           Upper
+ -------------------------  --------------  --------------  --------------  --------------
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018     3-Dec-2019 11:00:25    Page  003
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+    1:p:(Intercept)          0.8408685       0.4682719      -0.0769444       1.7586815    
+    2:p:LWD                  0.5885568       1.9149941      -3.1648318       4.3419453    
+    3:Psi:(Intercept)       -1.5829666       0.4804234      -2.5245965      -0.6413367    
+    4:Psi:pctex21           -0.7379810       0.2573288      -1.2423455      -0.2336165    
+    5:Psi:HAiFLS_nat         0.0227595       0.0100668       0.0030286       0.0424905    
+
+
+            Real Function Parameters of { p(~LWD)Psi(~pctex21 + HAiFLS_nat) }
+
+      Following estimates based on unstandardized individual covariate values:
+          Variable   Value         
+          ---------  ------------- 
+          LWD         0.2273503    
+          PCTEX21     4.8306834    
+          HAIFLS_NAT  30.404180    
+                                                               95% Confidence Interval
+  Parameter                  Estimate       Standard Error      Lower           Upper
+ --------------------------  --------------  --------------  --------------  --------------
+     1:p g1 a0 t1             0.7260508       0.0664921       0.5791913       0.8361559                          
+     2:Psi g1 a0 t1           0.0114762       0.0130142       0.0012240       0.0990817                          
+
+
+                      Estimates of Derived Parameters
+       Occupancy Estimates of { p(~LWD)Psi(~pctex21 + HAiFLS_nat) }
+                                            95% Confidence Interval
+ Group   Psi-hat         Standard Error      Lower           Upper
+ -----   --------------  --------------  --------------  --------------
+   1      0.0114762       0.0130142       0.0012240       0.0990817    
+
+   CPU Time for the last procedure was 0.05 seconds.     
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018     3-Dec-2019 11:00:25    Page  004
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+
+
+  INPUT --- proc stop;
+
+     CPU Time in minutes for this job was 0.00
+
+     Time Start = 11:00:25.141   Time End = 11:00:25.538
+
+     Wall Clock Time in minutes for this job was 0.01
+
+
+          E X E C U T I O N   S U C C E S S F U L 

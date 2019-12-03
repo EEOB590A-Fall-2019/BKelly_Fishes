@@ -1,0 +1,167 @@
+
+   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018     3-Dec-2019 11:01:56    Page  001
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+   This version was compiled by GCC version 7.2.0 using the options: 
+     -cpp -iprefix C:/Program Files/mingw-w64/x86_64-7.2.0-posix-seh-rt_v5-rev1/
+     mingw64/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/ -D_MT -D_REENTRANT
+     -U_REENTRANT -D IEEE -D DBLEPRECISION -m64 -mtune=core2 -march=nocona -mthreads
+     -O2 -fimplicit-none -fbounds-check -funroll-loops -ftree-vectorize
+     -ffpe-summary=invalid,zero,overflow,underflow -fno-unsafe-math-optimizations
+     -frounding-math -fsignaling-nans -fopenmp.
+
+   This problem will use 7 of 8 possible threads.
+
+
+  INPUT --- proc title ;
+
+   CPU Time for the last procedure was 0.01 seconds.     
+
+
+  INPUT --- proc chmatrix occasions= 3 groups= 1 etype= Occupancy 
+  INPUT --- Nodes= 101 icovar = 6 ICMeans  NoHist hist= 138 ;
+
+  INPUT ---    time interval 1 1 1 ;
+
+  INPUT ---     icovariates effort1 effort2 effort3 under pctex21 depool  ;
+
+  INPUT ---    glabel(1)=freq1;
+
+      Number of unique encounter histories read was 138.
+
+      Number of individual covariates read was 6.
+      Time interval lengths are all equal to 1.
+
+      Data type number is 27
+      Data type is Occupancy Estimation with Detection < 1                                                             
+
+   CPU Time for the last procedure was 0.01 seconds.     
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018     3-Dec-2019 11:01:56    Page  002
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+
+
+  INPUT --- proc estimate link=Logit NOLOOP varest=2ndPart    ;
+
+
+  INPUT --- model={ p(~effort + under)Psi(~pctex21 + depool) };
+
+  INPUT ---    group=1 p    rows=1 cols=3 Square ;
+  INPUT ---        1 2 3 ;
+
+  INPUT ---    group=1 Psi    rows=1 cols=1 Square ;
+  INPUT ---        4 ;
+
+  INPUT ---    design matrix constraints=4 covariates=6;
+  INPUT ---        1 effort1 under 0 0 0;
+  INPUT ---        1 effort2 under 0 0 0;
+  INPUT ---        1 effort3 under 0 0 0;
+  INPUT ---        0 0 0 1 pctex21 depool;
+  INPUT ---       blabel(1)=p:(Intercept);
+  INPUT ---       blabel(2)=p:effort;
+  INPUT ---       blabel(3)=p:under;
+  INPUT ---       blabel(4)=Psi:(Intercept);
+  INPUT ---       blabel(5)=Psi:pctex21;
+  INPUT ---       blabel(6)=Psi:depool;
+  INPUT ---       rlabel(1)=p g1 a0 t1;
+  INPUT ---       rlabel(2)=p g1 a1 t2;
+  INPUT ---       rlabel(3)=p g1 a2 t3;
+  INPUT ---       rlabel(4)=Psi g1 a0 t1;
+
+ Link Function Used is LOGIT        
+
+ Variance Estimation Procedure Used is 2ndPart 
+ -2logL(saturated) = 0.0000000     
+ Effective Sample Size = 138
+
+ Number of function evaluations was 21 for 6 parameters.
+ Time for numerical optimization was 0.02 seconds.     
+ -2logL { p(~effort + under)Psi(~pctex21 + depool) } = 146.50307     
+ Penalty { p(~effort + under)Psi(~pctex21 + depool) } = 0.0000000     
+ Gradient { p(~effort + under)Psi(~pctex21 + depool) }:
+   0.000000     -0.4913940E-06   0.000000      0.2357813E-05  0.9161048E-07
+   0.000000    
+ Maximum ABS(G) { p(~effort + under)Psi(~pctex21 + depool) } = 0.2357813E-05 
+ S Vector { p(~effort + under)Psi(~pctex21 + depool) }:
+   15.83854      8.052491     0.6669038     0.4502151     0.9070774E-01
+  0.1923226E-01
+ Time to compute number of parameters was 0.03 seconds.     
+ Ratio Threshold = 50.000000       Max Gap (2/3) = 12.074442       Next Max Gap (4/5) = 4.9633594     
+ Gap Method for Num. of Estimated Parameters { p(~effort + under)Psi(~pctex21 + depool) } = 6          
+ Threshold { p(~effort + under)Psi(~pctex21 + depool) } = 0.4715627E-05                 
+ Numerical Threshold Method for Num. of Estimated Parameters { p(~effort + under)Psi(~pctex21 + depool) } = 6          
+ Number of Estimated Parameters { p(~effort + under)Psi(~pctex21 + depool) } = 6          
+ DEVIANCE { p(~effort + under)Psi(~pctex21 + depool) } = 146.50307                     
+ DEVIANCE Degrees of Freedom { p(~effort + under)Psi(~pctex21 + depool) } = 132            
+ c-hat { p(~effort + under)Psi(~pctex21 + depool) } = 1.1098717                     
+ AIC { p(~effort + under)Psi(~pctex21 + depool) } = 158.50307                  
+ AICc { p(~effort + under)Psi(~pctex21 + depool) } = 159.14429                    
+ BIC { p(~effort + under)Psi(~pctex21 + depool) } = 176.06659                    
+ Pearson Chisquare { p(~effort + under)Psi(~pctex21 + depool) } = 619.19790                  
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018     3-Dec-2019 11:01:56    Page  003
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+
+
+         LOGIT Link Function Parameters of { p(~effort + under)Psi(~pctex21 + depool) }
+                                                              95% Confidence Interval
+ Parameter                    Beta         Standard Error      Lower           Upper
+ -------------------------  --------------  --------------  --------------  --------------
+    1:p:(Intercept)         -0.6443809       0.7994464      -2.2112959       0.9225340    
+    2:p:effort               0.0016958       0.8201034E-03   0.8843766E-04   0.0033032    
+    3:p:under                0.1831907       0.5916527      -0.9764486       1.3428300    
+    4:Psi:(Intercept)       -0.6178962       0.5330151      -1.6626058       0.4268133    
+    5:Psi:pctex21           -0.6400123       0.2325800      -1.0958690      -0.1841556    
+    6:Psi:depool            -0.1138348       0.4155088      -0.9282320       0.7005623    
+
+
+         Real Function Parameters of { p(~effort + under)Psi(~pctex21 + depool) }
+
+      Following estimates based on unstandardized individual covariate values:
+          Variable   Value         
+          ---------  ------------- 
+          EFFORT1     906.23188    
+          EFFORT2     834.18841    
+          EFFORT3     818.18116    
+          UNDER       0.5466074    
+          PCTEX21     4.8306834    
+          DEPOOL      0.8757795    
+                                                               95% Confidence Interval
+  Parameter                  Estimate       Standard Error      Lower           Upper
+ --------------------------  --------------  --------------  --------------  --------------
+     1:p g1 a0 t1             0.7295966       0.0807265       0.5474994       0.8574881                          
+     2:p g1 a1 t2             0.7048295       0.0817312       0.5250812       0.8375889                          
+     3:p g1 a2 t3             0.6991508       0.0821054       0.5195337       0.8331807                          
+     4:Psi g1 a0 t1           0.0216834       0.0212673       0.0030968       0.1365443                          
+
+
+                      Estimates of Derived Parameters
+   Occupancy Estimates of { p(~effort + under)Psi(~pctex21 + depool) }
+                                            95% Confidence Interval
+ Group   Psi-hat         Standard Error      Lower           Upper
+ -----   --------------  --------------  --------------  --------------
+   1      0.0216834       0.0212673       0.0030968       0.1365443    
+
+   CPU Time for the last procedure was 0.05 seconds.     
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018     3-Dec-2019 11:01:56    Page  004
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+
+
+  INPUT --- proc stop;
+
+     CPU Time in minutes for this job was 0.00
+
+     Time Start = 11:01:56.073   Time End = 11:01:56.172
+
+     Wall Clock Time in minutes for this job was 0.00
+
+
+          E X E C U T I O N   S U C C E S S F U L 
