@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1574780996535.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "951A2E75",
+    "lastKnownWriteTime" : 1575327474,
+    "last_content_update" : 1575327474308,
+    "path" : "~/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/BKT_occupancy_prelim.R",
+    "project_path" : "Analysis/Brook Trout Project/BKT_occupancy_prelim.R",
+    "properties" : {
+        "cursorPosition" : "162,32",
+        "scrollLine" : "140"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

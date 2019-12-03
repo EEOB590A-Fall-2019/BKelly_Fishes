@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1574797520893.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "ABA5962E",
+    "lastKnownWriteTime" : 1574803617,
+    "last_content_update" : 1574803617939,
+    "path" : "~/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/occupancy_analyses_unmarked.R",
+    "project_path" : "Analysis/Brook Trout Project/occupancy_analyses_unmarked.R",
+    "properties" : {
+        "cursorPosition" : "99,0",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
