@@ -5,20 +5,20 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "3447639134",
+    "hash" : "157322664",
     "id" : "B78A1C5D",
-    "lastKnownWriteTime" : 1575386575,
-    "last_content_update" : 1575386575449,
+    "lastKnownWriteTime" : 1575402445,
+    "last_content_update" : 1575402445030,
     "path" : "~/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/MARK/BKT_occupancy_prelim.R",
     "project_path" : "Analysis/Brook Trout Project/MARK/BKT_occupancy_prelim.R",
     "properties" : {
-        "cursorPosition" : "83,17",
-        "scrollLine" : "56"
+        "cursorPosition" : "358,0",
+        "scrollLine" : "345"
     },
     "read_only" : false,
     "read_only_alternatives" : [
     ],
-    "relative_order" : 4,
+    "relative_order" : 1,
     "source_on_save" : false,
     "source_window" : "",
     "type" : "r_source"
