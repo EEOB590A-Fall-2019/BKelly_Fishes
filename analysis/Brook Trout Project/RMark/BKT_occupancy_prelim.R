@@ -78,7 +78,9 @@ setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/An
 brook.process = process.data(brook2, model="Occupancy", groups = "freq")
 bkt.ddl = make.design.data(brook.process)
 
-
+#export ch data to an .inp file
+str(brook2)
+export.chdata(brook.process, filename = "BrookOccu", covariates = "all")
 
 ###~~~~~~~~~~~~~##
 #### Round 1 ####
@@ -151,6 +153,9 @@ run.occ=function()
 }
 
 bkt.results = run.occ()
+
+#export MARK data with models
+export.MARK(brook.process, "BKT_OccPrelim", model = bkt.results, ind.covariates = "all", replace = T)
 
 ##Examine model list and look at model comparisons
 bkt.results
