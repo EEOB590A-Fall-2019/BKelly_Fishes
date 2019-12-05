@@ -1,0 +1,151 @@
+
+   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018     4-Dec-2019 15:17:52    Page  001
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+   This version was compiled by GCC version 7.2.0 using the options: 
+     -cpp -iprefix C:/Program Files/mingw-w64/x86_64-7.2.0-posix-seh-rt_v5-rev1/
+     mingw64/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/ -D_MT -D_REENTRANT
+     -U_REENTRANT -D IEEE -D DBLEPRECISION -m64 -mtune=core2 -march=nocona -mthreads
+     -O2 -fimplicit-none -fbounds-check -funroll-loops -ftree-vectorize
+     -ffpe-summary=invalid,zero,overflow,underflow -fno-unsafe-math-optimizations
+     -frounding-math -fsignaling-nans -fopenmp.
+
+   This problem will use 7 of 8 possible threads.
+
+
+  INPUT --- proc title ;
+
+   CPU Time for the last procedure was 0.01 seconds.     
+
+
+  INPUT --- proc chmatrix occasions= 3 groups= 1 etype= Occupancy 
+  INPUT --- Nodes= 101 icovar = 2 ICMeans  NoHist hist= 138 ;
+
+  INPUT ---    time interval 1 1 1 ;
+
+  INPUT ---     icovariates effsec depool ;
+
+  INPUT ---    glabel(1)=freq1;
+
+      Number of unique encounter histories read was 138.
+
+      Number of individual covariates read was 2.
+      Time interval lengths are all equal to 1.
+
+      Data type number is 27
+      Data type is Occupancy Estimation with Detection < 1                                                             
+
+   CPU Time for the last procedure was 0.01 seconds.     
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018     4-Dec-2019 15:17:52    Page  002
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+
+
+  INPUT --- proc estimate link=Logit NOLOOP varest=2ndPart    ;
+
+
+  INPUT --- model={ p(~effsec)Psi(~depool) };
+
+  INPUT ---    group=1 p    rows=1 cols=3 Square ;
+  INPUT ---        1 1 1 ;
+
+  INPUT ---    group=1 Psi    rows=1 cols=1 Square ;
+  INPUT ---        2 ;
+
+  INPUT ---    design matrix constraints=2 covariates=4;
+  INPUT ---        1 effsec 0 0;
+  INPUT ---        0 0 1 depool;
+  INPUT ---       blabel(1)=p:(Intercept);
+  INPUT ---       blabel(2)=p:effsec;
+  INPUT ---       blabel(3)=Psi:(Intercept);
+  INPUT ---       blabel(4)=Psi:depool;
+  INPUT ---       rlabel(1)=p g1 a0 t1;
+  INPUT ---       rlabel(2)=Psi g1 a0 t1;
+
+ Link Function Used is LOGIT        
+
+ Variance Estimation Procedure Used is 2ndPart 
+ -2logL(saturated) = 0.0000000     
+ Effective Sample Size = 138
+
+ Number of function evaluations was 14 for 4 parameters.
+ Time for numerical optimization was 0.01 seconds.     
+ -2logL { p(~effsec)Psi(~depool) } = 171.29205     
+ Penalty { p(~effsec)Psi(~depool) } = 0.0000000     
+ Gradient { p(~effsec)Psi(~depool) }:
+  0.3015109E-05  0.1006371E-05   0.000000      0.1485537E-05
+ Maximum ABS(G) { p(~effsec)Psi(~depool) } = 0.3015109E-05 
+ S Vector { p(~effsec)Psi(~depool) }:
+   16.45617      8.337882      1.663376     0.4274234    
+ Time to compute number of parameters was 0.09 seconds.     
+ Ratio Threshold = 50.000000       Max Gap (2/3) = 5.0126254       Next Max Gap (3/4) = 3.8916363     
+ Gap Method for Num. of Estimated Parameters { p(~effsec)Psi(~depool) } = 4          
+ Threshold { p(~effsec)Psi(~depool) } = 0.6030218E-05                 
+ Numerical Threshold Method for Num. of Estimated Parameters { p(~effsec)Psi(~depool) } = 4          
+ Number of Estimated Parameters { p(~effsec)Psi(~depool) } = 4          
+ DEVIANCE { p(~effsec)Psi(~depool) } = 171.29205                     
+ DEVIANCE Degrees of Freedom { p(~effsec)Psi(~depool) } = 134            
+ c-hat { p(~effsec)Psi(~depool) } = 1.2782989                     
+ AIC { p(~effsec)Psi(~depool) } = 179.29205                  
+ AICc { p(~effsec)Psi(~depool) } = 179.59281                    
+ BIC { p(~effsec)Psi(~depool) } = 191.00107                    
+ Pearson Chisquare { p(~effsec)Psi(~depool) } = 988.59671                  
+
+
+                  LOGIT Link Function Parameters of { p(~effsec)Psi(~depool) }
+                                                              95% Confidence Interval
+ Parameter                    Beta         Standard Error      Lower           Upper
+ -------------------------  --------------  --------------  --------------  --------------
+    1:p:(Intercept)          0.8977907       0.3439158       0.2237157       1.5718657    
+    2:p:effsec               0.7770294       0.4257222      -0.0573861       1.6114449    
+    3:Psi:(Intercept)       -1.7844250       0.2530421      -2.2803875      -1.2884626    
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018     4-Dec-2019 15:17:53    Page  003
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+    4:Psi:depool             0.0887891       0.2425482      -0.3866054       0.5641836    
+
+
+                  Real Function Parameters of { p(~effsec)Psi(~depool) }
+
+      Following estimates based on unstandardized individual covariate values:
+          Variable   Value         
+          ---------  ------------- 
+          EFFSEC     -0.2898548E-09
+          DEPOOL     -0.4347827E-09
+                                                               95% Confidence Interval
+  Parameter                  Estimate       Standard Error      Lower           Upper
+ --------------------------  --------------  --------------  --------------  --------------
+     1:p g1 a0 t1             0.7104953       0.0707406       0.5556968       0.8280494                          
+     2:Psi g1 a0 t1           0.1437576       0.0311473       0.0927603       0.2161131                          
+
+
+                      Estimates of Derived Parameters
+            Occupancy Estimates of { p(~effsec)Psi(~depool) }
+                                            95% Confidence Interval
+ Group   Psi-hat         Standard Error      Lower           Upper
+ -----   --------------  --------------  --------------  --------------
+   1      0.1437576       0.0311473       0.0927603       0.2161131    
+
+   CPU Time for the last procedure was 0.09 seconds.     
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018     4-Dec-2019 15:17:53    Page  004
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+
+
+  INPUT --- proc stop;
+
+     CPU Time in minutes for this job was 0.00
+
+     Time Start = 15:17:52.750   Time End = 15:17:53.777
+
+     Wall Clock Time in minutes for this job was 0.02
+
+
+          E X E C U T I O N   S U C C E S S F U L 
