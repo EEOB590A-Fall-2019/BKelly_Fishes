@@ -48,7 +48,6 @@ brook2 <- brook %>%
   #> time varying large woody debris (-) and site level LWD (-)
   #> time varying undercut bank (-) and site level undercut banks (-)
   #> time varying max depth (-)
-  #> time varying max flow (-)
 
 #Occupancy Probability
 # Local:
@@ -66,14 +65,14 @@ brook2 <- brook %>%
   #>CatArea_km2 (-)
   #>HAiFLS_alt, HAiFLS_for, HAiFLS_ag (-, +, -)
 ##########################################################################################
-getwd()
-#set wd to scratch folder because MARK outputs a stupid amount of files
+#getwd()
+#set wd to scratch folder because MARK outputs an insane amount of files
 setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/MARK/BrookTrout_ScratchFolder") #because MARK loves output files
 
 
 #Process Data
-?process.data
-?make.design.data
+#?process.data
+#?make.design.data
 
 brook.process = process.data(brook2, model="Occupancy", groups = "freq")
 bkt.ddl = make.design.data(brook.process)
@@ -92,12 +91,11 @@ run.occ=function()
   p.Dot = list(formula= ~1)
   p.effort = list(formula= ~effsec) 
   p.tv.effort = list(formula = ~effort)
-  p.tv.mxdep = list(formula = ~mxdep)
-  p.tv.mxflow = list(formula = ~mxflow)
-  p.LWD = list(formula = ~LWD)
-  p.tv.lwd = list(formula = ~lwd)
-  p.under = list(formula = ~under)
-  p.tv.under = list(formula = ~undr)
+  #p.tv.mxdep = list(formula = ~mxdep)
+  #p.LWD = list(formula = ~LWD)
+  #p.tv.lwd = list(formula = ~lwd)
+  #p.under = list(formula = ~under)
+  #p.tv.under = list(formula = ~undr)
   
   #~~~~~~~~~~~~~ Occupancy - single covariate ~~~~~~~~~~~~~~~~~~~~~~
   #---Local (instream and riparian) Scale Variables---
