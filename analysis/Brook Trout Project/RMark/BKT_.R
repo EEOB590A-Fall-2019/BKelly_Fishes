@@ -19,7 +19,7 @@
 library(RMark)
 library(tidyverse)
 library(skimr)
-library(psycho)
+#library(psycho)
 
 ##Occupancy example
 #?weta
@@ -109,14 +109,27 @@ run.occ=function()
   Psi.p21_rck_brt = list(formula = ~pctex21+pctrock+BRT_100m)
   Psi.pct21_slo = list(formula = ~pctex21 + pctslow) 
   Psi.pct21_rock = list(formula = ~pctex21 + pctrock) 
-  Psi.pct21_brt = list(formula = ~pctex21 + BRT_100m) 
+  Psi.pct21_brt = list(formula = ~pctex21 + BRT_100m)
+  #Psi.pct21_brt_int = list(formula = ~pctex21*BRT_100m) temperature and brown trout interaction
   #indirect effects - hypothesized smaller effects
   Psi.habitat = list(formula = ~machabprop+LWD+pctBrBnk+pctShade) #features of high quality stream habitats (for trout)
   Psi.mhp_lwd_BBnk = list(formula = ~machabprop+LWD+pctBrBnk)
   Psi.mhp_lwd_shde = list(formula = ~machabprop+LWD+pctShade)
   Psi.mhp_BBnk_shde = list(formula = ~machabprop+pctBrBnk+pctShade)
   Psi.lwd_BBnk_shde = list(formula = ~LWD+pctBrBnk+pctShade)
+  Psi.mhp_lwd = list(formula = ~machabprop + LWD)
+  Psi.mhp_BBnk = list(formula = ~machabprop + pctBrBnk)
+  Psi.mhp_shade = list(formula = ~machabprop + pctShade)
+  Psi.lwd_pctBrBnk = list(formula = ~LWD + pctBrBnk)
+  Psi.lwd_shade = list(formula = ~LWD + pctShade)
+  Psi.BBnk_shade = list(formula = ~pctBrBnk+pctShade)
   #combination of effects
+  #~pctex21+pctslow+machabprop+pctrock+LWD+pctBrBnk+pctShade+BRT_100m
+  Psi.p21_hab = list(formula = ~pctex21+pctslow+machabprop+pctrock+LWD+pctBrBnk+pctShade)
+  Psi.p21_hab2 = list(formula = ~pctex21+pctslow+machabprop+pctrock+LWD+pctBrBnk+BRT_100m)
+  Psi.p21_hab3 = list(formula = ~pctex21+pctslow+machabprop+pctrock+LWD+pctShade+BRT_100m)
+  Psi.p21_hab4 = list(formula = ~pctex21+pctslow+machabprop+pctrock+pctBrBnk+pctShade+BRT_100m)
+  Psi.p21_hab5 = list(formula = ~pctex21+pctslow+machabprop+LWD+pctBrBnk+pctShade+BRT_100m)
   Psi.pct21_MHP = list(formula = ~pctex21 + machabprop) 
   Psi.pct21_lwd = list(formula = ~pctex21 + LWD) 
   Psi.pct21_bare = list(formula = ~pctex21 + pctBrBnk) 
