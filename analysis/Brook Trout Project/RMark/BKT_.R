@@ -232,6 +232,13 @@ round1.top <- bkt.results$p.tv.effort.Psi.pct21_brt
 summary(round1.top, showall = F)
 round1.top$results$real
 
+summary(bkt.results$p.tv.effort.Psi.biology)
+summary(bkt.results$p.tv.effort.Psi.global)
+
+
+cleanup(ask = FALSE)
+
+
 #---------------------------------------------------------------------------------------------------#
 #export MARK data with models
 #export ch data to an .inp file
