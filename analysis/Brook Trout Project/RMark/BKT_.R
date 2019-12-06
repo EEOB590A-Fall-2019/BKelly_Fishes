@@ -19,7 +19,7 @@
 library(RMark)
 library(tidyverse)
 library(skimr)
-#library(psycho)
+library(psycho)
 
 ##Occupancy example
 #?weta
@@ -36,21 +36,21 @@ names(brook)
 
 #reduce df down to variables of interest
 brook2 <- brook %>%
-  rename(effort1 = t1_eff, effort2 = t2_eff, effort3 = t3_eff)%>%
-  select(1:3, effort1, effort2, effort3, pctex21, pctslow, machabprop, 
+  rename(effort1 = t1_eff, effort2 = t2_eff, effort3 = t3_eff, pctpool = pctslow)%>%
+  select(1:3, effort1, effort2, effort3, pctex21, pctpool, machabprop, 
          pctrock, LWD, pctBrBnk, pctShade, BRT_100m)
 #examine
 skim(brook2)
 
 #standardize covariates to have center 0 --- should we do this? (subtract mean and divide by sd)
-#x <- brook2 %>%
-#  select(4:17) %>%
-#  psycho::standardize()
-#summary(x)
-#skim(x)
+x <- brook2 %>%
+  select(4:6) %>%
+  psycho::standardize()
+summary(x)
+skim(x)
 
-#brook3 <- brook2 
-#brook3[,4:17]=x
+brook3 <- brook2 
+brook3[,4:6]=x
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 #### Variables of interest and Data Dictionary ####
@@ -61,8 +61,8 @@ skim(brook2)
 #Occupancy Probability: probability of Brook Trout occurrence among sites
 # Local Scale: instream and immediate riparian area
 #> pctex21 (-) "percentage of summer temperature observations that exceed 21 degrees C"
-#> pctslow (+) "percentage of slow moving deep habiatas aka pools and glides"
-#> machabprop (-) "proportion of macrohabitat type"
+#> pctpool (+) "percentage of pool habitats"
+#> machabprop (-) "proportion of macrohabitat type" 
 #> pctrock (+) "percentage of rocky substrates (gravel, cobble, boulder)"
 #> LWD (+) "percentage of large woody debris"
 #> pctBrBnk (-) "percentage of bank that is bare soil"
@@ -77,7 +77,7 @@ setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/An
 #Process Data
 #?process.data
 #?make.design.data
-brook.process = process.data(brook2, model="Occupancy", groups = "freq")
+brook.process = process.data(brook3, model="Occupancy", groups = "freq")
 bkt.ddl = make.design.data(brook.process)
 
 
@@ -100,43 +100,43 @@ run.occ=function()
   #~~~~~~~~~~~~~ Occupancy - null model ~~~~~~~~~~~~~~~~~~~~~~
   Psi.Dot        = list(formula=~1) 
   #~~~~~~~~~~~~~ Occupancy - global model ~~~~~~~~~~~~~~~~~~~~~~
-  Psi.global = list(formula = ~pctex21+pctslow+machabprop+pctrock+LWD+pctBrBnk+pctShade+BRT_100m)
+  Psi.global = list(formula = ~pctex21+pctpool+pctrock+LWD+pctBrBnk+pctShade+BRT_100m)
   #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
   #direct effects - hypothesized larger effects
-  Psi.biology = list(formula = ~pctex21+pctslow+pctrock+BRT_100m) #factors that may directly influence BKT persistence
-  Psi.p21_slo_rck = list(formula = ~pctex21+pctslow+pctrock)
-  Psi.p21_slo_brt = list(formula = ~pctex21+pctslow+BRT_100m)
+  Psi.biology = list(formula = ~pctex21+pctpool+pctrock+BRT_100m) #factors that may directly influence BKT persistence
+  Psi.p21_pool_rck = list(formula = ~pctex21+pctpool+pctrock)
+  Psi.p21_pool_brt = list(formula = ~pctex21+pctpool+BRT_100m)
   Psi.p21_rck_brt = list(formula = ~pctex21+pctrock+BRT_100m)
-  Psi.pct21_slo = list(formula = ~pctex21 + pctslow) 
+  Psi.pct21_pool = list(formula = ~pctex21 + pctpool) 
   Psi.pct21_rock = list(formula = ~pctex21 + pctrock) 
   Psi.pct21_brt = list(formula = ~pctex21 + BRT_100m)
   #Psi.pct21_brt_int = list(formula = ~pctex21*BRT_100m) temperature and brown trout interaction
   #indirect effects - hypothesized smaller effects
-  Psi.habitat = list(formula = ~machabprop+LWD+pctBrBnk+pctShade) #features of high quality stream habitats (for trout)
-  Psi.mhp_lwd_BBnk = list(formula = ~machabprop+LWD+pctBrBnk)
-  Psi.mhp_lwd_shde = list(formula = ~machabprop+LWD+pctShade)
-  Psi.mhp_BBnk_shde = list(formula = ~machabprop+pctBrBnk+pctShade)
-  Psi.lwd_BBnk_shde = list(formula = ~LWD+pctBrBnk+pctShade)
-  Psi.mhp_lwd = list(formula = ~machabprop + LWD)
-  Psi.mhp_BBnk = list(formula = ~machabprop + pctBrBnk)
-  Psi.mhp_shade = list(formula = ~machabprop + pctShade)
+  Psi.habitat = list(formula = ~LWD+pctBrBnk+pctShade) #features of high quality stream habitats (for trout)
+  #Psi.mhp_lwd_BBnk = list(formula = ~machabprop+LWD+pctBrBnk)
+  #Psi.mhp_lwd_shde = list(formula = ~machabprop+LWD+pctShade)
+  #Psi.mhp_BBnk_shde = list(formula = ~machabprop+pctBrBnk+pctShade)
+  #Psi.lwd_BBnk_shde = list(formula = ~LWD+pctBrBnk+pctShade)
+  #Psi.mhp_lwd = list(formula = ~machabprop + LWD)
+  #Psi.mhp_BBnk = list(formula = ~machabprop + pctBrBnk)
+  #Psi.mhp_shade = list(formula = ~machabprop + pctShade)
   Psi.lwd_pctBrBnk = list(formula = ~LWD + pctBrBnk)
   Psi.lwd_shade = list(formula = ~LWD + pctShade)
   Psi.BBnk_shade = list(formula = ~pctBrBnk+pctShade)
   #combination of effects
-  #~pctex21+pctslow+machabprop+pctrock+LWD+pctBrBnk+pctShade+BRT_100m
-  Psi.p21_hab = list(formula = ~pctex21+pctslow+machabprop+pctrock+LWD+pctBrBnk+pctShade)
-  Psi.p21_hab2 = list(formula = ~pctex21+pctslow+machabprop+pctrock+LWD+pctBrBnk+BRT_100m)
-  Psi.p21_hab3 = list(formula = ~pctex21+pctslow+machabprop+pctrock+LWD+pctShade+BRT_100m)
-  Psi.p21_hab4 = list(formula = ~pctex21+pctslow+machabprop+pctrock+pctBrBnk+pctShade+BRT_100m)
-  Psi.p21_hab5 = list(formula = ~pctex21+pctslow+machabprop+LWD+pctBrBnk+pctShade+BRT_100m)
+  #~pctex21+pctpool+machabprop+pctrock+LWD+pctBrBnk+pctShade+BRT_100m
+  Psi.p21_hab = list(formula = ~pctex21+pctpool+machabprop+pctrock+LWD+pctBrBnk+pctShade)
+  Psi.p21_hab2 = list(formula = ~pctex21+pctpool+machabprop+pctrock+LWD+pctBrBnk+BRT_100m)
+  Psi.p21_hab3 = list(formula = ~pctex21+pctpool+machabprop+pctrock+LWD+pctShade+BRT_100m)
+  Psi.p21_hab4 = list(formula = ~pctex21+pctpool+machabprop+pctrock+pctBrBnk+pctShade+BRT_100m)
+  Psi.p21_hab5 = list(formula = ~pctex21+pctpool+machabprop+LWD+pctBrBnk+pctShade+BRT_100m)
   Psi.pct21_MHP = list(formula = ~pctex21 + machabprop) 
   Psi.pct21_lwd = list(formula = ~pctex21 + LWD) 
   Psi.pct21_bare = list(formula = ~pctex21 + pctBrBnk) 
   Psi.pct21_shade = list(formula = ~pctex21 + pctShade) 
   #~~~~~~~~~~~~~ Occupancy - single covariate ~~~~~~~~~~~~~~~~~~~~~~
   Psi.pctex21 = list(formula=~pctex21) 
-  Psi.slow = list(formula=~pctslow) 
+  Psi.pool = list(formula=~pctpool) 
   Psi.MacroProp = list(formula=~machabprop) 
   Psi.rock = list(formula=~pctrock) 
   Psi.lwd = list(formula = ~LWD) 

@@ -169,7 +169,8 @@ write.csv(Fish, "C:/Users/bbkelly/Documents/Brook Trout_Brett/Thesis/data/tidyfi
 ##------------------------##
 
 #load data from 2018
-hab_18 <- read_excel("C:/Users/bbkelly/Documents/Brook Trout_Brett/Thesis/data/Data 2018/HabToBeTidy_2018.xlsx")
+#getwd()
+hab_18 <- read_excel("Data/Thesis/Raw/Data 2018/Habitat/HabToBeTidy_2018.xlsx")
 str(hab_18)
 
 #change column names using rename(), NEW name is on LEFT, OLD is on RIGHT
@@ -191,7 +192,7 @@ levels(hab_18$HUC8)
 summary(hab_18)
 
 #load data from 2019
-hab_19 <- read_excel("C:/Users/bbkelly/Documents/Brook Trout_Brett/Thesis/data/Data 2019/Master_Hab_DataSet_2019.xlsx")
+hab_19 <- read_excel("Data/Thesis/Raw/Data 2019/Master_Hab_DataSet_2019.xlsx")
 summary(hab_19)
 
 #change column names using rename(), NEW name is on LEFT, OLD is on RIGHT
