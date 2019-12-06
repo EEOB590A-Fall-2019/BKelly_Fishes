@@ -92,7 +92,7 @@ corrplot(c, method="color", col=col(200),
          # hide correlation coefficient on the principal diagonal
          diag=FALSE 
 )
-
+#weak evidence that pctShade and LWD should not be in same model due to correlation (0.57)
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 #### Variables of interest and Data Dictionary ####
@@ -104,7 +104,6 @@ corrplot(c, method="color", col=col(200),
 # Local Scale: instream and immediate riparian area
 #> pctex21 (-) "percentage of summer temperature observations that exceed 21 degrees C"
 #> pctpool (+) "percentage of pool habitats"
-#> machabprop (-) "proportion of macrohabitat type" 
 #> pctrock (+) "percentage of rocky substrates (gravel, cobble, boulder)"
 #> LWD (+) "percentage of large woody debris"
 #> pctBrBnk (-) "percentage of bank that is bare soil"
@@ -141,41 +140,67 @@ run.occ=function()
   p.tv.effort = list(formula = ~effort)
   #~~~~~~~~~~~~~ Occupancy - null model ~~~~~~~~~~~~~~~~~~~~~~
   Psi.Dot        = list(formula=~1) 
-  #~~~~~~~~~~~~~ Occupancy - global model ~~~~~~~~~~~~~~~~~~~~~~
-  Psi.global = list(formula = ~pctex21+pctpool+pctrock+LWD+pctBrBnk+pctShade+BRT_100m)
   #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
-  #direct effects - hypothesized larger effects
-  Psi.biology = list(formula = ~pctex21+pctpool+pctrock+BRT_100m) #factors that may directly influence BKT persistence
+  #direct effects - hypothesized larger effects (factors that may directly influence BKT persistence)
+  Psi.biology = list(formula = ~pctex21+pctpool+pctrock+BRT_100m)
   Psi.p21_pool_rck = list(formula = ~pctex21+pctpool+pctrock)
   Psi.p21_pool_brt = list(formula = ~pctex21+pctpool+BRT_100m)
   Psi.p21_rck_brt = list(formula = ~pctex21+pctrock+BRT_100m)
   Psi.pct21_pool = list(formula = ~pctex21 + pctpool) 
   Psi.pct21_rock = list(formula = ~pctex21 + pctrock) 
   Psi.pct21_brt = list(formula = ~pctex21 + BRT_100m)
-  #Psi.pct21_brt_int = list(formula = ~pctex21*BRT_100m) temperature and brown trout interaction
-  #indirect effects - hypothesized smaller effects
-  Psi.habitat = list(formula = ~LWD+pctBrBnk+pctShade) #features of high quality stream habitats (for trout)
-  #Psi.mhp_lwd_BBnk = list(formula = ~machabprop+LWD+pctBrBnk)
-  #Psi.mhp_lwd_shde = list(formula = ~machabprop+LWD+pctShade)
-  #Psi.mhp_BBnk_shde = list(formula = ~machabprop+pctBrBnk+pctShade)
-  #Psi.lwd_BBnk_shde = list(formula = ~LWD+pctBrBnk+pctShade)
-  #Psi.mhp_lwd = list(formula = ~machabprop + LWD)
-  #Psi.mhp_BBnk = list(formula = ~machabprop + pctBrBnk)
-  #Psi.mhp_shade = list(formula = ~machabprop + pctShade)
+  #indirect effects - hypothesized smaller effects (features of high quality stream habitats (for trout))
   Psi.lwd_pctBrBnk = list(formula = ~LWD + pctBrBnk)
   Psi.lwd_shade = list(formula = ~LWD + pctShade)
   Psi.BBnk_shade = list(formula = ~pctBrBnk+pctShade)
   #combination of effects
-  #~pctex21+pctpool+machabprop+pctrock+LWD+pctBrBnk+pctShade+BRT_100m
-  Psi.p21_hab = list(formula = ~pctex21+pctpool+machabprop+pctrock+LWD+pctBrBnk+pctShade)
-  Psi.p21_hab2 = list(formula = ~pctex21+pctpool+machabprop+pctrock+LWD+pctBrBnk+BRT_100m)
-  Psi.p21_hab3 = list(formula = ~pctex21+pctpool+machabprop+pctrock+LWD+pctShade+BRT_100m)
-  Psi.p21_hab4 = list(formula = ~pctex21+pctpool+machabprop+pctrock+pctBrBnk+pctShade+BRT_100m)
-  Psi.p21_hab5 = list(formula = ~pctex21+pctpool+machabprop+LWD+pctBrBnk+pctShade+BRT_100m)
-  Psi.pct21_MHP = list(formula = ~pctex21 + machabprop) 
+  Psi.global = list(formula = ~pctex21+pctpool+pctrock+LWD+pctBrBnk+BRT_100m)
+  Psi.global2 = list(formula = ~pctex21+pctpool+pctrock+pctBrBnk+pctShade+BRT_100m)
+  Psi.mixed1 = list(formula = ~pctex21+pctpool+pctrock+BRT_100m+LWD)
+  Psi.mixed2 = list(formula = ~pctex21+pctpool+pctrock+BRT_100m+pctBrBnk)
+  Psi.mixed3 = list(formula = ~pctex21+pctpool+pctrock+BRT_100m+pctShade)
+  Psi.mixed4 = list(formula = ~pctex21+pctpool+pctrock+LWD+pctBrBnk)
+  Psi.mixed5 = list(formula = ~pctex21+pctpool+pctrock+pctShade+pctBrBnk)
+  Psi.mixed6 = list(formula = ~pctex21+pctpool+BRT_100m+LWD+pctBrBnk)
+  Psi.mixed7 = list(formula = ~pctex21+pctpool+BRT_100m+pctShade+pctBrBnk)
+  Psi.mixed8 = list(formula = ~pctex21+pctrock+BRT_100m+LWD+pctBrBnk)
+  Psi.mixed9 = list(formula = ~pctex21+pctrock+BRT_100m+pctShade+pctBrBnk)
+  Psi.mixed10 = list(formula = ~pctpool+pctrock+BRT_100m+LWD+pctBrBnk)
+  Psi.mixed11 = list(formula = ~pctpool+pctrock+BRT_100m+pctShade+pctBrBnk)
+  Psi.mixed12 = list(formula = ~pctex21+pctpool+LWD+pctBrBnk)
+  Psi.mixed13 = list(formula = ~pctex21+pctpool+pctShade+pctBrBnk)
+  Psi.mixed14 = list(formula = ~pctex21+pctpool+LWD+pctBrBnk)
+  Psi.mixed15 = list(formula = ~pctex21+pctpool+pctShade+pctBrBnk)
+  Psi.mixed16 = list(formula = ~pctex21+BRT_100m+LWD+pctBrBnk)
+  Psi.mixed17 = list(formula = ~pctex21+BRT_100m+pctShade+pctBrBnk)
+  Psi.mixed18 = list(formula = ~pctrock+BRT_100m+LWD+pctBrBnk)
+  Psi.mixed19 = list(formula = ~pctrock+BRT_100m+pctShade+pctBrBnk)
+  Psi.mixed20 = list(formula = ~pctpool+pctrock+LWD+pctBrBnk)
+  Psi.mixed21 = list(formula = ~pctpool+pctrock+pctShade+pctBrBnk)
+  Psi.mixed22 = list(formula = ~pctex21+pctrock+LWD+pctBrBnk)
+  Psi.mixed23 = list(formula = ~pctex21+pctrock+pctShade+pctBrBnk)
+  Psi.mixed24 = list(formula = ~pctpool+BRT_100m+LWD+pctBrBnk)
+  Psi.mixed25 = list(formula = ~pctpool+BRT_100m+pctShade+pctBrBnk)
+  Psi.mixed26 = list(formula = ~pctex21+LWD+pctBrBnk)
+  Psi.mixed27 = list(formula = ~pctex21+pctShade+pctBrBnk)
+  Psi.mixed28 = list(formula = ~pctpool+LWD+pctBrBnk)
+  Psi.mixed29 = list(formula = ~pctpool+pctShade+pctBrBnk)
+  Psi.mixed30 = list(formula = ~pctrock+LWD+pctBrBnk)
+  Psi.mixed31 = list(formula = ~pctrock+pctShade+pctBrBnk)
+  Psi.mixed32 = list(formula = ~BRT_100m+LWD+pctBrBnk)
+  Psi.mixed33 = list(formula = ~BRT_100m+pctShade+pctBrBnk)
   Psi.pct21_lwd = list(formula = ~pctex21 + LWD) 
   Psi.pct21_bare = list(formula = ~pctex21 + pctBrBnk) 
-  Psi.pct21_shade = list(formula = ~pctex21 + pctShade) 
+  Psi.pct21_shade = list(formula = ~pctex21 + pctShade)
+  Psi.pool_lwd = list(formula = ~pctpool + LWD) 
+  Psi.pool_bare = list(formula = ~pctpool + pctBrBnk) 
+  Psi.pool_shade = list(formula = ~pctpool + pctShade) 
+  Psi.rock_lwd = list(formula = ~pctrock + LWD) 
+  Psi.rock_bare = list(formula = ~pctrock + pctBrBnk) 
+  Psi.rock_shade = list(formula = ~pctrock + pctShade) 
+  Psi.BRT_lwd = list(formula = ~BRT_100m + LWD) 
+  Psi.BRT_bare = list(formula = ~BRT_100m + pctBrBnk) 
+  Psi.BRT_shade = list(formula = ~BRT_100m + pctShade) 
   #~~~~~~~~~~~~~ Occupancy - single covariate ~~~~~~~~~~~~~~~~~~~~~~
   Psi.pctex21 = list(formula=~pctex21) 
   Psi.pool = list(formula=~pctpool) 
@@ -201,13 +226,11 @@ bkt.results$model.table = model.table(bkt.results, use.lnl = T)
 bkt.results$model.table
 
 #look at summary of top model
-summary(bkt.results$p.tv.effort.Psi.biology)
+summary(bkt.results$p.tv.effort.Psi.pct21_brt)
 names(bkt.results)
-round1.top <- bkt.results$p.tv.effort.Psi.pctex21
+round1.top <- bkt.results$p.tv.effort.Psi.pct21_brt
 summary(round1.top, showall = F)
 round1.top$results$real
-
-
 
 #---------------------------------------------------------------------------------------------------#
 #export MARK data with models
