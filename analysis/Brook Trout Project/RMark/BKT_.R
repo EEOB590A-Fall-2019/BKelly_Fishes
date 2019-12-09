@@ -28,32 +28,23 @@ library(corrplot)
 
 ##--------------------------------------------------------------------------------------------------------------------------------##
 #read in data, rearrange and change some labels to work with grouping ("freq"), and time-varying covariates ("Effort1 --> Effort3")
-brook <- read_csv("Data/Thesis/Tidy/BKT_occDF_RMARK.csv", col_names = T)
-names(brook)
-brook$freq <- 1
-brook <- brook[,c(1,74,2:73)]
-names(brook)
+brook <- read_csv("Data/Thesis/Tidy/BKT_Occu_File.csv", col_names = T)
 
-#reduce df down to variables of interest
-brook2 <- brook %>%
-  rename(effort1 = t1_eff, effort2 = t2_eff, effort3 = t3_eff, pctpool = pctslow)%>%
-  select(1:3, effort1, effort2, effort3, pctex21, pctpool, machabprop, 
-         pctrock, LWD, pctBrBnk, pctShade, BRT_100m)
 #examine
-skim(brook2)
+skim(brook)
 
 #standardize covariates to have center 0 --- should we do this? (subtract mean and divide by sd)
-x <- brook2 %>%
+x <- brook %>%
   select(4:6) %>%
   psycho::standardize()
 summary(x)
 skim(x)
 
-brook3 <- brook2 
-brook3[,4:6]=x
+brook2 <- brook 
+brook2[,4:6]=x
 
 #correlation test
-c <- cor(brook3[,4:14])
+c <- cor(brook2[,4:18])
 head(round(c,2)) 
 
 #round down
@@ -79,7 +70,7 @@ cor.mtest <- function(mat, ...) {
   p.mat
 }
 # matrix of the p-value of the correlation
-p.mat <- cor.mtest(brook3[,4:14])
+p.mat <- cor.mtest(brook3[,4:18])
 
 #correlogram
 col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
@@ -92,7 +83,7 @@ corrplot(c, method="color", col=col(200),
          # hide correlation coefficient on the principal diagonal
          diag=FALSE 
 )
-#weak evidence that pctShade and LWD should not be in same model due to correlation (0.57)
+
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 #### Variables of interest and Data Dictionary ####
@@ -105,7 +96,6 @@ corrplot(c, method="color", col=col(200),
 #> pctex21 (-) "percentage of summer temperature observations that exceed 21 degrees C"
 #> pctpool (+) "percentage of pool habitats"
 #> pctrock (+) "percentage of rocky substrates (gravel, cobble, boulder)"
-#> LWD (+) "percentage of large woody debris"
 #> pctBrBnk (-) "percentage of bank that is bare soil"
 #> pctShade (+) "average percent canopy cover"
 #> BRT_100m (-) "Brown Trout Catch-Per 100m of stream sampled"
@@ -118,7 +108,7 @@ setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/An
 #Process Data
 #?process.data
 #?make.design.data
-brook.process = process.data(brook3, model="Occupancy", groups = "freq")
+brook.process = process.data(brook2, model="Occupancy", groups = "freq")
 bkt.ddl = make.design.data(brook.process)
 
 
@@ -150,8 +140,6 @@ run.occ=function()
   Psi.pct21_rock = list(formula = ~pctex21 + pctrock) 
   Psi.pct21_brt = list(formula = ~pctex21 + BRT_100m)
   #indirect effects - hypothesized smaller effects (features of high quality stream habitats (for trout))
-  Psi.lwd_pctBrBnk = list(formula = ~LWD + pctBrBnk)
-  Psi.lwd_shade = list(formula = ~LWD + pctShade)
   Psi.BBnk_shade = list(formula = ~pctBrBnk+pctShade)
   #combination of effects
   Psi.global = list(formula = ~pctex21+pctpool+pctrock+LWD+pctBrBnk+BRT_100m)
@@ -206,7 +194,6 @@ run.occ=function()
   Psi.pool = list(formula=~pctpool) 
   Psi.MacroProp = list(formula=~machabprop) 
   Psi.rock = list(formula=~pctrock) 
-  Psi.lwd = list(formula = ~LWD) 
   Psi.bare = list(formula=~pctBrBnk) 
   Psi.shade = list(formula=~pctShade) 
   Psi.brt = list(formula=~BRT_100m) 
