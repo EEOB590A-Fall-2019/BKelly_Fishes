@@ -1,6 +1,6 @@
 
    Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:58    Page  001
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 13:16:20    Page  001
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
    This version was compiled by GCC version 7.2.0 using the options: 
@@ -20,17 +20,17 @@
 
 
   INPUT --- proc chmatrix occasions= 3 groups= 1 etype= Occupancy 
-  INPUT --- Nodes= 101 icovar = 1 ICMeans  NoHist hist= 34 ;
+  INPUT --- Nodes= 101 icovar = 4 ICMeans  NoHist hist= 138 ;
 
   INPUT ---    time interval 1 1 1 ;
 
-  INPUT ---     icovariates pctpool ;
+  INPUT ---     icovariates effort1 effort2 effort3 Area_km2 ;
 
   INPUT ---    glabel(1)=freq1;
 
-      Number of unique encounter histories read was 34.
+      Number of unique encounter histories read was 138.
 
-      Number of individual covariates read was 1.
+      Number of individual covariates read was 4.
       Time interval lengths are all equal to 1.
 
       Data type number is 27
@@ -39,7 +39,7 @@
    CPU Time for the last procedure was 0.01 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:58    Page  002
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 13:16:20    Page  002
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -47,22 +47,27 @@
   INPUT --- proc estimate link=Logit NOLOOP varest=2ndPart    ;
 
 
-  INPUT --- model={ p(~1)Psi(~pctpool) };
+  INPUT --- model={ p(~effort)Psi(~Area_km2) };
 
   INPUT ---    group=1 p    rows=1 cols=3 Square ;
-  INPUT ---        1 1 1 ;
+  INPUT ---        1 2 3 ;
 
   INPUT ---    group=1 Psi    rows=1 cols=1 Square ;
-  INPUT ---        2 ;
+  INPUT ---        4 ;
 
-  INPUT ---    design matrix constraints=2 covariates=3;
-  INPUT ---        1 0 0;
-  INPUT ---        0 1 pctpool;
+  INPUT ---    design matrix constraints=4 covariates=4;
+  INPUT ---        1 effort1 0 0;
+  INPUT ---        1 effort2 0 0;
+  INPUT ---        1 effort3 0 0;
+  INPUT ---        0 0 1 Area_km2;
   INPUT ---       blabel(1)=p:(Intercept);
-  INPUT ---       blabel(2)=Psi:(Intercept);
-  INPUT ---       blabel(3)=Psi:pctpool;
+  INPUT ---       blabel(2)=p:effort;
+  INPUT ---       blabel(3)=Psi:(Intercept);
+  INPUT ---       blabel(4)=Psi:Area_km2;
   INPUT ---       rlabel(1)=p g1 a0 t1;
-  INPUT ---       rlabel(2)=Psi g1 a0 t1;
+  INPUT ---       rlabel(2)=p g1 a1 t2;
+  INPUT ---       rlabel(3)=p g1 a2 t3;
+  INPUT ---       rlabel(4)=Psi g1 a0 t1;
 
  Link Function Used is LOGIT        
 
@@ -70,68 +75,74 @@
  -2logL(saturated) = 0.0000000     
  Effective Sample Size = 138
 
- Number of function evaluations was 13 for 3 parameters.
- Time for numerical optimization was 0.01 seconds.     
- -2logL { p(~1)Psi(~pctpool) } = 174.07198     
- Penalty { p(~1)Psi(~pctpool) } = 0.0000000     
- Gradient { p(~1)Psi(~pctpool) }:
-   0.000000      0.1174519E-05   0.000000    
- Maximum ABS(G) { p(~1)Psi(~pctpool) } = 0.1174519E-05 
- S Vector { p(~1)Psi(~pctpool) }:
-   18.53936      9.642165     0.8241639    
+ Number of function evaluations was 13 for 4 parameters.
+ Time for numerical optimization was 0.02 seconds.     
+ -2logL { p(~effort)Psi(~Area_km2) } = 168.51502     
+ Penalty { p(~effort)Psi(~Area_km2) } = 0.0000000     
+ Gradient { p(~effort)Psi(~Area_km2) }:
+   0.000000     -0.3304443E-06   0.000000      0.1541976E-05
+ Maximum ABS(G) { p(~effort)Psi(~Area_km2) } = 0.1541976E-05 
+ S Vector { p(~effort)Psi(~Area_km2) }:
+   16.81170      8.296379     0.4224713     0.1764797    
  Time to compute number of parameters was 0.01 seconds.     
- Ratio Threshold = 50.000000       Max Gap (2/3) = 11.699329       Next Max Gap (1/2) = 1.9227388     
- Gap Method for Num. of Estimated Parameters { p(~1)Psi(~pctpool) } = 3          
- Threshold { p(~1)Psi(~pctpool) } = 0.2349037E-05                 
- Numerical Threshold Method for Num. of Estimated Parameters { p(~1)Psi(~pctpool) } = 3          
- Number of Estimated Parameters { p(~1)Psi(~pctpool) } = 3          
- DEVIANCE { p(~1)Psi(~pctpool) } = 174.07198                     
- DEVIANCE Degrees of Freedom { p(~1)Psi(~pctpool) } = 135            
- c-hat { p(~1)Psi(~pctpool) } = 1.2894221                     
- AIC { p(~1)Psi(~pctpool) } = 180.07198                  
- AICc { p(~1)Psi(~pctpool) } = 180.25108                    
- BIC { p(~1)Psi(~pctpool) } = 188.85374                    
- Pearson Chisquare { p(~1)Psi(~pctpool) } = 1059.1844                  
-
-
-                    LOGIT Link Function Parameters of { p(~1)Psi(~pctpool) }
-                                                              95% Confidence Interval
- Parameter                    Beta         Standard Error      Lower           Upper
- -------------------------  --------------  --------------  --------------  --------------
-    1:p:(Intercept)          0.9481116       0.3210878       0.3187794       1.5774438    
-    2:Psi:(Intercept)       -2.2478817       0.4577690      -3.1451090      -1.3506544    
-    3:Psi:pctpool            0.0158970       0.0129949      -0.0095730       0.0413670    
+ Ratio Threshold = 50.000000       Max Gap (2/3) = 19.637734       Next Max Gap (3/4) = 2.3938805     
+ Gap Method for Num. of Estimated Parameters { p(~effort)Psi(~Area_km2) } = 4          
+ Threshold { p(~effort)Psi(~Area_km2) } = 0.3083951E-05                 
+ Numerical Threshold Method for Num. of Estimated Parameters { p(~effort)Psi(~Area_km2) } = 4          
+ Number of Estimated Parameters { p(~effort)Psi(~Area_km2) } = 4          
+ DEVIANCE { p(~effort)Psi(~Area_km2) } = 168.51502                     
+ DEVIANCE Degrees of Freedom { p(~effort)Psi(~Area_km2) } = 134            
+ c-hat { p(~effort)Psi(~Area_km2) } = 1.2575748                     
+ AIC { p(~effort)Psi(~Area_km2) } = 176.51502                  
+ AICc { p(~effort)Psi(~Area_km2) } = 176.81577                    
+ BIC { p(~effort)Psi(~Area_km2) } = 188.22404                    
+ Pearson Chisquare { p(~effort)Psi(~Area_km2) } = 868.08361                  
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:58    Page  003
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 13:16:20    Page  003
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
 
-                    Real Function Parameters of { p(~1)Psi(~pctpool) }
+                 LOGIT Link Function Parameters of { p(~effort)Psi(~Area_km2) }
+                                                              95% Confidence Interval
+ Parameter                    Beta         Standard Error      Lower           Upper
+ -------------------------  --------------  --------------  --------------  --------------
+    1:p:(Intercept)          0.9981581       0.3615597       0.2895011       1.7068151    
+    2:p:effort               1.0341031       0.5148634       0.0249709       2.0432353    
+    3:Psi:(Intercept)       -2.0271006       0.3715376      -2.7553144      -1.2988869    
+    4:Psi:Area_km2           0.0289630       0.0297987      -0.0294425       0.0873684    
+
+
+                 Real Function Parameters of { p(~effort)Psi(~Area_km2) }
 
       Following estimates based on unstandardized individual covariate values:
           Variable   Value         
           ---------  ------------- 
-          PCTPOOL     25.664251    
+          EFFORT1    -0.7246373E-10
+          EFFORT2    -0.1449268E-10
+          EFFORT3     0.4347865E-11
+          AREA_KM2    7.8085664    
                                                                95% Confidence Interval
   Parameter                  Estimate       Standard Error      Lower           Upper
  --------------------------  --------------  --------------  --------------  --------------
-     1:p g1 a0 t1             0.7207352       0.0646273       0.5790268       0.8288422                          
-     2:Psi g1 a0 t1           0.1370635       0.0301628       0.0878854       0.2074998                          
+     1:p g1 a0 t1             0.7306963       0.0711474       0.5718740       0.8464227                          
+     2:p g1 a1 t2             0.7306963       0.0711474       0.5718740       0.8464227                          
+     3:p g1 a2 t3             0.7306963       0.0711474       0.5718740       0.8464227                          
+     4:Psi g1 a0 t1           0.1417365       0.0310645       0.0910024       0.2140934                          
 
 
                       Estimates of Derived Parameters
-              Occupancy Estimates of { p(~1)Psi(~pctpool) }
+           Occupancy Estimates of { p(~effort)Psi(~Area_km2) }
                                             95% Confidence Interval
  Group   Psi-hat         Standard Error      Lower           Upper
  -----   --------------  --------------  --------------  --------------
-   1      0.1370635       0.0301628       0.0878854       0.2074998    
+   1      0.1417365       0.0310645       0.0910024       0.2140934    
 
-   CPU Time for the last procedure was 0.01 seconds.     
+   CPU Time for the last procedure was 0.02 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:58    Page  004
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 13:16:20    Page  004
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -140,7 +151,7 @@
 
      CPU Time in minutes for this job was 0.00
 
-     Time Start = 13:32:58.163   Time End = 13:32:58.171
+     Time Start = 13:16:20.596   Time End = 13:16:20.694
 
      Wall Clock Time in minutes for this job was 0.00
 

@@ -1,6 +1,6 @@
 
    Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:54    Page  001
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:35:17    Page  001
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
    This version was compiled by GCC version 7.2.0 using the options: 
@@ -20,26 +20,26 @@
 
 
   INPUT --- proc chmatrix occasions= 3 groups= 1 etype= Occupancy 
-  INPUT --- Nodes= 101 icovar = 2 ICMeans  NoHist hist= 137 ;
+  INPUT --- Nodes= 101 icovar = 4 ICMeans  NoHist hist= 138 ;
 
   INPUT ---    time interval 1 1 1 ;
 
-  INPUT ---     icovariates pctex21 pctrock ;
+  INPUT ---     icovariates effort1 effort2 effort3 pctrock ;
 
   INPUT ---    glabel(1)=freq1;
 
-      Number of unique encounter histories read was 137.
+      Number of unique encounter histories read was 138.
 
-      Number of individual covariates read was 2.
+      Number of individual covariates read was 4.
       Time interval lengths are all equal to 1.
 
       Data type number is 27
       Data type is Occupancy Estimation with Detection < 1                                                             
 
-   CPU Time for the last procedure was 0.01 seconds.     
+   CPU Time for the last procedure was 0.02 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:54    Page  002
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:35:17    Page  002
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -47,23 +47,27 @@
   INPUT --- proc estimate link=Logit NOLOOP varest=2ndPart    ;
 
 
-  INPUT --- model={ p(~1)Psi(~pctex21 + pctrock) };
+  INPUT --- model={ p(~effort)Psi(~pctrock) };
 
   INPUT ---    group=1 p    rows=1 cols=3 Square ;
-  INPUT ---        1 1 1 ;
+  INPUT ---        1 2 3 ;
 
   INPUT ---    group=1 Psi    rows=1 cols=1 Square ;
-  INPUT ---        2 ;
+  INPUT ---        4 ;
 
-  INPUT ---    design matrix constraints=2 covariates=4;
-  INPUT ---        1 0 0 0;
-  INPUT ---        0 1 pctex21 pctrock;
+  INPUT ---    design matrix constraints=4 covariates=4;
+  INPUT ---        1 effort1 0 0;
+  INPUT ---        1 effort2 0 0;
+  INPUT ---        1 effort3 0 0;
+  INPUT ---        0 0 1 pctrock;
   INPUT ---       blabel(1)=p:(Intercept);
-  INPUT ---       blabel(2)=Psi:(Intercept);
-  INPUT ---       blabel(3)=Psi:pctex21;
+  INPUT ---       blabel(2)=p:effort;
+  INPUT ---       blabel(3)=Psi:(Intercept);
   INPUT ---       blabel(4)=Psi:pctrock;
   INPUT ---       rlabel(1)=p g1 a0 t1;
-  INPUT ---       rlabel(2)=Psi g1 a0 t1;
+  INPUT ---       rlabel(2)=p g1 a1 t2;
+  INPUT ---       rlabel(3)=p g1 a2 t3;
+  INPUT ---       rlabel(4)=Psi g1 a0 t1;
 
  Link Function Used is LOGIT        
 
@@ -71,70 +75,74 @@
  -2logL(saturated) = 0.0000000     
  Effective Sample Size = 138
 
- Number of function evaluations was 20 for 4 parameters.
+ Number of function evaluations was 18 for 4 parameters.
  Time for numerical optimization was 0.02 seconds.     
- -2logL { p(~1)Psi(~pctex21 + pctrock) } = 151.75677     
- Penalty { p(~1)Psi(~pctex21 + pctrock) } = 0.0000000     
- Gradient { p(~1)Psi(~pctex21 + pctrock) }:
-   0.000000     -0.6791742E-06 -0.9188129E-07   0.000000    
- Maximum ABS(G) { p(~1)Psi(~pctex21 + pctrock) } = 0.6791742E-06 
- S Vector { p(~1)Psi(~pctex21 + pctrock) }:
-   21.02832      9.670954     0.4916223     0.2015755E-01
+ -2logL { p(~effort)Psi(~pctrock) } = 168.49703     
+ Penalty { p(~effort)Psi(~pctrock) } = 0.0000000     
+ Gradient { p(~effort)Psi(~pctrock) }:
+ -0.9586992E-06   0.000000      0.1084910E-05   0.000000    
+ Maximum ABS(G) { p(~effort)Psi(~pctrock) } = 0.1084910E-05 
+ S Vector { p(~effort)Psi(~pctrock) }:
+   25.03163      8.214270     0.5000661     0.1750743    
  Time to compute number of parameters was 0.01 seconds.     
- Ratio Threshold = 50.000000       Max Gap (3/4) = 24.388987       Next Max Gap (2/3) = 19.671511     
- Gap Method for Num. of Estimated Parameters { p(~1)Psi(~pctex21 + pctrock) } = 4          
- Threshold { p(~1)Psi(~pctex21 + pctrock) } = 0.1358348E-05                 
- Numerical Threshold Method for Num. of Estimated Parameters { p(~1)Psi(~pctex21 + pctrock) } = 4          
- Number of Estimated Parameters { p(~1)Psi(~pctex21 + pctrock) } = 4          
- DEVIANCE { p(~1)Psi(~pctex21 + pctrock) } = 151.75677                     
- DEVIANCE Degrees of Freedom { p(~1)Psi(~pctex21 + pctrock) } = 134            
- c-hat { p(~1)Psi(~pctex21 + pctrock) } = 1.1325132                     
- AIC { p(~1)Psi(~pctex21 + pctrock) } = 159.75677                  
- AICc { p(~1)Psi(~pctex21 + pctrock) } = 160.05752                    
- BIC { p(~1)Psi(~pctex21 + pctrock) } = 171.46579                    
- Pearson Chisquare { p(~1)Psi(~pctex21 + pctrock) } = 1091.0903                  
+ Ratio Threshold = 50.000000       Max Gap (2/3) = 16.426368       Next Max Gap (1/2) = 3.0473341     
+ Gap Method for Num. of Estimated Parameters { p(~effort)Psi(~pctrock) } = 4          
+ Threshold { p(~effort)Psi(~pctrock) } = 0.2169821E-05                 
+ Numerical Threshold Method for Num. of Estimated Parameters { p(~effort)Psi(~pctrock) } = 4          
+ Number of Estimated Parameters { p(~effort)Psi(~pctrock) } = 4          
+ DEVIANCE { p(~effort)Psi(~pctrock) } = 168.49703                     
+ DEVIANCE Degrees of Freedom { p(~effort)Psi(~pctrock) } = 134            
+ c-hat { p(~effort)Psi(~pctrock) } = 1.2574405                     
+ AIC { p(~effort)Psi(~pctrock) } = 176.49703                  
+ AICc { p(~effort)Psi(~pctrock) } = 176.79779                    
+ BIC { p(~effort)Psi(~pctrock) } = 188.20605                    
+ Pearson Chisquare { p(~effort)Psi(~pctrock) } = 927.90058                  
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:35:17    Page  003
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
 
 
-               LOGIT Link Function Parameters of { p(~1)Psi(~pctex21 + pctrock) }
+                 LOGIT Link Function Parameters of { p(~effort)Psi(~pctrock) }
                                                               95% Confidence Interval
  Parameter                    Beta         Standard Error      Lower           Upper
  -------------------------  --------------  --------------  --------------  --------------
-    1:p:(Intercept)          0.9493682       0.3207305       0.3207365       1.5779999    
-    2:Psi:(Intercept)       -1.8083349       0.8735547      -3.5205021      -0.0961677    
-    3:Psi:pctex21           -0.6380308       0.2274027      -1.0837401      -0.1923215    
-
-  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:54    Page  003
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
- 
-    4:Psi:pctrock            0.0144874       0.0115503      -0.0081511       0.0371259    
+    1:p:(Intercept)          0.9895174       0.3630834       0.2778739       1.7011608    
+    2:p:effort               1.0476178       0.5173050       0.0336999       2.0615356    
+    3:Psi:(Intercept)       -2.5161403       0.8664794      -4.2144399      -0.8178406    
+    4:Psi:pctrock            0.0104029       0.0113662      -0.0118749       0.0326808    
 
 
-               Real Function Parameters of { p(~1)Psi(~pctex21 + pctrock) }
+                 Real Function Parameters of { p(~effort)Psi(~pctrock) }
 
       Following estimates based on unstandardized individual covariate values:
           Variable   Value         
           ---------  ------------- 
-          PCTEX21     4.8306834    
+          EFFORT1    -0.7246373E-10
+          EFFORT2    -0.1449268E-10
+          EFFORT3     0.4347865E-11
           PCTROCK     68.678238    
                                                                95% Confidence Interval
   Parameter                  Estimate       Standard Error      Lower           Upper
  --------------------------  --------------  --------------  --------------  --------------
-     1:p g1 a0 t1             0.7209881       0.0645195       0.5795037       0.8289211                          
-     2:Psi g1 a0 t1           0.0199282       0.0193524       0.0029075       0.1241808                          
+     1:p g1 a0 t1             0.7289926       0.0717316       0.5690249       0.8456863                          
+     2:p g1 a1 t2             0.7289926       0.0717316       0.5690249       0.8456863                          
+     3:p g1 a2 t3             0.7289926       0.0717316       0.5690249       0.8456863                          
+     4:Psi g1 a0 t1           0.1416459       0.0312877       0.0906216       0.2146189                          
 
 
                       Estimates of Derived Parameters
-         Occupancy Estimates of { p(~1)Psi(~pctex21 + pctrock) }
+            Occupancy Estimates of { p(~effort)Psi(~pctrock) }
                                             95% Confidence Interval
  Group   Psi-hat         Standard Error      Lower           Upper
  -----   --------------  --------------  --------------  --------------
-   1      0.0199282       0.0193524       0.0029075       0.1241808    
+   1      0.1416459       0.0312877       0.0906216       0.2146189    
 
-   CPU Time for the last procedure was 0.02 seconds.     
+   CPU Time for the last procedure was 0.03 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:54    Page  004
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:35:17    Page  004
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -143,7 +151,7 @@
 
      CPU Time in minutes for this job was 0.00
 
-     Time Start = 13:32:54.695   Time End = 13:32:54.791
+     Time Start = 12:35:17.113   Time End = 12:35:17.209
 
      Wall Clock Time in minutes for this job was 0.00
 

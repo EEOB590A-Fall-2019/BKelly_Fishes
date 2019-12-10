@@ -1,6 +1,6 @@
 
    Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:22:11    Page  001
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:35:11    Page  001
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
    This version was compiled by GCC version 7.2.0 using the options: 
@@ -24,7 +24,7 @@
 
   INPUT ---    time interval 1 1 1 ;
 
-  INPUT ---     icovariates effort1 effort2 effort3 HAiFLS_for AvgSlope ;
+  INPUT ---     icovariates effort1 effort2 effort3 pctex21 HAiFLS_for ;
 
   INPUT ---    glabel(1)=freq1;
 
@@ -39,7 +39,7 @@
    CPU Time for the last procedure was 0.02 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:22:11    Page  002
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:35:11    Page  002
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -47,7 +47,7 @@
   INPUT --- proc estimate link=Logit NOLOOP varest=2ndPart    ;
 
 
-  INPUT --- model={ p(~effort)Psi(~HAiFLS_for + AvgSlope) };
+  INPUT --- model={ p(~effort)Psi(~pctex21 + HAiFLS_for) };
 
   INPUT ---    group=1 p    rows=1 cols=3 Square ;
   INPUT ---        1 2 3 ;
@@ -59,12 +59,12 @@
   INPUT ---        1 effort1 0 0 0;
   INPUT ---        1 effort2 0 0 0;
   INPUT ---        1 effort3 0 0 0;
-  INPUT ---        0 0 1 HAiFLS_for AvgSlope;
+  INPUT ---        0 0 1 pctex21 HAiFLS_for;
   INPUT ---       blabel(1)=p:(Intercept);
   INPUT ---       blabel(2)=p:effort;
   INPUT ---       blabel(3)=Psi:(Intercept);
-  INPUT ---       blabel(4)=Psi:HAiFLS_for;
-  INPUT ---       blabel(5)=Psi:AvgSlope;
+  INPUT ---       blabel(4)=Psi:pctex21;
+  INPUT ---       blabel(5)=Psi:HAiFLS_for;
   INPUT ---       rlabel(1)=p g1 a0 t1;
   INPUT ---       rlabel(2)=p g1 a1 t2;
   INPUT ---       rlabel(3)=p g1 a2 t3;
@@ -76,76 +76,76 @@
  -2logL(saturated) = 0.0000000     
  Effective Sample Size = 138
 
- Number of function evaluations was 16 for 5 parameters.
+ Number of function evaluations was 23 for 5 parameters.
  Time for numerical optimization was 0.01 seconds.     
- -2logL { p(~effort)Psi(~HAiFLS_for + AvgSlope) } = 161.67881     
- Penalty { p(~effort)Psi(~HAiFLS_for + AvgSlope) } = 0.0000000     
- Gradient { p(~effort)Psi(~HAiFLS_for + AvgSlope) }:
- -0.1431535E-05   0.000000     -0.4838685E-06   0.000000     -0.5875738E-06
- Maximum ABS(G) { p(~effort)Psi(~HAiFLS_for + AvgSlope) } = 0.1431535E-05 
- S Vector { p(~effort)Psi(~HAiFLS_for + AvgSlope) }:
-   18.50871      8.335158      1.300288     0.3877966     0.1059605    
- Time to compute number of parameters was 0.01 seconds.     
- Ratio Threshold = 50.000000       Max Gap (2/3) = 6.4102397       Next Max Gap (4/5) = 3.6598234     
- Gap Method for Num. of Estimated Parameters { p(~effort)Psi(~HAiFLS_for + AvgSlope) } = 5          
- Threshold { p(~effort)Psi(~HAiFLS_for + AvgSlope) } = 0.2863070E-05                 
- Numerical Threshold Method for Num. of Estimated Parameters { p(~effort)Psi(~HAiFLS_for + AvgSlope) } = 5          
- Number of Estimated Parameters { p(~effort)Psi(~HAiFLS_for + AvgSlope) } = 5          
- DEVIANCE { p(~effort)Psi(~HAiFLS_for + AvgSlope) } = 161.67881                     
- DEVIANCE Degrees of Freedom { p(~effort)Psi(~HAiFLS_for + AvgSlope) } = 133            
- c-hat { p(~effort)Psi(~HAiFLS_for + AvgSlope) } = 1.2156301                     
- AIC { p(~effort)Psi(~HAiFLS_for + AvgSlope) } = 171.67881                  
- AICc { p(~effort)Psi(~HAiFLS_for + AvgSlope) } = 172.13335                    
- BIC { p(~effort)Psi(~HAiFLS_for + AvgSlope) } = 186.31507                    
- Pearson Chisquare { p(~effort)Psi(~HAiFLS_for + AvgSlope) } = 883.04294                  
+ -2logL { p(~effort)Psi(~pctex21 + HAiFLS_for) } = 141.54944     
+ Penalty { p(~effort)Psi(~pctex21 + HAiFLS_for) } = 0.0000000     
+ Gradient { p(~effort)Psi(~pctex21 + HAiFLS_for) }:
+   0.000000      0.3077592E-06 -0.2390230E-05 -0.7940241E-07 -0.5934801E-06
+ Maximum ABS(G) { p(~effort)Psi(~pctex21 + HAiFLS_for) } = 0.2390230E-05 
+ S Vector { p(~effort)Psi(~pctex21 + HAiFLS_for) }:
+   15.01233      7.428322     0.9725783     0.1611329     0.1569213E-01
+ Time to compute number of parameters was 0.06 seconds.     
+ Ratio Threshold = 50.000000       Max Gap (4/5) = 10.268392       Next Max Gap (2/3) = 7.6377620     
+ Gap Method for Num. of Estimated Parameters { p(~effort)Psi(~pctex21 + HAiFLS_for) } = 5          
+ Threshold { p(~effort)Psi(~pctex21 + HAiFLS_for) } = 0.4780460E-05                 
+ Numerical Threshold Method for Num. of Estimated Parameters { p(~effort)Psi(~pctex21 + HAiFLS_for) } = 5          
+ Number of Estimated Parameters { p(~effort)Psi(~pctex21 + HAiFLS_for) } = 5          
+ DEVIANCE { p(~effort)Psi(~pctex21 + HAiFLS_for) } = 141.54944                     
+ DEVIANCE Degrees of Freedom { p(~effort)Psi(~pctex21 + HAiFLS_for) } = 133            
+ c-hat { p(~effort)Psi(~pctex21 + HAiFLS_for) } = 1.0642815                     
+ AIC { p(~effort)Psi(~pctex21 + HAiFLS_for) } = 151.54944                  
+ AICc { p(~effort)Psi(~pctex21 + HAiFLS_for) } = 152.00399                    
+ BIC { p(~effort)Psi(~pctex21 + HAiFLS_for) } = 166.18571                    
+ Pearson Chisquare { p(~effort)Psi(~pctex21 + HAiFLS_for) } = 548.15634                  
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:22:11    Page  003
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:35:11    Page  003
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
 
-          LOGIT Link Function Parameters of { p(~effort)Psi(~HAiFLS_for + AvgSlope) }
+           LOGIT Link Function Parameters of { p(~effort)Psi(~pctex21 + HAiFLS_for) }
                                                               95% Confidence Interval
  Parameter                    Beta         Standard Error      Lower           Upper
  -------------------------  --------------  --------------  --------------  --------------
-    1:p:(Intercept)         -0.3323801       0.6431711      -1.5929954       0.9282352    
-    2:p:effort               0.0015471       0.7580576E-03   0.6128434E-04   0.0030329    
-    3:Psi:(Intercept)       -2.9418738       0.5710714      -4.0611737      -1.8225739    
-    4:Psi:HAiFLS_for         0.0191496       0.0082631       0.0029539       0.0353452    
-    5:Psi:AvgSlope           0.0395765       0.0272903      -0.0139124       0.0930654    
+    1:p:(Intercept)          0.9559860       0.3697463       0.2312833       1.6806887    
+    2:p:effort               1.1263004       0.5399462       0.0680059       2.1845949    
+    3:Psi:(Intercept)       -1.3939311       0.4544697      -2.2846917      -0.5031705    
+    4:Psi:pctex21           -0.7433785       0.2575308      -1.2481388      -0.2386182    
+    5:Psi:HAiFLS_for         0.0221647       0.0100319       0.0025022       0.0418271    
 
 
-          Real Function Parameters of { p(~effort)Psi(~HAiFLS_for + AvgSlope) }
+           Real Function Parameters of { p(~effort)Psi(~pctex21 + HAiFLS_for) }
 
       Following estimates based on unstandardized individual covariate values:
           Variable   Value         
           ---------  ------------- 
-          EFFORT1     906.23188    
-          EFFORT2     834.18841    
-          EFFORT3     818.18116    
+          EFFORT1    -0.7246373E-10
+          EFFORT2    -0.1449268E-10
+          EFFORT3     0.4347865E-11
+          PCTEX21     4.8306834    
           HAIFLS_FOR  26.272482    
-          AVGSLOPE    12.952003    
                                                                95% Confidence Interval
   Parameter                  Estimate       Standard Error      Lower           Upper
  --------------------------  --------------  --------------  --------------  --------------
-     1:p g1 a0 t1             0.7445267       0.0720280       0.5811297       0.8595851                          
-     2:p g1 a1 t2             0.7227560       0.0723454       0.5623076       0.8410171                          
-     3:p g1 a2 t3             0.7177665       0.0725504       0.5576087       0.8369020                          
-     4:Psi g1 a0 t1           0.1271748       0.0310325       0.0776920       0.2012954                          
+     1:p g1 a0 t1             0.7223174       0.0741618       0.5575644       0.8429957                          
+     2:p g1 a1 t2             0.7223174       0.0741618       0.5575644       0.8429957                          
+     3:p g1 a2 t3             0.7223174       0.0741618       0.5575644       0.8429957                          
+     4:Psi g1 a0 t1           0.0120969       0.0136139       0.0013113       0.1024919                          
 
 
                       Estimates of Derived Parameters
-     Occupancy Estimates of { p(~effort)Psi(~HAiFLS_for + AvgSlope) }
+     Occupancy Estimates of { p(~effort)Psi(~pctex21 + HAiFLS_for) }
                                             95% Confidence Interval
  Group   Psi-hat         Standard Error      Lower           Upper
  -----   --------------  --------------  --------------  --------------
-   1      0.1271748       0.0310325       0.0776920       0.2012954    
+   1      0.0120969       0.0136139       0.0013113       0.1024919    
 
-   CPU Time for the last procedure was 0.01 seconds.     
+   CPU Time for the last procedure was 0.06 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:22:11    Page  004
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:35:11    Page  004
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -154,7 +154,7 @@
 
      CPU Time in minutes for this job was 0.00
 
-     Time Start = 13:22:11.535   Time End = 13:22:11.642
+     Time Start = 12:35:11.513   Time End = 12:35:11.638
 
      Wall Clock Time in minutes for this job was 0.00
 

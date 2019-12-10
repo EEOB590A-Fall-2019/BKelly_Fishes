@@ -1,6 +1,6 @@
 
    Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:21:58    Page  001
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:34:58    Page  001
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
    This version was compiled by GCC version 7.2.0 using the options: 
@@ -20,26 +20,26 @@
 
 
   INPUT --- proc chmatrix occasions= 3 groups= 1 etype= Occupancy 
-  INPUT --- Nodes= 101 icovar = 2 ICMeans  NoHist hist= 138 ;
+  INPUT --- Nodes= 101 icovar = 3 ICMeans  NoHist hist= 138 ;
 
   INPUT ---    time interval 1 1 1 ;
 
-  INPUT ---     icovariates Area_km2 Cross_Cat ;
+  INPUT ---     icovariates pctex21 pctShade HAiFLS_for ;
 
   INPUT ---    glabel(1)=freq1;
 
       Number of unique encounter histories read was 138.
 
-      Number of individual covariates read was 2.
+      Number of individual covariates read was 3.
       Time interval lengths are all equal to 1.
 
       Data type number is 27
       Data type is Occupancy Estimation with Detection < 1                                                             
 
-   CPU Time for the last procedure was 0.01 seconds.     
+   CPU Time for the last procedure was 0.02 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:21:58    Page  002
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:34:58    Page  002
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -47,7 +47,7 @@
   INPUT --- proc estimate link=Logit NOLOOP varest=2ndPart    ;
 
 
-  INPUT --- model={ p(~1)Psi(~Area_km2 + Cross_Cat) };
+  INPUT --- model={ p(~1)Psi(~pctex21 + pctShade + HAiFLS_for) };
 
   INPUT ---    group=1 p    rows=1 cols=3 Square ;
   INPUT ---        1 1 1 ;
@@ -55,13 +55,14 @@
   INPUT ---    group=1 Psi    rows=1 cols=1 Square ;
   INPUT ---        2 ;
 
-  INPUT ---    design matrix constraints=2 covariates=4;
-  INPUT ---        1 0 0 0;
-  INPUT ---        0 1 Area_km2 Cross_Cat;
+  INPUT ---    design matrix constraints=2 covariates=5;
+  INPUT ---        1 0 0 0 0;
+  INPUT ---        0 1 pctex21 pctShade HAiFLS_for;
   INPUT ---       blabel(1)=p:(Intercept);
   INPUT ---       blabel(2)=Psi:(Intercept);
-  INPUT ---       blabel(3)=Psi:Area_km2;
-  INPUT ---       blabel(4)=Psi:Cross_Cat;
+  INPUT ---       blabel(3)=Psi:pctex21;
+  INPUT ---       blabel(4)=Psi:pctShade;
+  INPUT ---       blabel(5)=Psi:HAiFLS_for;
   INPUT ---       rlabel(1)=p g1 a0 t1;
   INPUT ---       rlabel(2)=Psi g1 a0 t1;
 
@@ -71,70 +72,72 @@
  -2logL(saturated) = 0.0000000     
  Effective Sample Size = 138
 
- Number of function evaluations was 17 for 4 parameters.
- Time for numerical optimization was 0.09 seconds.     
- -2logL { p(~1)Psi(~Area_km2 + Cross_Cat) } = 169.00131     
- Penalty { p(~1)Psi(~Area_km2 + Cross_Cat) } = 0.0000000     
- Gradient { p(~1)Psi(~Area_km2 + Cross_Cat) }:
- -0.9787605E-06  0.7319335E-06  0.4299080E-06   0.000000    
- Maximum ABS(G) { p(~1)Psi(~Area_km2 + Cross_Cat) } = 0.9787605E-06 
- S Vector { p(~1)Psi(~Area_km2 + Cross_Cat) }:
-   16.18532      9.630572     0.4410036     0.3369663E-01
- Time to compute number of parameters was 0.01 seconds.     
- Ratio Threshold = 50.000000       Max Gap (2/3) = 21.837853       Next Max Gap (3/4) = 13.087468     
- Gap Method for Num. of Estimated Parameters { p(~1)Psi(~Area_km2 + Cross_Cat) } = 4          
- Threshold { p(~1)Psi(~Area_km2 + Cross_Cat) } = 0.1957521E-05                 
- Numerical Threshold Method for Num. of Estimated Parameters { p(~1)Psi(~Area_km2 + Cross_Cat) } = 4          
- Number of Estimated Parameters { p(~1)Psi(~Area_km2 + Cross_Cat) } = 4          
- DEVIANCE { p(~1)Psi(~Area_km2 + Cross_Cat) } = 169.00131                     
- DEVIANCE Degrees of Freedom { p(~1)Psi(~Area_km2 + Cross_Cat) } = 134            
- c-hat { p(~1)Psi(~Area_km2 + Cross_Cat) } = 1.2612038                     
- AIC { p(~1)Psi(~Area_km2 + Cross_Cat) } = 177.00131                  
- AICc { p(~1)Psi(~Area_km2 + Cross_Cat) } = 177.30207                    
- BIC { p(~1)Psi(~Area_km2 + Cross_Cat) } = 188.71033                    
- Pearson Chisquare { p(~1)Psi(~Area_km2 + Cross_Cat) } = 1075.3705                  
+ Number of function evaluations was 19 for 5 parameters.
+ Time for numerical optimization was 0.01 seconds.     
+ -2logL { p(~1)Psi(~pctex21 + pctShade + HAiFLS_for) } = 148.08979     
+ Penalty { p(~1)Psi(~pctex21 + pctShade + HAiFLS_for) } = 0.0000000     
+ Gradient { p(~1)Psi(~pctex21 + pctShade + HAiFLS_for) }:
+  0.9808054E-06  0.2355830E-05  0.8104241E-07  0.1718124E-05  0.1170675E-05
+ Maximum ABS(G) { p(~1)Psi(~pctex21 + pctShade + HAiFLS_for) } = 0.2355830E-05 
+ S Vector { p(~1)Psi(~pctex21 + pctShade + HAiFLS_for) }:
+   18.75104      9.579935      1.215989     0.7196122     0.1599281E-01
+ Time to compute number of parameters was 0.03 seconds.     
+ Ratio Threshold = 50.000000       Max Gap (4/5) = 44.995996       Next Max Gap (2/3) = 7.8783049     
+ Gap Method for Num. of Estimated Parameters { p(~1)Psi(~pctex21 + pctShade + HAiFLS_for) } = 5          
+ Threshold { p(~1)Psi(~pctex21 + pctShade + HAiFLS_for) } = 0.4711659E-05                 
+ Numerical Threshold Method for Num. of Estimated Parameters { p(~1)Psi(~pctex21 + pctShade + HAiFLS_for) } = 5          
+ Number of Estimated Parameters { p(~1)Psi(~pctex21 + pctShade + HAiFLS_for) } = 5          
+ DEVIANCE { p(~1)Psi(~pctex21 + pctShade + HAiFLS_for) } = 148.08979                     
+ DEVIANCE Degrees of Freedom { p(~1)Psi(~pctex21 + pctShade + HAiFLS_for) } = 133            
+ c-hat { p(~1)Psi(~pctex21 + pctShade + HAiFLS_for) } = 1.1134571                     
+ AIC { p(~1)Psi(~pctex21 + pctShade + HAiFLS_for) } = 158.08979                  
+ AICc { p(~1)Psi(~pctex21 + pctShade + HAiFLS_for) } = 158.54434                    
+ BIC { p(~1)Psi(~pctex21 + pctShade + HAiFLS_for) } = 172.72606                    
+ Pearson Chisquare { p(~1)Psi(~pctex21 + pctShade + HAiFLS_for) } = 686.78823                  
 
 
-             LOGIT Link Function Parameters of { p(~1)Psi(~Area_km2 + Cross_Cat) }
+        LOGIT Link Function Parameters of { p(~1)Psi(~pctex21 + pctShade + HAiFLS_for) }
                                                               95% Confidence Interval
  Parameter                    Beta         Standard Error      Lower           Upper
  -------------------------  --------------  --------------  --------------  --------------
-    1:p:(Intercept)          0.9487388       0.3209131       0.3197490       1.5777285    
-    2:Psi:(Intercept)       -1.6059044       0.3966762      -2.3833897      -0.8284191    
-    3:Psi:Area_km2           0.0675319       0.0355163      -0.0020801       0.1371438    
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:21:58    Page  003
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:34:58    Page  003
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
-    4:Psi:Cross_Cat         -1.5715765       0.7726231      -3.0859177      -0.0572352    
+    1:p:(Intercept)          0.9446759       0.3221212       0.3133184       1.5760335    
+    2:Psi:(Intercept)       -1.4288878       0.5534797      -2.5137080      -0.3440677    
+    3:Psi:pctex21           -0.7276818       0.2551698      -1.2278147      -0.2275490    
+    4:Psi:pctShade          -0.0011080       0.0096353      -0.0199932       0.0177772    
+    5:Psi:HAiFLS_for         0.0226123       0.0106211       0.0017948       0.0434297    
 
 
-             Real Function Parameters of { p(~1)Psi(~Area_km2 + Cross_Cat) }
+        Real Function Parameters of { p(~1)Psi(~pctex21 + pctShade + HAiFLS_for) }
 
       Following estimates based on unstandardized individual covariate values:
           Variable   Value         
           ---------  ------------- 
-          AREA_KM2    7.8085664    
-          CROSS_CAT   0.6212393    
+          PCTEX21     4.8306834    
+          PCTSHADE    48.614931    
+          HAIFLS_FOR  26.272482    
                                                                95% Confidence Interval
   Parameter                  Estimate       Standard Error      Lower           Upper
  --------------------------  --------------  --------------  --------------  --------------
-     1:p g1 a0 t1             0.7208615       0.0645742       0.5792631       0.8288826                          
-     2:Psi g1 a0 t1           0.1135580       0.0315026       0.0648707       0.1913108                          
+     1:p g1 a0 t1             0.7200432       0.0649335       0.5776950       0.8286420                          
+     2:Psi g1 a0 t1           0.0120821       0.0135099       0.0013286       0.1010646                          
 
 
                       Estimates of Derived Parameters
-        Occupancy Estimates of { p(~1)Psi(~Area_km2 + Cross_Cat) }
+  Occupancy Estimates of { p(~1)Psi(~pctex21 + pctShade + HAiFLS_for) }
                                             95% Confidence Interval
  Group   Psi-hat         Standard Error      Lower           Upper
  -----   --------------  --------------  --------------  --------------
-   1      0.1135580       0.0315026       0.0648707       0.1913108    
+   1      0.0120821       0.0135099       0.0013286       0.1010646    
 
-   CPU Time for the last procedure was 0.09 seconds.     
+   CPU Time for the last procedure was 0.03 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:21:58    Page  004
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:34:58    Page  004
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -143,7 +146,7 @@
 
      CPU Time in minutes for this job was 0.00
 
-     Time Start = 13:21:58.166   Time End = 13:21:58.335
+     Time Start = 12:34:58.296   Time End = 12:34:58.405
 
      Wall Clock Time in minutes for this job was 0.00
 

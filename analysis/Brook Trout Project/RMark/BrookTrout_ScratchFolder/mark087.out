@@ -1,6 +1,6 @@
 
    Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:22:14    Page  001
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:35:13    Page  001
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
    This version was compiled by GCC version 7.2.0 using the options: 
@@ -20,26 +20,26 @@
 
 
   INPUT --- proc chmatrix occasions= 3 groups= 1 etype= Occupancy 
-  INPUT --- Nodes= 101 icovar = 3 ICMeans  NoHist hist= 138 ;
+  INPUT --- Nodes= 101 icovar = 2 ICMeans  NoHist hist= 138 ;
 
   INPUT ---    time interval 1 1 1 ;
 
-  INPUT ---     icovariates Area_km2 AvgSlope EFac_Cat ;
+  INPUT ---     icovariates pctex21 pctShade ;
 
   INPUT ---    glabel(1)=freq1;
 
       Number of unique encounter histories read was 138.
 
-      Number of individual covariates read was 3.
+      Number of individual covariates read was 2.
       Time interval lengths are all equal to 1.
 
       Data type number is 27
       Data type is Occupancy Estimation with Detection < 1                                                             
 
-   CPU Time for the last procedure was 0.02 seconds.     
+   CPU Time for the last procedure was 0.01 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:22:14    Page  002
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:35:13    Page  002
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -47,7 +47,7 @@
   INPUT --- proc estimate link=Logit NOLOOP varest=2ndPart    ;
 
 
-  INPUT --- model={ p(~1)Psi(~Area_km2 + AvgSlope + EFac_Cat) };
+  INPUT --- model={ p(~1)Psi(~pctex21 + pctShade) };
 
   INPUT ---    group=1 p    rows=1 cols=3 Square ;
   INPUT ---        1 1 1 ;
@@ -55,14 +55,13 @@
   INPUT ---    group=1 Psi    rows=1 cols=1 Square ;
   INPUT ---        2 ;
 
-  INPUT ---    design matrix constraints=2 covariates=5;
-  INPUT ---        1 0 0 0 0;
-  INPUT ---        0 1 Area_km2 AvgSlope EFac_Cat;
+  INPUT ---    design matrix constraints=2 covariates=4;
+  INPUT ---        1 0 0 0;
+  INPUT ---        0 1 pctex21 pctShade;
   INPUT ---       blabel(1)=p:(Intercept);
   INPUT ---       blabel(2)=Psi:(Intercept);
-  INPUT ---       blabel(3)=Psi:Area_km2;
-  INPUT ---       blabel(4)=Psi:AvgSlope;
-  INPUT ---       blabel(5)=Psi:EFac_Cat;
+  INPUT ---       blabel(3)=Psi:pctex21;
+  INPUT ---       blabel(4)=Psi:pctShade;
   INPUT ---       rlabel(1)=p g1 a0 t1;
   INPUT ---       rlabel(2)=Psi g1 a0 t1;
 
@@ -72,72 +71,78 @@
  -2logL(saturated) = 0.0000000     
  Effective Sample Size = 138
 
- Number of function evaluations was 15 for 5 parameters.
- Time for numerical optimization was 0.01 seconds.     
- -2logL { p(~1)Psi(~Area_km2 + AvgSlope + EFac_Cat) } = 172.58377     
- Penalty { p(~1)Psi(~Area_km2 + AvgSlope + EFac_Cat) } = 0.0000000     
- Gradient { p(~1)Psi(~Area_km2 + AvgSlope + EFac_Cat) }:
-  0.9786604E-06  0.5325755E-06  0.8717683E-06   0.000000       0.000000    
- Maximum ABS(G) { p(~1)Psi(~Area_km2 + AvgSlope + EFac_Cat) } = 0.9786604E-06 
- S Vector { p(~1)Psi(~Area_km2 + AvgSlope + EFac_Cat) }:
-   17.75868      9.651031     0.4756273     0.3550159     0.3253727    
+ Number of function evaluations was 17 for 4 parameters.
+ Time for numerical optimization was 0.05 seconds.     
+ -2logL { p(~1)Psi(~pctex21 + pctShade) } = 152.84809     
+ Penalty { p(~1)Psi(~pctex21 + pctShade) } = 0.0000000     
+ Gradient { p(~1)Psi(~pctex21 + pctShade) }:
+ -0.9782605E-06  0.1796123E-05   0.000000     -0.1138107E-05
+ Maximum ABS(G) { p(~1)Psi(~pctex21 + pctShade) } = 0.1796123E-05 
+ S Vector { p(~1)Psi(~pctex21 + pctShade) }:
+   17.83290      9.661270      1.076130     0.1891176E-01
  Time to compute number of parameters was 0.01 seconds.     
- Ratio Threshold = 50.000000       Max Gap (2/3) = 20.291162       Next Max Gap (1/2) = 1.8400808     
- Gap Method for Num. of Estimated Parameters { p(~1)Psi(~Area_km2 + AvgSlope + EFac_Cat) } = 5          
- Threshold { p(~1)Psi(~Area_km2 + AvgSlope + EFac_Cat) } = 0.1957321E-05                 
- Numerical Threshold Method for Num. of Estimated Parameters { p(~1)Psi(~Area_km2 + AvgSlope + EFac_Cat) } = 5          
- Number of Estimated Parameters { p(~1)Psi(~Area_km2 + AvgSlope + EFac_Cat) } = 5          
- DEVIANCE { p(~1)Psi(~Area_km2 + AvgSlope + EFac_Cat) } = 172.58377                     
- DEVIANCE Degrees of Freedom { p(~1)Psi(~Area_km2 + AvgSlope + EFac_Cat) } = 133            
- c-hat { p(~1)Psi(~Area_km2 + AvgSlope + EFac_Cat) } = 1.2976223                     
- AIC { p(~1)Psi(~Area_km2 + AvgSlope + EFac_Cat) } = 182.58377                  
- AICc { p(~1)Psi(~Area_km2 + AvgSlope + EFac_Cat) } = 183.03832                    
- BIC { p(~1)Psi(~Area_km2 + AvgSlope + EFac_Cat) } = 197.22004                    
- Pearson Chisquare { p(~1)Psi(~Area_km2 + AvgSlope + EFac_Cat) } = 1089.2843                  
+ Ratio Threshold = 50.000000       Max Gap (3/4) = 56.902690       Next Max Gap (2/3) = 8.9777904     
+ Gap Method for Num. of Estimated Parameters { p(~1)Psi(~pctex21 + pctShade) } = 3          
+ Threshold { p(~1)Psi(~pctex21 + pctShade) } = 0.3592246E-05                 
+ Numerical Threshold Method for Num. of Estimated Parameters { p(~1)Psi(~pctex21 + pctShade) } = 4          
+ Number of Estimated Parameters { p(~1)Psi(~pctex21 + pctShade) } = 4          
+
+   * *  WARNING  * *   Number of parameters estimated from gap method (=3) and threshold method (=4) differ.  Inspect full output.                                                                                                                                                                                                                                                                                                                                                                                                                      
+ Ratios of S Vector { p(~1)Psi(~pctex21 + pctShade) }:
+   1/2    1.845813       2/3    8.977790       3/4    56.90269    
+ DEVIANCE { p(~1)Psi(~pctex21 + pctShade) } = 152.84809                     
+ DEVIANCE Degrees of Freedom { p(~1)Psi(~pctex21 + pctShade) } = 134            
+ c-hat { p(~1)Psi(~pctex21 + pctShade) } = 1.1406574                     
+ AIC { p(~1)Psi(~pctex21 + pctShade) } = 160.84809                  
+ AICc { p(~1)Psi(~pctex21 + pctShade) } = 161.14885                    
+ BIC { p(~1)Psi(~pctex21 + pctShade) } = 172.55711                    
+ Pearson Chisquare { p(~1)Psi(~pctex21 + pctShade) } = 1047.7695                  
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:35:14    Page  003
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
 
 
-        LOGIT Link Function Parameters of { p(~1)Psi(~Area_km2 + AvgSlope + EFac_Cat) }
+              LOGIT Link Function Parameters of { p(~1)Psi(~pctex21 + pctShade) }
                                                               95% Confidence Interval
  Parameter                    Beta         Standard Error      Lower           Upper
  -------------------------  --------------  --------------  --------------  --------------
-
-  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:22:14    Page  003
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
- 
-    1:p:(Intercept)          0.9489383       0.3208590       0.3200546       1.5778220    
-    2:Psi:(Intercept)       -2.5813679       0.5582441      -3.6755263      -1.4872094    
-    3:Psi:Area_km2           0.0233430       0.0308423      -0.0371079       0.0837939    
-    4:Psi:AvgSlope           0.0390804       0.0272981      -0.0144239       0.0925847    
-    5:Psi:EFac_Cat           0.2900216       1.6179009      -2.8810641       3.4611074    
+    1:p:(Intercept)          0.9497348       0.3206286       0.3213028       1.5781669    
+    2:Psi:(Intercept)       -1.1238507       0.5127027      -2.1287480      -0.1189533    
+    3:Psi:pctex21           -0.6528481       0.2347292      -1.1129174      -0.1927788    
+    4:Psi:pctShade           0.0067998       0.0087646      -0.0103789       0.0239785    
 
 
-        Real Function Parameters of { p(~1)Psi(~Area_km2 + AvgSlope + EFac_Cat) }
+              Real Function Parameters of { p(~1)Psi(~pctex21 + pctShade) }
 
       Following estimates based on unstandardized individual covariate values:
           Variable   Value         
           ---------  ------------- 
-          AREA_KM2    7.8085664    
-          AVGSLOPE    12.952003    
-          EFAC_CAT    0.0880592    
+          PCTEX21     4.8306834    
+          PCTSHADE    48.614931    
                                                                95% Confidence Interval
   Parameter                  Estimate       Standard Error      Lower           Upper
  --------------------------  --------------  --------------  --------------  --------------
-     1:p g1 a0 t1             0.7209016       0.0645576       0.5793375       0.8288958                          
-     2:Psi g1 a0 t1           0.1338447       0.0301549       0.0849277       0.2046365                          
+     1:p g1 a0 t1             0.7210618       0.0644886       0.5796417       0.8289447                          
+     2:Psi g1 a0 t1           0.0189470       0.0189867       0.0026016       0.1251064                          
 
 
                       Estimates of Derived Parameters
-   Occupancy Estimates of { p(~1)Psi(~Area_km2 + AvgSlope + EFac_Cat) }
+         Occupancy Estimates of { p(~1)Psi(~pctex21 + pctShade) }
                                             95% Confidence Interval
  Group   Psi-hat         Standard Error      Lower           Upper
  -----   --------------  --------------  --------------  --------------
-   1      0.1338447       0.0301549       0.0849277       0.2046365    
+   1      0.0189470       0.0189867       0.0026016       0.1251064    
 
-   CPU Time for the last procedure was 0.01 seconds.     
+ Attempted ordering of parameters by estimatibility:
+  2 1 4 3
+ Beta number 3 is a singular value.
+
+   CPU Time for the last procedure was 0.06 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:22:14    Page  004
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:35:14    Page  004
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -146,7 +151,7 @@
 
      CPU Time in minutes for this job was 0.00
 
-     Time Start = 13:22:14.224   Time End = 13:22:14.393
+     Time Start = 12:35:13.979   Time End = 12:35:14.120
 
      Wall Clock Time in minutes for this job was 0.00
 
