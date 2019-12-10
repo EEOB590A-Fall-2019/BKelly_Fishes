@@ -21,7 +21,6 @@ library(tidyverse)
 library(skimr)
 library(psycho)
 library(corrplot)
-library(AICcmodavg)
 
 ##Occupancy example
 #?weta
@@ -46,6 +45,10 @@ skim(x)
 brook2 <- brook.df 
 brook2[,4:6]=x
 
+
+brook3 <- brook2 %>%
+  mutate(left = "/*", right = "*/") %>%
+  unite(comment, c(left,newID,right), sep = "", remove = F)
 #----------------#
 #correlation test
 #----------------#
@@ -139,16 +142,11 @@ brook.process = process.data(brook2, model="Occupancy", groups = "freq")
 bkt.ddl = make.design.data(brook.process)
 
 
-#############################################################
-## For this portion of the analysis we will focus on       ##
-## local covariates (instream and immediate riparian area) ##
-############################################################
+###~~~~~~~~~~~~~~~~~~~~~~~##
+####   All covariates   ####
+##~~~~~~~~~~~~~~~~~~~~~~~##
 
-###~~~~~~~~~~~~~##
-####  Local   ####
-##~~~~~~~~~~~~~##
-
-run.occ.loc=function()
+run.occ=function()
 {
   #~~~~~~~~~~~~~ Model List ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   #~~~~~~~~~~~ Detection Probability - null model ~~~~~~~~~~~~
@@ -159,7 +157,7 @@ run.occ.loc=function()
   Psi.Dot        = list(formula=~1) 
   #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
   #direct effects - hypothesized larger effects (factors that may directly influence BKT persistence)
-  Psi.biology = list(formula = ~pctex21+pctpool+pctrock+BRT_100m)
+  Psi.biol = list(formula = ~pctex21+pctpool+pctrock+BRT_100m)
   Psi.p21_pool_rck = list(formula = ~pctex21+pctpool+pctrock)
   Psi.p21_pool_brt = list(formula = ~pctex21+pctpool+BRT_100m)
   Psi.p21_rck_brt = list(formula = ~pctex21+pctrock+BRT_100m)
@@ -173,65 +171,108 @@ run.occ.loc=function()
   Psi.shade_for = list(formula = ~pctShade+HAiFLS_for)
   #combination of effects
   #all covariates
-  Psi.global = list(formula = ~pctex21+pctpool+pctrock+BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
+  #Psi.global = list(formula = ~pctex21+pctpool+pctrock+BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
   #6 covariates
-  Psi.mixed1 = list(formula = ~pctex21+pctpool+pctrock+BRT_100m+pctBrBnk+pctShade)
-  Psi.mixed2 = list(formula = ~pctex21+pctpool+pctrock+BRT_100m+pctBrBnk+HAiFLS_for)
-  Psi.mixed3 = list(formula = ~pctex21+pctpool+pctrock+BRT_100m+pctShade+HAiFLS_for)
-  Psi.mixed4 = list(formula = ~pctex21+pctpool+pctrock+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed5 = list(formula = ~pctex21+pctpool+BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed6 = list(formula = ~pctex21+pctrock+BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed7 = list(formula = ~pctpool+pctrock+BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
+  #Psi.mixed1 = list(formula = ~pctex21+pctpool+pctrock+BRT_100m+pctBrBnk+pctShade)
+  #Psi.mixed2 = list(formula = ~pctex21+pctpool+pctrock+BRT_100m+pctBrBnk+HAiFLS_for)
+  #Psi.mixed3 = list(formula = ~pctex21+pctpool+pctrock+BRT_100m+pctShade+HAiFLS_for)
+  #Psi.mixed4 = list(formula = ~pctex21+pctpool+pctrock+pctBrBnk+pctShade+HAiFLS_for)
+  #Psi.mixed5 = list(formula = ~pctex21+pctpool+BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
+  #Psi.mixed6 = list(formula = ~pctex21+pctrock+BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
+  #Psi.mixed7 = list(formula = ~pctpool+pctrock+BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
   #5 covariates
   Psi.mixed8 = list(formula = ~pctex21+pctpool+pctrock+BRT_100m+pctBrBnk)
   Psi.mixed9 = list(formula = ~pctex21+pctpool+pctrock+BRT_100m+pctShade)
-  Psi.mixed10 = list(formula = ~pctex21+pctpool+pctrock+pctShade+pctBrBnk)
-  Psi.mixed11 = list(formula = ~pctex21+pctpool+BRT_100m+pctShade+pctBrBnk)
-  Psi.mixed12 = list(formula = ~pctex21+pctrock+BRT_100m+pctShade+pctBrBnk)
-  Psi.mixed13 = list(formula = ~pctpool+pctrock+BRT_100m+pctShade+pctBrBnk)
+  #Psi.mixed10 = list(formula = ~pctex21+pctpool+pctrock+pctShade+pctBrBnk)
+  #Psi.mixed11 = list(formula = ~pctex21+pctpool+BRT_100m+pctShade+pctBrBnk)
+  #Psi.mixed12 = list(formula = ~pctex21+pctrock+BRT_100m+pctShade+pctBrBnk)
+  #Psi.mixed13 = list(formula = ~pctpool+pctrock+BRT_100m+pctShade+pctBrBnk)
   Psi.mixed14 = list(formula = ~pctex21+pctpool+pctrock+BRT_100m+HAiFLS_for)
-  Psi.mixed15 = list(formula = ~pctex21+pctpool+pctrock+pctShade+HAiFLS_for)
-  Psi.mixed16 = list(formula = ~pctex21+pctpool+pctShade+pctBrBnk+HAiFLS_for)
-  Psi.mixed17 = list(formula = ~pctex21+BRT_100m+pctShade+pctBrBnk+HAiFLS_for)
-  Psi.mixed18 = list(formula = ~pctrock+BRT_100m+pctShade+pctBrBnk+HAiFLS_for)
-  Psi.mixed19 = list(formula = ~pctpool+pctrock+BRT_100m+pctBrBnk+HAiFLS_for)
-  Psi.mixed20 = list(formula = ~pctex21+pctrock+BRT_100m+pctShade+HAiFLS_for)
-  Psi.mixed21 = list(formula = ~pctpool+pctrock+BRT_100m+pctBrBnk+HAiFLS_for)
-  Psi.mixed22 = list(formula = ~pctex21+pctpool+pctrock+pctBrBnk+HAiFLS_for)
-  Psi.mixed23 = list(formula = ~pctex21+pctpool+BRT_100m+pctShade+HAiFLS_for)
-  Psi.mixed24 = list(formula = ~pctex21+pctrock+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed25 = list(formula = ~pctpool+BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed26 = list(formula = ~pctex21+pctpool+BRT_100m+pctBrBnk+HAiFLS_for)
-  Psi.mixed27 = list(formula = ~pctex21+pctrock+BRT_100m+pctBrBnk+HAiFLS_for)
-  Psi.mixed28 = list(formula = ~pctpool+pctrock+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed29 = list(formula = ~pctpool+pctrock+BRT_100m+pctShade+HAiFLS_for)
+  #Psi.mixed15 = list(formula = ~pctex21+pctpool+pctrock+pctShade+HAiFLS_for)
+  #Psi.mixed16 = list(formula = ~pctex21+pctpool+pctShade+pctBrBnk+HAiFLS_for)
+  #Psi.mixed17 = list(formula = ~pctex21+BRT_100m+pctShade+pctBrBnk+HAiFLS_for)
+  #Psi.mixed18 = list(formula = ~pctrock+BRT_100m+pctShade+pctBrBnk+HAiFLS_for)
+  #Psi.mixed19 = list(formula = ~pctpool+pctrock+BRT_100m+pctBrBnk+HAiFLS_for)
+  #Psi.mixed20 = list(formula = ~pctex21+pctrock+BRT_100m+pctShade+HAiFLS_for)
+  #Psi.mixed21 = list(formula = ~pctpool+pctrock+BRT_100m+pctBrBnk+HAiFLS_for)
+  #Psi.mixed22 = list(formula = ~pctex21+pctpool+pctrock+pctBrBnk+HAiFLS_for)
+  #Psi.mixed23 = list(formula = ~pctex21+pctpool+BRT_100m+pctShade+HAiFLS_for)
+  #Psi.mixed24 = list(formula = ~pctex21+pctrock+pctBrBnk+pctShade+HAiFLS_for)
+  #Psi.mixed25 = list(formula = ~pctpool+BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
+  #Psi.mixed26 = list(formula = ~pctex21+pctpool+BRT_100m+pctBrBnk+HAiFLS_for)
+  #Psi.mixed27 = list(formula = ~pctex21+pctrock+BRT_100m+pctBrBnk+HAiFLS_for)
+  #Psi.mixed28 = list(formula = ~pctpool+pctrock+pctBrBnk+pctShade+HAiFLS_for)
+  #Psi.mixed29 = list(formula = ~pctpool+pctrock+BRT_100m+pctShade+HAiFLS_for)
   #4 covariates
-  #~pctex21 + pctpool + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for
   Psi.mixed30 = list(formula = ~pctex21+pctpool+pctShade+pctBrBnk)
   Psi.mixed31 = list(formula = ~pctex21+pctrock+pctShade+pctBrBnk)
   Psi.mixed32 = list(formula = ~pctex21+BRT_100m+pctShade+pctBrBnk)
-  Psi.mixed33 = list(formula = ~pctrock+BRT_100m+pctShade+pctBrBnk)
-  Psi.mixed34 = list(formula = ~pctpool+pctrock+pctShade+pctBrBnk)
-  Psi.mixed35 = list(formula = ~pctpool+BRT_100m+pctShade+pctBrBnk)
-  Psi.mixed35 = list(formula = ~pctex21+pctpool+pctrock+HAiFLS_for)
-  Psi.mixed35 = list(formula = ~pctex21+pctpool+pctShade+HAiFLS_for)
-  Psi.mixed35 = list(formula = ~pctex21+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed35 = list(formula = ~BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed35 = list(formula = ~pctex21+pctpool+pctrock+HAiFLS_for)
+  #Psi.mixed33 = list(formula = ~pctrock+BRT_100m+pctShade+pctBrBnk)
+  #Psi.mixed34 = list(formula = ~pctpool+pctrock+pctShade+pctBrBnk)
+  #Psi.mixed35 = list(formula = ~pctpool+BRT_100m+pctShade+pctBrBnk)
+  Psi.mixed36 = list(formula = ~pctex21+pctpool+pctrock+HAiFLS_for)
+  Psi.mixed37 = list(formula = ~pctex21+pctpool+pctShade+HAiFLS_for)
+  Psi.mixed38 = list(formula = ~pctex21+pctBrBnk+pctShade+HAiFLS_for)
+  #Psi.mixed39 = list(formula = ~BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
+  Psi.mixed40 = list(formula = ~pctex21+pctpool+BRT_100m+HAiFLS_for)
+  #Psi.mixed41 = list(formula = ~pctpool+pctrock+BRT_100m+HAiFLS_for)
+  Psi.mixed42 = list(formula = ~pctex21+pctrock+BRT_100m+HAiFLS_for)
+  Psi.mixed43 = list(formula = ~pctex21+pctpool+pctBrBnk+HAiFLS_for)
+  Psi.mixed44 = list(formula = ~pctex21+pctrock+pctBrBnk+HAiFLS_for)
+  #Psi.mixed45 = list(formula = ~pctpool+pctrock+pctBrBnk+HAiFLS_for)
+  Psi.mixed46 = list(formula = ~pctex21+pctrock+pctBrBnk+HAiFLS_for)
+  Psi.mixed47 = list(formula = ~pctex21+pctrock+pctShade+HAiFLS_for)
+  #Psi.mixed48 = list(formula = ~pctpool+pctrock+pctShade+HAiFLS_for)
+  #Psi.mixed49 = list(formula = ~pctpool+BRT_100m+pctShade+HAiFLS_for)
+  #Psi.mixed50 = list(formula = ~pctrock+BRT_100m+pctShade+HAiFLS_for)
+  #Psi.mixed51 = list(formula = ~pctrock+pctBrBnk+pctShade+HAiFLS_for)
+  #Psi.mixed52 = list(formula = ~pctpool+pctBrBnk+pctShade+HAiFLS_for)
+  #Psi.mixed53 = list(formula = ~pctpool+BRT_100m+pctBrBnk+HAiFLS_for)
+  #Psi.mixed54 = list(formula = ~pctpool+BRT_100m+pctShade+HAiFLS_for)
   #3 covariates
-  Psi.mixed13 = list(formula = ~pctex21+pctShade+pctBrBnk)
-  Psi.mixed14 = list(formula = ~pctpool+pctShade+pctBrBnk)
-  Psi.mixed15 = list(formula = ~pctrock+pctShade+pctBrBnk)
-  Psi.mixed16 = list(formula = ~BRT_100m+pctShade+pctBrBnk)
+  Psi.mixed55 = list(formula = ~pctex21+pctShade+pctBrBnk)
+  #Psi.mixed56 = list(formula = ~pctpool+pctShade+pctBrBnk)
+  #Psi.mixed57 = list(formula = ~pctrock+pctShade+pctBrBnk)
+  #Psi.mixed58 = list(formula = ~BRT_100m+pctShade+pctBrBnk)
+  Psi.mixed59 = list(formula = ~pctex21+pctpool+pctShade)
+  #Psi.mixed60 = list(formula = ~pctpool+pctrock+pctShade)
+  #Psi.mixed61 = list(formula = ~pctrock+BRT_100m+pctShade)
+  Psi.mixed62 = list(formula = ~pctex21+BRT_100m+pctShade)
+  Psi.mixed63 = list(formula = ~pctex21+pctrock+pctShade)
+  #Psi.mixed64 = list(formula = ~pctpool+BRT_100m+pctShade)
+  Psi.mixed65 = list(formula = ~pctex21+pctpool+pctBrBnk)
+  #Psi.mixed66 = list(formula = ~pctpool+pctrock+pctBrBnk)
+  #Psi.mixed67 = list(formula = ~pctrock+BRT_100m+pctBrBnk)
+  Psi.mixed68 = list(formula = ~pctex21+BRT_100m+pctBrBnk)
+  Psi.mixed69 = list(formula = ~pctex21+pctrock+pctBrBnk)
+  #Psi.mixed70 = list(formula = ~pctpool+BRT_100m+pctBrBnk)
+  Psi.mixed71 = list(formula = ~pctex21+pctShade+HAiFLS_for)
+  #Psi.mixed72 = list(formula = ~pctpool+pctShade+HAiFLS_for)
+  #Psi.mixed73 = list(formula = ~pctrock+pctShade+HAiFLS_for)
+  #Psi.mixed74 = list(formula = ~BRT_100m+pctShade+HAiFLS_for)
+  Psi.mixed75 = list(formula = ~pctex21+pctBrBnk+HAiFLS_for)
+  #Psi.mixed76 = list(formula = ~pctpool+pctBrBnk+HAiFLS_for)
+  #Psi.mixed77 = list(formula = ~pctrock+pctBrBnk+HAiFLS_for)
+  #Psi.mixed78 = list(formula = ~BRT_100m+pctBrBnk+HAiFLS_for)
+  Psi.mixed79 = list(formula = ~pctex21+pctpool+HAiFLS_for)
+  #Psi.mixed80 = list(formula = ~pctpool+pctrock+HAiFLS_for)
+  #Psi.mixed81 = list(formula = ~pctrock+BRT_100m+HAiFLS_for)
+  Psi.mixed82 = list(formula = ~pctex21+BRT_100m+HAiFLS_for)
+  Psi.mixed83 = list(formula = ~pctex21+pctrock+HAiFLS_for)
+  #Psi.mixed84 = list(formula = ~pctpool+BRT_100m+HAiFLS_for)
   #2 covariates
   Psi.pct21_bare = list(formula = ~pctex21 + pctBrBnk) 
   Psi.pct21_shade = list(formula = ~pctex21 + pctShade)
-  Psi.pool_bare = list(formula = ~pctpool + pctBrBnk) 
-  Psi.pool_shade = list(formula = ~pctpool + pctShade) 
-  Psi.rock_bare = list(formula = ~pctrock + pctBrBnk) 
-  Psi.rock_shade = list(formula = ~pctrock + pctShade) 
-  Psi.BRT_bare = list(formula = ~BRT_100m + pctBrBnk) 
-  Psi.BRT_shade = list(formula = ~BRT_100m + pctShade) 
+  #Psi.pool_bare = list(formula = ~pctpool + pctBrBnk) 
+  #Psi.pool_shade = list(formula = ~pctpool + pctShade) 
+  #Psi.rock_bare = list(formula = ~pctrock + pctBrBnk) 
+  #Psi.rock_shade = list(formula = ~pctrock + pctShade) 
+  #Psi.BRT_bare = list(formula = ~BRT_100m + pctBrBnk) 
+  #Psi.BRT_shade = list(formula = ~BRT_100m + pctShade) 
+  Psi.pct21_for = list(formula = ~pctex21 + HAiFLS_for)
+  #Psi.pool_for = list(formula = ~pctpool + HAiFLS_for)
+  #Psi.rock_for = list(formula = ~pctrock + HAiFLS_for) 
+  #Psi.BRT_for = list(formula = ~BRT_100m + HAiFLS_for) 
   #~~~~~~~~~~~~~ Occupancy - single covariate ~~~~~~~~~~~~~~~~~~~~~~
   Psi.pctex21 = list(formula=~pctex21) 
   Psi.pool = list(formula=~pctpool) 
@@ -241,28 +282,30 @@ run.occ.loc=function()
   Psi.brt = list(formula=~BRT_100m)
   Psi.forest = list(formula = ~HAiFLS_for)
   #~~~~~~~~~~~~ model list & wrapper ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  cml.loc=create.model.list("Occupancy")
-  results.loc=mark.wrapper(cml.loc, data=brook.process, ddl=bkt.ddl, output=F)
-  return(results.loc)
+  cml=create.model.list("Occupancy")
+  results=mark.wrapper(cml, data=brook.process, ddl=bkt.ddl, output=F)
+  return(results)
 }
 
-bkt.results.loc = run.occ.loc()
+bkt.results = run.occ()
 
 
 ##Examine model list and look at model comparisons
-bkt.results.loc
+bkt.results
 ##Model Table
-AICc.Table.loc = model.table(bkt.results.loc, use.lnl = T)
-AICc.Table.loc
+AICc.Table = model.table(bkt.results, use.lnl = T)
+AICc.Table
 
 #look at summary of top model(s)
-summary(bkt.results.loc$p.tv.effort.Psi.pct21_brt)
-bkt.results.loc$p.tv.effort.Psi.pct21_brt$results$real
-top.local <- bkt.results.loc$p.tv.effort.Psi.pct21_brt 
+summary(bkt.results$p.tv.effort.Psi.pct21_for)
+summary(bkt.results$p.tv.effort.Psi.forest)
+summary(bkt.results$p.tv.effort.Psi.mixed82)
+bkt.results$p.tv.effort.Psi.pct21_for$results$real
+top.mod <- bkt.results.loc$p.tv.effort.Psi.pct21_brt 
 
 
-
-cleanup(ask = FALSE)
+summary(top.mods)
+cleanup(ask = F)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 
@@ -343,5 +386,19 @@ cleanup(ask = FALSE)
 #export ch data to an .inp file
 #str(brook2)
 #export.chdata(brook.process, filename = "BrookOccu", covariates = "all")
-#export.MARK(brook.process, "BKT_OccPrelim", model = bkt.results, ind.covariates = "all", replace = T)
+
+#overall analysis results
+names(brook2)
+export.MARK(brook.process, "BKT_OccPrelim", model = bkt.results, ind.covariates = c("effort1", "effort2", 
+                                                                                    "effort3", "pctex21",
+                                                                                    "pctpool", "pctrock",
+                                                                                    "pctBrBnk", "pctShade",
+                                                                                    "BRT_100m", "HAiFLS_for",
+                                                                                    "Area_km2", "AvgSlope",
+                                                                                    "EFac_Cat", "Cross_Cat"), replace = T)
+export.MARK(brook.process, "BKT_OccCat_Prelim", model = bkt.results.cat, ind.covariates = c("effort1", "effort2", 
+                                                                                    "effort3", "HAiFLS_for",
+                                                                                    "Area_km2", "AvgSlope",
+                                                                                    "EFac_Cat", "Cross_Cat"), replace = T)
+
 #---------------------------------------------------------------------------------------------------#

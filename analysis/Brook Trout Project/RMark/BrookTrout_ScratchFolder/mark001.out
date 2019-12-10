@@ -1,6 +1,6 @@
 
    Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:21    Page  001
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:34:28    Page  001
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
    This version was compiled by GCC version 7.2.0 using the options: 
@@ -39,7 +39,7 @@
    CPU Time for the last procedure was 0.01 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:21    Page  002
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:34:28    Page  002
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -70,19 +70,19 @@
  -2logL(saturated) = 0.0000000     
  Effective Sample Size = 138
 
- Number of function evaluations was 12 for 3 parameters.
- Time for numerical optimization was 0.05 seconds.     
+ Number of function evaluations was 13 for 3 parameters.
+ Time for numerical optimization was 0.01 seconds.     
  -2logL { p(~1)Psi(~pctBrBnk) } = 168.78305     
  Penalty { p(~1)Psi(~pctBrBnk) } = 0.0000000     
  Gradient { p(~1)Psi(~pctBrBnk) }:
-   0.000000     -0.1047728E-05 -0.3605507E-06
- Maximum ABS(G) { p(~1)Psi(~pctBrBnk) } = 0.1047728E-05 
+  0.9789460E-06   0.000000       0.000000    
+ Maximum ABS(G) { p(~1)Psi(~pctBrBnk) } = 0.9789460E-06 
  S Vector { p(~1)Psi(~pctBrBnk) }:
-   16.19907      9.625107     0.2800163    
+   16.19907      9.625107     0.2800165    
  Time to compute number of parameters was 0.01 seconds.     
- Ratio Threshold = 50.000000       Max Gap (2/3) = 34.373376       Next Max Gap (1/2) = 1.6830011     
+ Ratio Threshold = 50.000000       Max Gap (2/3) = 34.373357       Next Max Gap (1/2) = 1.6830013     
  Gap Method for Num. of Estimated Parameters { p(~1)Psi(~pctBrBnk) } = 3          
- Threshold { p(~1)Psi(~pctBrBnk) } = 0.2095456E-05                 
+ Threshold { p(~1)Psi(~pctBrBnk) } = 0.1957892E-05                 
  Numerical Threshold Method for Num. of Estimated Parameters { p(~1)Psi(~pctBrBnk) } = 3          
  Number of Estimated Parameters { p(~1)Psi(~pctBrBnk) } = 3          
  DEVIANCE { p(~1)Psi(~pctBrBnk) } = 168.78305                     
@@ -91,19 +91,19 @@
  AIC { p(~1)Psi(~pctBrBnk) } = 174.78305                  
  AICc { p(~1)Psi(~pctBrBnk) } = 174.96215                    
  BIC { p(~1)Psi(~pctBrBnk) } = 183.56481                    
- Pearson Chisquare { p(~1)Psi(~pctBrBnk) } = 1334.9909                  
+ Pearson Chisquare { p(~1)Psi(~pctBrBnk) } = 1334.9908                  
 
 
                    LOGIT Link Function Parameters of { p(~1)Psi(~pctBrBnk) }
                                                               95% Confidence Interval
  Parameter                    Beta         Standard Error      Lower           Upper
  -------------------------  --------------  --------------  --------------  --------------
-    1:p:(Intercept)          0.9483697       0.3210135       0.3191833       1.5775562    
-    2:Psi:(Intercept)       -0.8204621       0.4408523      -1.6845326       0.0436084    
-    3:Psi:pctBrBnk          -1.3547675       0.5856551      -2.5026516      -0.2068835    
+    1:p:(Intercept)          0.9483696       0.3210135       0.3191832       1.5775561    
+    2:Psi:(Intercept)       -0.8204621       0.4408522      -1.6845324       0.0436081    
+    3:Psi:pctBrBnk          -1.3547675       0.5856549      -2.5026513      -0.2068838    
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:21    Page  003
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:34:28    Page  003
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -128,10 +128,10 @@
  -----   --------------  --------------  --------------  --------------
    1      0.1187199       0.0310639       0.0700095       0.1942428    
 
-   CPU Time for the last procedure was 0.05 seconds.     
+   CPU Time for the last procedure was 0.01 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:21    Page  004
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:34:28    Page  004
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -140,7 +140,7 @@
 
      CPU Time in minutes for this job was 0.00
 
-     Time Start = 13:32:21.935   Time End = 13:32:21.948
+     Time Start = 12:34:28.336   Time End = 12:34:28.348
 
      Wall Clock Time in minutes for this job was 0.00
 

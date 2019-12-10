@@ -1,6 +1,6 @@
 
    Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:22    Page  001
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:34:28    Page  001
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
    This version was compiled by GCC version 7.2.0 using the options: 
@@ -36,10 +36,10 @@
       Data type number is 27
       Data type is Occupancy Estimation with Detection < 1                                                             
 
-   CPU Time for the last procedure was 0.01 seconds.     
+   CPU Time for the last procedure was 0.02 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:22    Page  002
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:34:28    Page  002
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -75,31 +75,31 @@
  -2logL(saturated) = 0.0000000     
  Effective Sample Size = 138
 
- Number of function evaluations was 17 for 4 parameters.
- Time for numerical optimization was 0.02 seconds.     
- -2logL { p(~effort)Psi(~pctBrBnk) } = 162.24761     
+ Number of function evaluations was 20 for 4 parameters.
+ Time for numerical optimization was 0.01 seconds.     
+ -2logL { p(~effort)Psi(~pctBrBnk) } = 162.33757     
  Penalty { p(~effort)Psi(~pctBrBnk) } = 0.0000000     
  Gradient { p(~effort)Psi(~pctBrBnk) }:
-   0.000000       0.000000      0.5464757E-05  0.1404906E-05
- Maximum ABS(G) { p(~effort)Psi(~pctBrBnk) } = 0.5464757E-05 
+  0.2913119E-05   0.000000       0.000000       0.000000    
+ Maximum ABS(G) { p(~effort)Psi(~pctBrBnk) } = 0.2913119E-05 
  S Vector { p(~effort)Psi(~pctBrBnk) }:
-   16.26627      7.897210     0.2709358     0.9565633E-01
+   16.25616      7.661179     0.2714308     0.1635490    
  Time to compute number of parameters was 0.01 seconds.     
- Ratio Threshold = 50.000000       Max Gap (2/3) = 29.147902       Next Max Gap (3/4) = 2.8323873     
+ Ratio Threshold = 50.000000       Max Gap (2/3) = 28.225164       Next Max Gap (1/2) = 2.1218879     
  Gap Method for Num. of Estimated Parameters { p(~effort)Psi(~pctBrBnk) } = 4          
- Threshold { p(~effort)Psi(~pctBrBnk) } = 0.1092951E-04                 
+ Threshold { p(~effort)Psi(~pctBrBnk) } = 0.5826238E-05                 
  Numerical Threshold Method for Num. of Estimated Parameters { p(~effort)Psi(~pctBrBnk) } = 4          
  Number of Estimated Parameters { p(~effort)Psi(~pctBrBnk) } = 4          
- DEVIANCE { p(~effort)Psi(~pctBrBnk) } = 162.24761                     
+ DEVIANCE { p(~effort)Psi(~pctBrBnk) } = 162.33757                     
  DEVIANCE Degrees of Freedom { p(~effort)Psi(~pctBrBnk) } = 134            
- c-hat { p(~effort)Psi(~pctBrBnk) } = 1.2108031                     
- AIC { p(~effort)Psi(~pctBrBnk) } = 170.24761                  
- AICc { p(~effort)Psi(~pctBrBnk) } = 170.54836                    
- BIC { p(~effort)Psi(~pctBrBnk) } = 181.95662                    
- Pearson Chisquare { p(~effort)Psi(~pctBrBnk) } = 934.26863                  
+ c-hat { p(~effort)Psi(~pctBrBnk) } = 1.2114744                     
+ AIC { p(~effort)Psi(~pctBrBnk) } = 170.33757                  
+ AICc { p(~effort)Psi(~pctBrBnk) } = 170.63832                    
+ BIC { p(~effort)Psi(~pctBrBnk) } = 182.04659                    
+ Pearson Chisquare { p(~effort)Psi(~pctBrBnk) } = 948.16027                  
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:22    Page  003
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:34:28    Page  003
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -108,10 +108,10 @@
                                                               95% Confidence Interval
  Parameter                    Beta         Standard Error      Lower           Upper
  -------------------------  --------------  --------------  --------------  --------------
-    1:p:(Intercept)         -0.4484880       0.6846292      -1.7903613       0.8933854    
-    2:p:effort               0.0016584       0.7966727E-03   0.9690783E-04   0.0032199    
-    3:Psi:(Intercept)       -0.7451358       0.4557854      -1.6384752       0.1482036    
-    4:Psi:pctBrBnk          -1.3991166       0.5960387      -2.5673524      -0.2308807    
+    1:p:(Intercept)          0.9642334       0.3686975       0.2415862       1.6868805    
+    2:p:effort               1.1034281       0.5344366       0.0559323       2.1509239    
+    3:Psi:(Intercept)       -0.7443154       0.4560772      -1.6382267       0.1495958    
+    4:Psi:pctBrBnk          -1.3996037       0.5961819      -2.5681203      -0.2310872    
 
 
                  Real Function Parameters of { p(~effort)Psi(~pctBrBnk) }
@@ -119,17 +119,17 @@
       Following estimates based on unstandardized individual covariate values:
           Variable   Value         
           ---------  ------------- 
-          EFFORT1     906.23188    
-          EFFORT2     834.18841    
-          EFFORT3     818.18116    
+          EFFORT1    -0.7246373E-10
+          EFFORT2    -0.1449268E-10
+          EFFORT3     0.4347865E-11
           PCTBRBNK    0.8740586    
                                                                95% Confidence Interval
   Parameter                  Estimate       Standard Error      Lower           Upper
  --------------------------  --------------  --------------  --------------  --------------
-     1:p g1 a0 t1             0.7416179       0.0732988       0.5755801       0.8586514                          
-     2:p g1 a1 t2             0.7180721       0.0740538       0.5542741       0.8391453                          
-     3:p g1 a2 t3             0.7126670       0.0743757       0.5489623       0.8348318                          
-     4:Psi g1 a0 t1           0.1225989       0.0324283       0.0718295       0.2014637                          
+     1:p g1 a0 t1             0.7239686       0.0736798       0.5601045       0.8438135                          
+     2:p g1 a1 t2             0.7239686       0.0736798       0.5601045       0.8438135                          
+     3:p g1 a2 t3             0.7239686       0.0736798       0.5601045       0.8438135                          
+     4:Psi g1 a0 t1           0.1226414       0.0324481       0.0718435       0.2015569                          
 
 
                       Estimates of Derived Parameters
@@ -137,12 +137,12 @@
                                             95% Confidence Interval
  Group   Psi-hat         Standard Error      Lower           Upper
  -----   --------------  --------------  --------------  --------------
-   1      0.1225989       0.0324283       0.0718295       0.2014637    
+   1      0.1226414       0.0324481       0.0718435       0.2015569    
 
-   CPU Time for the last procedure was 0.02 seconds.     
+   CPU Time for the last procedure was 0.01 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:22    Page  004
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:34:28    Page  004
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -151,7 +151,7 @@
 
      CPU Time in minutes for this job was 0.00
 
-     Time Start = 13:32:22.335   Time End = 13:32:22.542
+     Time Start = 12:34:28.796   Time End = 12:34:28.958
 
      Wall Clock Time in minutes for this job was 0.00
 
