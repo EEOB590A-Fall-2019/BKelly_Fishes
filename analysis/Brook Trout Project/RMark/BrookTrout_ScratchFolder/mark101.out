@@ -1,6 +1,6 @@
 
    Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:58    Page  001
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 13:16:21    Page  001
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
    This version was compiled by GCC version 7.2.0 using the options: 
@@ -20,26 +20,26 @@
 
 
   INPUT --- proc chmatrix occasions= 3 groups= 1 etype= Occupancy 
-  INPUT --- Nodes= 101 icovar = 4 ICMeans  NoHist hist= 138 ;
+  INPUT --- Nodes= 101 icovar = 2 ICMeans  NoHist hist= 138 ;
 
   INPUT ---    time interval 1 1 1 ;
 
-  INPUT ---     icovariates effort1 effort2 effort3 pctpool ;
+  INPUT ---     icovariates Area_km2 Cross_Cat ;
 
   INPUT ---    glabel(1)=freq1;
 
       Number of unique encounter histories read was 138.
 
-      Number of individual covariates read was 4.
+      Number of individual covariates read was 2.
       Time interval lengths are all equal to 1.
 
       Data type number is 27
       Data type is Occupancy Estimation with Detection < 1                                                             
 
-   CPU Time for the last procedure was 0.02 seconds.     
+   CPU Time for the last procedure was 0.01 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:58    Page  002
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 13:16:21    Page  002
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -47,27 +47,23 @@
   INPUT --- proc estimate link=Logit NOLOOP varest=2ndPart    ;
 
 
-  INPUT --- model={ p(~effort)Psi(~pctpool) };
+  INPUT --- model={ p(~1)Psi(~Area_km2 + Cross_Cat) };
 
   INPUT ---    group=1 p    rows=1 cols=3 Square ;
-  INPUT ---        1 2 3 ;
+  INPUT ---        1 1 1 ;
 
   INPUT ---    group=1 Psi    rows=1 cols=1 Square ;
-  INPUT ---        4 ;
+  INPUT ---        2 ;
 
-  INPUT ---    design matrix constraints=4 covariates=4;
-  INPUT ---        1 effort1 0 0;
-  INPUT ---        1 effort2 0 0;
-  INPUT ---        1 effort3 0 0;
-  INPUT ---        0 0 1 pctpool;
+  INPUT ---    design matrix constraints=2 covariates=4;
+  INPUT ---        1 0 0 0;
+  INPUT ---        0 1 Area_km2 Cross_Cat;
   INPUT ---       blabel(1)=p:(Intercept);
-  INPUT ---       blabel(2)=p:effort;
-  INPUT ---       blabel(3)=Psi:(Intercept);
-  INPUT ---       blabel(4)=Psi:pctpool;
+  INPUT ---       blabel(2)=Psi:(Intercept);
+  INPUT ---       blabel(3)=Psi:Area_km2;
+  INPUT ---       blabel(4)=Psi:Cross_Cat;
   INPUT ---       rlabel(1)=p g1 a0 t1;
-  INPUT ---       rlabel(2)=p g1 a1 t2;
-  INPUT ---       rlabel(3)=p g1 a2 t3;
-  INPUT ---       rlabel(4)=Psi g1 a0 t1;
+  INPUT ---       rlabel(2)=Psi g1 a0 t1;
 
  Link Function Used is LOGIT        
 
@@ -75,74 +71,70 @@
  -2logL(saturated) = 0.0000000     
  Effective Sample Size = 138
 
- Number of function evaluations was 16 for 4 parameters.
- Time for numerical optimization was 0.01 seconds.     
- -2logL { p(~effort)Psi(~pctpool) } = 167.87328     
- Penalty { p(~effort)Psi(~pctpool) } = 0.0000000     
- Gradient { p(~effort)Psi(~pctpool) }:
-  0.1405561E-05  0.2614906E-06   0.000000      0.8490100E-06
- Maximum ABS(G) { p(~effort)Psi(~pctpool) } = 0.1405561E-05 
- S Vector { p(~effort)Psi(~pctpool) }:
-   18.56059      8.361397     0.8133948     0.1023760    
+ Number of function evaluations was 15 for 4 parameters.
+ Time for numerical optimization was 0.05 seconds.     
+ -2logL { p(~1)Psi(~Area_km2 + Cross_Cat) } = 169.00131     
+ Penalty { p(~1)Psi(~Area_km2 + Cross_Cat) } = 0.0000000     
+ Gradient { p(~1)Psi(~Area_km2 + Cross_Cat) }:
+   0.000000     -0.2195800E-05   0.000000     -0.1606221E-06
+ Maximum ABS(G) { p(~1)Psi(~Area_km2 + Cross_Cat) } = 0.2195800E-05 
+ S Vector { p(~1)Psi(~Area_km2 + Cross_Cat) }:
+   16.18532      9.630574     0.4410037     0.3369665E-01
  Time to compute number of parameters was 0.01 seconds.     
- Ratio Threshold = 50.000000       Max Gap (2/3) = 10.279629       Next Max Gap (3/4) = 7.9451748     
- Gap Method for Num. of Estimated Parameters { p(~effort)Psi(~pctpool) } = 4          
- Threshold { p(~effort)Psi(~pctpool) } = 0.2811122E-05                 
- Numerical Threshold Method for Num. of Estimated Parameters { p(~effort)Psi(~pctpool) } = 4          
- Number of Estimated Parameters { p(~effort)Psi(~pctpool) } = 4          
- DEVIANCE { p(~effort)Psi(~pctpool) } = 167.87328                     
- DEVIANCE Degrees of Freedom { p(~effort)Psi(~pctpool) } = 134            
- c-hat { p(~effort)Psi(~pctpool) } = 1.2527856                     
- AIC { p(~effort)Psi(~pctpool) } = 175.87328                  
- AICc { p(~effort)Psi(~pctpool) } = 176.17403                    
- BIC { p(~effort)Psi(~pctpool) } = 187.58229                    
- Pearson Chisquare { p(~effort)Psi(~pctpool) } = 877.47170                  
-
-  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:58    Page  003
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
- 
+ Ratio Threshold = 50.000000       Max Gap (2/3) = 21.837856       Next Max Gap (3/4) = 13.087464     
+ Gap Method for Num. of Estimated Parameters { p(~1)Psi(~Area_km2 + Cross_Cat) } = 4          
+ Threshold { p(~1)Psi(~Area_km2 + Cross_Cat) } = 0.4391601E-05                 
+ Numerical Threshold Method for Num. of Estimated Parameters { p(~1)Psi(~Area_km2 + Cross_Cat) } = 4          
+ Number of Estimated Parameters { p(~1)Psi(~Area_km2 + Cross_Cat) } = 4          
+ DEVIANCE { p(~1)Psi(~Area_km2 + Cross_Cat) } = 169.00131                     
+ DEVIANCE Degrees of Freedom { p(~1)Psi(~Area_km2 + Cross_Cat) } = 134            
+ c-hat { p(~1)Psi(~Area_km2 + Cross_Cat) } = 1.2612038                     
+ AIC { p(~1)Psi(~Area_km2 + Cross_Cat) } = 177.00131                  
+ AICc { p(~1)Psi(~Area_km2 + Cross_Cat) } = 177.30207                    
+ BIC { p(~1)Psi(~Area_km2 + Cross_Cat) } = 188.71033                    
+ Pearson Chisquare { p(~1)Psi(~Area_km2 + Cross_Cat) } = 1075.3705                  
 
 
-                 LOGIT Link Function Parameters of { p(~effort)Psi(~pctpool) }
+             LOGIT Link Function Parameters of { p(~1)Psi(~Area_km2 + Cross_Cat) }
                                                               95% Confidence Interval
  Parameter                    Beta         Standard Error      Lower           Upper
  -------------------------  --------------  --------------  --------------  --------------
-    1:p:(Intercept)         -0.3570014       0.6534477      -1.6377589       0.9237561    
-    2:p:effort               0.0015783       0.7711599E-03   0.6679571E-04   0.0030897    
-    3:Psi:(Intercept)       -2.2137366       0.4617588      -3.1187839      -1.3086894    
-    4:Psi:pctpool            0.0157460       0.0130821      -0.0098949       0.0413868    
+    1:p:(Intercept)          0.9487387       0.3209131       0.3197490       1.5777284    
+    2:Psi:(Intercept)       -1.6059045       0.3966761      -2.3833897      -0.8284192    
+    3:Psi:Area_km2           0.0675319       0.0355163      -0.0020800       0.1371438    
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 13:16:21    Page  003
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+    4:Psi:Cross_Cat         -1.5715766       0.7726229      -3.0859175      -0.0572356    
 
 
-                 Real Function Parameters of { p(~effort)Psi(~pctpool) }
+             Real Function Parameters of { p(~1)Psi(~Area_km2 + Cross_Cat) }
 
       Following estimates based on unstandardized individual covariate values:
           Variable   Value         
           ---------  ------------- 
-          EFFORT1     906.23188    
-          EFFORT2     834.18841    
-          EFFORT3     818.18116    
-          PCTPOOL     25.664251    
+          AREA_KM2    7.8085664    
+          CROSS_CAT   0.6212393    
                                                                95% Confidence Interval
   Parameter                  Estimate       Standard Error      Lower           Upper
  --------------------------  --------------  --------------  --------------  --------------
-     1:p g1 a0 t1             0.7452195       0.0717959       0.5822769       0.8598959                          
-     2:p g1 a1 t2             0.7230362       0.0721546       0.5630026       0.8410134                          
-     3:p g1 a2 t3             0.7179486       0.0723744       0.5581828       0.8368298                          
-     4:Psi g1 a0 t1           0.1406831       0.0312436       0.0897920       0.2136474                          
+     1:p g1 a0 t1             0.7208615       0.0645742       0.5792631       0.8288826                          
+     2:Psi g1 a0 t1           0.1135580       0.0315026       0.0648707       0.1913108                          
 
 
                       Estimates of Derived Parameters
-            Occupancy Estimates of { p(~effort)Psi(~pctpool) }
+        Occupancy Estimates of { p(~1)Psi(~Area_km2 + Cross_Cat) }
                                             95% Confidence Interval
  Group   Psi-hat         Standard Error      Lower           Upper
  -----   --------------  --------------  --------------  --------------
-   1      0.1406831       0.0312436       0.0897920       0.2136474    
+   1      0.1135580       0.0315026       0.0648707       0.1913108    
 
-   CPU Time for the last procedure was 0.02 seconds.     
+   CPU Time for the last procedure was 0.05 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:58    Page  004
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 13:16:21    Page  004
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -151,7 +143,7 @@
 
      CPU Time in minutes for this job was 0.00
 
-     Time Start = 13:32:58.657   Time End = 13:32:58.754
+     Time Start = 13:16:21.127   Time End = 13:16:21.227
 
      Wall Clock Time in minutes for this job was 0.00
 

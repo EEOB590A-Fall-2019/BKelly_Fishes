@@ -1,6 +1,6 @@
 
    Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:32    Page  001
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:34:38    Page  001
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
    This version was compiled by GCC version 7.2.0 using the options: 
@@ -24,7 +24,7 @@
 
   INPUT ---    time interval 1 1 1 ;
 
-  INPUT ---     icovariates effort1 effort2 effort3 pctpool pctrock  
+  INPUT ---     icovariates effort1 effort2 effort3 pctex21 pctrock  
   INPUT ---    pctShade pctBrBnk ;
 
   INPUT ---    glabel(1)=freq1;
@@ -40,7 +40,7 @@
    CPU Time for the last procedure was 0.01 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:32    Page  002
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:34:38    Page  002
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -48,7 +48,7 @@
   INPUT --- proc estimate link=Logit NOLOOP varest=2ndPart    ;
 
 
-  INPUT --- model={ p(~effort)Psi(~pctpool + pctrock + pctShade + 
+  INPUT --- model={ p(~effort)Psi(~pctex21 + pctrock + pctShade + 
   INPUT --- pctBrBnk) };
 
   INPUT ---    group=1 p    rows=1 cols=3 Square ;
@@ -61,11 +61,11 @@
   INPUT ---        1 effort1 0 0 0 0 0;
   INPUT ---        1 effort2 0 0 0 0 0;
   INPUT ---        1 effort3 0 0 0 0 0;
-  INPUT ---        0 0 1 pctpool pctrock pctShade pctBrBnk;
+  INPUT ---        0 0 1 pctex21 pctrock pctShade pctBrBnk;
   INPUT ---       blabel(1)=p:(Intercept);
   INPUT ---       blabel(2)=p:effort;
   INPUT ---       blabel(3)=Psi:(Intercept);
-  INPUT ---       blabel(4)=Psi:pctpool;
+  INPUT ---       blabel(4)=Psi:pctex21;
   INPUT ---       blabel(5)=Psi:pctrock;
   INPUT ---       blabel(6)=Psi:pctShade;
   INPUT ---       blabel(7)=Psi:pctBrBnk;
@@ -80,91 +80,91 @@
  -2logL(saturated) = 0.0000000     
  Effective Sample Size = 138
 
- Number of function evaluations was 21 for 7 parameters.
+ Number of function evaluations was 24 for 7 parameters.
  Time for numerical optimization was 0.03 seconds.     
- -2logL { p(~effort)Psi(~pctpool + pctrock + pctShade + pctBrBnk) } = 158.64757     
- Penalty { p(~effort)Psi(~pctpool + pctrock + pctShade + pctBrBnk) } = 0.0000000     
- Gradient { p(~effort)Psi(~pctpool + pctrock + pctShade + pctBrBnk) }:
-  0.4124050E-05  0.2577344E-06  0.1143936E-05  0.6235052E-06   0.000000    
-  0.2873554E-05  0.3260212E-06
- Maximum ABS(G) { p(~effort)Psi(~pctpool + pctrock + pctShade + pctBrBnk) } = 0.4124050E-05 
+ -2logL { p(~effort)Psi(~pctex21 + pctrock + pctShade + pctBrBnk) } = 142.97420     
+ Penalty { p(~effort)Psi(~pctex21 + pctrock + pctShade + pctBrBnk) } = 0.0000000     
+ Gradient { p(~effort)Psi(~pctex21 + pctrock + pctShade + pctBrBnk) }:
+ -0.9848138E-06 -0.2993959E-06 -0.9169140E-06 -0.1889251E-06 -0.1011530E-05
+ -0.1148936E-05 -0.5049721E-06
+ Maximum ABS(G) { p(~effort)Psi(~pctex21 + pctrock + pctShade + pctBrBnk) } = 0.1148936E-05 
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:33    Page  003
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:34:38    Page  003
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
- S Vector { p(~effort)Psi(~pctpool + pctrock + pctShade + pctBrBnk) }:
-   29.91516      8.318505      1.167949      1.094859     0.2726670    
-  0.2000891     0.9995814E-01
+ S Vector { p(~effort)Psi(~pctex21 + pctrock + pctShade + pctBrBnk) }:
+   23.88689      7.353413     0.9817489     0.4889608     0.2170159    
+  0.1511576     0.1856417E-01
  Time to compute number of parameters was 0.01 seconds.     
- Ratio Threshold = 50.000000       Max Gap (2/3) = 7.1223207       Next Max Gap (4/5) = 4.0153689     
- Gap Method for Num. of Estimated Parameters { p(~effort)Psi(~pctpool + pctrock + pctShade + pctBrBnk) } = 7          
- Threshold { p(~effort)Psi(~pctpool + pctrock + pctShade + pctBrBnk) } = 0.8248100E-05                 
- Numerical Threshold Method for Num. of Estimated Parameters { p(~effort)Psi(~pctpool + pctrock + pctShade + pctBrBnk) } = 7          
- Number of Estimated Parameters { p(~effort)Psi(~pctpool + pctrock + pctShade + pctBrBnk) } = 7          
- DEVIANCE { p(~effort)Psi(~pctpool + pctrock + pctShade + pctBrBnk) } = 158.64757                     
- DEVIANCE Degrees of Freedom { p(~effort)Psi(~pctpool + pctrock + pctShade + pctBrBnk) } = 131            
- c-hat { p(~effort)Psi(~pctpool + pctrock + pctShade + pctBrBnk) } = 1.2110502                     
- AIC { p(~effort)Psi(~pctpool + pctrock + pctShade + pctBrBnk) } = 172.64757                  
- AICc { p(~effort)Psi(~pctpool + pctrock + pctShade + pctBrBnk) } = 173.50911                    
- BIC { p(~effort)Psi(~pctpool + pctrock + pctShade + pctBrBnk) } = 193.13835                    
- Pearson Chisquare { p(~effort)Psi(~pctpool + pctrock + pctShade + pctBrBnk) } = 949.26018                  
+ Ratio Threshold = 50.000000       Max Gap (6/7) = 8.1424365       Next Max Gap (2/3) = 7.4901156     
+ Gap Method for Num. of Estimated Parameters { p(~effort)Psi(~pctex21 + pctrock + pctShade + pctBrBnk) } = 7          
+ Threshold { p(~effort)Psi(~pctex21 + pctrock + pctShade + pctBrBnk) } = 0.2297871E-05                 
+ Numerical Threshold Method for Num. of Estimated Parameters { p(~effort)Psi(~pctex21 + pctrock + pctShade + pctBrBnk) } = 7          
+ Number of Estimated Parameters { p(~effort)Psi(~pctex21 + pctrock + pctShade + pctBrBnk) } = 7          
+ DEVIANCE { p(~effort)Psi(~pctex21 + pctrock + pctShade + pctBrBnk) } = 142.97420                     
+ DEVIANCE Degrees of Freedom { p(~effort)Psi(~pctex21 + pctrock + pctShade + pctBrBnk) } = 131            
+ c-hat { p(~effort)Psi(~pctex21 + pctrock + pctShade + pctBrBnk) } = 1.0914061                     
+ AIC { p(~effort)Psi(~pctex21 + pctrock + pctShade + pctBrBnk) } = 156.97420                  
+ AICc { p(~effort)Psi(~pctex21 + pctrock + pctShade + pctBrBnk) } = 157.83574                    
+ BIC { p(~effort)Psi(~pctex21 + pctrock + pctShade + pctBrBnk) } = 177.46498                    
+ Pearson Chisquare { p(~effort)Psi(~pctex21 + pctrock + pctShade + pctBrBnk) } = 888.11138                  
 
 
- LOGIT Link Function Parameters of { p(~effort)Psi(~pctpool + pctrock + pctShade + pctBrBnk) }
+ LOGIT Link Function Parameters of { p(~effort)Psi(~pctex21 + pctrock + pctShade + pctBrBnk) }
                                                               95% Confidence Interval
  Parameter                    Beta         Standard Error      Lower           Upper
  -------------------------  --------------  --------------  --------------  --------------
-    1:p:(Intercept)         -0.3874821       0.6645106      -1.6899229       0.9149587    
-    2:p:effort               0.0016049       0.7789193E-03   0.7824319E-04   0.0031316    
-    3:Psi:(Intercept)       -2.3347109       1.3220495      -4.9259279       0.2565062    
-    4:Psi:pctpool            0.0260094       0.0157098      -0.0047819       0.0568007    
-    5:Psi:pctrock            0.0110504       0.0143863      -0.0171469       0.0392476    
-    6:Psi:pctShade           0.0032950       0.0095362      -0.0153960       0.0219859    
-    7:Psi:pctBrBnk          -1.5316996       0.6501751      -2.8060428      -0.2573564    
+    1:p:(Intercept)          0.9367607       0.3744002       0.2029362       1.6705852    
+    2:p:effort               1.1638156       0.5529872       0.0799608       2.2476704    
+    3:Psi:(Intercept)       -1.0801827       1.0050592      -3.0500987       0.8897333    
+    4:Psi:pctex21           -0.6197136       0.2368236      -1.0838878      -0.1555393    
+    5:Psi:pctrock            0.0088561       0.0128347      -0.0162999       0.0340121    
+    6:Psi:pctShade           0.0066409       0.0101456      -0.0132445       0.0265263    
+    7:Psi:pctBrBnk          -0.8769904       0.6485025      -2.1480553       0.3940745    
 
 
- Real Function Parameters of { p(~effort)Psi(~pctpool + pctrock + pctShade + pctBrBnk) }
+ Real Function Parameters of { p(~effort)Psi(~pctex21 + pctrock + pctShade + pctBrBnk) }
 
       Following estimates based on unstandardized individual covariate values:
           Variable   Value         
           ---------  ------------- 
-          EFFORT1     906.23188    
-          EFFORT2     834.18841    
-          EFFORT3     818.18116    
-          PCTPOOL     25.664251    
+          EFFORT1    -0.7246373E-10
+          EFFORT2    -0.1449268E-10
+          EFFORT3     0.4347865E-11
+          PCTEX21     4.8306834    
           PCTROCK     68.678238    
           PCTSHADE    48.614931    
           PCTBRBNK    0.8740586    
                                                                95% Confidence Interval
   Parameter                  Estimate       Standard Error      Lower           Upper
  --------------------------  --------------  --------------  --------------  --------------
-     1:p g1 a0 t1             0.7440169       0.0722303       0.5802068       0.8593960                          
-     2:p g1 a1 t2             0.7213821       0.0727568       0.5601630       0.8403497                          
-     3:p g1 a2 t3             0.7161894       0.0730192       0.5551579       0.8361342                          
-     4:Psi g1 a0 t1           0.1103775       0.0323652       0.0610588       0.1914111                          
+     1:p g1 a0 t1             0.7184449       0.0757344       0.5505606       0.8416538                          
+     2:p g1 a1 t2             0.7184449       0.0757344       0.5505606       0.8416538                          
+     3:p g1 a2 t3             0.7184449       0.0757344       0.5505606       0.8416538                          
+     4:Psi g1 a0 t1           0.0196603       0.0196134       0.0027215       0.1284470                          
 
 
                       Estimates of Derived Parameters
- Occupancy Estimates of { p(~effort)Psi(~pctpool + pctrock + pctShade + pctBrBnk) }
+ Occupancy Estimates of { p(~effort)Psi(~pctex21 + pctrock + pctShade + pctBrBnk) }
                                             95% Confidence Interval
  Group   Psi-hat         Standard Error      Lower           Upper
  -----   --------------  --------------  --------------  --------------
-   1      0.1103775       0.0323652       0.0610588       0.1914111    
+   1      0.0196603       0.0196134       0.0027215       0.1284470    
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018     9-Dec-2019 13:32:33    Page  004
+   gfortran(dble) Vers. 9.0 Mar 2018    10-Dec-2019 12:34:38    Page  004
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
-   CPU Time for the last procedure was 0.03 seconds.     
+   CPU Time for the last procedure was 0.05 seconds.     
 
 
   INPUT --- proc stop;
 
      CPU Time in minutes for this job was 0.00
 
-     Time Start = 13:32:32.943   Time End = 13:32:33.108
+     Time Start = 12:34:38.653   Time End = 12:34:38.845
 
      Wall Clock Time in minutes for this job was 0.00
 
