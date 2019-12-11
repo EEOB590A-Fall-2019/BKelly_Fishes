@@ -36,19 +36,16 @@ skim(brook.df)
 #---------------------------------------------#
 #standardize covariates to have center 0 --- Only effort variables (all high and 3-4 digits) (subtract mean and divide by sd)
 #---------------------------------------------#
-x <- brook.df %>%
-  select(4:6) %>%
-  psycho::standardize()
-summary(x)
-skim(x)
+#x <- brook.df %>%
+#  select(4:6) %>%
+#  psycho::standardize()
+#summary(x)
+#skim(x)
 
-brook2 <- brook.df 
-brook2[,4:6]=x
+#brook2 <- brook.df 
+#brook2[,4:6]=x
 
 
-brook3 <- brook2 %>%
-  mutate(left = "/*", right = "*/") %>%
-  unite(comment, c(left,newID,right), sep = "", remove = F)
 #----------------#
 #correlation test
 #----------------#
@@ -133,7 +130,7 @@ corrplot(c, method="color", col=col(200),
 ##########################################################################################
 getwd()
 #set wd to scratch folder because MARK outputs an insane amount of files
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/RMark/BrookTrout_ScratchFolder") #because MARK loves output files
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/RMark/output") #because MARK loves output files
 
 #Process Data
 #?process.data
@@ -301,11 +298,141 @@ summary(bkt.results$p.tv.effort.Psi.pct21_for)
 summary(bkt.results$p.tv.effort.Psi.forest)
 summary(bkt.results$p.tv.effort.Psi.mixed82)
 bkt.results$p.tv.effort.Psi.pct21_for$results$real
-top.mod <- bkt.results.loc$p.tv.effort.Psi.pct21_brt 
+top.mod <- bkt.results$p.tv.effort.Psi.pct21_for
 
 
-summary(top.mods)
 cleanup(ask = F)
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+#### Visualizing pctex21 effect on psi ####
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+top.mod$design.data
+
+ModelToPlot=top.mod          # Store model results in object with simpler name
+
+# Build design matrix with values of interest
+
+fc=find.covariates(ModelToPlot, brook.df, usemean=T)   # extract cells from MARK design matrix that contain covariates
+design=fill.covariates(ModelToPlot, fc)                #fill design matrix with mean covariate values
+
+#covariate.predictions method
+pct21.values <- seq(0,100,1)
+pctforest.values <- seq(0,100,1)
+
+PsibyEnv <- covariate.predictions(top.mod, data = data.frame(temp=brook.df$pctex21,forest=brook.df$HAiFLS_for),
+                                  indices = c(4))
+plot(PsibyEnv$estimates$temp, PsibyEnv$estimates$estimate)
+
+PsibyEnv$estimates
+
+top.mod$design.data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# GGPlot results
+plot.psi.Lyr <- ggplot(data=model.psi.lyr[1:99,], aes(x=LogYearspsi)) +
+  geom_line(aes(y=Estimate), size=1, color="#C8102E") +
+  geom_ribbon(aes(ymin=lcl, ymax=ucl), alpha=0.1, colour=NA)+
+  #scale_y_continuous(limits=c(0,1))+
+  #coord_trans(x = "exp") +
+  #  scale_x_continuous(labels=round(model.psi.lyr$PchYearspsi[1:99], digits=1), breaks=(seq(from=min(model.psi.lyr$PchYears), to=max(model.psi.lyr$PchYears), length.out=nrow(model.psi.lyr[1:99,]))),
+  scale_x_continuous(breaks=c(-2.5, -1, 0, 1, 2.5, 4.5), labels=round(c(exp(-2.5), exp(-1), exp(0), exp(1), exp(2.5), exp(4.5)), digits=2)) +
+  xlab("Years since patch establishment (log scale)") +
+  ylab("Occupancy (Psi)") +
+  labs(title="Peromyscus mouse occupancy ~ patch age") +
+  theme(plot.title = element_text(size=10)) +
+  #  annotate("text", x = 12, y = 0.75, label = "Hatch day", angle=90, size=2.25) +
+  theme(plot.title = element_text(hjust = 0.5)) 
+#  ylim(c(0.725, 1.0))
+
+plot.psi.Lyr
+
+ggsave("PESP psi LogYears.png", device='png', width=4, height=4)
+
+########################################################
+########################################################
+## example of covariate predictions
+########################################################
+########################################################
+pathtodata=paste(path.package("RMark"),"extdata",sep="/")
+
+
+indcov1=convert.inp(paste(pathtodata,"indcov1",sep="/"),
+                    covariates=c("mass","sqmass"))
+
+
+
+
+
+
+
+
+
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+#### Visualizing Visit effect on p ####
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+
+# To plot NestAge variable, use example code from Mallard data set
+ModelToPlot=occ.results$Psi.Lyr.Epsilon.Dot.Gamma.Dot.p.VstLyrTime          # Store model results in object with simpler name
+
+# Build design matrix with age values of interest
+
+## Low_diversity example_richness_values nests
+fc=find.covariates(ModelToPlot, inp.file, usemean=T)                                         # extract cells from MARK design matrix that contain covariates
+design=fill.covariates(ModelToPlot, fc)                                            # fill design matrix with mean covariate values
+
+# Expand row 1 to include full range of values of interest
+design.vst <- matrix(design[4,], nrow=1, ncol=8, byrow=F)
+for(i in 1:length(visits)){
+  if(i==1){
+    design.vst[i,6] <- visits[i]
+  }
+  if(i>1){
+    design.vst <- rbind(design.vst, design[4,])
+    design.vst[i,6] <- visits[i]
+  }
+}
+
+# Add remaining design rows for Epsilon, Gamma, and p back onto design matrix
+design <- rbind(design[c(1:3),], design.vst)
+#design <- design.vst
+
+
+model.p = compute.real(ModelToPlot, design=design)[,]              
+model.p = cbind(design[-(1:3),], model.p[-(1:3),])            # insert covariate columns  
+
+colnames(model.p)=c("psiIntercept", "LogYearspsi", "EpsilonIntercept", "GammaIntercept", "pIntercept", "Visits", "LogYearsp", "Time", "p", "se", "lcl", "ucl", "fixed")
+
+# GGPlot results
+plot.p.visits <- ggplot(data=model.p, aes(x=Visits)) +
+  geom_line(aes(y=p), size=1, color="#C8102E") +
+  geom_ribbon(aes(ymin=lcl, ymax=ucl), alpha=0.1, colour=NA)+
+  xlab("Average cover board checks per week over season \n at mean log(years) patch age and season week 0") +
+  scale_y_continuous(limits=c(0,1)) +
+  ylab("Detection probability (p)") +
+  labs(title="Peromyscus mouse detection probability ~ board flips") +
+  theme(plot.title = element_text(size=10)) +
+  theme(plot.title = element_text(hjust = 0.5)) 
+
+
+plot.p.visits
+
+ggsave("PESP p visits.png", device='png', width=4, height=4)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 
@@ -395,7 +522,7 @@ cleanup(ask = FALSE)
 
 #overall analysis results
 names(brook2)
-export.MARK(brook.process, "BKT_OccPrelim", model = bkt.results, ind.covariates = c("effort1", "effort2", 
+export.MARK(brook.process, "BKT_OccPrelim", model = top.mod, ind.covariates = c("effort1", "effort2", 
                                                                                     "effort3", "pctex21",
                                                                                     "pctpool", "pctrock",
                                                                                     "pctBrBnk", "pctShade",
