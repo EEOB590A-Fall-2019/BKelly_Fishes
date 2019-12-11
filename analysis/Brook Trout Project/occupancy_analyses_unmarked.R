@@ -102,18 +102,34 @@ plot(function(x)plogis(beta0+beta1*x), -1,1, add=T, lwd=3, col="red")
 
 
 
+###############################################
+###############################################
 
+## Swiss Squirrel Data
 
+###############################################
+###############################################
 
+#read in data, select squirrels and harvest data
+fn <- file.path(find.package("AHMbook"), "extdata", "SwissSquirrels.txt")
+data <- read.table(fn, header = TRUE)
+str(data)
 
+y <- as.matrix(data[,7:9]) #detection / non-detection data
+elev.orig <- data[,"ele"] #unstandardised, original values of covars
+forest.orig <- data[,"forest"]
 
+time <- matrix(as.character(1:3), nrow=265, ncol=3, byrow = T)
+date.orig <- as.matrix(data[,10:12])
+dur.orig <- as.matrix(data[,13:15])
 
-
-
-
-
-
-
+#overview of covars
+covs <- cbind(elev.orig, forest.orig, date.orig, dur.orig)
+par(mfrow = c(3,3))
+for(i in 1:8){
+  hist(covs[,i], breaks=50, col="grey", main=colnames(covs)[i])
+}
+pairs(cbind(elev.orig, forest.orig, date.orig, dur.orig))
 
 
 

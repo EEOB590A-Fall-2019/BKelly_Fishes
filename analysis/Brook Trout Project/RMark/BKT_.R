@@ -377,6 +377,12 @@ AICc.Table.Cat
 #look at summary of top model(s)
 summary(bkt.results.cat$p.tv.effort.Psi.for)
 bkt.results.cat$p.tv.effort.Psi.for$results$real
+top.mod.cat <- bkt.results.cat$p.tv.effort.Psi.for
+summary(top.mod.cat)
+
+#calculate predictions
+Psi.pred <- covariate.predictions(top.mod.cat, data = brook2, alpha = 0.025)
+
 
 
 cleanup(ask = FALSE)

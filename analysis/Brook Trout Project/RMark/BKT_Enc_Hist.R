@@ -70,7 +70,7 @@ Brook_enc <- Brook_enc[,c(1:3,5,4,6:8)]
 ######################################
 
 write.csv(Brook_enc, "Data/Thesis/Tidy/BKT_EncHist.csv", row.names = F)
-
+write.csv(Enc, "Data/Thesis/Tidy/BKT_DetectionHist.csv", row.names = F)
 
 
 
