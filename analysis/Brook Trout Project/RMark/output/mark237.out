@@ -1,6 +1,6 @@
 
    Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018    11-Dec-2019 13:37:38    Page  001
+   gfortran(dble) Vers. 9.0 Mar 2018    12-Dec-2019 16:40:03    Page  001
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
    This version was compiled by GCC version 7.2.0 using the options: 
@@ -11,7 +11,7 @@
      -ffpe-summary=invalid,zero,overflow,underflow -fno-unsafe-math-optimizations
      -frounding-math -fsignaling-nans -fopenmp.
 
-   This problem will use 7 of 8 possible threads.
+   This problem will use 2 of 8 possible threads.
 
 
   INPUT --- proc title ;
@@ -19,27 +19,33 @@
    CPU Time for the last procedure was 0.01 seconds.     
 
 
-  INPUT --- proc chmatrix occasions= 3 groups= 1 etype= Occupancy 
-  INPUT --- Nodes= 101 icovar = 2 ICMeans  NoHist hist= 137 ;
+  INPUT --- proc chmatrix occasions= 1 groups= 4 etype= Known Nodes= 
+  INPUT --- 101 icovar = 1 ICMeans  NoHist hist= 98 ;
 
-  INPUT ---    time interval 1 1 1 ;
+  INPUT ---    time interval 1 ;
 
-  INPUT ---     icovariates pctBrBnk pctShade ;
+  INPUT ---     icovariates length ;
 
-  INPUT ---    glabel(1)=freq1;
+  INPUT ---    glabel(1)=areacontrol.sexfemale;
 
-      Number of unique encounter histories read was 137.
+  INPUT ---    glabel(2)=areatreatment.sexfemale;
 
-      Number of individual covariates read was 2.
+  INPUT ---    glabel(3)=areacontrol.sexmale;
+
+  INPUT ---    glabel(4)=areatreatment.sexmale;
+
+      Number of unique encounter histories read was 98.
+
+      Number of individual covariates read was 1.
       Time interval lengths are all equal to 1.
 
-      Data type number is 27
-      Data type is Occupancy Estimation with Detection < 1                                                             
+      Data type number is 4
+      Data type is Known Fate                                                                                          
 
    CPU Time for the last procedure was 0.02 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018    11-Dec-2019 13:37:38    Page  002
+   gfortran(dble) Vers. 9.0 Mar 2018    12-Dec-2019 16:40:04    Page  002
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -47,94 +53,111 @@
   INPUT --- proc estimate link=Logit NOLOOP varest=2ndPart    ;
 
 
-  INPUT --- model={ p(~1)Psi(~pctBrBnk + pctShade) };
+  INPUT --- model={ S(~sex:length) };
 
-  INPUT ---    group=1 p    rows=1 cols=3 Square ;
-  INPUT ---        1 1 1 ;
+  INPUT ---    group=1 S    rows=1 cols=1 Square ;
+  INPUT ---        1 ;
 
-  INPUT ---    group=1 Psi    rows=1 cols=1 Square ;
+  INPUT ---    group=2 S    rows=1 cols=1 Square ;
+  INPUT ---        1 ;
+
+  INPUT ---    group=3 S    rows=1 cols=1 Square ;
   INPUT ---        2 ;
 
-  INPUT ---    design matrix constraints=2 covariates=4;
-  INPUT ---        1 0 0 0;
-  INPUT ---        0 1 pctBrBnk pctShade;
-  INPUT ---       blabel(1)=p:(Intercept);
-  INPUT ---       blabel(2)=Psi:(Intercept);
-  INPUT ---       blabel(3)=Psi:pctBrBnk;
-  INPUT ---       blabel(4)=Psi:pctShade;
-  INPUT ---       rlabel(1)=p g1 a0 t1;
-  INPUT ---       rlabel(2)=Psi g1 a0 t1;
+  INPUT ---    group=4 S    rows=1 cols=1 Square ;
+  INPUT ---        2 ;
+
+  INPUT ---    design matrix constraints=2 covariates=3;
+  INPUT ---        1 length 0;
+  INPUT ---        1 0 length;
+  INPUT ---       blabel(1)=S:(Intercept);
+  INPUT ---       blabel(2)=S:sexfemale:length;
+  INPUT ---       blabel(3)=S:sexmale:length;
+  INPUT ---       rlabel(1)=S gcontrolfemale a1 t2;
+  INPUT ---       rlabel(2)=S gcontrolmale a1 t2;
 
  Link Function Used is LOGIT        
 
  Variance Estimation Procedure Used is 2ndPart 
  -2logL(saturated) = 0.0000000     
- Effective Sample Size = 138
+ Effective Sample Size = 114
 
- Number of function evaluations was 13 for 4 parameters.
+ Number of function evaluations was 18 for 3 parameters.
  Time for numerical optimization was 0.01 seconds.     
- -2logL { p(~1)Psi(~pctBrBnk + pctShade) } = 167.99038     
- Penalty { p(~1)Psi(~pctBrBnk + pctShade) } = 0.0000000     
- Gradient { p(~1)Psi(~pctBrBnk + pctShade) }:
-   0.000000      0.1801320E-05  0.3397066E-06   0.000000    
- Maximum ABS(G) { p(~1)Psi(~pctBrBnk + pctShade) } = 0.1801320E-05 
- S Vector { p(~1)Psi(~pctBrBnk + pctShade) }:
-   20.41701      9.651653      1.172640     0.2619106    
+ -2logL { S(~sex:length) } = 142.89862     
+ Penalty { S(~sex:length) } = 0.0000000     
+ Gradient { S(~sex:length) }:
+   0.000000       0.000000       0.000000    
+ Maximum ABS(G) { S(~sex:length) } = 0.0000000     
+ S Vector { S(~sex:length) }:
+   35.36333      10.37142     0.1094760E-01
  Time to compute number of parameters was 0.01 seconds.     
- Ratio Threshold = 50.000000       Max Gap (2/3) = 8.2307040       Next Max Gap (3/4) = 4.4772530     
- Gap Method for Num. of Estimated Parameters { p(~1)Psi(~pctBrBnk + pctShade) } = 4          
- Threshold { p(~1)Psi(~pctBrBnk + pctShade) } = 0.3602640E-05                 
- Numerical Threshold Method for Num. of Estimated Parameters { p(~1)Psi(~pctBrBnk + pctShade) } = 4          
- Number of Estimated Parameters { p(~1)Psi(~pctBrBnk + pctShade) } = 4          
- DEVIANCE { p(~1)Psi(~pctBrBnk + pctShade) } = 167.99038                     
- DEVIANCE Degrees of Freedom { p(~1)Psi(~pctBrBnk + pctShade) } = 134            
- c-hat { p(~1)Psi(~pctBrBnk + pctShade) } = 1.2536596                     
- AIC { p(~1)Psi(~pctBrBnk + pctShade) } = 175.99038                  
- AICc { p(~1)Psi(~pctBrBnk + pctShade) } = 176.29113                    
- BIC { p(~1)Psi(~pctBrBnk + pctShade) } = 187.69940                    
- Pearson Chisquare { p(~1)Psi(~pctBrBnk + pctShade) } = 1418.4446                  
+ Ratio Threshold = 50.000000       Max Gap (2/3) = 947.36962       Next Max Gap (1/2) = 3.4096898     
+ Gap Method for Num. of Estimated Parameters { S(~sex:length) } = 2          
+ Threshold { S(~sex:length) } = 0.0000000                     
+ Numerical Threshold Method for Num. of Estimated Parameters { S(~sex:length) } = 3          
+ Number of Estimated Parameters { S(~sex:length) } = 3          
+
+   * *  WARNING  * *   Number of parameters estimated from gap method (=2) and threshold method (=3) differ.  Inspect full output.                                                                                                                                                                                                                                                                                                                                                                                                                      
+ Ratios of S Vector { S(~sex:length) }:
+   1/2    3.409690       2/3    947.3696    
+ DEVIANCE { S(~sex:length) } = 142.89862                     
+ DEVIANCE Degrees of Freedom { S(~sex:length) } = 111            
+ c-hat { S(~sex:length) } = 1.2873749                     
+ AIC { S(~sex:length) } = 148.89862                  
+ AICc { S(~sex:length) } = 149.11680                    
+ BIC { S(~sex:length) } = 157.10721                    
+ Pearson Chisquare { S(~sex:length) } = 219.47774                  
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018    12-Dec-2019 16:40:04    Page  003
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
 
 
-              LOGIT Link Function Parameters of { p(~1)Psi(~pctBrBnk + pctShade) }
+                      LOGIT Link Function Parameters of { S(~sex:length) }
                                                               95% Confidence Interval
  Parameter                    Beta         Standard Error      Lower           Upper
  -------------------------  --------------  --------------  --------------  --------------
-    1:p:(Intercept)          0.9480528       0.3211022       0.3186924       1.5774132    
-    2:Psi:(Intercept)       -1.1177235       0.5651532      -2.2254237      -0.0100233    
-    3:Psi:pctBrBnk          -1.4572718       0.6078922      -2.6487406      -0.2658031    
-
-  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018    11-Dec-2019 13:37:39    Page  003
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
- 
-    4:Psi:pctShade           0.0074171       0.0083892      -0.0090257       0.0238600    
+    1:S:(Intercept)         -13.295077       5.1905341      -23.468524      -3.1216297    
+    2:S:sexfemale:length     0.1090090       0.0423926       0.0259194       0.1920985    
+    3:S:sexmale:length       0.1002673       0.0414412       0.0190425       0.1814922    
 
 
-              Real Function Parameters of { p(~1)Psi(~pctBrBnk + pctShade) }
+                      Real Function Parameters of { S(~sex:length) }
 
       Following estimates based on unstandardized individual covariate values:
           Variable   Value         
           ---------  ------------- 
-          PCTBRBNK    0.8740586    
-          PCTSHADE    48.614931    
+          LENGTH      123.30702    
                                                                95% Confidence Interval
   Parameter                  Estimate       Standard Error      Lower           Upper
  --------------------------  --------------  --------------  --------------  --------------
-     1:p g1 a0 t1             0.7207234       0.0646318       0.5790056       0.8288379                          
-     2:Psi g1 a0 t1           0.1159985       0.0311141       0.0675092       0.1921396                          
+     1:S gcontrolfemale a1    0.5365586       0.0690123       0.4019207       0.6660693                          
+     2:S gcontrolmale a1 t2   0.2826384       0.0612005       0.1790157       0.4158598                          
 
 
-                      Estimates of Derived Parameters
-        Occupancy Estimates of { p(~1)Psi(~pctBrBnk + pctShade) }
-                                            95% Confidence Interval
- Group   Psi-hat         Standard Error      Lower           Upper
- -----   --------------  --------------  --------------  --------------
-   1      0.1159985       0.0311141       0.0675092       0.1921396    
+                     Estimates of Derived Parameters
 
-   CPU Time for the last procedure was 0.01 seconds.     
+                Survival Estimates of { S(~sex:length) }
+
+       Pr. Surviving
+        Duration of                   95% Confidence Interval
+ Group     Study      Standard Error     Lower          Upper     
+ ----- -------------- -------------- -------------- --------------
+   1    0.5365586      0.0690116      0.4019219      0.6660682    
+   2    0.5365586      0.0690116      0.4019219      0.6660682    
+   3    0.2826384      0.0612002      0.1790162      0.4158589    
+   4    0.2826384      0.0612002      0.1790162      0.4158589    
+
+ Attempted ordering of parameters by estimatibility:
+  1 3 2
+ Beta number 2 is a singular value.
+
+   CPU Time for the last procedure was 0.02 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018    11-Dec-2019 13:37:39    Page  004
+   gfortran(dble) Vers. 9.0 Mar 2018    12-Dec-2019 16:40:04    Page  004
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -143,9 +166,9 @@
 
      CPU Time in minutes for this job was 0.00
 
-     Time Start = 13:37:38.524   Time End = 13:37:39.213
+     Time Start = 16:40:03.997   Time End = 16:40:04.205
 
-     Wall Clock Time in minutes for this job was 0.01
+     Wall Clock Time in minutes for this job was 0.00
 
 
           E X E C U T I O N   S U C C E S S F U L 

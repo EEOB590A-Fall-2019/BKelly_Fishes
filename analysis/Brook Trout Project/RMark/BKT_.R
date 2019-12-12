@@ -306,43 +306,38 @@ cleanup(ask = F)
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 #### Visualizing pctex21 effect on psi ####
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
-top.mod$design.data
-
-ModelToPlot=top.mod          # Store model results in object with simpler name
-
-# Build design matrix with values of interest
-
-fc=find.covariates(ModelToPlot, brook.df, usemean=T)   # extract cells from MARK design matrix that contain covariates
-design=fill.covariates(ModelToPlot, fc)                #fill design matrix with mean covariate values
 
 #covariate.predictions method
-pct21.values <- seq(0,100,1)
-pctforest.values <- seq(0,100,1)
+min.temp <- min(brook.df$pctex21)
+max.temp <- max(brook.df$pctex21)
+temp.values <- seq(from = min.temp, to = max.temp, length = 100)
+min.for <- min(brook.df$HAiFLS_for)
+max.for <- max(brook.df$HAiFLS_for)
+for.values <- seq(from = min.for, to = max.for, length = 100)
 
-PsibyEnv <- covariate.predictions(top.mod, data = data.frame(temp=brook.df$pctex21,forest=brook.df$HAiFLS_for),
-                                  indices = c(4))
-plot(PsibyEnv$estimates$temp, PsibyEnv$estimates$estimate)
+bkt.ddl #par.index = 1, model.index = 4
 
-PsibyEnv$estimates
+temp.values
+#try with par.index first
+pred.top <- covariate.predictions(top.mod, 
+                                  data = data.frame(pctex21 = temp.values,
+                                                    HAiFLS_for = for.values),
+                                  indices = 4)
+pred.top$estimates$estimate
 
-top.mod$design.data
+pred.top$estimates
 
+#predict while holding one value constant
+for.mean <- rep(mean(brook.df$HAiFLS_for), 100)
+pred.top2 <- covariate.predictions(top.mod, 
+                                  data = data.frame(pctex21 = temp.values,
+                                                    HAiFLS_for = for.mean),
+                                  indices = 4)
 
+pred.top2$estimates
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+################################################################################################################################################
+################################################################################################################################################
 # GGPlot results
 plot.psi.Lyr <- ggplot(data=model.psi.lyr[1:99,], aes(x=LogYearspsi)) +
   geom_line(aes(y=Estimate), size=1, color="#C8102E") +
@@ -363,175 +358,3 @@ plot.psi.Lyr
 
 ggsave("PESP psi LogYears.png", device='png', width=4, height=4)
 
-########################################################
-########################################################
-## example of covariate predictions
-########################################################
-########################################################
-pathtodata=paste(path.package("RMark"),"extdata",sep="/")
-
-
-indcov1=convert.inp(paste(pathtodata,"indcov1",sep="/"),
-                    covariates=c("mass","sqmass"))
-
-
-
-
-
-
-
-
-
-
-##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
-#### Visualizing Visit effect on p ####
-##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
-
-# To plot NestAge variable, use example code from Mallard data set
-ModelToPlot=occ.results$Psi.Lyr.Epsilon.Dot.Gamma.Dot.p.VstLyrTime          # Store model results in object with simpler name
-
-# Build design matrix with age values of interest
-
-## Low_diversity example_richness_values nests
-fc=find.covariates(ModelToPlot, inp.file, usemean=T)                                         # extract cells from MARK design matrix that contain covariates
-design=fill.covariates(ModelToPlot, fc)                                            # fill design matrix with mean covariate values
-
-# Expand row 1 to include full range of values of interest
-design.vst <- matrix(design[4,], nrow=1, ncol=8, byrow=F)
-for(i in 1:length(visits)){
-  if(i==1){
-    design.vst[i,6] <- visits[i]
-  }
-  if(i>1){
-    design.vst <- rbind(design.vst, design[4,])
-    design.vst[i,6] <- visits[i]
-  }
-}
-
-# Add remaining design rows for Epsilon, Gamma, and p back onto design matrix
-design <- rbind(design[c(1:3),], design.vst)
-#design <- design.vst
-
-
-model.p = compute.real(ModelToPlot, design=design)[,]              
-model.p = cbind(design[-(1:3),], model.p[-(1:3),])            # insert covariate columns  
-
-colnames(model.p)=c("psiIntercept", "LogYearspsi", "EpsilonIntercept", "GammaIntercept", "pIntercept", "Visits", "LogYearsp", "Time", "p", "se", "lcl", "ucl", "fixed")
-
-# GGPlot results
-plot.p.visits <- ggplot(data=model.p, aes(x=Visits)) +
-  geom_line(aes(y=p), size=1, color="#C8102E") +
-  geom_ribbon(aes(ymin=lcl, ymax=ucl), alpha=0.1, colour=NA)+
-  xlab("Average cover board checks per week over season \n at mean log(years) patch age and season week 0") +
-  scale_y_continuous(limits=c(0,1)) +
-  ylab("Detection probability (p)") +
-  labs(title="Peromyscus mouse detection probability ~ board flips") +
-  theme(plot.title = element_text(size=10)) +
-  theme(plot.title = element_text(hjust = 0.5)) 
-
-
-plot.p.visits
-
-ggsave("PESP p visits.png", device='png', width=4, height=4)
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-
-
-
-
-###~~~~~~~~~~~~~~~~~~##
-####  Catchment   ####
-##~~~~~~~~~~~~~~~~~~##
-
-run.occ.cat=function()
-{
-  #~~~~~~~~~~~~~ Model List ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  #~~~~~~~~~~~ Detection Probability - null model ~~~~~~~~~~~~
-  p.Dot = list(formula= ~1)
-  #~~~~~~~~~~~ Detection Probability - single covariate ~~~~~~~~~~~~
-  p.tv.effort = list(formula = ~effort)
-  #~~~~~~~~~~~~~ Occupancy - null model ~~~~~~~~~~~~~~~~~~~~~~
-  Psi.Dot        = list(formula=~1) 
-  #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
-  #"global" catchment models
-  Psi.cat = list(formula = ~HAiFLS_for+Area_km2+AvgSlope+EFac_Cat+Cross_Cat)
-  #submodels
-  #4 covariates
-  Psi.for1 = list(formula = ~HAiFLS_for+Area_km2+AvgSlope+EFac_Cat)
-  Psi.for2 = list(formula = ~HAiFLS_for+Area_km2+AvgSlope+Cross_Cat)
-  Psi.for3 = list(formula = ~HAiFLS_for+Area_km2+EFac_Cat+Cross_Cat)
-  Psi.for4 = list(formula = ~HAiFLS_for+AvgSlope+EFac_Cat+Cross_Cat)
-  Psi.for5 = list(formula = ~Area_km2+AvgSlope+EFac_Cat+Cross_Cat)
-  #3 covariates
-  Psi.for6 = list(formula = ~HAiFLS_for+Area_km2+AvgSlope)
-  Psi.for7 = list(formula = ~HAiFLS_for+Area_km2+EFac_Cat)
-  Psi.for8 = list(formula = ~HAiFLS_for+Area_km2+Cross_Cat)
-  Psi.for9 = list(formula = ~HAiFLS_for+AvgSlope+EFac_Cat)
-  Psi.for10 = list(formula = ~HAiFLS_for+AvgSlope+Cross_Cat)
-  Psi.for11 = list(formula = ~Area_km2+AvgSlope+EFac_Cat)
-  Psi.for12 = list(formula = ~Area_km2+AvgSlope+Cross_Cat)
-  Psi.for13 = list(formula = ~AvgSlope+EFac_Cat+Cross_Cat)
-  #2 covariates
-  Psi.for_area = list(formula = ~HAiFLS_for+Area_km2)
-  Psi.for_slope = list(formula = ~HAiFLS_for+AvgSlope)
-  Psi.for_EFac = list(formula = ~HAiFLS_for+EFac_Cat)
-  Psi.for_cross = list(formula = ~HAiFLS_for+Cross_Cat)
-  Psi.area_slope = list(formula = ~Area_km2+AvgSlope)
-  Psi.area_EFac = list(formula = ~Area_km2+EFac_Cat)
-  Psi.area_cross = list(formula = ~Area_km2+Cross_Cat)
-  Psi.slope_EFac = list(formula = ~AvgSlope+EFac_Cat)
-  Psi.slope_cross = list(formula = ~AvgSlope+Cross_Cat)
-  Psi.EFac_cross = list(formula = ~EFac_Cat+Cross_Cat)
-  #~~~~~~~~~~~~~ Occupancy - single covariate ~~~~~~~~~~~~~~~~~~~~~~
-  Psi.for = list(formula = ~HAiFLS_for)
-  Psi.area = list(formula = ~Area_km2)
-  Psi.slope = list(formula = ~AvgSlope)
-  Psi.EFac = list(formula = ~EFac_Cat)
-  Psi.cross = list(formula = ~Cross_Cat)
-  #~~~~~~~~~~~~ model list & wrapper ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  cml.cat=create.model.list("Occupancy")
-  results.cat=mark.wrapper(cml.cat, data=brook.process, ddl=bkt.ddl, output=F)
-  return(results.cat)
-}
-
-bkt.results.cat = run.occ.cat()
-
-##Examine model list and look at model comparisons
-bkt.results.cat
-##Model Table
-AICc.Table.Cat = model.table(bkt.results.cat, use.lnl = T)
-AICc.Table.Cat
-
-#look at summary of top model(s)
-summary(bkt.results.cat$p.tv.effort.Psi.for)
-bkt.results.cat$p.tv.effort.Psi.for$results$real
-top.mod.cat <- bkt.results.cat$p.tv.effort.Psi.for
-summary(top.mod.cat)
-
-#calculate predictions
-Psi.pred <- covariate.predictions(top.mod.cat, data = brook2, alpha = 0.025)
-
-
-
-cleanup(ask = FALSE)
-
-#---------------------------------------------------------------------------------------------------#
-#export MARK data with models
-#export ch data to an .inp file
-#str(brook2)
-#export.chdata(brook.process, filename = "BrookOccu", covariates = "all")
-
-#overall analysis results
-names(brook2)
-export.MARK(brook.process, "BKT_OccPrelim", model = top.mod, ind.covariates = c("effort1", "effort2", 
-                                                                                    "effort3", "pctex21",
-                                                                                    "pctpool", "pctrock",
-                                                                                    "pctBrBnk", "pctShade",
-                                                                                    "BRT_100m", "HAiFLS_for",
-                                                                                    "Area_km2", "AvgSlope",
-                                                                                    "EFac_Cat", "Cross_Cat"), replace = T)
-export.MARK(brook.process, "BKT_OccCat_Prelim", model = bkt.results.cat, ind.covariates = c("effort1", "effort2", 
-                                                                                    "effort3", "HAiFLS_for",
-                                                                                    "Area_km2", "AvgSlope",
-                                                                                    "EFac_Cat", "Cross_Cat"), replace = T)
-
-#---------------------------------------------------------------------------------------------------#
