@@ -1,0 +1,175 @@
+
+   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018    12-Dec-2019 15:58:19    Page  001
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+   This version was compiled by GCC version 7.2.0 using the options: 
+     -cpp -iprefix C:/Program Files/mingw-w64/x86_64-7.2.0-posix-seh-rt_v5-rev1/
+     mingw64/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/ -D_MT -D_REENTRANT
+     -U_REENTRANT -D IEEE -D DBLEPRECISION -m64 -mtune=core2 -march=nocona -mthreads
+     -O2 -fimplicit-none -fbounds-check -funroll-loops -ftree-vectorize
+     -ffpe-summary=invalid,zero,overflow,underflow -fno-unsafe-math-optimizations
+     -frounding-math -fsignaling-nans -fopenmp.
+
+   This problem will use 7 of 8 possible threads.
+
+
+  INPUT --- proc title ;
+
+   CPU Time for the last procedure was 0.01 seconds.     
+
+
+  INPUT --- proc chmatrix occasions= 3 groups= 1 etype= Occupancy 
+  INPUT --- Nodes= 101 icovar = 8 ICMeans  NoHist hist= 138 ;
+
+  INPUT ---    time interval 1 1 1 ;
+
+  INPUT ---     icovariates effort1 effort2 effort3 pctpool pctrock  
+  INPUT ---    BRT_100m pctBrBnk HAiFLS_for ;
+
+  INPUT ---    glabel(1)=freq1;
+
+      Number of unique encounter histories read was 138.
+
+      Number of individual covariates read was 8.
+      Time interval lengths are all equal to 1.
+
+      Data type number is 27
+      Data type is Occupancy Estimation with Detection < 1                                                             
+
+   CPU Time for the last procedure was 0.02 seconds.     
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018    12-Dec-2019 15:58:19    Page  002
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+
+
+  INPUT --- proc estimate link=Logit NOLOOP varest=2ndPart    ;
+
+
+  INPUT --- model={ p(~effort)Psi(~pctpool + pctrock + BRT_100m + 
+  INPUT --- pctBrBnk + HAiFLS_for) };
+
+  INPUT ---    group=1 p    rows=1 cols=3 Square ;
+  INPUT ---        1 2 3 ;
+
+  INPUT ---    group=1 Psi    rows=1 cols=1 Square ;
+  INPUT ---        4 ;
+
+  INPUT ---    design matrix constraints=4 covariates=8;
+  INPUT ---        1 effort1 0 0 0 0 0 0;
+  INPUT ---        1 effort2 0 0 0 0 0 0;
+  INPUT ---        1 effort3 0 0 0 0 0 0;
+  INPUT ---        0 0 1 pctpool pctrock BRT_100m pctBrBnk HAiFLS_for;
+  INPUT ---       blabel(1)=p:(Intercept);
+  INPUT ---       blabel(2)=p:effort;
+  INPUT ---       blabel(3)=Psi:(Intercept);
+  INPUT ---       blabel(4)=Psi:pctpool;
+  INPUT ---       blabel(5)=Psi:pctrock;
+  INPUT ---       blabel(6)=Psi:BRT_100m;
+  INPUT ---       blabel(7)=Psi:pctBrBnk;
+  INPUT ---       blabel(8)=Psi:HAiFLS_for;
+  INPUT ---       rlabel(1)=p g1 a0 t1;
+  INPUT ---       rlabel(2)=p g1 a1 t2;
+  INPUT ---       rlabel(3)=p g1 a2 t3;
+  INPUT ---       rlabel(4)=Psi g1 a0 t1;
+
+ Link Function Used is LOGIT        
+
+ Variance Estimation Procedure Used is 2ndPart 
+ -2logL(saturated) = 0.0000000     
+ Effective Sample Size = 138
+
+ Number of function evaluations was 21 for 8 parameters.
+ Time for numerical optimization was 0.02 seconds.     
+ -2logL { p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for) } = 153.46990     
+ Penalty { p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for) } = 0.0000000     
+ Gradient { p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for) }:
+  0.1440228E-05  0.2657915E-06  0.2859099E-05  0.2423087E-05  0.2877296E-05
+  0.1105169E-05  0.1142999E-05  0.1456967E-05
+ Maximum ABS(G) { p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for) } = 0.2877296E-05 
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018    12-Dec-2019 15:58:19    Page  003
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+ S Vector { p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for) }:
+   26.60260      8.550357      1.294582     0.9144722     0.4673405    
+  0.2365426     0.2037330     0.1043904    
+ Time to compute number of parameters was 0.11 seconds.     
+ Ratio Threshold = 50.000000       Max Gap (2/3) = 6.6047214       Next Max Gap (1/2) = 3.1112849     
+ Gap Method for Num. of Estimated Parameters { p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for) } = 8          
+ Threshold { p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for) } = 0.5754591E-05                 
+ Numerical Threshold Method for Num. of Estimated Parameters { p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for) } = 8          
+ Number of Estimated Parameters { p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for) } = 8          
+ DEVIANCE { p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for) } = 153.46990                     
+ DEVIANCE Degrees of Freedom { p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for) } = 130            
+ c-hat { p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for) } = 1.1805377                     
+ AIC { p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for) } = 169.46990                  
+ AICc { p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for) } = 170.58618                    
+ BIC { p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for) } = 192.88793                    
+ Pearson Chisquare { p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for) } = 770.10083                  
+
+
+ LOGIT Link Function Parameters of { p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for) }
+                                                              95% Confidence Interval
+ Parameter                    Beta         Standard Error      Lower           Upper
+ -------------------------  --------------  --------------  --------------  --------------
+    1:p:(Intercept)         -0.3243375       0.6450659      -1.5886666       0.9399916    
+    2:p:effort               0.0015487       0.7631319E-03   0.5293442E-04   0.0030444    
+    3:Psi:(Intercept)       -2.3355766       1.3624249      -5.0059296       0.3347763    
+    4:Psi:pctpool            0.0171975       0.0164109      -0.0149679       0.0493629    
+    5:Psi:pctrock            0.0032579       0.0141446      -0.0244656       0.0309814    
+    6:Psi:BRT_100m           0.0255003       0.0164464      -0.0067346       0.0577353    
+    7:Psi:pctBrBnk          -1.2651063       0.6573632      -2.5535382       0.0233256    
+    8:Psi:HAiFLS_for         0.0162017       0.0090614      -0.0015586       0.0339620    
+
+
+ Real Function Parameters of { p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for) }
+
+      Following estimates based on unstandardized individual covariate values:
+          Variable   Value         
+          ---------  ------------- 
+          EFFORT1     906.23188    
+          EFFORT2     834.18841    
+          EFFORT3     818.18116    
+          PCTPOOL     25.664251    
+          PCTROCK     68.678238    
+          BRT_100M    6.7817616    
+          PCTBRBNK    0.8740586    
+          HAIFLS_FOR  26.272482    
+                                                               95% Confidence Interval
+  Parameter                  Estimate       Standard Error      Lower           Upper
+ --------------------------  --------------  --------------  --------------  --------------
+     1:p g1 a0 t1             0.7463273       0.0713475       0.5843074       0.8602969                          
+     2:p g1 a1 t2             0.7246304       0.0716158       0.5656436       0.8417086                          
+     3:p g1 a2 t3             0.7196563       0.0718123       0.5609715       0.8375907                          
+     4:Psi g1 a0 t1           0.1017758       0.0313232       0.0547217       0.1815211                          
+
+
+                      Estimates of Derived Parameters
+ Occupancy Estimates of { p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for) }
+                                            95% Confidence Interval
+ Group   Psi-hat         Standard Error      Lower           Upper
+ -----   --------------  --------------  --------------  --------------
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018    12-Dec-2019 15:58:19    Page  004
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+   1      0.1017758       0.0313232       0.0547217       0.1815211    
+
+   CPU Time for the last procedure was 0.12 seconds.     
+
+
+  INPUT --- proc stop;
+
+     CPU Time in minutes for this job was 0.00
+
+     Time Start = 15:58:19.817   Time End = 15:58:19.951
+
+     Wall Clock Time in minutes for this job was 0.00
+
+
+          E X E C U T I O N   S U C C E S S F U L 
