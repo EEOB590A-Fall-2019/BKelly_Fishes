@@ -317,44 +317,114 @@ for.values <- seq(from = min.for, to = max.for, length = 100)
 
 bkt.ddl #par.index = 1, model.index = 4
 
-temp.values
-#try with par.index first
-pred.top <- covariate.predictions(top.mod, 
-                                  data = data.frame(pctex21 = temp.values,
-                                                    HAiFLS_for = for.values),
-                                  indices = 4)
-pred.top$estimates$estimate
-
-pred.top$estimates
-
-#predict while holding one value constant
+##################################################
+#predict while holding one value constant (forest)
+##################################################
 for.mean <- rep(mean(brook.df$HAiFLS_for), 100)
-pred.top2 <- covariate.predictions(top.mod, 
+for.minus <- rep(0, 100)
+for.plus <- rep(mean(brook.df$HAiFLS_for)+sd(brook.df$HAiFLS_for), 100)
+
+#predictions of Psi for full range of p21 & -1SD of forest values (would be negative so just forest=0)
+p21.pred.minus <- covariate.predictions(top.mod, 
                                   data = data.frame(pctex21 = temp.values,
-                                                    HAiFLS_for = for.mean),
+                                                    HAiFLS_for = for.minus),
                                   indices = 4)
 
-pred.top2$estimates
+p21.pred.minus$estimates
 
-################################################################################################################################################
-################################################################################################################################################
-# GGPlot results
-plot.psi.Lyr <- ggplot(data=model.psi.lyr[1:99,], aes(x=LogYearspsi)) +
-  geom_line(aes(y=Estimate), size=1, color="#C8102E") +
-  geom_ribbon(aes(ymin=lcl, ymax=ucl), alpha=0.1, colour=NA)+
-  #scale_y_continuous(limits=c(0,1))+
-  #coord_trans(x = "exp") +
-  #  scale_x_continuous(labels=round(model.psi.lyr$PchYearspsi[1:99], digits=1), breaks=(seq(from=min(model.psi.lyr$PchYears), to=max(model.psi.lyr$PchYears), length.out=nrow(model.psi.lyr[1:99,]))),
-  scale_x_continuous(breaks=c(-2.5, -1, 0, 1, 2.5, 4.5), labels=round(c(exp(-2.5), exp(-1), exp(0), exp(1), exp(2.5), exp(4.5)), digits=2)) +
-  xlab("Years since patch establishment (log scale)") +
-  ylab("Occupancy (Psi)") +
-  labs(title="Peromyscus mouse occupancy ~ patch age") +
-  theme(plot.title = element_text(size=10)) +
-  #  annotate("text", x = 12, y = 0.75, label = "Hatch day", angle=90, size=2.25) +
-  theme(plot.title = element_text(hjust = 0.5)) 
-#  ylim(c(0.725, 1.0))
+#predictions of Psi for full range of p21 & mean of forest values 
+p21.pred.mean <- covariate.predictions(top.mod, 
+                                        data = data.frame(pctex21 = temp.values,
+                                                          HAiFLS_for = for.mean),
+                                        indices = 4)
 
-plot.psi.Lyr
+p21.pred.mean$estimates
 
-ggsave("PESP psi LogYears.png", device='png', width=4, height=4)
+#predictions of Psi for full range of p21 & +1SD of forest values 
+p21.pred.plus <- covariate.predictions(top.mod, 
+                                        data = data.frame(pctex21 = temp.values,
+                                                          HAiFLS_for = for.plus),
+                                        indices = 4)
+
+p21.pred.plus$estimates
+
+Psi.Predictions.P21 <- rbind(p21.pred.minus$estimates, p21.pred.mean$estimates, p21.pred.plus$estimates)%>%
+  select(pctex21, HAiFLS_for, estimate, se, lcl, ucl)%>%
+  round(digits = 4)
+
+##########################################################
+#predict while holding one value constant (temp this time)
+##########################################################
+temp.mean <- rep(mean(brook.df$pctex21), 100)
+temp.minus <- rep(0, 100)
+temp.plus <- rep(mean(brook.df$pctex21)+sd(brook.df$pctex21), 100)
+
+#predictions of Psi for full range of HAiFLS_for & -1SD of pctex21 values (would be negative so just =0)
+for.pred.minus <- covariate.predictions(top.mod, 
+                                        data = data.frame(pctex21 = temp.minus,
+                                                          HAiFLS_for = for.values),
+                                        indices = 4)
+
+for.pred.minus$estimates
+
+#predictions of Psi for full range of HAiFLS_for & mean of pctex21 values 
+for.pred.mean <- covariate.predictions(top.mod, 
+                                       data = data.frame(pctex21 = temp.mean,
+                                                         HAiFLS_for = for.values),
+                                       indices = 4)
+
+for.pred.mean$estimates
+
+#predictions of Psi for full range of HAiFLS_for & +1SD of pctex21 values
+for.pred.plus <- covariate.predictions(top.mod, 
+                                       data = data.frame(pctex21 = temp.plus,
+                                                         HAiFLS_for = for.values),
+                                       indices = 4)
+
+for.pred.plus$estimates
+
+Psi.Predictions.for <- rbind(for.pred.minus$estimates, for.pred.mean$estimates, for.pred.plus$estimates)%>%
+  select(pctex21, HAiFLS_for, estimate, se, lcl, ucl)%>%
+  round(digits = 4)
+
+####################################################
+##     Write tidy csv's for Psi predictions       ## 
+####################################################
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+write_csv(Psi.Predictions.P21, "Data/Thesis/Tidy/Psi_predictions_pctex21.csv")
+write_csv(Psi.Predictions.for, "Data/Thesis/Tidy/Psi_predictions_HAiFLS_for.csv")
+
+
+
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+#### Visualizing effort effect on p   ####
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+min.effort <- min(brook.df$effort1)
+max.effort <- max(brook.df$effort1)
+effort.values <- seq(min.effort, max.effort, length.out = 100)
+mean.effort <- mean(brook.df$effort1) #906.231
+
+#predictions of p for full range of effort1 values
+p.pred.effort <- covariate.predictions(top.mod, 
+                                       data = data.frame(effort1 = effort.values),
+                                       indices = 1)
+
+p.pred.effort$estimates
+
+
+P.predictions.effort <- p.pred.effort$estimates %>%
+  select(covdata, estimate, se, lcl, ucl) %>%
+  rename(Effort_sec = covdata) %>%
+  round(digits = 4)
+
+####################################################
+##       Write tidy csv for P predictions         ## 
+####################################################
+write_csv(P.predictions.effort, "Data/Thesis/Tidy/P_predictions_effort.csv")
+
+
+
+
+
 
