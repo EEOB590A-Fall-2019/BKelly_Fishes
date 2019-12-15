@@ -425,6 +425,138 @@ write_csv(P.predictions.effort, "Data/Thesis/Tidy/P_predictions_effort.csv")
 
 
 
+################################################################################################################################
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+################################################################################################################################
+#set wd to scratch folder because MARK outputs an insane amount of files
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/RMark/output") #because MARK loves output files
 
+#Process Data
+#?process.data
+#?make.design.data
+brook.process = process.data(brook.df, model="Occupancy", groups = "freq")
+bkt.ddl = make.design.data(brook.process)
+
+# Catchment Scale: within the upstream land area that drains to the outlet of the sampled segment
+#> HAiFLS_for (+) "Hydrologically Active inserve flow length to the stream of forest LULC"
+#> Area_km2 (-) "Catchment Area"
+#> AvgSlope (+) "Mean Slope of the catchment"
+#> EFac_Cat (-) "Environmental Facility density of upstream catchment (count/Area_km2)"
+#> Cross_Cat (-) "Road Crossing density of upstream catchment (count/Area_km2)"
+pairs(brook.df[,14:18])
+
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+####   Catchment Scale covariates   ####
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+
+run.occ.cat=function()
+{
+  #~~~~~~~~~~~~~ Model List ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  #~~~~~~~~~~~ Detection Probability - null model ~~~~~~~~~~~~
+  p.Dot = list(formula= ~1)
+  #~~~~~~~~~~~ Detection Probability - single covariate ~~~~~~~~~~~~
+  p.tv.effort = list(formula = ~effort)
+  #~~~~~~~~~~~~~ Occupancy - null model ~~~~~~~~~~~~~~~~~~~~~~
+  Psi.Dot        = list(formula=~1) 
+  #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
+  #all covariates
+  Psi.global = list(formula = ~HAiFLS_for+Area_km2+AvgSlope+Cross_Cat)
+  #3 Covariates
+  Psi.for_area_slpe = list(formula = ~HAiFLS_for+Area_km2+AvgSlope)
+  Psi.for_area_cross = list(formula = ~HAiFLS_for+Area_km2+Cross_Cat)
+  Psi.for_slpe_cross = list(formula = ~HAiFLS_for+AvgSlope+Cross_Cat)
+  Psi.area_slpe_crs = list(formula = ~Area_km2+AvgSlope+Cross_Cat)
+  #2 covariates
+  Psi.for_area = list(formula = ~HAiFLS_for+Area_km2)
+  Psi.for_slpe = list(formula = ~HAiFLS_for+AvgSlope)
+  Psi.for_cross = list(formula = ~HAiFLS_for+Cross_Cat)
+  Psi.area_slpe = list(formula = ~Area_km2+AvgSlope)
+  Psi.area_cross = list(formula = ~Area_km2+Cross_Cat)
+  Psi.slpe_cross = list(formula = ~AvgSlope+Cross_Cat)
+  #~~~~~~~~~~~~~ Occupancy - single covariate ~~~~~~~~~~~~~~~~~~~~~~
+  Psi.for = list(formula = ~HAiFLS_for)
+  Psi.area = list(formula = ~Area_km2)
+  Psi.slope = list(formula = ~AvgSlope)
+  Psi.cross = list(formula = ~Cross_Cat)
+  #~~~~~~~~~~~~ model list & wrapper ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  cml.cat=create.model.list("Occupancy")
+  results.cat=mark.wrapper(cml.cat, data=brook.process, ddl=bkt.ddl, output=F)
+  return(results.cat)
+}
+
+bkt.results.cat = run.occ.cat()
+
+
+##Examine model list and look at model comparisons
+bkt.results.cat
+##Model Table
+AICc.Table = model.table(bkt.results.cat, use.lnl = T)
+AICc.Table
+
+#look at summary of top model(s)
+summary(bkt.results.cat$p.tv.effort.Psi.for)
+summary(bkt.results.cat$p.tv.effort.Psi.for_slpe)
+summary(bkt.results.cat$p.tv.effort.Psi.for_area)
+bkt.results.cat$p.tv.effort.Psi.for$results$real
+tm.cat <- bkt.results.cat$p.tv.effort.Psi.for
+
+
+cleanup(ask = F)
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+#### Visualizing HAiFLS_for effect on psi ####
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+bkt.ddl #par.index = 1, model.index = 4
+
+#covariate.predictions method
+min.for <- min(brook.df$HAiFLS_for)
+max.for <- max(brook.df$HAiFLS_for)
+for.values <- seq(from = min.for, to = max.for, length = 100)
+
+##################################################
+#predict across range of observed values (forest)
+##################################################
+
+#predictions of Psi for full range of p21 & -1SD of forest values (would be negative so just forest=0)
+predictions_for <- covariate.predictions(tm.cat, 
+                                        data = data.frame(HAiFLS_for = for.values),
+                                        indices = 4)
+
+predictions_for$estimates
+
+catch.mod.predictions <- predictions_for$estimates
+
+####################################################
+##     Write tidy csv's for Psi predictions       ## 
+####################################################
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+write_csv(catch.mod.predictions, "Data/Thesis/Tidy/BKT_Catchment_Model_Predictions.csv")
+
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+#### Visualizing effort effect on p   ####
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+min.effort <- min(brook.df$effort1)
+max.effort <- max(brook.df$effort1)
+effort.values <- seq(min.effort, max.effort, length.out = 100)
+mean.effort <- mean(brook.df$effort1) #906.231
+
+#predictions of p for full range of effort1 values
+p.pred.eff1 <- covariate.predictions(tm.cat, 
+                                       data = data.frame(effort1 = effort.values),
+                                       indices = 1)
+
+p.pred.eff1$estimates
+
+
+P.predictions.eff1 <- p.pred.eff1$estimates %>%
+  select(covdata, estimate, se, lcl, ucl) %>%
+  rename(Effort_sec = covdata) %>%
+  round(digits = 4)
+
+####################################################
+##       Write tidy csv for P predictions         ## 
+####################################################
+write_csv(P.predictions.eff1, "Data/Thesis/Tidy/BKT_CatchMod_DProb_predictions.csv")
 
 
