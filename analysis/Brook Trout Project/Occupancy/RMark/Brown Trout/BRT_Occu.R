@@ -36,22 +36,15 @@ brown <- read_csv("Data/Thesis/Tidy/BRT_occDF_RMARK.csv", col_names = T)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #inspect correlations between covariates
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-psi.vars <- brown[,7:22]
+psi.vars <- brown[,7:20]
 
 #correlation test
-c <- cor(psi.vars)
-head(round(c,2)) 
-
-#round down
-cround <- round(c,3)
-
-#visualize these correlations
-corrplot(c, type = "upper", order = "hclust", col = c("black", "white"),
-         bg="lightblue")
+ct <- cor(psi.vars)
+head(round(ct,2)) 
 
 
 #visualize these correlations
-corrplot(c, method = "number")
+corrplot(ct, method = "number")
 
 # mat : is a matrix of data
 # ... : further arguments to pass to the native R cor.test function
@@ -70,7 +63,7 @@ cor.mtest <- function(mat, ...) {
   p.mat
 }
 # matrix of the p-value of the correlation
-p.mat <- c
+p.mat <- cor(psi.vars) #this may be incorrect!
 
 #correlogram
 col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
@@ -84,7 +77,7 @@ corrplot(c, method="color", col=col(200),
          diag=FALSE 
 )
 
-pairs(psi.vars)
+pairs(psi.vars) #pairs method of visualizing relationships
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 ## Colinear variables to not include in the same model (> 0.6):
