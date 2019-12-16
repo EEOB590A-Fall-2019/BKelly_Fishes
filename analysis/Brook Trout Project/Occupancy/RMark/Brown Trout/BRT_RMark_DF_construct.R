@@ -9,68 +9,58 @@
 
 library(tidyverse)
 library(skimr)
+library(corrplot)
 
 #read in Brook Trout encounter history and environmental covariates
 
-Brk <- read_csv("Data/Thesis/Tidy/BKT_EncHist.csv", col_names = T)
+brt <- read_csv("Data/Thesis/Tidy/BRT_ch_data.csv", col_names = T)
 covars <- read_csv("Data/Thesis/Tidy/enviro_tidy.csv", col_names = T)
-fishdat <- read_csv("Data/Thesis/Tidy/tidyfish1.csv", col_names = T)
-
+spc <- read_csv("Data/Thesis/Raw/All Years/Catchment_Attributes.csv", col_names = T)
 
 #----------------------------------------------------------------------
-#need BRT CPUE as covariate
-#first we need to create new vector just for BRT_ab
-
-trutta <- fishdat %>%
-  unite(newID, c(HUC8, site),sep = "_", remove = F)%>%
-  select(newID, BRT_ab)
-
-#rename to common identifiers
-trutta[46,1] <- "UPI_201"
-trutta[47,1] <- "UPI_202"
-trutta[117,1] <- "YEL_97b"
-
-#remove fishless and non-randomly selected sites
-trutta <- trutta %>%
-  filter(!newID %in% c("UPI_29", "UPI_165", "YEL_33", "YEL_98"))
-
-#join with other covariates -- run lines below **FIRST!**
-hab <- covars%>%
-  unite(newID, c(HUC8, Site),sep = "_", remove = F)
-habby <- left_join(hab, trutta, by = "newID")
-habby <- habby %>%
-  mutate(SampleRch = (RchLen*3)) %>%
-  mutate(BRT_100m = (BRT_ab/SampleRch)*100)
-
-#---------------------------------------------------------------------
-#create reduced Brook Trout encounter history tbl
-enc <- Brk %>%
-  unite(newID, c(HUC8, site),sep = "_", remove = F)%>%
-  select(EncHist, newID)%>%
-  rename(ch = EncHist)
-enc[96,2] <- "YEL_97b"
 
 #join and remove identifiers and covariates unrelated to hypotheses
-names(habby)
-habby <- habby %>%
-  select(-uid, -HUC8, -Site, -Order, -SegLen, -RchLen, -pH, -pctclay, -pctsilt, -pctsand, -pctbldr, 
-         -FWD) %>%
-  select(-BRT_ab, -SampleRch)
+names(covars)
+covars2 <- covars %>%
+  unite(newID, c(HUC8, Site), sep = "_", remove = T) %>%
+  select(newID, t1_eff, t2_eff, t3_eff, avgT, MAXT, MEANT, RNGT, avwid, avdep, mFlow,
+         pctrun, pctslow, pctBrBnk, HAiFLS_alt, HAiFLS_for) %>%
+  rename(effort1 = t1_eff, effort2 = t2_eff, effort3 = t3_eff)
 
+names(spc)
+spc2 <- spc %>%
+  unite(newID, c(HUC8, Site), sep = "_", remove = T) %>%
+  select(newID, POLY_AREA, Avg_Percen, Count_2) %>%
+  rename(Area_km2=POLY_AREA, AvgSlope=Avg_Percen, Cross_Cat=Count_2) %>%
+  filter(newID != "UPI_29" & newID != "YEL_33") 
+
+spc2[9,1] <- "UPI_57b"
+spc2[12,1] <- "UPI_14b"
+spc2[26,1] <- "UPI_78b"
+spc2[57,1] <- "YEL_118b"
+spc2[67,1] <- "UPI_32b"
+spc2[104,1] <- "YEL_97b"
+spc2[132,1] <- "LMAQ_28b"
+spc2[129,1] <- "LMAQ_48"
+
+envc <- full_join(covars2, spc2, by = "newID")
+
+envc <- envc %>%
+  mutate(HAiFLS_al2=(HAiFLS_alt^2))
 
 ########################################################
-#merged data
-brook <- full_join(enc, habby, by = "newID")
+#merge ch and covariate data
+brown <- full_join(brt, envc, by = "newID")
 ########################################################
 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #inspect correlations between covariates
-#install.packages("corrplot")
-library(corrplot)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+psi.vars <- brown[,7:22]
 
 #correlation test
-c <- cor(brook[,3:73])
+c <- cor(psi.vars)
 head(round(c,2)) 
-
 
 #round down
 cround <- round(c,3)
@@ -79,39 +69,54 @@ cround <- round(c,3)
 corrplot(c, type = "upper", order = "hclust", col = c("black", "white"),
          bg="lightblue")
 
-#--------------------------------------------------------------------------
-#extract high and low values
-i=1
-j=1
-k=1
 
-corr <- data.frame(var1 = character(),
-                   var2 = character(),
-                   corr = character(),
-                   stringsAsFactors = F)
+#visualize these correlations
+corrplot(c, method = "number")
 
-for(i in 1:nrow(cround)){
-  for(j in 1:ncol(cround)){
-    if(cround[i,j]>.6 | cround[i,j] < -.6){
-      corr[k,1] <- as.character(row.names(cround)[i])
-      corr[k,2] <- as.character(colnames(cround)[j])
-      corr[k,3] <- as.character(cround[i,j])
-      k = k+1
+# mat : is a matrix of data
+# ... : further arguments to pass to the native R cor.test function
+cor.mtest <- function(mat, ...) {
+  mat <- as.matrix(c)
+  n <- ncol(mat)
+  p.mat<- matrix(NA, n, n)
+  diag(p.mat) <- 0
+  for (i in 1:(n - 1)) {
+    for (j in (i + 1):n) {
+      tmp <- cor.test(mat[, i], mat[, j], ...)
+      p.mat[i, j] <- p.mat[j, i] <- tmp$p.value
     }
   }
+  colnames(p.mat) <- rownames(p.mat) <- colnames(mat)
+  p.mat
 }
-#-------------------------------------------------------------------------
+# matrix of the p-value of the correlation
+p.mat <- c
 
-#remove rows where variables are compared with themselves
-correfilt <- corr%>%
-  filter(var1 != var2)
+#correlogram
+col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
+corrplot(c, method="color", col=col(200),  
+         type="upper", order="hclust", 
+         addCoef.col = "black", # Add coefficient of correlation
+         tl.col="black", tl.srt=45, #Text label color and rotation
+         # Combine with significance
+         p.mat = p.mat, sig.level = 0.01, insig = "blank", 
+         # hide correlation coefficient on the principal diagonal
+         diag=FALSE 
+)
 
+pairs(psi.vars)
+
+############################################################################
+#         Remove covars based on correlation and lit review               #
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+brown <- brown %>%
+  select(-HAiFLS_for, -RNGT)
 
 ###########################################################################
 #Write CSV's
 
 #RMARK dataframe
-write.csv(brook,"Data/Thesis/Tidy/BKT_occDF_RMARK.csv", row.names = F)
+write.csv(brown,"Data/Thesis/Tidy/BRT_occDF_RMARK.csv", row.names = F)
 
-#Correlation's Over .6
-write.csv(correfilt,"Data/Thesis/Tidy/StrCorrelations_Covariates.csv", row.names = F)
+
