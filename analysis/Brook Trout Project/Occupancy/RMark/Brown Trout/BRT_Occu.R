@@ -28,70 +28,57 @@ library(corrplot)
 ##--------------------------------------------------------------------------------------------------------------------------------##
 #read in data, rearrange and change some labels to work with grouping ("freq"), and time-varying covariates ("Effort1 --> Effort3")
 brown <- read_csv("Data/Thesis/Tidy/BRT_occDF_RMARK.csv", col_names = T)
-#brown.df <- as.data.frame(brown)
-#examine
-#skim(brown.df)
-
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #inspect correlations between covariates
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 psi.vars <- brown[,7:20]
+psi.cv <- brown[,16:20]
+psi.lv <- brown[,7:15]
 
 #correlation test
-ct <- cor(psi.vars)
+ct <- cor(psi.vars) #all
 head(round(ct,2)) 
+
+ctc <- cor(psi.cv) #catchment
+ctl <- cor(psi.lv) #local
 
 
 #visualize these correlations
-corrplot(ct, method = "number")
-
-# mat : is a matrix of data
-# ... : further arguments to pass to the native R cor.test function
-cor.mtest <- function(mat, ...) {
-  mat <- as.matrix(c)
-  n <- ncol(mat)
-  p.mat<- matrix(NA, n, n)
-  diag(p.mat) <- 0
-  for (i in 1:(n - 1)) {
-    for (j in (i + 1):n) {
-      tmp <- cor.test(mat[, i], mat[, j], ...)
-      p.mat[i, j] <- p.mat[j, i] <- tmp$p.value
-    }
-  }
-  colnames(p.mat) <- rownames(p.mat) <- colnames(mat)
-  p.mat
-}
-# matrix of the p-value of the correlation
-p.mat <- cor(psi.vars) #this may be incorrect!
-
-#correlogram
-col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
-corrplot(c, method="color", col=col(200),  
-         type="upper", order="hclust", 
-         addCoef.col = "black", # Add coefficient of correlation
-         tl.col="black", tl.srt=45, #Text label color and rotation
-         # Combine with significance
-         p.mat = p.mat, sig.level = 0.01, insig = "blank", 
-         # hide correlation coefficient on the principal diagonal
-         diag=FALSE 
-)
+corrplot(ct, method = "number", type = "upper") #all
+corrplot(ctl, method = "number", type = "upper") #local
+corrplot(ctc, method = "number", type = "upper") #catchment
 
 pairs(psi.vars) #pairs method of visualizing relationships
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 ## Colinear variables to not include in the same model (> 0.6):
 # Strong #
-#
+#--------#
+# Local Scale: 
+  # avgT and MEANT
+  # MAXT and MEANT
+  # pctrun and pctslow
+#Catchment Scale:
+  #HAiFLS_alt and HAiFLS_al2
+  #Area_km2 and Cross_Cat
+  #Area_km2 and Area2
+#Both:
+  # none >0.6
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Weak - user discretion #
 #------------------------#
-#Area_km2 and effort (0.43)
-#pctShade and HAiFLS_for (0.4)
-#pctShade and HAiFLS_alt (-0.37)
-#HAiFLS_for and Cross_Cat (-0.36)
-#HAiFLS_alt and Cross_Cat (0.35)
-#pctShade and Cross_Cat (-0.25)
+  #Area_km2 and avwid (0.53) #don't include... likely tell same exact story
+  #avwid and avdep (0.50)
+  #mFlow and pctslow (-0.48)
+
+## Remove any variables based on better biological/ecological knowledge and hypotheses and above correlations ^^
+brown <- brown %>%
+  select(-avgT) %>%
+  mutate(MEANT2 = (MEANT^2), MAXT2 = (MAXT^2), Area2 = (Area_km2^2)) %>%
+  rename(pctpool = pctslow)
+
+names(brown)
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 #### Variables of interest and Data Dictionary ####
@@ -105,22 +92,29 @@ pairs(psi.vars) #pairs method of visualizing relationships
 #Occupancy Probability: probability of Brook Trout occurrence among sites
 #-----#
 # Local Scale: instream and immediate riparian area
+#> MAXT & MAXT2(+,quad) "maximum daily maximum stream temperature"
+#> MEANT & MEANT2 (+,quad) "maximum daily mean stream temperature"
+#> avwid (+) "mean wetted width"
+#> avdep (+) "mean depth"
+#> mFlow (+) "mean flow velocity"
+#> pctrun (-) "percentage of run habitats"
 #> pctpool (+) "percentage of pool habitats"
 #> pctBrBnk (-) "percentage of bank that is bare soil"
 # Catchment Scale: within the upstream land area that drains to the outlet of the sampled segment
-#> HAiFLS_alt (+) "Hydrologically Active inserve flow length to the stream of altered LULC"
-#> Area_km2 (-) "Catchment Area"
-#> AvgSlope (+) "Mean Slope of the catchment"
+#> HAiFLS_alt and HAiFLS_al2 (+) "Hydrologically Active inserve flow length to the stream of altered LULC"
+#> Area_km2 & Area2 (+,quad) "Catchment Area"
+#> AvgSlope (-) "Mean Slope of the catchment"
 #> Cross_Cat (-) "Road Crossing density of upstream catchment (count/Area_km2)"
 ##########################################################################################
 #set wd to scratch folder because MARK outputs an insane amount of files
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/") #because MARK loves output files
-#getwd()
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/Occupancy/RMark/Brown Trout/brt_output") #because MARK loves output files
+getwd()
 
 #Process Data
 #?process.data
 #?make.design.data
-brown.process = process.data(brown, model="Occupancy", groups = "freq")
+brown.df <- as.data.frame(brown)
+brown.process = process.data(brown.df, model="Occupancy", groups = "freq")
 brt.ddl = make.design.data(brown.process)
 
 
@@ -130,19 +124,11 @@ brt.ddl = make.design.data(brown.process)
 #set wd to scratch folder because MARK outputs an insane amount of files
 setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/RMark/output") #because MARK loves output files
 
-#Process Data
-#?process.data
-#?make.design.data
-brook.process = process.data(brook.df, model="Occupancy", groups = "freq")
-bkt.ddl = make.design.data(brook.process)
-
-# Catchment Scale: within the upstream land area that drains to the outlet of the sampled segment
-#> HAiFLS_for (+) "Hydrologically Active inserve flow length to the stream of forest LULC"
-#> Area_km2 (-) "Catchment Area"
-#> AvgSlope (+) "Mean Slope of the catchment"
-#> EFac_Cat (-) "Environmental Facility density of upstream catchment (count/Area_km2)"
+# Catchment Scale: 
+#> HAiFLS_alt and HAiFLS_al2 (+) "Hydrologically Active inserve flow length to the stream of altered LULC"
+#> Area_km2 & Area2 (+,quad) "Catchment Area"
+#> AvgSlope (-) "Mean Slope of the catchment"
 #> Cross_Cat (-) "Road Crossing density of upstream catchment (count/Area_km2)"
-pairs(brook.df[,14:18])
 
 ###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 ####   Catchment Scale covariates   ####
@@ -159,71 +145,122 @@ run.occ.cat=function()
   Psi.Dot        = list(formula=~1) 
   #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
   #all covariates
-  Psi.global = list(formula = ~HAiFLS_for+Area_km2+AvgSlope+Cross_Cat)
+  Psi.global1 = list(formula = ~HAiFLS_alt+Area_km2+AvgSlope+Cross_Cat)
+  Psi.global2 = list(formula = ~HAiFLS_al2+Area_km2+AvgSlope+Cross_Cat)
+  Psi.global3 = list(formula = ~HAiFLS_alt+Area2+AvgSlope+Cross_Cat)
+  Psi.global4 = list(formula = ~HAiFLS_al2+Area2+AvgSlope+Cross_Cat)
   #3 Covariates
-  Psi.for_area_slpe = list(formula = ~HAiFLS_for+Area_km2+AvgSlope)
-  Psi.for_area_cross = list(formula = ~HAiFLS_for+Area_km2+Cross_Cat)
-  Psi.for_slpe_cross = list(formula = ~HAiFLS_for+AvgSlope+Cross_Cat)
+  Psi.alt_area_slpe = list(formula = ~HAiFLS_alt+Area_km2+AvgSlope)
+  Psi.alt_area_cross = list(formula = ~HAiFLS_alt+Area_km2+Cross_Cat)
+  Psi.alt_slpe_cross = list(formula = ~HAiFLS_alt+AvgSlope+Cross_Cat)
   Psi.area_slpe_crs = list(formula = ~Area_km2+AvgSlope+Cross_Cat)
+  
+  Psi.al2_area_slpe = list(formula = ~HAiFLS_al2+Area_km2+AvgSlope)
+  Psi.al2_area_cross = list(formula = ~HAiFLS_al2+Area_km2+Cross_Cat)
+  Psi.al2_slpe_cross = list(formula = ~HAiFLS_al2+AvgSlope+Cross_Cat)
+  Psi.ar2_slpe_crs = list(formula = ~Area2+AvgSlope+Cross_Cat)
+  Psi.alt_ar2_slpe = list(formula = ~HAiFLS_alt+Area2+AvgSlope)
+  Psi.alt_ar2_cross = list(formula = ~HAiFLS_alt+Area2+Cross_Cat)
+  Psi.al2_ar2_slpe = list(formula = ~HAiFLS_al2+Area2+AvgSlope)
+  Psi.al2_ar2_cross = list(formula = ~HAiFLS_al2+Area2+Cross_Cat)
   #2 covariates
-  Psi.for_area = list(formula = ~HAiFLS_for+Area_km2)
-  Psi.for_slpe = list(formula = ~HAiFLS_for+AvgSlope)
-  Psi.for_cross = list(formula = ~HAiFLS_for+Cross_Cat)
+  Psi.alt_area = list(formula = ~HAiFLS_alt+Area_km2)
+  Psi.alt_slpe = list(formula = ~HAiFLS_alt+AvgSlope)
+  Psi.alt_cross = list(formula = ~HAiFLS_alt+Cross_Cat)
   Psi.area_slpe = list(formula = ~Area_km2+AvgSlope)
   Psi.area_cross = list(formula = ~Area_km2+Cross_Cat)
   Psi.slpe_cross = list(formula = ~AvgSlope+Cross_Cat)
+  
+  Psi.al2_area = list(formula = ~HAiFLS_al2+Area_km2)
+  Psi.al2_slpe = list(formula = ~HAiFLS_al2+AvgSlope)
+  Psi.al2_cross = list(formula = ~HAiFLS_al2+Cross_Cat)
+  
+  Psi.alt_ar2 = list(formula = ~HAiFLS_alt+Area2)
+  Psi.ar2_slpe = list(formula = ~Area2+AvgSlope)
+  Psi.ar2_cross = list(formula = ~Area2+Cross_Cat)
+  
+  Psi.al2_ar2 = list(formula = ~HAiFLS_al2+Area2)
   #~~~~~~~~~~~~~ Occupancy - single covariate ~~~~~~~~~~~~~~~~~~~~~~
-  Psi.for = list(formula = ~HAiFLS_for)
+  Psi.alt = list(formula = ~HAiFLS_alt)
+  Psi.al2 = list(formula = ~HAiFLS_al2)
   Psi.area = list(formula = ~Area_km2)
+  Psi.ar2 = list(formula = ~Area2)
   Psi.slope = list(formula = ~AvgSlope)
   Psi.cross = list(formula = ~Cross_Cat)
   #~~~~~~~~~~~~ model list & wrapper ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   cml.cat=create.model.list("Occupancy")
-  results.cat=mark.wrapper(cml.cat, data=brook.process, ddl=bkt.ddl, output=F)
+  results.cat=mark.wrapper(cml.cat, data=brown.process, ddl=brt.ddl, output=F)
   return(results.cat)
 }
 
-bkt.results.cat = run.occ.cat()
+brt.results.cat = run.occ.cat()
 
 
 ##Examine model list and look at model comparisons
-bkt.results.cat
+brt.results.cat
 ##Model Table
-AICc.Table = model.table(bkt.results.cat, use.lnl = T)
+AICc.Table = model.table(brt.results.cat, use.lnl = T)
 AICc.Table
 
-#look at summary of top model(s)
-summary(bkt.results.cat$p.tv.effort.Psi.for)
-summary(bkt.results.cat$p.tv.effort.Psi.for_slpe)
-summary(bkt.results.cat$p.tv.effort.Psi.for_area)
-bkt.results.cat$p.tv.effort.Psi.for$results$real
-tm.cat <- bkt.results.cat$p.tv.effort.Psi.for
+#look at summary of top model(s) (delta AICc < 2)
+summary(brt.results.cat$p.tv.effort.Psi.al2_area_cross) #top
+summary(brt.results.cat$p.tv.effort.Psi.al2_area) #2nd
+
+brt.results.cat$p.tv.effort.Psi.al2_area_cross$results$real #top
+brt.results.cat$p.tv.effort.Psi.al2_area$results$real #2nd
+
+tm.cat <- brt.results.cat$p.tv.effort.Psi.al2_area_cross
+tm2.cat <- brt.results.cat$p.tv.effort.Psi.al2_area
 
 
 cleanup(ask = F)
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
-#### Visualizing HAiFLS_for effect on psi ####
+#### Visualizing HAiFLS_al2 effect on psi ####
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
-bkt.ddl #par.index = 1, model.index = 4
+brt.ddl #par.index = 1, model.index = 4
 
 #covariate.predictions method
-min.for <- min(brook.df$HAiFLS_for)
-max.for <- max(brook.df$HAiFLS_for)
-for.values <- seq(from = min.for, to = max.for, length = 100)
+#HAiFLS_al2
+min.al2 <- min(brown.df$HAiFLS_al2)
+max.al2 <- max(brown.df$HAiFLS_al2)
+mean.al2 <- mean(brown.df$HAiFLS_al2)
+al2.values <- seq(from = min.al2, to = max.al2, length = 100)
+#Area_km2
+min.area <- min(brown.df$Area_km2)
+max.area <- max(brown.df$Area_km2)
+mean.area <- mean(brown.df$Area_km2)
+area.values <- seq(from = min.area, to = max.area, length = 100)
+#Cross_Cat
+min.cross <- min(brown.df$Cross_Cat)
+max.cross <- max(brown.df$Cross_Cat)
+mean.cross <- mean(brown.df$Cross_Cat)
+cross.values <- seq(from = min.cross, to = max.cross, length = 100)
 
-##################################################
-#predict across range of observed values (forest)
-##################################################
+#####################################################
+#predict across range of observed values (HAiFLS_al2)
+#####################################################
 
 #predictions of Psi for full range of p21 & -1SD of forest values (would be negative so just forest=0)
-predictions_for <- covariate.predictions(tm.cat, 
-                                         data = data.frame(HAiFLS_for = for.values),
+predictions_al2 <- covariate.predictions(tm.cat, 
+                                         data = data.frame(HAiFLS_al2 = al2.values,
+                                                           Area_km2 = mean.area,
+                                                           Cross_Cat = mean.cross),
                                          indices = 4)
 
-predictions_for$estimates
+predictions_al2$estimates
 
-catch.mod.predictions <- predictions_for$estimates
+cat.al2.preds <- predictions_al2$estimates
+
+ggplot(data=cat.al2.preds, aes(x=HAiFLS_al2))+
+  geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
+  geom_line(aes(y=estimate), size=1, color="red")+
+  labs(x="% HAiFLS Altered Land Cover ^2",
+       y="Occupancy Probability (Psi)")+
+  theme_classic()+
+  theme(axis.title = element_text(face = "bold"))
+
+############## STOPPED HERE 12/17/2019 @ 5:40pm
 
 ####################################################
 ##     Write tidy csv's for Psi predictions       ## 
