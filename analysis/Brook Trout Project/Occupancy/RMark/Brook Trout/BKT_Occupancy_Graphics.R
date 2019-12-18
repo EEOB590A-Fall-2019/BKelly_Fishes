@@ -50,7 +50,7 @@ Psi2 <- ggplot(data = Psi.forest2, aes(x=HAiFLS_for))+
 Psi2
 
 #cowplot
-plot_grid(Psi1,Psi2, labels = NULL, label_size = 12, nrow = 2)
+plot_grid(Psi1,Psi2, labels = NULL, nrow = 2)
 
 
 ############################

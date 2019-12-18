@@ -20,6 +20,7 @@ library(RMark)
 library(tidyverse)
 library(skimr)
 library(corrplot)
+library(cowplot)
 
 ##Occupancy example
 #?weta
@@ -32,8 +33,8 @@ brown <- read_csv("Data/Thesis/Tidy/BRT_occDF_RMARK.csv", col_names = T)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #inspect correlations between covariates
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-psi.vars <- brown[,7:20]
-psi.cv <- brown[,16:20]
+psi.vars <- brown[,7:22]
+psi.cv <- brown[,16:22]
 psi.lv <- brown[,7:15]
 
 #correlation test
@@ -61,6 +62,8 @@ pairs(psi.vars) #pairs method of visualizing relationships
   # pctrun and pctslow
 #Catchment Scale:
   #HAiFLS_alt and HAiFLS_al2
+  #HAiFLS_nat and HAiFLS_alt and HAiFLS_al2
+  #HAiFLS_for and HAiFLS_alt and HAiFLS_al2 and HAiFLS_nat
   #Area_km2 and Cross_Cat
   #Area_km2 and Area2
 #Both:
@@ -121,9 +124,6 @@ brt.ddl = make.design.data(brown.process)
 ################################################################################################################################
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ################################################################################################################################
-#set wd to scratch folder because MARK outputs an insane amount of files
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/RMark/output") #because MARK loves output files
-
 # Catchment Scale: 
 #> HAiFLS_alt and HAiFLS_al2 (+) "Hydrologically Active inserve flow length to the stream of altered LULC"
 #> Area_km2 & Area2 (+,quad) "Catchment Area"
@@ -146,23 +146,35 @@ run.occ.cat=function()
   #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
   #all covariates
   Psi.global1 = list(formula = ~HAiFLS_alt+Area_km2+AvgSlope+Cross_Cat)
-  Psi.global2 = list(formula = ~HAiFLS_al2+Area_km2+AvgSlope+Cross_Cat)
+  #Psi.global2 = list(formula = ~HAiFLS_al2+Area_km2+AvgSlope+Cross_Cat)
   Psi.global3 = list(formula = ~HAiFLS_alt+Area2+AvgSlope+Cross_Cat)
-  Psi.global4 = list(formula = ~HAiFLS_al2+Area2+AvgSlope+Cross_Cat)
+  #Psi.global4 = list(formula = ~HAiFLS_al2+Area2+AvgSlope+Cross_Cat)
+  Psi.global5 = list(formula = ~HAiFLS_for+Area_km2+AvgSlope+Cross_Cat)
+  Psi.global6 = list(formula = ~HAiFLS_nat+Area_km2+AvgSlope+Cross_Cat)
+  Psi.global7 = list(formula = ~HAiFLS_for+Area2+AvgSlope+Cross_Cat)
+  Psi.global8 = list(formula = ~HAiFLS_nat+Area2+AvgSlope+Cross_Cat)
   #3 Covariates
   Psi.alt_area_slpe = list(formula = ~HAiFLS_alt+Area_km2+AvgSlope)
   Psi.alt_area_cross = list(formula = ~HAiFLS_alt+Area_km2+Cross_Cat)
   Psi.alt_slpe_cross = list(formula = ~HAiFLS_alt+AvgSlope+Cross_Cat)
   Psi.area_slpe_crs = list(formula = ~Area_km2+AvgSlope+Cross_Cat)
+  Psi.for_area_slpe = list(formula = ~HAiFLS_for+Area_km2+AvgSlope)
+  Psi.for_area_cross = list(formula = ~HAiFLS_for+Area_km2+Cross_Cat)
+  Psi.for_slpe_cross = list(formula = ~HAiFLS_for+AvgSlope+Cross_Cat)
+  Psi.nat_area_slpe = list(formula = ~HAiFLS_nat+Area_km2+AvgSlope)
+  Psi.nat_area_cross = list(formula = ~HAiFLS_nat+Area_km2+Cross_Cat)
+  Psi.nat_slpe_cross = list(formula = ~HAiFLS_nat+AvgSlope+Cross_Cat)
   
-  Psi.al2_area_slpe = list(formula = ~HAiFLS_al2+Area_km2+AvgSlope)
-  Psi.al2_area_cross = list(formula = ~HAiFLS_al2+Area_km2+Cross_Cat)
-  Psi.al2_slpe_cross = list(formula = ~HAiFLS_al2+AvgSlope+Cross_Cat)
+  #Psi.al2_area_slpe = list(formula = ~HAiFLS_al2+Area_km2+AvgSlope)
+  #Psi.al2_area_cross = list(formula = ~HAiFLS_al2+Area_km2+Cross_Cat)
+  #Psi.al2_slpe_cross = list(formula = ~HAiFLS_al2+AvgSlope+Cross_Cat)
   Psi.ar2_slpe_crs = list(formula = ~Area2+AvgSlope+Cross_Cat)
   Psi.alt_ar2_slpe = list(formula = ~HAiFLS_alt+Area2+AvgSlope)
   Psi.alt_ar2_cross = list(formula = ~HAiFLS_alt+Area2+Cross_Cat)
-  Psi.al2_ar2_slpe = list(formula = ~HAiFLS_al2+Area2+AvgSlope)
-  Psi.al2_ar2_cross = list(formula = ~HAiFLS_al2+Area2+Cross_Cat)
+  #Psi.al2_ar2_slpe = list(formula = ~HAiFLS_al2+Area2+AvgSlope)
+  #Psi.al2_ar2_cross = list(formula = ~HAiFLS_al2+Area2+Cross_Cat)
+  Psi.for_ar2_slpe = list(formula = ~HAiFLS_for+Area2+AvgSlope)
+  Psi.nat_ar2_cross = list(formula = ~HAiFLS_nat+Area2+Cross_Cat)
   #2 covariates
   Psi.alt_area = list(formula = ~HAiFLS_alt+Area_km2)
   Psi.alt_slpe = list(formula = ~HAiFLS_alt+AvgSlope)
@@ -170,19 +182,29 @@ run.occ.cat=function()
   Psi.area_slpe = list(formula = ~Area_km2+AvgSlope)
   Psi.area_cross = list(formula = ~Area_km2+Cross_Cat)
   Psi.slpe_cross = list(formula = ~AvgSlope+Cross_Cat)
+  Psi.for_area = list(formula = ~HAiFLS_for+Area_km2)
+  Psi.for_slpe = list(formula = ~HAiFLS_for+AvgSlope)
+  Psi.for_cross = list(formula = ~HAiFLS_for+Cross_Cat)
+  Psi.nat_area = list(formula = ~HAiFLS_nat+Area_km2)
+  Psi.nat_slpe = list(formula = ~HAiFLS_nat+AvgSlope)
+  Psi.nat_cross = list(formula = ~HAiFLS_nat+Cross_Cat)
   
-  Psi.al2_area = list(formula = ~HAiFLS_al2+Area_km2)
-  Psi.al2_slpe = list(formula = ~HAiFLS_al2+AvgSlope)
-  Psi.al2_cross = list(formula = ~HAiFLS_al2+Cross_Cat)
+  #Psi.al2_area = list(formula = ~HAiFLS_al2+Area_km2)
+  #Psi.al2_slpe = list(formula = ~HAiFLS_al2+AvgSlope)
+  #Psi.al2_cross = list(formula = ~HAiFLS_al2+Cross_Cat)
   
   Psi.alt_ar2 = list(formula = ~HAiFLS_alt+Area2)
   Psi.ar2_slpe = list(formula = ~Area2+AvgSlope)
   Psi.ar2_cross = list(formula = ~Area2+Cross_Cat)
+  Psi.for_ar2 = list(formula = ~HAiFLS_for+Area2)
+  Psi.nat_ar2 = list(formula = ~HAiFLS_nat+Area2)
   
-  Psi.al2_ar2 = list(formula = ~HAiFLS_al2+Area2)
+  #Psi.al2_ar2 = list(formula = ~HAiFLS_al2+Area2)
   #~~~~~~~~~~~~~ Occupancy - single covariate ~~~~~~~~~~~~~~~~~~~~~~
   Psi.alt = list(formula = ~HAiFLS_alt)
-  Psi.al2 = list(formula = ~HAiFLS_al2)
+  #Psi.al2 = list(formula = ~HAiFLS_al2)
+  Psi.for = list(formula = ~HAiFLS_for)
+  Psi.nat = list(formula = ~HAiFLS_nat)
   Psi.area = list(formula = ~Area_km2)
   Psi.ar2 = list(formula = ~Area2)
   Psi.slope = list(formula = ~AvgSlope)
@@ -202,15 +224,34 @@ brt.results.cat
 AICc.Table = model.table(brt.results.cat, use.lnl = T)
 AICc.Table
 
+#-----
 #look at summary of top model(s) (delta AICc < 2)
+#-----
+
+#without quadratic term
+summary(brt.results.cat$p.tv.effort.Psi.for_area_cross) #top
+summary(brt.results.cat$p.tv.effort.Psi.alt_area_cross) #2nd
+
+#With quadratic term
 summary(brt.results.cat$p.tv.effort.Psi.al2_area_cross) #top
 summary(brt.results.cat$p.tv.effort.Psi.al2_area) #2nd
+summary(brt.results.cat$p.tv.effort.Psi.alt_area_cross) 
 
+#-----
+#real parameter values
+#-----
+
+#without quadratic term
+brt.results.cat$p.tv.effort.Psi.for_area_cross$results$real 
+tmnq.cat <- brt.results.cat$p.tv.effort.Psi.for_area_cross 
+
+#With quadratic term
 brt.results.cat$p.tv.effort.Psi.al2_area_cross$results$real #top
 brt.results.cat$p.tv.effort.Psi.al2_area$results$real #2nd
-
+brt.results.cat$p.tv.effort.Psi.alt_area_cross$results$real 
 tm.cat <- brt.results.cat$p.tv.effort.Psi.al2_area_cross
 tm2.cat <- brt.results.cat$p.tv.effort.Psi.al2_area
+
 
 
 cleanup(ask = F)
@@ -221,6 +262,16 @@ cleanup(ask = F)
 brt.ddl #par.index = 1, model.index = 4
 
 #covariate.predictions method
+#HAiFLS_for
+min.for <- min(brown.df$HAiFLS_for)
+max.for <- max(brown.df$HAiFLS_for)
+mean.for <- mean(brown.df$HAiFLS_for)
+for.values <- seq(from = min.for, to = max.for, length = 100)
+#HAiFLS_alt
+min.alt <- min(brown.df$HAiFLS_alt)
+max.alt <- max(brown.df$HAiFLS_alt)
+mean.alt <- mean(brown.df$HAiFLS_alt)
+alt.values <- seq(from = min.alt, to = max.alt, length = 100)
 #HAiFLS_al2
 min.al2 <- min(brown.df$HAiFLS_al2)
 max.al2 <- max(brown.df$HAiFLS_al2)
@@ -237,11 +288,48 @@ max.cross <- max(brown.df$Cross_Cat)
 mean.cross <- mean(brown.df$Cross_Cat)
 cross.values <- seq(from = min.cross, to = max.cross, length = 100)
 
-#####################################################
-#predict across range of observed values (HAiFLS_al2)
-#####################################################
+###########################################################################
+#predict across range of observed values (HAiFLS_al2, Area_km2, Cross_Cat)
+##########################################################################
 
-#predictions of Psi for full range of p21 & -1SD of forest values (would be negative so just forest=0)
+#predictions of Psi for full range of HAiFLS_for and mean values of other covars
+predictions_for <- covariate.predictions(tmnq.cat, 
+                                         data = data.frame(HAiFLS_for = for.values,
+                                                           Area_km2 = mean.area,
+                                                           Cross_Cat = mean.cross),
+                                         indices = 4)
+
+predictions_for$estimates
+
+cat.for.preds <- predictions_for$estimates
+
+ap <- ggplot(data=cat.for.preds, aes(x=HAiFLS_for))+
+  geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
+  geom_line(aes(y=estimate), size=1, color="black")+
+  labs(x="% HAiFLS Forest Land Cover",
+       y="Occupancy Probability (Psi)")+
+  theme_minimal_grid()
+
+#predictions of Psi for full range of HAiFLS_alt and mean values of other covars
+predictions_alt <- covariate.predictions(tm.alt.cat, 
+                                         data = data.frame(HAiFLS_alt = alt.values,
+                                                           Area_km2 = mean.area,
+                                                           Cross_Cat = mean.cross),
+                                         indices = 4)
+
+predictions_alt$estimates
+
+cat.alt.preds <- predictions_alt$estimates
+
+ggplot(data=cat.alt.preds, aes(x=HAiFLS_alt))+
+  geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
+  geom_line(aes(y=estimate), size=1, color="black")+
+  labs(x="% HAiFLS Altered Land Cover",
+       y="Occupancy Probability (Psi)")+
+  theme_minimal_grid()
+
+
+#predictions of Psi for full range of HAiFLS_al2 and mean values of other covars
 predictions_al2 <- covariate.predictions(tm.cat, 
                                          data = data.frame(HAiFLS_al2 = al2.values,
                                                            Area_km2 = mean.area,
@@ -254,31 +342,89 @@ cat.al2.preds <- predictions_al2$estimates
 
 ggplot(data=cat.al2.preds, aes(x=HAiFLS_al2))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
-  geom_line(aes(y=estimate), size=1, color="red")+
+  geom_line(aes(y=estimate), size=1, color="black")+
   labs(x="% HAiFLS Altered Land Cover ^2",
        y="Occupancy Probability (Psi)")+
-  theme_classic()+
-  theme(axis.title = element_text(face = "bold"))
+  theme_minimal_grid()#+
+  #theme(axis.title = element_text(face = "bold"))
 
-############## STOPPED HERE 12/17/2019 @ 5:40pm
+
+#predictions of Psi for full range of Area_km2 and mean values of other covars
+predictions_area <- covariate.predictions(tm.cat, 
+                                         data = data.frame(HAiFLS_al2 = mean.al2,
+                                                           Area_km2 = area.values,
+                                                           Cross_Cat = mean.cross),
+                                         indices = 4)
+
+predictions_area$estimates
+
+cat.area.preds <- predictions_area$estimates
+
+bp <- ggplot(data=cat.area.preds, aes(x=Area_km2))+
+  geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
+  geom_line(aes(y=estimate), size=1, color="black")+
+  labs(x="Upstream Catchment Area (km^2)",
+       y="Occupancy Probability (Psi)")+
+  theme_minimal_grid()#+
+  #theme(axis.title = element_text(face = "bold"))
+
+#predictions of Psi for full range of Cross_Cat and mean values of other covars
+predictions_cross <- covariate.predictions(tm.cat, 
+                                          data = data.frame(HAiFLS_al2 = mean.al2,
+                                                            Area_km2 = mean.area,
+                                                            Cross_Cat = cross.values),
+                                          indices = 4)
+
+predictions_cross$estimates
+
+cat.cross.preds <- predictions_cross$estimates
+
+cp <- ggplot(data=cat.cross.preds, aes(x=Cross_Cat))+
+  geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
+  geom_line(aes(y=estimate), size=1, color="red")+
+  labs(x="Road Crossing Density in Catchment (#/km^2)",
+       y="Occupancy Probability (Psi)")+
+  theme_minimal_grid()#+
+  #theme(axis.title = element_text(face = "bold"))
+
+#cowplot
+# now add the title
+title <- ggdraw() + 
+  draw_label(
+    "Catchment Scale Occupancy of Brown Trout",
+    fontface = 'bold',
+    x = 0,
+    hjust = 0
+  ) +
+  theme(
+    # add margin on the left of the drawing canvas,
+    # so title is aligned with left edge of first plot
+    plot.margin = margin(0, 0, 0, 7)
+  )
+plot_row <- plot_grid(ap, bp, cp, ncol = 3)
+plot_grid(title, plot_row, labels = NULL, ncol = 1,
+          rel_heights = c(0.1, 1))
+
+
 
 ####################################################
 ##     Write tidy csv's for Psi predictions       ## 
 ####################################################
 setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
-write_csv(catch.mod.predictions, "Data/Thesis/Tidy/BKT_Catchment_Model_Predictions.csv")
-
+write_csv(cat.for.preds, "Data/Thesis/Tidy/BRT_cat_for_preds.csv")
+write_csv(cat.area.preds, "Data/Thesis/Tidy/BRT_cat_area_preds.csv")
+write_csv(cat.cross.preds, "Data/Thesis/Tidy/BRT_cat_cross_preds.csv")
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 #### Visualizing effort effect on p   ####
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
-min.effort <- min(brook.df$effort1)
-max.effort <- max(brook.df$effort1)
+min.effort <- min(brown.df$effort1)
+max.effort <- max(brown.df$effort1)
 effort.values <- seq(min.effort, max.effort, length.out = 100)
-mean.effort <- mean(brook.df$effort1) #906.231
+mean.effort <- mean(brown.df$effort1) #906.231
 
 #predictions of p for full range of effort1 values
-p.pred.eff1 <- covariate.predictions(tm.cat, 
+p.pred.eff1 <- covariate.predictions(tmnq.cat, 
                                      data = data.frame(effort1 = effort.values),
                                      indices = 1)
 
@@ -293,7 +439,7 @@ P.predictions.eff1 <- p.pred.eff1$estimates %>%
 ####################################################
 ##       Write tidy csv for P predictions         ## 
 ####################################################
-write_csv(P.predictions.eff1, "Data/Thesis/Tidy/BKT_CatchMod_DProb_predictions.csv")
+write_csv(P.predictions.eff1, "Data/Thesis/Tidy/BRT_cat_DProb_preds.csv")
 
 
 
@@ -303,6 +449,25 @@ write_csv(P.predictions.eff1, "Data/Thesis/Tidy/BKT_CatchMod_DProb_predictions.c
                               ####   All covariates   ####
                               ##~~~~~~~~~~~~~~~~~~~~~~~##
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Local Scale: instream and immediate riparian area
+#> MAXT & MAXT2(+,quad) "maximum daily maximum stream temperature"
+#> MEANT & MEANT2 (+,quad) "maximum daily mean stream temperature"
+#> avwid (+) "mean wetted width"
+#> avdep (+) "mean depth"
+#> mFlow (+) "mean flow velocity"
+#> pctrun (-) "percentage of run habitats"
+#> pctpool (+) "percentage of pool habitats"
+#> pctBrBnk (-) "percentage of bank that is bare soil"
+
+# Catchment Scale: within the upstream land area that drains to the outlet of the sampled segment
+#> HAiFLS_for (+) "Hydrologically Active inserve flow length to the stream of forest LULC"
+#> Area_km2 & Area2 (+,quad) "Catchment Area"
+
+# Weak collinearity - user discretion #
+#------------------------#
+#Area_km2 and avwid (0.53) #don't include... likely tell same exact story
+#avwid and avdep (0.50)
+#mFlow and pctslow (-0.48)
 
 run.occ=function()
 {
@@ -314,130 +479,22 @@ run.occ=function()
   #~~~~~~~~~~~~~ Occupancy - null model ~~~~~~~~~~~~~~~~~~~~~~
   Psi.Dot        = list(formula=~1) 
   #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
-  #direct effects - hypothesized larger effects (factors that may directly influence BKT persistence)
-  Psi.biol = list(formula = ~pctex21+pctpool+pctrock+BRT_100m)
-  Psi.p21_pool_rck = list(formula = ~pctex21+pctpool+pctrock)
-  Psi.p21_pool_brt = list(formula = ~pctex21+pctpool+BRT_100m)
-  Psi.p21_rck_brt = list(formula = ~pctex21+pctrock+BRT_100m)
-  Psi.pct21_pool = list(formula = ~pctex21 + pctpool) 
-  Psi.pct21_rock = list(formula = ~pctex21 + pctrock) 
-  Psi.pct21_brt = list(formula = ~pctex21 + BRT_100m)
-  #indirect effects - hypothesized smaller effects (features of high quality stream habitats (for Brook Trout))
-  Psi.indEff = list(formula = ~pctBrBnk+pctShade+HAiFLS_for)
-  Psi.BBnk_shade = list(formula = ~pctBrBnk+pctShade)
-  Psi.BBnk_for = list(formula = ~pctBrBnk+HAiFLS_for)
-  Psi.shade_for = list(formula = ~pctShade+HAiFLS_for)
-  #combination of effects
+  
   #all covariates
-  Psi.global = list(formula = ~pctex21+pctpool+pctrock+BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
+  #Psi.global = list(formula = ~)
   #6 covariates
-  Psi.mixed1 = list(formula = ~pctex21+pctpool+pctrock+BRT_100m+pctBrBnk+pctShade)
-  Psi.mixed2 = list(formula = ~pctex21+pctpool+pctrock+BRT_100m+pctBrBnk+HAiFLS_for)
-  Psi.mixed3 = list(formula = ~pctex21+pctpool+pctrock+BRT_100m+pctShade+HAiFLS_for)
-  Psi.mixed4 = list(formula = ~pctex21+pctpool+pctrock+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed5 = list(formula = ~pctex21+pctpool+BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed6 = list(formula = ~pctex21+pctrock+BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed7 = list(formula = ~pctpool+pctrock+BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
+ 
   #5 covariates
-  Psi.mixed8 = list(formula = ~pctex21+pctpool+pctrock+BRT_100m+pctBrBnk)
-  Psi.mixed9 = list(formula = ~pctex21+pctpool+pctrock+BRT_100m+pctShade)
-  Psi.mixed10 = list(formula = ~pctex21+pctpool+pctrock+pctShade+pctBrBnk)
-  Psi.mixed11 = list(formula = ~pctex21+pctpool+BRT_100m+pctShade+pctBrBnk)
-  Psi.mixed12 = list(formula = ~pctex21+pctrock+BRT_100m+pctShade+pctBrBnk)
-  Psi.mixed13 = list(formula = ~pctpool+pctrock+BRT_100m+pctShade+pctBrBnk)
-  Psi.mixed14 = list(formula = ~pctex21+pctpool+pctrock+BRT_100m+HAiFLS_for)
-  Psi.mixed15 = list(formula = ~pctex21+pctpool+pctrock+pctShade+HAiFLS_for)
-  Psi.mixed16 = list(formula = ~pctex21+pctpool+pctShade+pctBrBnk+HAiFLS_for)
-  Psi.mixed17 = list(formula = ~pctex21+BRT_100m+pctShade+pctBrBnk+HAiFLS_for)
-  Psi.mixed18 = list(formula = ~pctrock+BRT_100m+pctShade+pctBrBnk+HAiFLS_for)
-  Psi.mixed19 = list(formula = ~pctpool+pctrock+BRT_100m+pctBrBnk+HAiFLS_for)
-  Psi.mixed20 = list(formula = ~pctex21+pctrock+BRT_100m+pctShade+HAiFLS_for)
-  Psi.mixed21 = list(formula = ~pctpool+pctrock+BRT_100m+pctBrBnk+HAiFLS_for)
-  Psi.mixed22 = list(formula = ~pctex21+pctpool+pctrock+pctBrBnk+HAiFLS_for)
-  Psi.mixed23 = list(formula = ~pctex21+pctpool+BRT_100m+pctShade+HAiFLS_for)
-  Psi.mixed24 = list(formula = ~pctex21+pctrock+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed25 = list(formula = ~pctpool+BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed26 = list(formula = ~pctex21+pctpool+BRT_100m+pctBrBnk+HAiFLS_for)
-  Psi.mixed27 = list(formula = ~pctex21+pctrock+BRT_100m+pctBrBnk+HAiFLS_for)
-  Psi.mixed28 = list(formula = ~pctpool+pctrock+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed29 = list(formula = ~pctpool+pctrock+BRT_100m+pctShade+HAiFLS_for)
+
   #4 covariates
-  Psi.mixed30 = list(formula = ~pctex21+pctpool+pctShade+pctBrBnk)
-  Psi.mixed31 = list(formula = ~pctex21+pctrock+pctShade+pctBrBnk)
-  Psi.mixed32 = list(formula = ~pctex21+BRT_100m+pctShade+pctBrBnk)
-  Psi.mixed33 = list(formula = ~pctrock+BRT_100m+pctShade+pctBrBnk)
-  Psi.mixed34 = list(formula = ~pctpool+pctrock+pctShade+pctBrBnk)
-  Psi.mixed35 = list(formula = ~pctpool+BRT_100m+pctShade+pctBrBnk)
-  Psi.mixed36 = list(formula = ~pctex21+pctpool+pctrock+HAiFLS_for)
-  Psi.mixed37 = list(formula = ~pctex21+pctpool+pctShade+HAiFLS_for)
-  Psi.mixed38 = list(formula = ~pctex21+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed39 = list(formula = ~BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed40 = list(formula = ~pctex21+pctpool+BRT_100m+HAiFLS_for)
-  Psi.mixed41 = list(formula = ~pctpool+pctrock+BRT_100m+HAiFLS_for)
-  Psi.mixed42 = list(formula = ~pctex21+pctrock+BRT_100m+HAiFLS_for)
-  Psi.mixed43 = list(formula = ~pctex21+pctpool+pctBrBnk+HAiFLS_for)
-  Psi.mixed44 = list(formula = ~pctex21+pctrock+pctBrBnk+HAiFLS_for)
-  Psi.mixed45 = list(formula = ~pctpool+pctrock+pctBrBnk+HAiFLS_for)
-  Psi.mixed46 = list(formula = ~pctex21+pctrock+pctBrBnk+HAiFLS_for)
-  Psi.mixed47 = list(formula = ~pctex21+pctrock+pctShade+HAiFLS_for)
-  Psi.mixed48 = list(formula = ~pctpool+pctrock+pctShade+HAiFLS_for)
-  Psi.mixed49 = list(formula = ~pctpool+BRT_100m+pctShade+HAiFLS_for)
-  Psi.mixed50 = list(formula = ~pctrock+BRT_100m+pctShade+HAiFLS_for)
-  Psi.mixed51 = list(formula = ~pctrock+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed52 = list(formula = ~pctpool+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed53 = list(formula = ~pctpool+BRT_100m+pctBrBnk+HAiFLS_for)
-  Psi.mixed54 = list(formula = ~pctpool+BRT_100m+pctShade+HAiFLS_for)
+
   #3 covariates
-  Psi.mixed55 = list(formula = ~pctex21+pctShade+pctBrBnk)
-  Psi.mixed56 = list(formula = ~pctpool+pctShade+pctBrBnk)
-  Psi.mixed57 = list(formula = ~pctrock+pctShade+pctBrBnk)
-  Psi.mixed58 = list(formula = ~BRT_100m+pctShade+pctBrBnk)
-  Psi.mixed59 = list(formula = ~pctex21+pctpool+pctShade)
-  Psi.mixed60 = list(formula = ~pctpool+pctrock+pctShade)
-  Psi.mixed61 = list(formula = ~pctrock+BRT_100m+pctShade)
-  Psi.mixed62 = list(formula = ~pctex21+BRT_100m+pctShade)
-  Psi.mixed63 = list(formula = ~pctex21+pctrock+pctShade)
-  Psi.mixed64 = list(formula = ~pctpool+BRT_100m+pctShade)
-  Psi.mixed65 = list(formula = ~pctex21+pctpool+pctBrBnk)
-  Psi.mixed66 = list(formula = ~pctpool+pctrock+pctBrBnk)
-  Psi.mixed67 = list(formula = ~pctrock+BRT_100m+pctBrBnk)
-  Psi.mixed68 = list(formula = ~pctex21+BRT_100m+pctBrBnk)
-  Psi.mixed69 = list(formula = ~pctex21+pctrock+pctBrBnk)
-  Psi.mixed70 = list(formula = ~pctpool+BRT_100m+pctBrBnk)
-  Psi.mixed71 = list(formula = ~pctex21+pctShade+HAiFLS_for)
-  Psi.mixed72 = list(formula = ~pctpool+pctShade+HAiFLS_for)
-  Psi.mixed73 = list(formula = ~pctrock+pctShade+HAiFLS_for)
-  Psi.mixed74 = list(formula = ~BRT_100m+pctShade+HAiFLS_for)
-  Psi.mixed75 = list(formula = ~pctex21+pctBrBnk+HAiFLS_for)
-  Psi.mixed76 = list(formula = ~pctpool+pctBrBnk+HAiFLS_for)
-  Psi.mixed77 = list(formula = ~pctrock+pctBrBnk+HAiFLS_for)
-  Psi.mixed78 = list(formula = ~BRT_100m+pctBrBnk+HAiFLS_for)
-  Psi.mixed79 = list(formula = ~pctex21+pctpool+HAiFLS_for)
-  Psi.mixed80 = list(formula = ~pctpool+pctrock+HAiFLS_for)
-  Psi.mixed81 = list(formula = ~pctrock+BRT_100m+HAiFLS_for)
-  Psi.mixed82 = list(formula = ~pctex21+BRT_100m+HAiFLS_for)
-  Psi.mixed83 = list(formula = ~pctex21+pctrock+HAiFLS_for)
-  Psi.mixed84 = list(formula = ~pctpool+BRT_100m+HAiFLS_for)
+
   #2 covariates
-  Psi.pct21_bare = list(formula = ~pctex21 + pctBrBnk) 
-  Psi.pct21_shade = list(formula = ~pctex21 + pctShade)
-  Psi.pool_bare = list(formula = ~pctpool + pctBrBnk) 
-  Psi.pool_shade = list(formula = ~pctpool + pctShade) 
-  Psi.rock_bare = list(formula = ~pctrock + pctBrBnk) 
-  Psi.rock_shade = list(formula = ~pctrock + pctShade) 
-  Psi.BRT_bare = list(formula = ~BRT_100m + pctBrBnk) 
-  Psi.BRT_shade = list(formula = ~BRT_100m + pctShade) 
-  Psi.pct21_for = list(formula = ~pctex21 + HAiFLS_for)
-  Psi.pool_for = list(formula = ~pctpool + HAiFLS_for)
-  Psi.rock_for = list(formula = ~pctrock + HAiFLS_for) 
-  Psi.BRT_for = list(formula = ~BRT_100m + HAiFLS_for) 
+
   #~~~~~~~~~~~~~ Occupancy - single covariate ~~~~~~~~~~~~~~~~~~~~~~
-  Psi.pctex21 = list(formula=~pctex21) 
   Psi.pool = list(formula=~pctpool) 
-  Psi.rock = list(formula=~pctrock) 
   Psi.bare = list(formula=~pctBrBnk) 
-  Psi.shade = list(formula=~pctShade) 
-  Psi.brt = list(formula=~BRT_100m)
   Psi.forest = list(formula = ~HAiFLS_for)
   #~~~~~~~~~~~~ model list & wrapper ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   cml=create.model.list("Occupancy")
@@ -445,21 +502,16 @@ run.occ=function()
   return(results)
 }
 
-bkt.results = run.occ()
+brt.results = run.occ()
 
 
 ##Examine model list and look at model comparisons
-bkt.results
+brt.results
 ##Model Table
-AICc.Table = model.table(bkt.results, use.lnl = T)
+AICc.Table = model.table(brt.results, use.lnl = T)
 AICc.Table
 
 #look at summary of top model(s)
-summary(bkt.results$p.tv.effort.Psi.pct21_for)
-summary(bkt.results$p.tv.effort.Psi.forest)
-summary(bkt.results$p.tv.effort.Psi.mixed82)
-bkt.results$p.tv.effort.Psi.pct21_for$results$real
-top.mod <- bkt.results$p.tv.effort.Psi.pct21_for
 
 
 cleanup(ask = F)

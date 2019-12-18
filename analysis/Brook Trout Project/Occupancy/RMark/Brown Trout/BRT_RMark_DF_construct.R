@@ -10,6 +10,7 @@
 library(tidyverse)
 library(skimr)
 library(corrplot)
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 
 #read in Brook Trout encounter history and environmental covariates
 
@@ -24,7 +25,7 @@ names(covars)
 covars2 <- covars %>%
   unite(newID, c(HUC8, Site), sep = "_", remove = T) %>%
   select(newID, t1_eff, t2_eff, t3_eff, avgT, MAXT, MEANT, RNGT, avwid, avdep, mFlow,
-         pctrun, pctslow, pctBrBnk, HAiFLS_alt, HAiFLS_for) %>%
+         pctrun, pctslow, pctBrBnk, HAiFLS_alt, HAiFLS_for, HAiFLS_nat) %>%
   rename(effort1 = t1_eff, effort2 = t2_eff, effort3 = t3_eff)
 
 names(spc)
@@ -111,7 +112,7 @@ pairs(psi.vars)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 brown <- brown %>%
-  select(-HAiFLS_for, -RNGT)
+  select(-RNGT)
 
 ###########################################################################
 #Write CSV's
