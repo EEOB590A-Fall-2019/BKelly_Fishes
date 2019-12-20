@@ -28,7 +28,7 @@ library(cowplot)
 
 ##--------------------------------------------------------------------------------------------------------------------------------##
 #read in data, rearrange and change some labels to work with grouping ("freq"), and time-varying covariates ("Effort1 --> Effort3")
-brown <- read_csv("Data/Thesis/Tidy/BRT_occDF_RMARK.csv", col_names = T)
+brown <- read_csv("Data/Thesis/Tidy/BRT_RMark.csv", col_names = T)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #inspect correlations between covariates
@@ -267,16 +267,6 @@ min.for <- min(brown.df$HAiFLS_for)
 max.for <- max(brown.df$HAiFLS_for)
 mean.for <- mean(brown.df$HAiFLS_for)
 for.values <- seq(from = min.for, to = max.for, length = 100)
-#HAiFLS_alt
-min.alt <- min(brown.df$HAiFLS_alt)
-max.alt <- max(brown.df$HAiFLS_alt)
-mean.alt <- mean(brown.df$HAiFLS_alt)
-alt.values <- seq(from = min.alt, to = max.alt, length = 100)
-#HAiFLS_al2
-min.al2 <- min(brown.df$HAiFLS_al2)
-max.al2 <- max(brown.df$HAiFLS_al2)
-mean.al2 <- mean(brown.df$HAiFLS_al2)
-al2.values <- seq(from = min.al2, to = max.al2, length = 100)
 #Area_km2
 min.area <- min(brown.df$Area_km2)
 max.area <- max(brown.df$Area_km2)
@@ -289,7 +279,7 @@ mean.cross <- mean(brown.df$Cross_Cat)
 cross.values <- seq(from = min.cross, to = max.cross, length = 100)
 
 ###########################################################################
-#predict across range of observed values (HAiFLS_al2, Area_km2, Cross_Cat)
+#predict across range of observed values (HAiFLS_for, Area_km2, Cross_Cat)
 ##########################################################################
 
 #predictions of Psi for full range of HAiFLS_for and mean values of other covars
@@ -310,43 +300,6 @@ ap <- ggplot(data=cat.for.preds, aes(x=HAiFLS_for))+
        y="Occupancy Probability (Psi)")+
   theme_minimal_grid()
 
-#predictions of Psi for full range of HAiFLS_alt and mean values of other covars
-predictions_alt <- covariate.predictions(tm.alt.cat, 
-                                         data = data.frame(HAiFLS_alt = alt.values,
-                                                           Area_km2 = mean.area,
-                                                           Cross_Cat = mean.cross),
-                                         indices = 4)
-
-predictions_alt$estimates
-
-cat.alt.preds <- predictions_alt$estimates
-
-ggplot(data=cat.alt.preds, aes(x=HAiFLS_alt))+
-  geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
-  geom_line(aes(y=estimate), size=1, color="black")+
-  labs(x="% HAiFLS Altered Land Cover",
-       y="Occupancy Probability (Psi)")+
-  theme_minimal_grid()
-
-
-#predictions of Psi for full range of HAiFLS_al2 and mean values of other covars
-predictions_al2 <- covariate.predictions(tm.cat, 
-                                         data = data.frame(HAiFLS_al2 = al2.values,
-                                                           Area_km2 = mean.area,
-                                                           Cross_Cat = mean.cross),
-                                         indices = 4)
-
-predictions_al2$estimates
-
-cat.al2.preds <- predictions_al2$estimates
-
-ggplot(data=cat.al2.preds, aes(x=HAiFLS_al2))+
-  geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
-  geom_line(aes(y=estimate), size=1, color="black")+
-  labs(x="% HAiFLS Altered Land Cover ^2",
-       y="Occupancy Probability (Psi)")+
-  theme_minimal_grid()#+
-  #theme(axis.title = element_text(face = "bold"))
 
 
 #predictions of Psi for full range of Area_km2 and mean values of other covars
@@ -500,32 +453,44 @@ run.occ=function()
   Psi.six.13 = list(formula = ~avdep+mFlow+pctrun+pctBrBnk+HAiFLS_for+Area_km2)
   
   #5 covariates
-  #MEANT+avdep+mFlow+pctrun+pctBrBnk+HAiFLS_for+Area_km2
-  ########STOPPED HERE 12/19/2019 - 10:57PM#######
   Psi.five.1 = list(formula = ~MEANT+avdep+mFlow+pctrun+pctBrBnk)
   Psi.five.2 = list(formula = ~MEANT2+avdep+mFlow+pctrun+pctBrBnk)
   Psi.five.3 = list(formula = ~MEANT+avdep+mFlow+pctpool+pctBrBnk)
   Psi.five.4 = list(formula = ~MEANT2+avdep+mFlow+pctpool+pctBrBnk)
   Psi.five.5 = list(formula = ~MEANT+avdep+mFlow+pctrun+HAiFLS_for)
   Psi.five.6 = list(formula = ~MEANT2+avdep+mFlow+pctrun+HAiFLS_for)
-  Psi.five.7 = list(formula = ~MEANT+avdep+mFlow+HAiFLS_for+Area_km2)
-  Psi.five.8 = list(formula = ~MEANT2+avdep+mFlow+HAiFLS_for+Area_km2)
-  Psi.five.9 = list(formula = ~MEANT+avdep+pctrun+HAiFLS_for+Area_km2)
-  Psi.five.10 = list(formula = ~MEANT2+avdep+pctrun+HAiFLS_for+Area_km2)
-  Psi.five.11 = list(formula = ~MEANT+mFlow+pctrun+HAiFLS_for+Area_km2)
-  Psi.five.12 = list(formula = ~MEANT2+mFlow+pctrun+HAiFLS_for+Area_km2)
-  Psi.five.13 = list(formula = ~avdep+mFlow+pctrun+HAiFLS_for+Area_km2)
-  Psi.five.14 = list(formula = ~mFlow+pctrun+pctBrBnk+HAiFLS_for+Area_km2)
-  Psi.five.15 = list(formula = ~avdep+pctrun+pctBrBnk+HAiFLS_for+Area_km2)
-  Psi.five.16 = list(formula = ~avdep+mFlow+pctBrBnk+HAiFLS_for+Area_km2)
-  Psi.five.17 = list(formula = ~avdep+mFlow+pctrun+HAiFLS_for+Area_km2)
-  Psi.five.18 = list(formula = ~avdep+mFlow+pctrun+pctBrBnk+Area_km2)
-  Psi.five.19 = list(formula = ~avdep+mFlow+pctrun+pctBrBnk+HAiFLS_for)
+  Psi.five.7 = list(formula = ~MEANT+avdep+mFlow+pctBrBnk+HAiFLS_for)
+  Psi.five.8 = list(formula = ~MEANT2+avdep+mFlow+pctBrBnk+HAiFLS_for)
+  Psi.five.9 = list(formula = ~MEANT+avdep+pctrun+pctBrBnk+HAiFLS_for)
+  Psi.five.10 = list(formula = ~MEANT2+avdep+pctrun+pctBrBnk+HAiFLS_for)
+  Psi.five.11 = list(formula = ~MEANT+mFlow+pctrun+pctBrBnk+HAiFLS_for)
+  Psi.five.12 = list(formula = ~MEANT2+mFlow+pctrun+pctBrBnk+HAiFLS_for)
+  Psi.five.13 = list(formula = ~avdep+mFlow+pctrun+pctBrBnk+HAiFLS_for)
+  Psi.five.14 = list(formula = ~MEANT+avdep+mFlow+pctrun+Area_km2)
+  Psi.five.15 = list(formula = ~MEANT2+avdep+mFlow+pctrun+Area_km2)
+  Psi.five.16 = list(formula = ~MEANT+avdep+mFlow+pctBrBnk+Area_km2)
+  Psi.five.17 = list(formula = ~MEANT2+avdep+mFlow+pctBrBnk+Area_km2)
+  Psi.five.18 = list(formula = ~MEANT+avdep+pctrun+pctBrBnk+Area_km2)
+  Psi.five.19 = list(formula = ~MEANT2+avdep+pctrun+pctBrBnk+Area_km2)
   Psi.five.20 = list(formula = ~MEANT+mFlow+pctrun+pctBrBnk+Area_km2)
   Psi.five.21 = list(formula = ~MEANT2+mFlow+pctrun+pctBrBnk+Area_km2)
-  Psi.five.22 = list(formula = ~MEANT+avdep+pctrun+HAiFLS_for+Area_km2)
-  Psi.five.23 = list(formula = ~MEANT2+avdep+pctrun+HAiFLS_for+Area_km2)
-
+  Psi.five.22 = list(formula = ~avdep+mFlow+pctrun+pctBrBnk+Area_km2)
+  Psi.five.23 = list(formula = ~MEANT+avdep+mFlow+HAiFLS_for+Area_km2)
+  Psi.five.24 = list(formula = ~MEANT2+avdep+mFlow+HAiFLS_for+Area_km2)
+  Psi.five.25 = list(formula = ~MEANT+avdep+pctrun+HAiFLS_for+Area_km2)
+  Psi.five.26 = list(formula = ~MEANT2+avdep+pctrun+HAiFLS_for+Area_km2)
+  Psi.five.27 = list(formula = ~MEANT+mFlow+pctrun+HAiFLS_for+Area_km2)
+  Psi.five.28 = list(formula = ~MEANT2+mFlow+pctrun+HAiFLS_for+Area_km2)
+  Psi.five.29 = list(formula = ~avdep+mFlow+pctrun+HAiFLS_for+Area_km2)
+  Psi.five.30 = list(formula = ~MEANT+avdep+pctBrBnk+HAiFLS_for+Area_km2)
+  Psi.five.31 = list(formula = ~MEANT2+avdep+pctBrBnk+HAiFLS_for+Area_km2)
+  Psi.five.32 = list(formula = ~MEANT+mFlow+pctBrBnk+HAiFLS_for+Area_km2)
+  Psi.five.33 = list(formula = ~MEANT2+mFlow+pctBrBnk+HAiFLS_for+Area_km2)
+  Psi.five.34 = list(formula = ~avdep+mFlow+pctBrBnk+HAiFLS_for+Area_km2)
+  Psi.five.35 = list(formula = ~MEANT+pctrun+pctBrBnk+HAiFLS_for+Area_km2)
+  Psi.five.36 = list(formula = ~MEANT2+pctrun+pctBrBnk+HAiFLS_for+Area_km2)
+  Psi.five.37 = list(formula = ~avdep+pctrun+pctBrBnk+HAiFLS_for+Area_km2)
+  Psi.five.37 = list(formula = ~mFlow+pctrun+pctBrBnk+HAiFLS_for+Area_km2)
   
   #4 covariates
   #MEANT+avdep+mFlow+pctrun+pctBrBnk+HAiFLS_for+Area_km2
@@ -776,10 +741,6 @@ write_csv(P.predictions.effort, "Data/Thesis/Tidy/P_predictions_effort.csv")
 
 
 
-
-flow <- brown.df %>%
-  select(newID, mFlow) %>%
-  filter(mFlow > 0.7)
 
 
 

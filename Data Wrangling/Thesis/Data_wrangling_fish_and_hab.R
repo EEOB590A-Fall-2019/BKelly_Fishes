@@ -173,6 +173,11 @@ write.csv(Fish, "C:/Users/bbkelly/Documents/Brook Trout_Brett/Thesis/data/tidyfi
 hab_18 <- read_excel("Data/Thesis/Raw/Data 2018/Habitat/HabToBeTidy_2018.xlsx")
 str(hab_18)
 
+#inspection of error on data entry for flow rates on UPI_128
+#upi128 <- hab_18[34,]
+
+
+
 #change column names using rename(), NEW name is on LEFT, OLD is on RIGHT
 hab_18 <- hab_18 %>%
   rename(uid = UID, HUC8 = `Watershed (HUC 8)`)
@@ -194,6 +199,8 @@ summary(hab_18)
 #load data from 2019
 hab_19 <- read_excel("Data/Thesis/Raw/Data 2019/Master_Hab_DataSet_2019.xlsx")
 summary(hab_19)
+#inspection of error on data entry for flow rates on YEL_97b
+#yel97b <- hab_19[,]
 
 #change column names using rename(), NEW name is on LEFT, OLD is on RIGHT
 hab_19 <- hab_19 %>%
@@ -239,8 +246,8 @@ reach <- habitat %>%
 head(reach)
 
 #write csv of reach lengths for Sam so he can calculate metrics 11 and 12 of fish IBI
-write.csv(reach, "C:/Users/bbkelly/Documents/Brook Trout_Brett/Thesis/data/reachlengths.csv", row.names = F)
+write.csv(reach, "Data/Thesis/Tidy/reachlengths.csv", row.names = F)
 
 #Write tidy csv of instream habitat
-write.csv(habitat, "C:/Users/bbkelly/Documents/Brook Trout_Brett/Thesis/data/tidyhabitat1.csv", row.names = F)
+write.csv(habitat, "Data/Thesis/Tidy/tidyhabitat1.csv", row.names = F)
 

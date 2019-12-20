@@ -118,6 +118,6 @@ brown <- brown %>%
 #Write CSV's
 
 #RMARK dataframe
-write.csv(brown,"Data/Thesis/Tidy/BRT_occDF_RMARK.csv", row.names = F)
+write.csv(brown,"Data/Thesis/Tidy/BRT_RMark.csv", row.names = F)
 
 
