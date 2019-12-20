@@ -1,6 +1,6 @@
 
    Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018    17-Dec-2019 15:56:33    Page  001
+   gfortran(dble) Vers. 9.0 Mar 2018    19-Dec-2019 22:40:21    Page  001
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
    This version was compiled by GCC version 7.2.0 using the options: 
@@ -20,26 +20,27 @@
 
 
   INPUT --- proc chmatrix occasions= 3 groups= 1 etype= Occupancy 
-  INPUT --- Nodes= 101 icovar = 3 ICMeans  NoHist hist= 138 ;
+  INPUT --- Nodes= 101 icovar = 10 ICMeans  NoHist hist= 138 ;
 
   INPUT ---    time interval 1 1 1 ;
 
-  INPUT ---     icovariates effort1 effort2 effort3 ;
+  INPUT ---     icovariates effort1 effort2 effort3 MEANT avdep mFlow  
+  INPUT ---    pctrun pctBrBnk HAiFLS_for Area_km2 ;
 
   INPUT ---    glabel(1)=freq1;
 
       Number of unique encounter histories read was 138.
 
-      Number of individual covariates read was 3.
+      Number of individual covariates read was 10.
       Time interval lengths are all equal to 1.
 
       Data type number is 27
       Data type is Occupancy Estimation with Detection < 1                                                             
 
-   CPU Time for the last procedure was 0.02 seconds.     
+   CPU Time for the last procedure was 0.01 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018    17-Dec-2019 15:56:33    Page  002
+   gfortran(dble) Vers. 9.0 Mar 2018    19-Dec-2019 22:40:21    Page  002
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -47,7 +48,8 @@
   INPUT --- proc estimate link=Logit NOLOOP varest=2ndPart    ;
 
 
-  INPUT --- model={ p(~effort)Psi(~1) };
+  INPUT --- model={ p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + 
+  INPUT --- pctBrBnk + HAiFLS_for + Area_km2) };
 
   INPUT ---    group=1 p    rows=1 cols=3 Square ;
   INPUT ---        1 2 3 ;
@@ -55,14 +57,22 @@
   INPUT ---    group=1 Psi    rows=1 cols=1 Square ;
   INPUT ---        4 ;
 
-  INPUT ---    design matrix constraints=4 covariates=3;
-  INPUT ---        1 effort1 0;
-  INPUT ---        1 effort2 0;
-  INPUT ---        1 effort3 0;
-  INPUT ---        0 0 1;
+  INPUT ---    design matrix constraints=4 covariates=10;
+  INPUT ---        1 effort1 0 0 0 0 0 0 0 0;
+  INPUT ---        1 effort2 0 0 0 0 0 0 0 0;
+  INPUT ---        1 effort3 0 0 0 0 0 0 0 0;
+  INPUT ---        0 0 1 MEANT avdep mFlow pctrun pctBrBnk HAiFLS_for 
+  INPUT ---       Area_km2;
   INPUT ---       blabel(1)=p:(Intercept);
   INPUT ---       blabel(2)=p:effort;
   INPUT ---       blabel(3)=Psi:(Intercept);
+  INPUT ---       blabel(4)=Psi:MEANT;
+  INPUT ---       blabel(5)=Psi:avdep;
+  INPUT ---       blabel(6)=Psi:mFlow;
+  INPUT ---       blabel(7)=Psi:pctrun;
+  INPUT ---       blabel(8)=Psi:pctBrBnk;
+  INPUT ---       blabel(9)=Psi:HAiFLS_for;
+  INPUT ---       blabel(10)=Psi:Area_km2;
   INPUT ---       rlabel(1)=p g1 a0 t1;
   INPUT ---       rlabel(2)=p g1 a1 t2;
   INPUT ---       rlabel(3)=p g1 a2 t3;
@@ -74,51 +84,59 @@
  -2logL(saturated) = 0.0000000     
  Effective Sample Size = 138
 
-   * *  WARNING  * *   Error number 0 from VA09AD optimization routine. 
-
- Number of function evaluations was 11 for 3 parameters.
- Time for numerical optimization was 0.01 seconds.     
- -2logL { p(~effort)Psi(~1) } = 393.37243     
- Penalty { p(~effort)Psi(~1) } = 0.0000000     
- Gradient { p(~effort)Psi(~1) }:
-   0.000000       0.000000       0.000000    
- Maximum ABS(G) { p(~effort)Psi(~1) } = 0.0000000     
- S Vector { p(~effort)Psi(~1) }:
-   34.42759      29.15010     0.4108600    
- Time to compute number of parameters was 0.01 seconds.     
- Ratio Threshold = 50.000000       Max Gap (2/3) = 70.948976       Next Max Gap (1/2) = 1.1810455     
- Gap Method for Num. of Estimated Parameters { p(~effort)Psi(~1) } = 2          
- Threshold { p(~effort)Psi(~1) } = 0.0000000                     
- Numerical Threshold Method for Num. of Estimated Parameters { p(~effort)Psi(~1) } = 3          
- Number of Estimated Parameters { p(~effort)Psi(~1) } = 3          
-
-   * *  WARNING  * *   Number of parameters estimated from gap method (=2) and threshold method (=3) differ.  Inspect full output.                                                                                                                                                                                                                                                                                                                                                                                                                      
- Ratios of S Vector { p(~effort)Psi(~1) }:
-   1/2    1.181046       2/3    70.94898    
- DEVIANCE { p(~effort)Psi(~1) } = 393.37243                     
- DEVIANCE Degrees of Freedom { p(~effort)Psi(~1) } = 135            
- c-hat { p(~effort)Psi(~1) } = 2.9138699                     
- AIC { p(~effort)Psi(~1) } = 399.37243                  
- AICc { p(~effort)Psi(~1) } = 399.55153                    
- BIC { p(~effort)Psi(~1) } = 408.15419                    
- Pearson Chisquare { p(~effort)Psi(~1) } = 1467.9432                  
+ Number of function evaluations was 34 for 10 parameters.
+ Time for numerical optimization was 0.17 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018    17-Dec-2019 15:56:34    Page  003
+   gfortran(dble) Vers. 9.0 Mar 2018    19-Dec-2019 22:40:21    Page  003
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
+ -2logL { p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2) } = 351.12013     
+ Penalty { p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2) } = 0.0000000     
+ Gradient { p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2) }:
+   0.000000       0.000000       0.000000       0.000000       0.000000    
+   0.000000      0.5574969E-06  0.1534674E-05  0.2551624E-05  0.7706746E-06
+ Maximum ABS(G) { p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2) } = 0.2551624E-05 
+ S Vector { p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2) }:
+   46.04432      31.48356      1.622669     0.9527355     0.5125119    
+  0.4091278     0.2918106     0.1552762     0.8043516E-01 0.2481678E-01
+ Time to compute number of parameters was 0.06 seconds.     
+ Ratio Threshold = 50.000000       Max Gap (2/3) = 19.402330       Next Max Gap (9/10) = 3.2411595     
+ Gap Method for Num. of Estimated Parameters { p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2) } = 10          
+ Threshold { p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2) } = 0.5103249E-05                 
+ Numerical Threshold Method for Num. of Estimated Parameters { p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2) } = 10          
+ Number of Estimated Parameters { p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2) } = 10          
+ DEVIANCE { p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2) } = 351.12013                     
+ DEVIANCE Degrees of Freedom { p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2) } = 128            
+ c-hat { p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2) } = 2.7431260                     
+ AIC { p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2) } = 371.12013                  
+ AICc { p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2) } = 372.85242                    
+ BIC { p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2) } = 400.39267                    
+ Pearson Chisquare { p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2) } = 1343.8348                  
 
 
-                    LOGIT Link Function Parameters of { p(~effort)Psi(~1) }
+ LOGIT Link Function Parameters of { p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2) }
                                                               95% Confidence Interval
  Parameter                    Beta         Standard Error      Lower           Upper
  -------------------------  --------------  --------------  --------------  --------------
-    1:p:(Intercept)          0.7315902       0.3747807      -0.0029800       1.4661603    
-    2:p:effort               0.8161832E-03   0.3824672E-03   0.6654744E-04   0.0015658    
-    3:Psi:(Intercept)        0.1744747       0.1741655      -0.1668897       0.5158390    
+    1:p:(Intercept)          0.5303487       0.3694912      -0.1938540       1.2545515    
+    2:p:effort               0.9516814E-03   0.3882755E-03   0.1906613E-03   0.0017127    
+    3:Psi:(Intercept)        1.0408105       2.2916057      -3.4507369       5.5323578    
+    4:Psi:MEANT             -0.1015531       0.0988091      -0.2952190       0.0921127    
+    5:Psi:avdep             -0.1333292       2.7369738      -5.4977979       5.2311395    
+    6:Psi:mFlow              13.644539       3.5595031       6.6679123       20.621165    
+    7:Psi:pctrun            -5.8425446       1.6896424      -9.1542437      -2.5308454    
+    8:Psi:pctBrBnk          -0.4691600       0.3932213      -1.2398737       0.3015537    
+    9:Psi:HAiFLS_for         0.0199238       0.0087996       0.0026766       0.0371710    
+   10:Psi:Area_km2           0.0776160       0.0383131       0.0025223       0.1527096    
 
 
-                    Real Function Parameters of { p(~effort)Psi(~1) }
+ Real Function Parameters of { p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2) }
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018    19-Dec-2019 22:40:21    Page  004
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
 
       Following estimates based on unstandardized individual covariate values:
           Variable   Value         
@@ -126,30 +144,33 @@
           EFFORT1     906.23188    
           EFFORT2     834.18841    
           EFFORT3     818.18116    
+          MEANT       20.182899    
+          AVDEP       0.2562426    
+          MFLOW       0.2587289    
+          PCTRUN      0.4539599    
+          PCTBRBNK    0.8740586    
+          HAIFLS_FOR  26.272482    
+          AREA_KM2    7.8085664    
                                                                95% Confidence Interval
   Parameter                  Estimate       Standard Error      Lower           Upper
  --------------------------  --------------  --------------  --------------  --------------
-     1:p g1 a0 t1             0.8132460       0.0284635       0.7509929       0.8627792                          
-     2:p g1 a1 t2             0.8041506       0.0293401       0.7402564       0.8553977                          
-     3:p g1 a2 t3             0.8020848       0.0296217       0.7376210       0.8538487                          
-     4:Psi g1 a0 t1           0.5435084       0.0432117       0.4583742       0.6261743                          
+     1:p g1 a0 t1             0.8010377       0.0296400       0.7365826       0.8528717                          
+     2:p g1 a1 t2             0.7898847       0.0304360       0.7240807       0.8433894                          
+     3:p g1 a2 t3             0.7873452       0.0307048       0.7210268       0.8413667                          
+     4:Psi g1 a0 t1           0.6351579       0.0591936       0.5134336       0.7417474                          
 
 
                       Estimates of Derived Parameters
-               Occupancy Estimates of { p(~effort)Psi(~1) }
+ Occupancy Estimates of { p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2) }
                                             95% Confidence Interval
  Group   Psi-hat         Standard Error      Lower           Upper
  -----   --------------  --------------  --------------  --------------
-   1      0.5435084       0.0432117       0.4583742       0.6261743    
+   1      0.6351579       0.0591936       0.5134336       0.7417474    
 
- Attempted ordering of parameters by estimatibility:
-  3 1 2
- Beta number 2 is a singular value.
-
-   CPU Time for the last procedure was 0.01 seconds.     
+   CPU Time for the last procedure was 0.23 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018    17-Dec-2019 15:56:34    Page  004
+   gfortran(dble) Vers. 9.0 Mar 2018    19-Dec-2019 22:40:21    Page  005
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -158,9 +179,9 @@
 
      CPU Time in minutes for this job was 0.00
 
-     Time Start = 15:56:33.561   Time End = 15:56:34.285
+     Time Start = 22:40:21.685   Time End = 22:40:21.914
 
-     Wall Clock Time in minutes for this job was 0.01
+     Wall Clock Time in minutes for this job was 0.00
 
 
           E X E C U T I O N   S U C C E S S F U L 

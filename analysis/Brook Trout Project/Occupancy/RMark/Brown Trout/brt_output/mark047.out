@@ -1,6 +1,6 @@
 
    Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018    17-Dec-2019 15:56:11    Page  001
+   gfortran(dble) Vers. 9.0 Mar 2018    19-Dec-2019 22:40:14    Page  001
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
    This version was compiled by GCC version 7.2.0 using the options: 
@@ -20,26 +20,26 @@
 
 
   INPUT --- proc chmatrix occasions= 3 groups= 1 etype= Occupancy 
-  INPUT --- Nodes= 101 icovar = 3 ICMeans  NoHist hist= 138 ;
+  INPUT --- Nodes= 101 icovar = 5 ICMeans  NoHist hist= 138 ;
 
   INPUT ---    time interval 1 1 1 ;
 
-  INPUT ---     icovariates Area2 AvgSlope Cross_Cat ;
+  INPUT ---     icovariates MEANT avdep mFlow pctrun pctBrBnk ;
 
   INPUT ---    glabel(1)=freq1;
 
       Number of unique encounter histories read was 138.
 
-      Number of individual covariates read was 3.
+      Number of individual covariates read was 5.
       Time interval lengths are all equal to 1.
 
       Data type number is 27
       Data type is Occupancy Estimation with Detection < 1                                                             
 
-   CPU Time for the last procedure was 0.02 seconds.     
+   CPU Time for the last procedure was 0.01 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018    17-Dec-2019 15:56:11    Page  002
+   gfortran(dble) Vers. 9.0 Mar 2018    19-Dec-2019 22:40:14    Page  002
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -47,7 +47,8 @@
   INPUT --- proc estimate link=Logit NOLOOP varest=2ndPart    ;
 
 
-  INPUT --- model={ p(~1)Psi(~Area2 + AvgSlope + Cross_Cat) };
+  INPUT --- model={ p(~1)Psi(~MEANT + avdep + mFlow + pctrun + 
+  INPUT --- pctBrBnk) };
 
   INPUT ---    group=1 p    rows=1 cols=3 Square ;
   INPUT ---        1 1 1 ;
@@ -55,14 +56,16 @@
   INPUT ---    group=1 Psi    rows=1 cols=1 Square ;
   INPUT ---        2 ;
 
-  INPUT ---    design matrix constraints=2 covariates=5;
-  INPUT ---        1 0 0 0 0;
-  INPUT ---        0 1 Area2 AvgSlope Cross_Cat;
+  INPUT ---    design matrix constraints=2 covariates=7;
+  INPUT ---        1 0 0 0 0 0 0;
+  INPUT ---        0 1 MEANT avdep mFlow pctrun pctBrBnk;
   INPUT ---       blabel(1)=p:(Intercept);
   INPUT ---       blabel(2)=Psi:(Intercept);
-  INPUT ---       blabel(3)=Psi:Area2;
-  INPUT ---       blabel(4)=Psi:AvgSlope;
-  INPUT ---       blabel(5)=Psi:Cross_Cat;
+  INPUT ---       blabel(3)=Psi:MEANT;
+  INPUT ---       blabel(4)=Psi:avdep;
+  INPUT ---       blabel(5)=Psi:mFlow;
+  INPUT ---       blabel(6)=Psi:pctrun;
+  INPUT ---       blabel(7)=Psi:pctBrBnk;
   INPUT ---       rlabel(1)=p g1 a0 t1;
   INPUT ---       rlabel(2)=Psi g1 a0 t1;
 
@@ -72,72 +75,78 @@
  -2logL(saturated) = 0.0000000     
  Effective Sample Size = 138
 
- Number of function evaluations was 14 for 5 parameters.
- Time for numerical optimization was 0.01 seconds.     
- -2logL { p(~1)Psi(~Area2 + AvgSlope + Cross_Cat) } = 397.31487     
- Penalty { p(~1)Psi(~Area2 + AvgSlope + Cross_Cat) } = 0.0000000     
- Gradient { p(~1)Psi(~Area2 + AvgSlope + Cross_Cat) }:
- -0.1538348E-05  0.9730379E-05   0.000000       0.000000     -0.1992664E-05
- Maximum ABS(G) { p(~1)Psi(~Area2 + AvgSlope + Cross_Cat) } = 0.9730379E-05 
- S Vector { p(~1)Psi(~Area2 + AvgSlope + Cross_Cat) }:
-   35.63013      30.60174     0.7811123     0.5029079     0.5253060E-01
- Time to compute number of parameters was 0.01 seconds.     
- Ratio Threshold = 50.000000       Max Gap (2/3) = 39.177135       Next Max Gap (4/5) = 9.5736180     
- Gap Method for Num. of Estimated Parameters { p(~1)Psi(~Area2 + AvgSlope + Cross_Cat) } = 5          
- Threshold { p(~1)Psi(~Area2 + AvgSlope + Cross_Cat) } = 0.1946076E-04                 
- Numerical Threshold Method for Num. of Estimated Parameters { p(~1)Psi(~Area2 + AvgSlope + Cross_Cat) } = 5          
- Number of Estimated Parameters { p(~1)Psi(~Area2 + AvgSlope + Cross_Cat) } = 5          
- DEVIANCE { p(~1)Psi(~Area2 + AvgSlope + Cross_Cat) } = 397.31487                     
- DEVIANCE Degrees of Freedom { p(~1)Psi(~Area2 + AvgSlope + Cross_Cat) } = 133            
- c-hat { p(~1)Psi(~Area2 + AvgSlope + Cross_Cat) } = 2.9873299                     
- AIC { p(~1)Psi(~Area2 + AvgSlope + Cross_Cat) } = 407.31487                  
- AICc { p(~1)Psi(~Area2 + AvgSlope + Cross_Cat) } = 407.76942                    
- BIC { p(~1)Psi(~Area2 + AvgSlope + Cross_Cat) } = 421.95114                    
- Pearson Chisquare { p(~1)Psi(~Area2 + AvgSlope + Cross_Cat) } = 1278.3319                  
+ Number of function evaluations was 26 for 7 parameters.
+ Time for numerical optimization was 0.09 seconds.     
+ -2logL { p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk) } = 370.82716     
+ Penalty { p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk) } = 0.0000000     
+ Gradient { p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk) }:
+   0.000000      0.1157784E-05   0.000000      0.2927302E-05   0.000000    
+   0.000000      0.3468430E-05
+ Maximum ABS(G) { p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk) } = 0.3468430E-05 
+ S Vector { p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk) }:
+   50.88048      31.74574      1.136751     0.6602699     0.1848398    
+  0.1028059     0.3306859E-01
+ Time to compute number of parameters was 0.02 seconds.     
+ Ratio Threshold = 50.000000       Max Gap (2/3) = 27.926734       Next Max Gap (4/5) = 3.5721205     
+ Gap Method for Num. of Estimated Parameters { p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk) } = 7          
+ Threshold { p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk) } = 0.6936859E-05                 
+ Numerical Threshold Method for Num. of Estimated Parameters { p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk) } = 7          
+ Number of Estimated Parameters { p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk) } = 7          
+ DEVIANCE { p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk) } = 370.82716                     
+ DEVIANCE Degrees of Freedom { p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk) } = 131            
+ c-hat { p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk) } = 2.8307416                     
+ AIC { p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk) } = 384.82716                  
+ AICc { p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk) } = 385.68869                    
+ BIC { p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk) } = 405.31793                    
+ Pearson Chisquare { p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk) } = 1343.1662                  
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018    19-Dec-2019 22:40:14    Page  003
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
 
 
-         LOGIT Link Function Parameters of { p(~1)Psi(~Area2 + AvgSlope + Cross_Cat) }
+   LOGIT Link Function Parameters of { p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk) }
                                                               95% Confidence Interval
  Parameter                    Beta         Standard Error      Lower           Upper
  -------------------------  --------------  --------------  --------------  --------------
-
-  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018    17-Dec-2019 15:56:12    Page  003
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
- 
-    1:p:(Intercept)          1.4797357       0.1799915       1.1269523       1.8325190    
-    2:Psi:(Intercept)       -0.1761199       0.3390260      -0.8406109       0.4883711    
-    3:Psi:Area2              0.5387123E-03   0.0013554      -0.0021179       0.0031953    
-    4:Psi:AvgSlope           0.0270754       0.0228629      -0.0177359       0.0718866    
-    5:Psi:Cross_Cat         -0.0126996       0.0398057      -0.0907187       0.0653195    
+    1:p:(Intercept)          1.3881477       0.1781290       1.0390149       1.7372805    
+    2:Psi:(Intercept)        2.2948270       1.9796387      -1.5852649       6.1749189    
+    3:Psi:MEANT             -0.1173124       0.0910063      -0.2956847       0.0610599    
+    4:Psi:avdep              1.6062887       2.4844568      -3.2632466       6.4758241    
+    5:Psi:mFlow              12.398880       3.0971035       6.3285570       18.469203    
+    6:Psi:pctrun            -6.0162108       1.4938045      -8.9440677      -3.0883538    
+    7:Psi:pctBrBnk          -0.3788426       0.3518253      -1.0684202       0.3107350    
 
 
-         Real Function Parameters of { p(~1)Psi(~Area2 + AvgSlope + Cross_Cat) }
+   Real Function Parameters of { p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk) }
 
       Following estimates based on unstandardized individual covariate values:
           Variable   Value         
           ---------  ------------- 
-          AREA2       112.64471    
-          AVGSLOPE    12.952003    
-          CROSS_CAT   5.6956522    
+          MEANT       20.182899    
+          AVDEP       0.2562426    
+          MFLOW       0.2587289    
+          PCTRUN      0.4539599    
+          PCTBRBNK    0.8740586    
                                                                95% Confidence Interval
   Parameter                  Estimate       Standard Error      Lower           Upper
  --------------------------  --------------  --------------  --------------  --------------
-     1:p g1 a0 t1             0.8145327       0.0271912       0.7552760       0.8620615                          
-     2:Psi g1 a0 t1           0.5406379       0.0430618       0.4558804       0.6231079                          
+     1:p g1 a0 t1             0.8002964       0.0284689       0.7386599       0.8503413                          
+     2:Psi g1 a0 t1           0.6187915       0.0532080       0.5105775       0.7163703                          
 
 
                       Estimates of Derived Parameters
-    Occupancy Estimates of { p(~1)Psi(~Area2 + AvgSlope + Cross_Cat) }
+ Occupancy Estimates of { p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk) }
                                             95% Confidence Interval
  Group   Psi-hat         Standard Error      Lower           Upper
  -----   --------------  --------------  --------------  --------------
-   1      0.5406379       0.0430618       0.4558804       0.6231079    
+   1      0.6187915       0.0532080       0.5105775       0.7163703    
 
-   CPU Time for the last procedure was 0.01 seconds.     
+   CPU Time for the last procedure was 0.11 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018    17-Dec-2019 15:56:12    Page  004
+   gfortran(dble) Vers. 9.0 Mar 2018    19-Dec-2019 22:40:14    Page  004
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -146,9 +155,9 @@
 
      CPU Time in minutes for this job was 0.00
 
-     Time Start = 15:56:11.793   Time End = 15:56:12.451
+     Time Start = 22:40:14.558   Time End = 22:40:14.783
 
-     Wall Clock Time in minutes for this job was 0.01
+     Wall Clock Time in minutes for this job was 0.00
 
 
           E X E C U T I O N   S U C C E S S F U L 
