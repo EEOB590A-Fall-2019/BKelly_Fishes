@@ -10,9 +10,9 @@
 library(tidyverse)
 library(skimr)
 library(corrplot)
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+#setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 
-#read in Brook Trout encounter history and environmental covariates
+#read in Brown Trout encounter history and environmental covariates
 
 brt <- read_csv("Data/Thesis/Tidy/BRT_ch_data.csv", col_names = T)
 covars <- read_csv("Data/Thesis/Tidy/enviro_tidy.csv", col_names = T)

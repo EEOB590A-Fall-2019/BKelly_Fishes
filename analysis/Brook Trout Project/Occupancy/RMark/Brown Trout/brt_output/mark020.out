@@ -1,6 +1,6 @@
 
    Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018    17-Dec-2019 15:55:32    Page  001
+   gfortran(dble) Vers. 9.0 Mar 2018    19-Dec-2019 22:31:48    Page  001
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
    This version was compiled by GCC version 7.2.0 using the options: 
@@ -20,27 +20,27 @@
 
 
   INPUT --- proc chmatrix occasions= 3 groups= 1 etype= Occupancy 
-  INPUT --- Nodes= 101 icovar = 6 ICMeans  NoHist hist= 138 ;
+  INPUT --- Nodes= 101 icovar = 7 ICMeans  NoHist hist= 138 ;
 
   INPUT ---    time interval 1 1 1 ;
 
-  INPUT ---     icovariates effort1 effort2 effort3 HAiFLS_al2 AvgSlope  
-  INPUT ---    Cross_Cat ;
+  INPUT ---     icovariates effort1 effort2 effort3 MEANT2 avdep mFlow  
+  INPUT ---    pctpool ;
 
   INPUT ---    glabel(1)=freq1;
 
       Number of unique encounter histories read was 138.
 
-      Number of individual covariates read was 6.
+      Number of individual covariates read was 7.
       Time interval lengths are all equal to 1.
 
       Data type number is 27
       Data type is Occupancy Estimation with Detection < 1                                                             
 
-   CPU Time for the last procedure was 0.01 seconds.     
+   CPU Time for the last procedure was 0.02 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018    17-Dec-2019 15:55:32    Page  002
+   gfortran(dble) Vers. 9.0 Mar 2018    19-Dec-2019 22:31:48    Page  002
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -48,7 +48,7 @@
   INPUT --- proc estimate link=Logit NOLOOP varest=2ndPart    ;
 
 
-  INPUT --- model={ p(~effort)Psi(~HAiFLS_al2 + AvgSlope + Cross_Cat) };
+  INPUT --- model={ p(~effort)Psi(~MEANT2 + avdep + mFlow + pctpool) };
 
   INPUT ---    group=1 p    rows=1 cols=3 Square ;
   INPUT ---        1 2 3 ;
@@ -56,17 +56,18 @@
   INPUT ---    group=1 Psi    rows=1 cols=1 Square ;
   INPUT ---        4 ;
 
-  INPUT ---    design matrix constraints=4 covariates=6;
-  INPUT ---        1 effort1 0 0 0 0;
-  INPUT ---        1 effort2 0 0 0 0;
-  INPUT ---        1 effort3 0 0 0 0;
-  INPUT ---        0 0 1 HAiFLS_al2 AvgSlope Cross_Cat;
+  INPUT ---    design matrix constraints=4 covariates=7;
+  INPUT ---        1 effort1 0 0 0 0 0;
+  INPUT ---        1 effort2 0 0 0 0 0;
+  INPUT ---        1 effort3 0 0 0 0 0;
+  INPUT ---        0 0 1 MEANT2 avdep mFlow pctpool;
   INPUT ---       blabel(1)=p:(Intercept);
   INPUT ---       blabel(2)=p:effort;
   INPUT ---       blabel(3)=Psi:(Intercept);
-  INPUT ---       blabel(4)=Psi:HAiFLS_al2;
-  INPUT ---       blabel(5)=Psi:AvgSlope;
-  INPUT ---       blabel(6)=Psi:Cross_Cat;
+  INPUT ---       blabel(4)=Psi:MEANT2;
+  INPUT ---       blabel(5)=Psi:avdep;
+  INPUT ---       blabel(6)=Psi:mFlow;
+  INPUT ---       blabel(7)=Psi:pctpool;
   INPUT ---       rlabel(1)=p g1 a0 t1;
   INPUT ---       rlabel(2)=p g1 a1 t2;
   INPUT ---       rlabel(3)=p g1 a2 t3;
@@ -78,50 +79,51 @@
  -2logL(saturated) = 0.0000000     
  Effective Sample Size = 138
 
- Number of function evaluations was 18 for 6 parameters.
- Time for numerical optimization was 0.01 seconds.     
- -2logL { p(~effort)Psi(~HAiFLS_al2 + AvgSlope + Cross_Cat) } = 376.51996     
- Penalty { p(~effort)Psi(~HAiFLS_al2 + AvgSlope + Cross_Cat) } = 0.0000000     
- Gradient { p(~effort)Psi(~HAiFLS_al2 + AvgSlope + Cross_Cat) }:
-  0.2215873E-05  0.8928633E-06   0.000000      0.1165931E-05  0.1527732E-05
-   0.000000    
- Maximum ABS(G) { p(~effort)Psi(~HAiFLS_al2 + AvgSlope + Cross_Cat) } = 0.2215873E-05 
- S Vector { p(~effort)Psi(~HAiFLS_al2 + AvgSlope + Cross_Cat) }:
-   42.54883      29.59423      1.939438     0.5388151     0.4091901    
-  0.3365101    
- Time to compute number of parameters was 0.01 seconds.     
- Ratio Threshold = 50.000000       Max Gap (2/3) = 15.259183       Next Max Gap (3/4) = 3.5994490     
- Gap Method for Num. of Estimated Parameters { p(~effort)Psi(~HAiFLS_al2 + AvgSlope + Cross_Cat) } = 6          
- Threshold { p(~effort)Psi(~HAiFLS_al2 + AvgSlope + Cross_Cat) } = 0.4431746E-05                 
- Numerical Threshold Method for Num. of Estimated Parameters { p(~effort)Psi(~HAiFLS_al2 + AvgSlope + Cross_Cat) } = 6          
- Number of Estimated Parameters { p(~effort)Psi(~HAiFLS_al2 + AvgSlope + Cross_Cat) } = 6          
- DEVIANCE { p(~effort)Psi(~HAiFLS_al2 + AvgSlope + Cross_Cat) } = 376.51996                     
- DEVIANCE Degrees of Freedom { p(~effort)Psi(~HAiFLS_al2 + AvgSlope + Cross_Cat) } = 132            
- c-hat { p(~effort)Psi(~HAiFLS_al2 + AvgSlope + Cross_Cat) } = 2.8524240                     
- AIC { p(~effort)Psi(~HAiFLS_al2 + AvgSlope + Cross_Cat) } = 388.51996                  
- AICc { p(~effort)Psi(~HAiFLS_al2 + AvgSlope + Cross_Cat) } = 389.16118                    
- BIC { p(~effort)Psi(~HAiFLS_al2 + AvgSlope + Cross_Cat) } = 406.08348                    
- Pearson Chisquare { p(~effort)Psi(~HAiFLS_al2 + AvgSlope + Cross_Cat) } = 1343.5308                  
+ Number of function evaluations was 23 for 7 parameters.
+ Time for numerical optimization was 0.02 seconds.     
+ -2logL { p(~effort)Psi(~MEANT2 + avdep + mFlow + pctpool) } = 379.12106     
+ Penalty { p(~effort)Psi(~MEANT2 + avdep + mFlow + pctpool) } = 0.0000000     
+ Gradient { p(~effort)Psi(~MEANT2 + avdep + mFlow + pctpool) }:
+  0.2477393E-05   0.000000      0.1669926E-05  0.1011301E-05  0.9386847E-06
+  0.1734721E-06  0.8378694E-06
+ Maximum ABS(G) { p(~effort)Psi(~MEANT2 + avdep + mFlow + pctpool) } = 0.2477393E-05 
+ S Vector { p(~effort)Psi(~MEANT2 + avdep + mFlow + pctpool) }:
+   45.84274      30.78399      1.427107     0.4907197     0.3916589    
+  0.1878303     0.2568986E-01
+ Time to compute number of parameters was 0.03 seconds.     
+ Ratio Threshold = 50.000000       Max Gap (2/3) = 21.570901       Next Max Gap (6/7) = 7.3114541     
+ Gap Method for Num. of Estimated Parameters { p(~effort)Psi(~MEANT2 + avdep + mFlow + pctpool) } = 7          
+ Threshold { p(~effort)Psi(~MEANT2 + avdep + mFlow + pctpool) } = 0.4954786E-05                 
+ Numerical Threshold Method for Num. of Estimated Parameters { p(~effort)Psi(~MEANT2 + avdep + mFlow + pctpool) } = 7          
+ Number of Estimated Parameters { p(~effort)Psi(~MEANT2 + avdep + mFlow + pctpool) } = 7          
+ DEVIANCE { p(~effort)Psi(~MEANT2 + avdep + mFlow + pctpool) } = 379.12106                     
+ DEVIANCE Degrees of Freedom { p(~effort)Psi(~MEANT2 + avdep + mFlow + pctpool) } = 131            
+ c-hat { p(~effort)Psi(~MEANT2 + avdep + mFlow + pctpool) } = 2.8940539                     
+ AIC { p(~effort)Psi(~MEANT2 + avdep + mFlow + pctpool) } = 393.12106                  
+ AICc { p(~effort)Psi(~MEANT2 + avdep + mFlow + pctpool) } = 393.98260                    
+ BIC { p(~effort)Psi(~MEANT2 + avdep + mFlow + pctpool) } = 413.61184                    
+ Pearson Chisquare { p(~effort)Psi(~MEANT2 + avdep + mFlow + pctpool) } = 1523.4100                  
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018    17-Dec-2019 15:55:32    Page  003
+   gfortran(dble) Vers. 9.0 Mar 2018    19-Dec-2019 22:31:48    Page  003
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
 
-    LOGIT Link Function Parameters of { p(~effort)Psi(~HAiFLS_al2 + AvgSlope + Cross_Cat) }
+     LOGIT Link Function Parameters of { p(~effort)Psi(~MEANT2 + avdep + mFlow + pctpool) }
                                                               95% Confidence Interval
  Parameter                    Beta         Standard Error      Lower           Upper
  -------------------------  --------------  --------------  --------------  --------------
-    1:p:(Intercept)          0.7215322       0.3767231      -0.0168451       1.4599096    
-    2:p:effort               0.8205696E-03   0.3828237E-03   0.7023517E-04   0.0015709    
-    3:Psi:(Intercept)        1.0675612       0.5083363       0.0712221       2.0639003    
-    4:Psi:HAiFLS_al2        -0.2304504E-03   0.6306473E-04  -0.3540573E-03  -0.1068435E-03
-    5:Psi:AvgSlope           0.0263762       0.0256462      -0.0238903       0.0766427    
-    6:Psi:Cross_Cat          0.0155040       0.0224302      -0.0284591       0.0594671    
+    1:p:(Intercept)          0.5398030       0.3746622      -0.1945350       1.2741410    
+    2:p:effort               0.9563872E-03   0.3920566E-03   0.1879563E-03   0.0017248    
+    3:Psi:(Intercept)       -1.2843506       1.3638623      -3.9575207       1.3888195    
+    4:Psi:MEANT2            -0.0043116       0.0019797      -0.0081918      -0.4314160E-03
+    5:Psi:avdep             -3.0638750       2.3318369      -7.6342755       1.5065255    
+    6:Psi:mFlow              12.092330       3.4659948       5.2989797       18.885680    
+    7:Psi:pctpool            0.0448782       0.0173948       0.0107844       0.0789719    
 
 
-    Real Function Parameters of { p(~effort)Psi(~HAiFLS_al2 + AvgSlope + Cross_Cat) }
+     Real Function Parameters of { p(~effort)Psi(~MEANT2 + avdep + mFlow + pctpool) }
 
       Following estimates based on unstandardized individual covariate values:
           Variable   Value         
@@ -129,29 +131,30 @@
           EFFORT1     906.23188    
           EFFORT2     834.18841    
           EFFORT3     818.18116    
-          HAIFLS_AL2  5578.3218    
-          AVGSLOPE    12.952003    
-          CROSS_CAT   5.6956522    
+          MEANT2      414.61712    
+          AVDEP       0.2562426    
+          MFLOW       0.2587289    
+          PCTPOOL     25.664251    
                                                                95% Confidence Interval
   Parameter                  Estimate       Standard Error      Lower           Upper
  --------------------------  --------------  --------------  --------------  --------------
-     1:p g1 a0 t1             0.8123204       0.0287389       0.7494510       0.8623125                          
-     2:p g1 a1 t2             0.8031409       0.0296567       0.7385401       0.8549159                          
-     3:p g1 a2 t3             0.8010559       0.0299476       0.7358652       0.8533632                          
-     4:Psi g1 a0 t1           0.5527936       0.0466801       0.4605487       0.6415419                          
+     1:p g1 a0 t1             0.8032151       0.0292954       0.7394745       0.8544308                          
+     2:p g1 a1 t2             0.7920966       0.0301606       0.7268386       0.8450873                          
+     3:p g1 a2 t3             0.7895643       0.0304471       0.7237492       0.8430986                          
+     4:Psi g1 a0 t1           0.6042676       0.0494525       0.5044859       0.6960617                          
 
 
                       Estimates of Derived Parameters
- Occupancy Estimates of { p(~effort)Psi(~HAiFLS_al2 + AvgSlope + Cross_Cat) }
+ Occupancy Estimates of { p(~effort)Psi(~MEANT2 + avdep + mFlow + pctpool) }
                                             95% Confidence Interval
  Group   Psi-hat         Standard Error      Lower           Upper
  -----   --------------  --------------  --------------  --------------
-   1      0.5527936       0.0466801       0.4605487       0.6415419    
+   1      0.6042676       0.0494525       0.5044859       0.6960617    
 
-   CPU Time for the last procedure was 0.02 seconds.     
+   CPU Time for the last procedure was 0.05 seconds.     
 
   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
-   gfortran(dble) Vers. 9.0 Mar 2018    17-Dec-2019 15:55:32    Page  004
+   gfortran(dble) Vers. 9.0 Mar 2018    19-Dec-2019 22:31:48    Page  004
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
@@ -160,9 +163,9 @@
 
      CPU Time in minutes for this job was 0.00
 
-     Time Start = 15:55:32.102   Time End = 15:55:32.777
+     Time Start = 22:31:48.700   Time End = 22:31:48.823
 
-     Wall Clock Time in minutes for this job was 0.01
+     Wall Clock Time in minutes for this job was 0.00
 
 
           E X E C U T I O N   S U C C E S S F U L 
