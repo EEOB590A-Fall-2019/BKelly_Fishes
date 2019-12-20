@@ -36,7 +36,8 @@ Psi1 <- ggplot(data = Psi.temp2, aes(x=pctex21))+
   labs(x="Percent of Summer Stream Temperature > 21C",
        y="Occupancy Probability (Psi)")+
   theme_bw()+
-  theme(axis.title = element_text(face = "bold"))
+  theme(axis.title = element_text(face = "bold"))+
+  theme(panel.grid = element_blank())
 Psi1
 
 Psi2 <- ggplot(data = Psi.forest2, aes(x=HAiFLS_for))+
@@ -46,11 +47,14 @@ Psi2 <- ggplot(data = Psi.forest2, aes(x=HAiFLS_for))+
   labs(x="% HAiFLS Forest Land Cover in Catchment",
        y="Occupancy Probability (Psi)")+
   theme_bw()+
-  theme(axis.title = element_text(face = "bold"))
+  theme(axis.title = element_text(face = "bold"))+
+  theme(panel.grid = element_blank())
 Psi2
 
 #cowplot
 plot_grid(Psi1,Psi2, labels = NULL, nrow = 2)
+ggsave("bkt_OccuProb.png",
+       dpi = 300)
 
 
 ############################
@@ -63,12 +67,18 @@ cfor <- Psi.for_Cat %>%
 
 cp <- ggplot(data = cfor, aes(x=HAiFLS_for))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
-  geom_line(aes(y=estimate),colour="DarkGreen", size=1)+
+  geom_line(aes(y=estimate),colour="blue", size=1)+
   labs(x="% HAiFLS Forest Land Cover in Catchment",
        y="Occupancy Probability (Psi)")+
-  theme_bw()+
+  theme_classic()+
   theme(axis.title = element_text(face = "bold"))
 cp
+ggsave("bkt_Occu_Cat.png",
+       dpi = 300)
 
 
 
+
+###################################
+#Detection Probability predictions
+##################################
