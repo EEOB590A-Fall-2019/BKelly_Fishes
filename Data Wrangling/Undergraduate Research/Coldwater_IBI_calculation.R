@@ -10,7 +10,8 @@ library(forcats)
 library(readxl)
 #load data
 getwd()
-metrics <- read_excel("/Users/brettkelly/Documents/MyFiles/Iowa State/EEOB590B/BKelly_Fishes/Data/Thesis/Tidy/tidyfish1.xlsx")
+#metrics <- read_excel("/Users/brettkelly/Documents/MyFiles/Iowa State/EEOB590B/BKelly_Fishes/Data/Thesis/Tidy/tidyfish1.xlsx") #laptop
+metrics <- read_excel("Data/Thesis/Tidy/tidyfish1.xlsx") #work computer
 names(metrics)
 
 #remove MTS and SLS columns - use select function
