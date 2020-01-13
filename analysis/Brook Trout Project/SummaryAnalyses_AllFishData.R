@@ -104,5 +104,63 @@ ts <- trout %>%
 
 
 
-#Write summary csv's for tables
-write.csv(summary_fish19, "Data/Thesis/Tidy/FishTable_2019.csv", row.names = F)
+####################################################################
+
+## Make csv for mapping spatial distribution of Trout (BKT and BRT)
+
+###################################################################
+
+#make a "Trout Status" variable for the fill argument
+trout2 <- trout %>%
+  mutate(Trout_Status = ifelse(BKT+BRT>1,3,ifelse(BKT-BRT>0,2,ifelse(BKT-BRT<0,1,0))))
+
+trout2$Trout_Status <- as.factor(trout2$Trout_Status)
+
+skim(trout2)
+
+#Load csv with sampled site list and UTM coords for each
+sites <- read_csv("Data/Thesis/Tidy/Sampled_LocsUTM_tidy.csv")
+skim(sites)
+
+sites[48,2] <- '14b'
+sites[70,2] <- '32b'
+sites[71,2] <- '57b'
+sites[87,2] <- '28b'
+sites[105,2] <- '78b'
+sites[109,2] <- '118b'
+sites[85,2] <- '48'
+
+
+#create new column with newID
+sites2 <- sites %>%
+  unite(newID, c(HUC8,Site), sep = "_", remove = F) %>%
+  filter(newID != "UPI_29" & newID != "YEL_33")
+
+sites2$newID <- as.factor(sites2$newID)
+
+trout2[45,3] <- 201
+trout2[46,3] <- 202
+
+trout3 <- trout2 %>%
+  unite(newID, c(HUC8, site), sep = "_", remove = F) %>%
+  filter(newID != "UPI_165")
+
+#match up the levels to make sure the lists of sites are the same 
+trout3$newID <- as.factor(trout3$newID)
+levels(sites2$newID)
+levels(trout3$newID)
+
+#reduce down vars on sites DF
+sites3 <- sites2 %>%
+  select(newID, Xcoord, Ycoord)
+
+#reduce down vars on trout DF
+trout4 <- trout3 %>%
+  select(newID, HUC8, site, BKT, BRT, Trout_Status)
+
+
+#combine into new DF
+combo <- full_join(sites3, trout4, by="newID")
+
+#Write csv's
+write.csv(combo, "Data/Thesis/Tidy/TroutStatus_sites.csv", row.names = F)
