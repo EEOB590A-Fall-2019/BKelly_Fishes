@@ -583,7 +583,6 @@ write.csv(tmpvars18_tidy, "Data/Thesis/Tidy/TempVars_2018_tidy.csv", row.names =
 
 
 
-
 ###################################
 #          2019 Data              #
 ###################################
@@ -592,7 +591,7 @@ write.csv(tmpvars18_tidy, "Data/Thesis/Tidy/TempVars_2018_tidy.csv", row.names =
 #Let's start by joining two dfs to create a new df with the HUC8 and Site associated with each obs
 #-------------------------------------------------------------------------------------------------
 ##########################################################################################
-#join so that "Temps2018" has HUC8 and Site associated with the existing obs
+#join so that "Temps2019" has HUC8 and Site associated with the existing obs
 #end result should have 5 variables (as opposed to 3 before)
 ###########################################################################################
 
@@ -606,23 +605,25 @@ log19 <- logger19 %>%
 head(log19)
 
 summary(log19) #no missing values, but let's make SN19 a factor
-log19$SN19 <- as.factor(log19$SN19)
-levels(log19$SN19)
+#log19$SN19 <- as.factor(log19$SN19)
+#levels(log19$SN19)
 #check distinct values, should be 52
-n_distinct(log19$SN19) #52 
+#n_distinct(log19$SN19) #52 
 
 #remove 4620 (UPI_58_Korsness)
 #remove 4590 (Jack Knight on Penny Springs)
 tmps2019 <- Temps2019 %>%
   filter(SN19 != "4590", SN19 != "4620")
 str(tmps2019)
-n_distinct(Temps2019$SN19) #appear to be 2 ghost levels for the levels we removed
-tmps2019$SN19 <- factor(tmps2019$SN19)
-levels(tmps2019$SN19) #fixed now
+#n_distinct(Temps2019$SN19) #appear to be 2 ghost levels for the levels we removed
+#tmps2019$SN19 <- factor(tmps2019$SN19)
+#levels(tmps2019$SN19) #fixed now
 
 #join
 class(tmps2019$SN19)
-n_distinct(tmps2019$SN19)
+class(log19$SN19)
+log19$SN19 <- as.character(log19$SN19)
+#n_distinct(tmps2019$SN19)
 
 tmp19_join <- left_join(tmps2019, log19, by = "SN19") 
 
@@ -631,7 +632,7 @@ summary(tmp19_join)
 skim(tmp19_join)
 
 #check for unique levels 
-n_unique(tmp19_join$SN19) #52
+#n_unique(tmp19_join$SN19) #52
 
 #################################################################
 #We need to deal with the Date_Time column
@@ -699,13 +700,13 @@ tmp19C <- tmp19_join %>%
   mutate(Temp_C = (Temp_F-32)*5/9)
 summary(tmp19C$Temp_C)
 
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+getwd()
 write.csv(tmp19C, "Data/Thesis/Tidy/TempData2019_DateTimeCelcius.csv", row.names = F)
 #------------------------------------------------------------------------------------------
 
 #Okay, we are now ready to trim the data to a date range from the first day all loggers are in - to the last day of summer
 # Beginning Date: 08/01/2019
-# Ending Date: 09/22/2019
+# Ending Date: 09/11/2019 --- first day that a logger was removed
 
 class(tmp19C$Date)
 
@@ -713,15 +714,14 @@ tmp19trim <- tmp19C %>%
   filter(Date > "2019-07-31", Date < "2019-09-12")
 tmp19trim
 
-n_distinct(tmp19trim$SN19) #51, should be 52!
-n_distinct(tmp19C$SN19) #52
-tmp19trim$SN19 <- factor(tmp19trim$SN19) #check to see it there are ghost levels
-levels(tmp19trim$SN19) # after accounting for ghost levels, two logger's worth of obs are completely gone
+# after accounting for ghost levels, two logger's worth of obs are completely gone
 #Missing: 8158
 #due to the logger breaking apparently on 7/24/2019
 
 #average temp 
 mean(tmp19trim$Temp_C) #15.648
+summary(tmp19trim)
+skim(tmp19trim)
 
 #trim to equal time ranges from 2018
 temp19trimm <- tmp19C %>%
@@ -734,7 +734,6 @@ mean(temp19trimm$Temp_C) #15.178
 t.test(tmp19trim$Temp_C,temp19trimm$Temp_C)
 
 
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 write.csv(tmp19trim, "Data/Thesis/Tidy/TempData2019_Trim_AugSept_no8158.csv", row.names=F)
 
 #################################################################
@@ -779,7 +778,7 @@ loggerinfo19 <- logger19 %>%
   select(HUC8, Site, loggernum_2019) %>%
   rename(SN19 = loggernum_2019)
 str(loggerinfo19)
-loggerinfo19$SN19 <- as.factor(loggerinfo19$SN19)
+loggerinfo19$SN19 <- as.character(loggerinfo19$SN19)
 
 #join the HUC8 and Site info
 tmpvars19 <- left_join(tmpvars19, loggerinfo19, by = "SN19")
@@ -790,14 +789,14 @@ tmpvars19_tidy <- tmpvars19 %>%
 
 #rearrange columns to be more logical
 names(tmpvars19_tidy)
-tmpvars18_tidy <- tmpvars19_tidy[,c(8,9,1:7)]  
+tmpvars19_tidy <- tmpvars19_tidy[,c(8,9,1:7)]  
 
 #one last check to make sure the data set is correct
 skim(tmpvars19_tidy)
 
 # finally: tidy temp covariates for 2019
 getwd()
-write.csv(tmpvars19_tidy, "TempVars_2019_tidy.csv", row.names = F)
+write.csv(tmpvars19_tidy, "Data/Thesis/Tidy/TempVars_2019_tidy.csv", row.names = F)
 
 
 
