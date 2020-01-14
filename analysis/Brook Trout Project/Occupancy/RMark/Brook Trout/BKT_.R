@@ -32,6 +32,26 @@ brook <- read_csv("Data/Thesis/Tidy/BKT_Occu_File.csv", col_names = T)
 brook.df <- as.data.frame(brook)
 #examine
 skim(brook.df)
+names(brook.df)
+##########################################################################################
+# Local Scale: instream and immediate riparian area
+#> pctex21 (-) "percentage of summer temperature observations that exceed 21 degrees C"
+#> pctpool (+) "percentage of pool habitats"
+#> pctrock (+) "percentage of rocky substrates (gravel, cobble, boulder)"
+#> pctBrBnk (-) "percentage of bank that is bare soil"
+#> pctShade (+) "average percent canopy cover"
+#> BRT_100m (-) "Brown Trout Catch-Per 100m of stream sampled"
+# Catchment Scale: within the upstream land area that drains to the outlet of the sampled segment
+#> HAiFLS_for (+) "Hydrologically Active inserve flow length to the stream of forest LULC"
+#> Area_km2 (-) "Catchment Area"
+#> AvgSlope (+) "Mean Slope of the catchment"
+#> EFac_Cat (-) "Environmental Facility density of upstream catchment (count/Area_km2)"
+#> Cross_Cat (-) "Road Crossing density of upstream catchment (count/Area_km2)"
+##########################################################################################
+
+
+
+
 
 #---------------------------------------------#
 #standardize covariates to have center 0 --- Only effort variables (all high and 3-4 digits) (subtract mean and divide by sd)
