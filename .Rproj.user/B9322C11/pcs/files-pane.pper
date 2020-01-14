@@ -1,8 +1,8 @@
 {
-    "path" : "~/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Data/Thesis/Tidy",
+    "path" : "~/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Class Assignments and Exercises",
     "sortOrder" : [
         {
-            "ascending" : true,
+            "ascending" : false,
             "columnIndex" : 4
         },
         {

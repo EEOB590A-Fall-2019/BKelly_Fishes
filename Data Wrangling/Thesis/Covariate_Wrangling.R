@@ -59,7 +59,6 @@ g2[125,1] <- "YEL_97b"
 ##########
 names(temp)
 t2 <- temp %>%
-  select(-uid, -HUCsite)%>%
   unite(HUC_Site, c(HUC8, Site), sep = "_", remove = T)
 t2[122,1] <- "YEL_97b"
 t2[122,]
