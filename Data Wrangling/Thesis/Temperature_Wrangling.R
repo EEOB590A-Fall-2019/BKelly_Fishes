@@ -15,8 +15,6 @@ library(ggplot2)
 library(forcats)
 library(readxl)
 library(lubridate)
-
-install.packages("skimr")
 library(skimr)
 
 #load in summary data for 2018 - Temp Loggers
@@ -44,7 +42,7 @@ logger18[nrow(logger18)+1,] = list("UPI", "154", "9345", "43.38149", "-91.77626"
                                    "1", "2019", "3185", "UPI_154_PineSpringsWMA", "Site 5 location buried", "New logger listed is further upstream: 43.38153, -91.79426 ")
 
 #found missing logger number for UPI 96 == 3211 (written down as such in one of the green "Rite in the Rain" notebooks)
-logger18[55,3] = 3211
+logger18[54,3] = 3211
 
 # UPI is now up to date with no missing obs
 #_______________________________________________________________________________________________________________________________________________
@@ -71,7 +69,7 @@ logger18[nrow(logger18)+1,] = list("YEL", "73", "4485", "43.13261", "-91.63630",
 # **BUT fish data for YEL_125 was collected in 2019. Use 2019 data instead. subset this obs out later and save as new.
 
 #add in retrieval notes and comments to YEL_129
-logger18[64,15] = "New landowner for 2019, lost 2019 logger to streambank destruction"
+logger18[63,15] = "New landowner for 2019, lost 2019 logger to streambank destruction"
 
 ######################################
 # Last looks at summary 2018 Temp Data
@@ -83,13 +81,16 @@ skim(logger18)
 #looks like Logger18$LoggerNumber_2018 only has 86 unique values despite there being 89 obs. Let's investigate
 summary(logger18$LoggerNumber_2018)
 str(logger18)
+
 #first off, it is currently a character class variable, needs to be numeric
 logger18$LoggerNumber_2018 <- as.numeric(logger18$LoggerNumber_2018)
 class(logger18$LoggerNumber_2018)
+
 #re-do summary search
 summary(logger18$LoggerNumber_2018)
 list18 <- logger18$LoggerNumber_2018
 n_unique(list18)
+
 #problem appears to be solved, there are 89 obs, with 4 missing or "NA's" for LoggerNum_18, 
 #after changing class to numeric there are 85 obs and 85 unique logger numbers! :)
 #the sites with NA's for LoggerNumber_2018 either did not receive a logger in 2018 or it was lost
@@ -193,12 +194,12 @@ n_unique(logger19$loggernum_2019)
 #write tidy csv
 getwd()
 ?write.csv
-write.csv(logger18, "C:/Users/bbkelly/Documents/Brook Trout_Brett/Thesis/data/Tidy/tidy_temps18.csv", row.names = F)
+write.csv(logger18, "Data/Thesis/Tidy/tidy_temps18.csv", row.names = F)
 
 ######
 #2019#
 ######
-write.csv(logger19, "C:/Users/bbkelly/Documents/Brook Trout_Brett/Thesis/data/Tidy/tidy_temps19.csv", row.names = F)
+write.csv(logger19, "Data/Thesis/Tidy/tidy_temps19.csv", row.names = F)
 
 
 #-------------------------------------------------------------------------------------------------------------------------------------
@@ -296,11 +297,11 @@ skim(Temps2019) #no missing obs!
 #For now let's write csv's of both and upload them to google drive as back-ups!
 
 #setwd() to tidy folder
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/Thesis/data/Tidy")
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 
-write.csv(Temps2018, "TemperatureData_2018Sites.csv", row.names=F) 
+write.csv(Temps2018, "Data/Thesis/Tidy/TemperatureData_2018Sites.csv", row.names=F) 
 
-write.csv(Temps2019, "TemperatureData_2019Sites.csv", row.names=F) 
+write.csv(Temps2019, "Data/Thesis/Tidy/TemperatureData_2019Sites.csv", row.names=F) 
 
 
 
@@ -361,22 +362,22 @@ class(Temps2018$SN18) #class = char
 class(log18$SN18) #class = numeric
 
 #Change both to factor()
-Temps2018$SN18 <- as.factor(Temps2018$SN18)
-class(Temps2018$SN18)
-log18$SN18 <- as.factor(log18$SN18)
+tmps2018$SN18 <- as.character(tmps2018$SN18)
+class(tmps2018$SN18)
+log18$SN18 <- as.character(log18$SN18)
 class(log18$SN18)
 
-levels(log18$SN18)
-levels(tmps2018$SN18)
+#levels(log18$SN18)
+#levels(tmps2018$SN18)
 #----------------------------
 
 tmp18_joined <- left_join(tmps2018, log18, by = "SN18") #new joined df with all obs and 5 vars
 
 
 #make SN18 a factor... again.So we can make sure we have the correct number of levels of SN18 
-tmp18_joined$SN18 <- as.factor(tmp18_joined$SN18)
-class(tmp18_joined$SN18)
-levels(tmp18_joined$SN18)
+#tmp18_joined$SN18 <- as.factor(tmp18_joined$SN18)
+#class(tmp18_joined$SN18)
+#levels(tmp18_joined$SN18)
 
 #explore new dataset
 str(tmp18_joined)
@@ -477,6 +478,8 @@ tmp18_joined[384690:390935,] <- SN4613
 #reorder column order
 names(tmp18_joined)
 tmp18_joined <- tmp18_joined[,c(6,7,5,1,2,3,4)]
+summary(tmp18_joined$Temp_F)
+hist(tmp18_joined$Temp_F)
 #------------------------------------------------------------------------------------------
 
 #Add "Temp_C" column for degrees Celcius
@@ -494,10 +497,18 @@ tmp18trim <- tmp18C %>%
   filter(Date > "2018-08-16", Date < "2018-09-23")
 #worked!
 
+skim(tmp18trim)
 n_unique(tmp18trim$SN18)
-levels(tmp18trim$SN18)
-levels(tmp18_joined$SN18)
+
 plot(tmp18trim$Date, tmp18trim$Temp_C)
+
+#test if further trimmed data is significantly different
+temp18trimm <- tmp18C %>%
+  filter(Date > "2018-08-16", Date < "2018-09-12")
+
+#t.test
+t.test(tmp18trim$Temp_C, temp18trimm$Temp_C)
+
 
 #################################################################
 # Make summary dataset for occupancy covariates
@@ -541,7 +552,7 @@ loggerinfo18 <- logger18 %>%
   select(HUC8, Site, LoggerNumber_2018) %>%
   rename(SN18 = LoggerNumber_2018)
 str(loggerinfo18)
-loggerinfo18$SN18 <- as.factor(loggerinfo18$SN18)
+loggerinfo18$SN18 <- as.character(loggerinfo18$SN18)
 
 tmpvars18 <- left_join(tmpvars18, loggerinfo18, by = "SN18")
 
@@ -555,22 +566,20 @@ tmpvars18_tidy <- tmpvars18_tidy[,c(8,9,1:7)]
 #one last check to make sure the data set is correct
 skim(tmpvars18_tidy)
 
-
 #Let's write some csv's for 2018 at various stages of what we have done here:
 
 # First: merged raw data without the two "nohome" sites
 getwd()
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/Thesis/data/Tidy")
-write.csv(tmps2018, "TempData_2018Sites_exclude_nohome.csv", row.names = F)
+write.csv(tmps2018, "Data/Thesis/Tidy/TempData_2018Sites_exclude_nohome.csv", row.names = F)
 
 # 2nd: data set with Date and Time separated and Celcius
-write.csv(tmp18C, "TempData18_DateTimeCelcius.csv", row.names = F)
+write.csv(tmp18C, "Data/Thesis/Tidy/TempData18_DateTimeCelcius.csv", row.names = F)
 
 # 3rd: temps trimmed to common dates 
-write.csv(tmp18trim, "TempData_2018_Trimmed_AugSept.csv", row.names = F)
+write.csv(tmp18trim, "Data/Thesis/Tidy/TempData_2018_Trimmed_AugSept.csv", row.names = F)
 
 # 4th and final: tidy temp covariates
-write.csv(tmpvars18_tidy, "TempVars_2018_tidy.csv", row.names = F)
+write.csv(tmpvars18_tidy, "Data/Thesis/Tidy/TempVars_2018_tidy.csv", row.names = F)
 
 
 
@@ -690,8 +699,8 @@ tmp19C <- tmp19_join %>%
   mutate(Temp_C = (Temp_F-32)*5/9)
 summary(tmp19C$Temp_C)
 
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/Thesis/data/Tidy")
-write.csv(tmp19C, "TempData2019_DateTimeCelcius.csv", row.names = F)
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+write.csv(tmp19C, "Data/Thesis/Tidy/TempData2019_DateTimeCelcius.csv", row.names = F)
 #------------------------------------------------------------------------------------------
 
 #Okay, we are now ready to trim the data to a date range from the first day all loggers are in - to the last day of summer
@@ -701,18 +710,32 @@ write.csv(tmp19C, "TempData2019_DateTimeCelcius.csv", row.names = F)
 class(tmp19C$Date)
 
 tmp19trim <- tmp19C %>%
-  filter(Date > "2019-07-31", Date < "2019-09-23")
+  filter(Date > "2019-07-31", Date < "2019-09-12")
 tmp19trim
 
 n_distinct(tmp19trim$SN19) #51, should be 52!
 n_distinct(tmp19C$SN19) #52
 tmp19trim$SN19 <- factor(tmp19trim$SN19) #check to see it there are ghost levels
 levels(tmp19trim$SN19) # after accounting for ghost levels, two logger's worth of obs are completely gone
-
 #Missing: 8158
 #due to the logger breaking apparently on 7/24/2019
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/Thesis/data/Tidy")
-write.csv(tmp19C, "TempData2019_Trim_AugSept_no8158.csv", row.names = F)
+
+#average temp 
+mean(tmp19trim$Temp_C) #15.648
+
+#trim to equal time ranges from 2018
+temp19trimm <- tmp19C %>%
+  filter(Date > "2019-08-16", Date < "2019-09-12")
+temp19trimm
+
+#average temp for 2nd trim
+mean(temp19trimm$Temp_C) #15.178
+
+t.test(tmp19trim$Temp_C,temp19trimm$Temp_C)
+
+
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+write.csv(tmp19trim, "Data/Thesis/Tidy/TempData2019_Trim_AugSept_no8158.csv", row.names=F)
 
 #################################################################
 # Make summary dataset for occupancy covariates
