@@ -798,6 +798,50 @@ skim(tmpvars19_tidy)
 getwd()
 write.csv(tmpvars19_tidy, "Data/Thesis/Tidy/TempVars_2019_tidy.csv", row.names = F)
 
+####################################################################################
+####################################################################################
+
+#join temp covariate data sets
+tvars <- full_join(tmpvars18_tidy, tmpvars19_tidy)
+#explore, did it work? should have 131 obs of 10 vars
+skim(tvars)
+
+#drop the SN18 and SN19 columns because for raw data they will be uninformative
+tvars <- tvars %>%
+  select(-SN18, -SN19)
+
+#need common column between the two
+#we will combine HUC8 and site
+tvars2 <- tvars %>%
+  unite(newID, c(HUC8, Site), sep = "_", remove=F)
+class(tvars2$newID)
+
+#---------------------------------------------------#
+#create same character variable in the Site_List
+#Site_List <- Site_List %>%
+#  unite(HUCsite, c(HUC8, site), sep = "", remove=F)
+#class(Site_List$HUCsite)
+
+#use inner join to get uid info within the tvars df
+#trial2 <- inner_join(trial, Site_List, by = "HUCsite")
+#names(trial2)
+#tvars <- trial2 %>%
+#  select(-HUC8.y, -site) %>%
+#  select(uid, 1:9) %>%
+#  rename(HUC8 = HUC8.x)
+#---------------------------------------------------#
+
+#write new csv's
+getwd()
+#1) final temp variables for all sites 
+write.csv(tvars, "Data/Thesis/Tidy/TmpVars_all.csv", row.names = F)
+
+#-----
+#2) just the site list could be helpful? 
+#-----
+#write.csv(Site_List, "C:/Users/bbkelly/Documents/Brook Trout_Brett/Thesis/data/Tidy/SmplLocsInfo.csv", row.names = F)
+
+
 
 
 
