@@ -50,9 +50,6 @@ names(brook.df)
 ##########################################################################################
 
 
-
-
-
 #---------------------------------------------#
 #standardize covariates to have center 0 --- Only effort variables (all high and 3-4 digits) (subtract mean and divide by sd)
 #---------------------------------------------#

@@ -31,7 +31,6 @@ names(metrics)
 temps <- read_csv("Data/Thesis/Tidy/TmpVars_all.csv")
 
 
-
 #remove MTS and SLS columns - use select function
 metrics <- metrics %>%
   select(-"SLS", -"SLS_ab", -"MTS", -"MTS_ab")
@@ -42,9 +41,28 @@ metrics <- metrics %>%
   filter(total_ab >= 25)
 dim(metrics)
 
+#filter data by sites where maximum daily mean <22 degrees Celsius
+names(metrics)
+names(temps)
+
+#make common column in order to join data 
+metrics <- metrics %>%
+  unite(newID, c(HUC8, site), sep = "_", remove = F)
+
+temps <- temps %>%
+  unite(newID, c(HUC8, Site), sep = "_", remove = T)
+
+k <- left_join(metrics, temps, by="newID")
+hist(k$MEANT)
+
+metrics2 <- k %>%
+  select(-avgT,-sdT,-MAXT,-RNGT,-pctex21)%>%
+  filter(MEANT<22)
+
+##############################################################################################################
 #Metric 1: rename "richness" to "numspecies" to match the metrics names using rename function
 #new column name on left, old on right
-metrics <- metrics %>%
+metrics <- metrics2 %>%
   rename(numspecies = "richness")
 summary(metrics$numspecies)
 
@@ -157,7 +175,7 @@ summary(metrics$pctTOPCARNindv)
 
 #join df "reach" to "metrics" 
 getwd()
-reach <- read_csv("/Users/brettkelly/Documents/MyFiles/Iowa State/EEOB590B/BKelly_Fishes/Data/Thesis/Raw/All Years/reachlengths.csv", col_names = T)
+reach <- read_csv("Data/Thesis/Raw/All Years/reachlengths.csv", col_names = T)
 reach
 metrics2 <- metrics %>%
   left_join(reach, by = "uid")
@@ -323,8 +341,7 @@ g <- ggplot(IBI, aes(Rating, color = HUC8)) +
 g
 
 max(IBI$IBIScore)
-IBI$IBIScore[105]
 
 #write tidy csv of IBI 
 getwd()
-write.csv(IBI, "/Users/brettkelly/Documents/MyFiles/Iowa State/EEOB590B/BKelly_Fishes/Data/Thesis/Tidy/tidy_IBI1.csv", row.names = F)
+write.csv(IBI, "Data/Thesis/Tidy/tidy_IBI1.csv", row.names = F)
