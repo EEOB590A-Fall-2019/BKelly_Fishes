@@ -32,7 +32,7 @@ Psi1 <- ggplot(data = Psi.temp2, aes(x=pctex21))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), colour="Blue", size=1)+
   facet_grid(cols = vars(For_Status))+
-  scale_x_continuous(breaks = c(0,5,10,15,20,25,30))+
+  scale_x_continuous(limits = c(0,5.1))+
   labs(x="Percent of Summer Stream Temperature > 21C",
        y="Occupancy Probability (Psi)")+
   theme_bw()+

@@ -150,7 +150,7 @@ corrplot(c, method="color", col=col(200),
 ##########################################################################################
 getwd()
 #set wd to scratch folder because MARK outputs an insane amount of files
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/RMark/output") #because MARK loves output files
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/Occupancy/RMark/Brook Trout") #because MARK loves output files
 
 #Process Data
 #?process.data
@@ -314,12 +314,13 @@ AICc.Table = model.table(bkt.results, use.lnl = T)
 AICc.Table
 
 #look at summary of top model(s)
-summary(bkt.results$p.tv.effort.Psi.pct21_for)
-summary(bkt.results$p.tv.effort.Psi.forest)
-summary(bkt.results$p.tv.effort.Psi.mixed82)
-bkt.results$p.tv.effort.Psi.pct21_for$results$real
-top.mod <- bkt.results$p.tv.effort.Psi.pct21_for
+summary(bkt.results$p.tv.effort.Psi.mixed75) #1st, DAICc = 0, pctex21, pctBrBnk, HAiFLS_for (ci for pctBrBnk overlaps 0)
+summary(bkt.results$p.tv.effort.Psi.mixed43) #2nd, DAICc = 0.480, pctex21, pctpool, pctBrBnk, HAiFLS_for (ci for pctpool & pctBrBnk overlaps 0)
+summary(bkt.results$p.tv.effort.Psi.mixed82) #3rd, DAICc = 0.549, pctex21, BRT_100m, HAiFLS_for (ci for BRT_100m overlaps 0)
+summary(bkt.results$p.tv.effort.Psi.pct21_for) #4th, Delta AICc = 0.713, no uninformative parameters
 
+bkt.results$p.tv.effort.Psi.pct21_for$results$real 
+top.mod <- bkt.results$p.tv.effort.Psi.pct21_for
 
 cleanup(ask = F)
 
