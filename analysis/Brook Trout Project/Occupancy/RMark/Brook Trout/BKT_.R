@@ -33,6 +33,7 @@ brook.df <- as.data.frame(brook)
 #examine
 skim(brook.df)
 names(brook.df)
+
 ##########################################################################################
 # Local Scale: instream and immediate riparian area
 #> pctex21 (-) "percentage of summer temperature observations that exceed 21 degrees C"
@@ -66,7 +67,7 @@ names(brook.df)
 #----------------#
 #correlation test
 #----------------#
-c <- cor(brook.df[,4:18])
+c <- cor(brook.df[,4:22])
 head(round(c,2)) 
 
 #round down
@@ -92,7 +93,7 @@ cor.mtest <- function(mat, ...) {
   p.mat
 }
 # matrix of the p-value of the correlation
-p.mat <- cor.mtest(brook3[,4:18])
+p.mat <- cor.mtest(brook3[,4:22])
 
 #correlogram
 col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
@@ -155,6 +156,50 @@ setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/An
 brook.process = process.data(brook.df, model="Occupancy", groups = "freq")
 bkt.ddl = make.design.data(brook.process)
 
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+####   Catchment Scale covariates   ####
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+
+run.occ.temp=function()
+{
+  #~~~~~~~~~~~~~ Model List ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  #~~~~~~~~~~~ Detection Probability - null model ~~~~~~~~~~~~
+  p.Dot = list(formula= ~1)
+  #~~~~~~~~~~~ Detection Probability - single covariate ~~~~~~~~~~~~
+  p.tv.effort = list(formula = ~effort)
+  #~~~~~~~~~~~~~ Occupancy - null model ~~~~~~~~~~~~~~~~~~~~~~
+  Psi.Dot        = list(formula=~1) 
+  #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
+  #2 covariates
+  Psi.p21.RNGT = list(formula = ~pctex21+RNGT)
+  Psi.MEANT.RNGT = list(formula = ~MEANT+RNGT)
+  Psi.avgT.RNGT = list(formula = ~avgT+RNGT)
+  #~~~~~~~~~~~~~ Occupancy - single covariate ~~~~~~~~~~~~~~~~~~~~~~
+  Psi.p21 = list(formula = ~pctex21)
+  Psi.MEANT = list(formula = ~MEANT)
+  Psi.MAXT = list(formula = ~MAXT)
+  Psi.RNGT = list(formula = ~RNGT)
+  Psi.avgT = list(formula = ~avgT)
+  #~~~~~~~~~~~~ model list & wrapper ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  cml.temp=create.model.list("Occupancy")
+  results.temp=mark.wrapper(cml.temp, data=brook.process, ddl=bkt.ddl, output=F)
+  return(results.temp)
+}
+
+bkt.results.temp = run.occ.temp()
+
+
+##Examine model list and look at model comparisons
+bkt.results.temp
+##Model Table
+AICc.Table = model.table(bkt.results.temp, use.lnl = T)
+AICc.Table
+
+#look at summary of top model(s)
+summary(bkt.results.temp$p.tv.effort.Psi.p21)
+bkt.results.temp$p.tv.effort.Psi.p21$results$real
+
+cleanup(ask = F)
 
 ###~~~~~~~~~~~~~~~~~~~~~~~##
 ####   All covariates   ####
@@ -307,8 +352,14 @@ bkt.results = run.occ()
 ##Examine model list and look at model comparisons
 bkt.results
 ##Model Table
-AICc.Table = model.table(bkt.results, use.lnl = T)
-AICc.Table
+BKT.AICc.Table = model.table(bkt.results, use.lnl = T)
+BKT.AICc.Table
+
+class(BKT.AICc.Table)
+getwd()
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+#write csv for model table
+write.csv(BKT.AICc.Table, "Data/Thesis/Tidy/BrookTrout_OccuMod_Table.csv", row.names = F)
 
 #look at summary of top model(s)
 summary(bkt.results$p.tv.effort.Psi.mixed75) #1st, DAICc = 0, pctex21, pctBrBnk, HAiFLS_for (ci for pctBrBnk overlaps 0)

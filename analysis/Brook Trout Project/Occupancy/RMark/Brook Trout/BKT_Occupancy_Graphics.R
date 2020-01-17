@@ -23,8 +23,8 @@ Psi.temp2 <- Psi.temp %>%
 Psi.temp2$For_Status <- factor(Psi.temp2$For_Status, c("HAiFLS Forest (0%)","HAiFLS Forest (27%)","HAiFLS Forest (55%)"))
 
 Psi.forest2 <- Psi.forest %>%
-  mutate(P21_Status = ifelse(pctex21==0,"PctEx21 (0%)",ifelse(pctex21<6,"PctEx21 (5%)", ifelse(pctex21>10,"PctEx21 (12%)", "NA"))))
-Psi.forest2$P21_Status <- factor(Psi.forest2$P21_Status, c("PctEx21 (0%)","PctEx21 (5%)","PctEx21 (12%)"))
+  mutate(P21_Status = ifelse(pctex21==0,"PctEx21 (0%)",ifelse(pctex21<6,"PctEx21 (5%)", ifelse(pctex21>10,"PctEx21 (16%)", "NA"))))
+Psi.forest2$P21_Status <- factor(Psi.forest2$P21_Status, c("PctEx21 (0%)","PctEx21 (5%)","PctEx21 (16%)"))
 
 
 #Make ggplot for predicted occupancy probabilies as function of temperature and forested catchment
@@ -32,12 +32,13 @@ Psi1 <- ggplot(data = Psi.temp2, aes(x=pctex21))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), colour="Blue", size=1)+
   facet_grid(cols = vars(For_Status))+
-  scale_x_continuous(limits = c(0,5.1))+
+  scale_x_continuous(limits = c(0,10.5))+
   labs(x="Percent of Summer Stream Temperature > 21C",
        y="Occupancy Probability (Psi)")+
   theme_bw()+
   theme(axis.title = element_text(face = "bold"))+
-  theme(panel.grid = element_blank())
+  theme(panel.grid = element_blank())+
+  theme(strip.text.x = element_text(size=10,face = "bold"))
 Psi1
 
 Psi2 <- ggplot(data = Psi.forest2, aes(x=HAiFLS_for))+
@@ -48,13 +49,14 @@ Psi2 <- ggplot(data = Psi.forest2, aes(x=HAiFLS_for))+
        y="Occupancy Probability (Psi)")+
   theme_bw()+
   theme(axis.title = element_text(face = "bold"))+
-  theme(panel.grid = element_blank())
+  theme(panel.grid = element_blank())+
+  theme(strip.text.x = element_text(size=10,face = "bold"))
 Psi2
 
 #cowplot
 plot_grid(Psi1,Psi2, labels = NULL, nrow = 2)
 ggsave("bkt_OccuProb.png",
-       dpi = 300)
+       dpi = 350)
 
 
 ############################
@@ -82,3 +84,19 @@ ggsave("bkt_Occu_Cat.png",
 ###################################
 #Detection Probability predictions
 ##################################
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+#### Visualizing effort effect on p   ####
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+
+ggplot(data=p.effort, aes(x=Effort_sec))+
+  geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
+  geom_line(aes(y=estimate), size=1, color="black")+
+  labs(x="Electrofishing Effort (sec)",
+       y="Detection Probability (p)")+
+  theme_classic()+
+  theme(axis.title = element_text(face = "bold"))
+
+ggsave("bkt_DetProb.png",
+       dpi = 350)
+

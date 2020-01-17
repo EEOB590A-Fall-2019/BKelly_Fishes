@@ -1,0 +1,283 @@
+"p","Psi","model","npar","AICc","DeltaAICc","weight","Neg2LnL"
+"~effort","~mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2)",8,361.847559069767,0,0.097586650394221,344.73128
+"~effort","~mFlow + pctrun + HAiFLS_for + Area_km2","p(~effort)Psi(~mFlow + pctrun + HAiFLS_for + Area_km2)",7,361.869758461538,0.0221993917710392,0.0965094575681967,347.00822
+"~effort","~MEANT2 + mFlow + pctrun + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT2 + mFlow + pctrun + HAiFLS_for + Area_km2)",8,361.966309069767,0.118749999999977,0.0919611040251676,344.85003
+"~effort","~MEANT + mFlow + pctrun + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT + mFlow + pctrun + HAiFLS_for + Area_km2)",8,362.430899069767,0.583339999999964,0.0728986926451132,345.31462
+"~effort","~MEANT2 + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT2 + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2)",9,362.50723,0.659670930232551,0.0701689033171332,343.10098
+"~effort","~MEANT + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2)",9,362.88816,1.04060093023259,0.0579998393201275,343.48191
+"~effort","~avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2)",9,364.08599,2.23843093023254,0.0318655420739461,344.67974
+"~effort","~avdep + mFlow + pctrun + HAiFLS_for + Area_km2","p(~effort)Psi(~avdep + mFlow + pctrun + HAiFLS_for + Area_km2)",8,364.092189069767,2.24462999999997,0.0317669266246628,346.97591
+"~effort","~MEANT2 + avdep + mFlow + pctrun + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT2 + avdep + mFlow + pctrun + HAiFLS_for + Area_km2)",9,364.1906,2.34304093023258,0.0302416538372149,344.78435
+"~effort","~MEANT + avdep + mFlow + pctrun + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + HAiFLS_for + Area_km2)",9,364.66888,2.82132093023256,0.0238093947503783,345.26263
+"~effort","~MEANT2 + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT2 + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2)",10,364.750863464567,2.90330439479948,0.0228531395903384,343.01858
+"~effort","~mFlow + pctrun + HAiFLS_for","p(~effort)Psi(~mFlow + pctrun + HAiFLS_for)",6,364.842201374046,2.99464230427839,0.0218329337696092,352.20098
+"~1","~mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2)",7,365.105918461538,3.25835939177102,0.0191358015925224,350.24438
+"~1","~mFlow + pctrun + HAiFLS_for + Area_km2","p(~1)Psi(~mFlow + pctrun + HAiFLS_for + Area_km2)",6,365.107111374046,3.25955230427837,0.0191243913271938,352.46589
+"~effort","~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2)",10,365.144693464567,3.29713439479951,0.0187683794178239,343.41241
+"~1","~MEANT2 + mFlow + pctrun + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT2 + mFlow + pctrun + HAiFLS_for + Area_km2)",7,365.227278461539,3.37971939177106,0.0180091688620523,350.36574
+"~effort","~MEANT2 + mFlow + pctrun + pctBrBnk + Area_km2","p(~effort)Psi(~MEANT2 + mFlow + pctrun + pctBrBnk + Area_km2)",8,365.504219069767,3.65665999999999,0.0156803871501572,348.38794
+"~1","~MEANT + mFlow + pctrun + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT + mFlow + pctrun + HAiFLS_for + Area_km2)",7,365.631588461539,3.78402939177107,0.0147129198543126,350.77005
+"~effort","~MEANT2 + mFlow + pctrun + HAiFLS_for","p(~effort)Psi(~MEANT2 + mFlow + pctrun + HAiFLS_for)",7,365.636448461538,3.78888939177102,0.0146772108630629,350.77491
+"~1","~MEANT2 + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT2 + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2)",8,365.785079069767,3.93751999999995,0.0136260132576247,348.6688
+"~effort","~MEANT + mFlow + pctrun + pctBrBnk + Area_km2","p(~effort)Psi(~MEANT + mFlow + pctrun + pctBrBnk + Area_km2)",8,365.991759069767,4.14419999999996,0.0122882153971456,348.87548
+"~effort","~MEANT + mFlow + pctrun + HAiFLS_for","p(~effort)Psi(~MEANT + mFlow + pctrun + HAiFLS_for)",7,365.998098461538,4.15053939177102,0.012249327155869,351.13656
+"~effort","~mFlow + pctrun + pctBrBnk + HAiFLS_for","p(~effort)Psi(~mFlow + pctrun + pctBrBnk + HAiFLS_for)",7,366.088668461538,4.24110939177103,0.0117069889478151,351.22713
+"~1","~MEANT + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2)",8,366.110109069767,4.26254999999998,0.0115821567809507,348.99383
+"~effort","~mFlow + pctrun + pctBrBnk + Area_km2","p(~effort)Psi(~mFlow + pctrun + pctBrBnk + Area_km2)",7,366.269528461538,4.42196939177103,0.0106947825396674,351.40799
+"~effort","~MEANT2 + mFlow + pctrun + Area_km2","p(~effort)Psi(~MEANT2 + mFlow + pctrun + Area_km2)",7,366.315088461538,4.46752939177105,0.0104539093552224,351.45355
+"~effort","~MEANT + mFlow + pctrun + Area_km2","p(~effort)Psi(~MEANT + mFlow + pctrun + Area_km2)",7,366.916668461539,5.06910939177106,0.00773833083096519,352.05513
+"~effort","~MEANT2 + avdep + mFlow + pctrun + HAiFLS_for","p(~effort)Psi(~MEANT2 + avdep + mFlow + pctrun + HAiFLS_for)",8,366.919399069767,5.07183999999995,0.00772777286509991,349.80312
+"~effort","~MEANT2 + mFlow + pctrun + pctBrBnk + HAiFLS_for","p(~effort)Psi(~MEANT2 + mFlow + pctrun + pctBrBnk + HAiFLS_for)",8,367.187729069767,5.34017,0.00675751828681836,350.07145
+"~1","~avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2)",8,367.233359069767,5.38579999999996,0.00660509093391971,350.11708
+"~1","~avdep + mFlow + pctrun + HAiFLS_for + Area_km2","p(~1)Psi(~avdep + mFlow + pctrun + HAiFLS_for + Area_km2)",7,367.240628461539,5.39306939177106,0.00658112701424093,352.37909
+"~1","~MEANT2 + avdep + mFlow + pctrun + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT2 + avdep + mFlow + pctrun + HAiFLS_for + Area_km2)",8,367.285089069767,5.43752999999998,0.00643644072782336,350.16881
+"~effort","~MEANT + avdep + mFlow + pctrun + HAiFLS_for","p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + HAiFLS_for)",8,367.321959069767,5.47439999999995,0.00631887196271736,350.20568
+"~effort","~avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for","p(~effort)Psi(~avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for)",8,367.334059069767,5.48649999999998,0.00628075819773674,350.21778
+"~effort","~MEANT + mFlow + pctrun + pctBrBnk + HAiFLS_for","p(~effort)Psi(~MEANT + mFlow + pctrun + pctBrBnk + HAiFLS_for)",8,367.496989069767,5.64943,0.00578938289839234,350.38071
+"~1","~MEANT + avdep + mFlow + pctrun + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT + avdep + mFlow + pctrun + HAiFLS_for + Area_km2)",8,367.702569069767,5.85500999999999,0.00522385536690144,350.58629
+"~effort","~MEANT2 + avdep + mFlow + pctrun + pctBrBnk + Area_km2","p(~effort)Psi(~MEANT2 + avdep + mFlow + pctrun + pctBrBnk + Area_km2)",9,367.79197,5.94441093023255,0.00499548867525946,348.38572
+"~1","~MEANT2 + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT2 + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2)",9,367.8341,5.98654093023254,0.00489135929941838,348.42785
+"~effort","~mFlow + pctrun + Area_km2","p(~effort)Psi(~mFlow + pctrun + Area_km2)",6,368.108181374046,6.26062230427834,0.00426494614291563,355.46696
+"~1","~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for + Area_km2)",9,368.17111,6.32355093023256,0.00413284172843319,348.76486
+"~effort","~MEANT + avdep + mFlow + pctrun + pctBrBnk + Area_km2","p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + Area_km2)",9,368.28167,6.43411093023258,0.00391057819959952,348.87542
+"~effort","~MEANT2 + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for","p(~effort)Psi(~MEANT2 + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for)",9,368.33177,6.48421093023256,0.00381383498331481,348.92552
+"~effort","~avdep + mFlow + pctrun + pctBrBnk + Area_km2","p(~effort)Psi(~avdep + mFlow + pctrun + pctBrBnk + Area_km2)",8,368.524029069767,6.67646999999999,0.00346428307099539,351.40775
+"~1","~mFlow + pctrun + HAiFLS_for","p(~1)Psi(~mFlow + pctrun + HAiFLS_for)",5,368.547885454545,6.70032638477801,0.00342320591121004,358.09334
+"~effort","~MEANT2 + avdep + mFlow + pctrun + Area_km2","p(~effort)Psi(~MEANT2 + avdep + mFlow + pctrun + Area_km2)",8,368.569169069767,6.72161,0.00338696996245802,351.45289
+"~effort","~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for","p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for)",9,368.67087,6.82331093023254,0.00321904663683419,349.26462
+"~1","~MEANT2 + mFlow + pctrun + pctBrBnk + Area_km2","p(~1)Psi(~MEANT2 + mFlow + pctrun + pctBrBnk + Area_km2)",7,368.695998461538,6.84843939177102,0.00317885481044468,353.83446
+"~1","~MEANT + mFlow + pctrun + pctBrBnk + Area_km2","p(~1)Psi(~MEANT + mFlow + pctrun + pctBrBnk + Area_km2)",7,369.124748461539,7.27718939177106,0.002565481061628,354.26321
+"~effort","~MEANT + avdep + mFlow + pctrun + Area_km2","p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + Area_km2)",8,369.170689069767,7.32312999999999,0.00250722284745709,352.05441
+"~1","~mFlow + pctrun + pctBrBnk + Area_km2","p(~1)Psi(~mFlow + pctrun + pctBrBnk + Area_km2)",6,369.349301374046,7.50174230427837,0.00229301960363167,356.70808
+"~1","~MEANT2 + mFlow + pctrun + HAiFLS_for","p(~1)Psi(~MEANT2 + mFlow + pctrun + HAiFLS_for)",6,369.355261374046,7.50770230427838,0.00228619657657241,356.71404
+"~1","~MEANT2 + mFlow + pctrun + Area_km2","p(~1)Psi(~MEANT2 + mFlow + pctrun + Area_km2)",6,369.425461374046,7.57790230427838,0.00220734305162558,356.78424
+"~1","~MEANT2 + avdep + mFlow + pctrun + HAiFLS_for","p(~1)Psi(~MEANT2 + avdep + mFlow + pctrun + HAiFLS_for)",7,369.644868461538,7.79730939177102,0.00197799955738341,354.78333
+"~1","~MEANT + mFlow + pctrun + HAiFLS_for","p(~1)Psi(~MEANT + mFlow + pctrun + HAiFLS_for)",6,369.656351374046,7.80879230427837,0.00196667549885571,357.01513
+"~1","~MEANT + avdep + mFlow + pctrun + HAiFLS_for","p(~1)Psi(~MEANT + avdep + mFlow + pctrun + HAiFLS_for)",7,369.835338461538,7.98777939177103,0.00179831660781187,354.9738
+"~1","~mFlow + pctrun + pctBrBnk + HAiFLS_for","p(~1)Psi(~mFlow + pctrun + pctBrBnk + HAiFLS_for)",6,369.839171374046,7.99161230427836,0.00179487351302684,357.19795
+"~1","~MEANT + mFlow + pctrun + Area_km2","p(~1)Psi(~MEANT + mFlow + pctrun + Area_km2)",6,369.974621374046,8.12706230427835,0.0016773405835335,357.3334
+"~1","~avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for","p(~1)Psi(~avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for)",7,370.400238461538,8.55267939177105,0.00135581264074633,355.5387
+"~effort","~MEANT2 + mFlow + pctrun","p(~effort)Psi(~MEANT2 + mFlow + pctrun)",6,370.593671374046,8.74611230427837,0.00123082484851671,357.95245
+"~1","~MEANT2 + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for","p(~1)Psi(~MEANT2 + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for)",8,370.809459069767,8.96189999999996,0.00110493963588179,353.69318
+"~1","~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for","p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + HAiFLS_for)",8,370.907479069767,9.05991999999998,0.00105209214976846,353.7912
+"~1","~MEANT2 + avdep + mFlow + pctrun + pctBrBnk + Area_km2","p(~1)Psi(~MEANT2 + avdep + mFlow + pctrun + pctBrBnk + Area_km2)",8,370.928239069767,9.08067999999997,0.00104122791617275,353.81196
+"~1","~MEANT2 + mFlow + pctrun + pctBrBnk + HAiFLS_for","p(~1)Psi(~MEANT2 + mFlow + pctrun + pctBrBnk + HAiFLS_for)",7,370.931678461538,9.08411939177103,0.00103943885956696,356.07014
+"~effort","~mFlow + pctrun + pctBrBnk","p(~effort)Psi(~mFlow + pctrun + pctBrBnk)",6,371.069451374046,9.22189230427836,0.000970246179075884,358.42823
+"~effort","~MEANT + mFlow + pctrun","p(~effort)Psi(~MEANT + mFlow + pctrun)",6,371.081991374046,9.23443230427836,0.000964181767331351,358.44077
+"~1","~mFlow + pctrun + Area_km2","p(~1)Psi(~mFlow + pctrun + Area_km2)",5,371.105915454545,9.25835638477798,0.000952716894566252,360.65137
+"~effort","~MEANT2 + mFlow + pctrun + pctBrBnk","p(~effort)Psi(~MEANT2 + mFlow + pctrun + pctBrBnk)",7,371.131238461538,9.28367939177105,0.000940730111757388,356.2697
+"~1","~MEANT + mFlow + pctrun + pctBrBnk + HAiFLS_for","p(~1)Psi(~MEANT + mFlow + pctrun + pctBrBnk + HAiFLS_for)",7,371.187658461538,9.34009939177105,0.000914562938587892,356.32612
+"~effort","~mFlow + pctrun","p(~effort)Psi(~mFlow + pctrun)",5,371.190955454545,9.34339638477798,0.000913056526779876,360.73641
+"~1","~MEANT + avdep + mFlow + pctrun + pctBrBnk + Area_km2","p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk + Area_km2)",8,371.367519069767,9.51995999999997,0.000835905847636882,354.25124
+"~effort","~MEANT + mFlow + pctrun + pctBrBnk","p(~effort)Psi(~MEANT + mFlow + pctrun + pctBrBnk)",7,371.529768461538,9.68220939177104,0.000770770981369692,356.66823
+"~1","~avdep + mFlow + pctrun + pctBrBnk + Area_km2","p(~1)Psi(~avdep + mFlow + pctrun + pctBrBnk + Area_km2)",7,371.562538461539,9.71497939177107,0.000758244799821165,356.701
+"~1","~MEANT2 + avdep + mFlow + pctrun + Area_km2","p(~1)Psi(~MEANT2 + avdep + mFlow + pctrun + Area_km2)",7,371.633908461539,9.78634939177107,0.000731663924071757,356.77237
+"~1","~MEANT + avdep + mFlow + pctrun + Area_km2","p(~1)Psi(~MEANT + avdep + mFlow + pctrun + Area_km2)",7,372.191748461539,10.3441893917711,0.000553577238710886,357.33021
+"~effort","~MEANT2 + avdep + mFlow + pctrun + pctBrBnk","p(~effort)Psi(~MEANT2 + avdep + mFlow + pctrun + pctBrBnk)",8,372.535879069767,10.68832,0.00046607006844777,355.4196
+"~effort","~MEANT + avdep + mFlow + pctrun + pctBrBnk","p(~effort)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk)",8,372.986599069767,11.13904,0.000372030553624062,355.87032
+"~1","~MEANT2 + mFlow + pctrun","p(~1)Psi(~MEANT2 + mFlow + pctrun)",5,374.115055454545,12.267496384778,0.00021161059971686,363.66051
+"~1","~MEANT + mFlow + pctrun","p(~1)Psi(~MEANT + mFlow + pctrun)",5,374.553225454545,12.705666384778,0.000169976941889946,364.09868
+"~1","~mFlow + pctrun","p(~1)Psi(~mFlow + pctrun)",4,374.597721879699,12.7501628099318,0.000166237016348191,366.29697
+"~1","~mFlow + pctrun + pctBrBnk","p(~1)Psi(~mFlow + pctrun + pctBrBnk)",5,374.623325454545,12.775766384778,0.000164122449400201,364.16878
+"~1","~MEANT2 + mFlow + pctrun + pctBrBnk","p(~1)Psi(~MEANT2 + mFlow + pctrun + pctBrBnk)",6,374.767811374046,12.9202523042784,0.000152683909311847,362.12659
+"~1","~MEANT + mFlow + pctrun + pctBrBnk","p(~1)Psi(~MEANT + mFlow + pctrun + pctBrBnk)",6,375.118001374046,13.2704423042784,0.00012815940390861,362.47678
+"~1","~MEANT2 + avdep + mFlow + pctrun + pctBrBnk","p(~1)Psi(~MEANT2 + avdep + mFlow + pctrun + pctBrBnk)",7,375.763128461538,13.915569391771,9.28245626420928e-05,360.90159
+"~1","~MEANT + avdep + mFlow + pctrun + pctBrBnk","p(~1)Psi(~MEANT + avdep + mFlow + pctrun + pctBrBnk)",7,376.162558461538,14.314999391771,7.6019986685232e-05,361.30102
+"~effort","~mFlow + HAiFLS_for + Area_km2","p(~effort)Psi(~mFlow + HAiFLS_for + Area_km2)",6,376.683661374046,14.8361023042784,5.85830164063558e-05,364.04244
+"~effort","~MEANT2 + mFlow + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT2 + mFlow + HAiFLS_for + Area_km2)",7,376.799228461538,14.951669391771,5.52938277520973e-05,361.93769
+"~effort","~MEANT + mFlow + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT + mFlow + HAiFLS_for + Area_km2)",7,377.034398461539,15.1868393917711,4.91598035430228e-05,362.17286
+"~effort","~mFlow + pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~mFlow + pctBrBnk + HAiFLS_for + Area_km2)",7,377.666348461538,15.818789391771,3.58413153631091e-05,362.80481
+"~effort","~MEANT2 + mFlow + pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT2 + mFlow + pctBrBnk + HAiFLS_for + Area_km2)",8,378.237099069767,16.38954,2.6943066305228e-05,361.12082
+"~effort","~MEANT + mFlow + pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT + mFlow + pctBrBnk + HAiFLS_for + Area_km2)",8,378.429499069767,16.58194,2.44719113491119e-05,361.31322
+"~effort","~MEANT2 + avdep + mFlow + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT2 + avdep + mFlow + HAiFLS_for + Area_km2)",8,378.867799069767,17.02024,1.96558692699415e-05,361.75152
+"~effort","~MEANT + avdep + mFlow + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT + avdep + mFlow + HAiFLS_for + Area_km2)",8,379.078369069767,17.23081,1.76916182866976e-05,361.96209
+"~effort","~avdep + mFlow + pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~avdep + mFlow + pctBrBnk + HAiFLS_for + Area_km2)",8,379.709529069767,17.86197,1.29036598998896e-05,362.59325
+"~1","~mFlow + HAiFLS_for + Area_km2","p(~1)Psi(~mFlow + HAiFLS_for + Area_km2)",5,379.726645454545,17.879086384778,1.27936990999354e-05,369.2721
+"~effort","~mFlow + HAiFLS_for","p(~effort)Psi(~mFlow + HAiFLS_for)",5,379.771885454545,17.924326384778,1.25075541266881e-05,369.31734
+"~1","~MEANT2 + mFlow + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT2 + mFlow + HAiFLS_for + Area_km2)",6,379.809691374046,17.9621323042784,1.22733449319133e-05,367.16847
+"~1","~MEANT + mFlow + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT + mFlow + HAiFLS_for + Area_km2)",6,380.018011374046,18.1704523042784,1.10592793103606e-05,367.37679
+"~effort","~MEANT2 + avdep + mFlow + pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT2 + avdep + mFlow + pctBrBnk + HAiFLS_for + Area_km2)",9,380.34244,18.4948809302326,9.40325136329464e-06,360.93619
+"~effort","~MEANT2 + mFlow + HAiFLS_for","p(~effort)Psi(~MEANT2 + mFlow + HAiFLS_for)",6,380.421361374046,18.5738023042784,9.03941836481819e-06,367.78014
+"~effort","~MEANT + avdep + mFlow + pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT + avdep + mFlow + pctBrBnk + HAiFLS_for + Area_km2)",9,380.51414,18.6665809302326,8.62966355812709e-06,361.10789
+"~effort","~MEANT + mFlow + HAiFLS_for","p(~effort)Psi(~MEANT + mFlow + HAiFLS_for)",6,380.614801374046,18.7672423042784,8.20607580852035e-06,367.97358
+"~1","~mFlow + pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~mFlow + pctBrBnk + HAiFLS_for + Area_km2)",6,380.694531374046,18.8469723042784,7.88537542754024e-06,368.05331
+"~1","~MEANT2 + mFlow + pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT2 + mFlow + pctBrBnk + HAiFLS_for + Area_km2)",7,381.230468461538,19.382909391771,6.03177475549552e-06,366.36893
+"~1","~MEANT + mFlow + pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT + mFlow + pctBrBnk + HAiFLS_for + Area_km2)",7,381.398548461538,19.5509893917711,5.54558041227501e-06,366.53701
+"~1","~MEANT2 + avdep + mFlow + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT2 + avdep + mFlow + HAiFLS_for + Area_km2)",7,381.869508461538,20.021949391771,4.38207031956808e-06,367.00797
+"~1","~MEANT + avdep + mFlow + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT + avdep + mFlow + HAiFLS_for + Area_km2)",7,382.056738461538,20.209179391771,3.99045910588052e-06,367.1952
+"~effort","~MEANT2 + mFlow + pctBrBnk + HAiFLS_for","p(~effort)Psi(~MEANT2 + mFlow + pctBrBnk + HAiFLS_for)",7,382.337438461539,20.4898793917711,3.46792450070894e-06,367.4759
+"~effort","~MEANT + mFlow + pctBrBnk + HAiFLS_for","p(~effort)Psi(~MEANT + mFlow + pctBrBnk + HAiFLS_for)",7,382.511118461539,20.6635593917711,3.17947563459135e-06,367.64958
+"~1","~avdep + mFlow + pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~avdep + mFlow + pctBrBnk + HAiFLS_for + Area_km2)",7,382.696398461538,20.848839391771,2.8981606826571e-06,367.83486
+"~1","~mFlow + HAiFLS_for","p(~1)Psi(~mFlow + HAiFLS_for)",4,383.287271879699,21.4397128099318,2.15683006081791e-06,374.98652
+"~1","~MEANT2 + avdep + mFlow + pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT2 + avdep + mFlow + pctBrBnk + HAiFLS_for + Area_km2)",8,383.318449069767,21.47089,2.12346881350401e-06,366.20217
+"~1","~MEANT + avdep + mFlow + pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT + avdep + mFlow + pctBrBnk + HAiFLS_for + Area_km2)",8,383.467719069767,21.62016,1.9707535539365e-06,366.35144
+"~effort","~pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~pctrun + pctBrBnk + HAiFLS_for + Area_km2)",7,383.738558461539,21.8909993917711,1.72115622429694e-06,368.87702
+"~1","~MEANT2 + mFlow + HAiFLS_for","p(~1)Psi(~MEANT2 + mFlow + HAiFLS_for)",5,383.895805454545,22.048246384778,1.59101597778322e-06,373.44126
+"~1","~MEANT + mFlow + HAiFLS_for","p(~1)Psi(~MEANT + mFlow + HAiFLS_for)",5,384.063425454545,22.215866384778,1.46310778299198e-06,373.60888
+"~effort","~MEANT2 + avdep + mFlow + pctBrBnk + HAiFLS_for","p(~effort)Psi(~MEANT2 + avdep + mFlow + pctBrBnk + HAiFLS_for)",8,384.265439069767,22.41788,1.32254245233368e-06,367.14916
+"~effort","~MEANT2 + pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT2 + pctrun + pctBrBnk + HAiFLS_for + Area_km2)",8,384.351949069767,22.50439,1.26655546611135e-06,367.23567
+"~effort","~MEANT + avdep + mFlow + pctBrBnk + HAiFLS_for","p(~effort)Psi(~MEANT + avdep + mFlow + pctBrBnk + HAiFLS_for)",8,384.450599069767,22.60304,1.20559833141248e-06,367.33432
+"~effort","~MEANT + pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT + pctrun + pctBrBnk + HAiFLS_for + Area_km2)",8,384.541879069767,22.6943199999999,1.15181157358409e-06,367.4256
+"~effort","~pctrun + HAiFLS_for + Area_km2","p(~effort)Psi(~pctrun + HAiFLS_for + Area_km2)",6,385.451471374046,23.6039123042784,7.30913492286363e-07,372.81025
+"~effort","~pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~pctBrBnk + HAiFLS_for + Area_km2)",6,385.583791374046,23.7362323042784,6.84121211105445e-07,372.94257
+"~1","~MEANT2 + mFlow + pctBrBnk + HAiFLS_for","p(~1)Psi(~MEANT2 + mFlow + pctBrBnk + HAiFLS_for)",6,385.814751374046,23.9671923042784,6.09509850952692e-07,373.17353
+"~effort","~MEANT2 + pctrun + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT2 + pctrun + HAiFLS_for + Area_km2)",7,385.837528461539,23.9899693917711,6.02607798115543e-07,370.97599
+"~1","~MEANT + mFlow + pctBrBnk + HAiFLS_for","p(~1)Psi(~MEANT + mFlow + pctBrBnk + HAiFLS_for)",6,385.965171374046,24.1176123042784,5.65350058095407e-07,373.32395
+"~effort","~MEANT + pctrun + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT + pctrun + HAiFLS_for + Area_km2)",7,385.973158461539,24.1255993917711,5.63096810123224e-07,371.11162
+"~effort","~MEANT2 + pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT2 + pctBrBnk + HAiFLS_for + Area_km2)",7,386.249888461538,24.402329391771,4.90333890088354e-07,371.38835
+"~effort","~MEANT + pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT + pctBrBnk + HAiFLS_for + Area_km2)",7,386.377838461538,24.530279391771,4.59947138876967e-07,371.5163
+"~effort","~HAiFLS_for + Area_km2","p(~effort)Psi(~HAiFLS_for + Area_km2)",5,386.461915454545,24.614356384778,4.41012434366401e-07,376.00737
+"~effort","~MEANT2 + avdep + pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT2 + avdep + pctrun + pctBrBnk + HAiFLS_for + Area_km2)",9,386.58507,24.7375109302325,4.14675297434934e-07,367.17882
+"~effort","~MEANT + avdep + pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT + avdep + pctrun + pctBrBnk + HAiFLS_for + Area_km2)",9,386.77684,24.9292809302326,3.76760911085761e-07,367.37059
+"~effort","~MEANT2 + pctrun + pctBrBnk + Area_km2","p(~effort)Psi(~MEANT2 + pctrun + pctBrBnk + Area_km2)",7,386.799108461538,24.951549391771,3.7258923545367e-07,371.93757
+"~effort","~MEANT2 + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT2 + HAiFLS_for + Area_km2)",6,386.835631374046,24.9880723042784,3.6584696265687e-07,374.19441
+"~effort","~MEANT + pctrun + pctBrBnk + Area_km2","p(~effort)Psi(~MEANT + pctrun + pctBrBnk + Area_km2)",7,386.932978461538,25.085419391771,3.48466314640342e-07,372.07144
+"~effort","~MEANT + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT + HAiFLS_for + Area_km2)",6,386.933491374046,25.0859323042783,3.48376959733068e-07,374.29227
+"~1","~pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~pctrun + pctBrBnk + HAiFLS_for + Area_km2)",6,386.960901374046,25.1133423042784,3.43635021851032e-07,374.31968
+"~effort","~pctrun + pctBrBnk + Area_km2","p(~effort)Psi(~pctrun + pctBrBnk + Area_km2)",6,387.347281374046,25.4997223042784,2.83267055345268e-07,374.70606
+"~1","~MEANT2 + pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT2 + pctrun + pctBrBnk + HAiFLS_for + Area_km2)",7,387.512348461538,25.664789391771,2.60826795275341e-07,372.65081
+"~1","~MEANT2 + avdep + mFlow + pctBrBnk + HAiFLS_for","p(~1)Psi(~MEANT2 + avdep + mFlow + pctBrBnk + HAiFLS_for)",7,387.525198461538,25.677639391771,2.59156355150991e-07,372.66366
+"~1","~MEANT + avdep + mFlow + pctBrBnk + HAiFLS_for","p(~1)Psi(~MEANT + avdep + mFlow + pctBrBnk + HAiFLS_for)",7,387.675578461538,25.828019391771,2.40384942953599e-07,372.81404
+"~1","~MEANT + pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT + pctrun + pctBrBnk + HAiFLS_for + Area_km2)",7,387.681518461538,25.833959391771,2.39672058829972e-07,372.81998
+"~effort","~MEANT2 + avdep + pctrun + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT2 + avdep + pctrun + HAiFLS_for + Area_km2)",8,388.060719069767,26.21316,1.98278233358483e-07,370.94444
+"~effort","~MEANT + avdep + pctrun + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT + avdep + pctrun + HAiFLS_for + Area_km2)",8,388.201449069767,26.35389,1.84805932927915e-07,371.08517
+"~effort","~MEANT2 + avdep + pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT2 + avdep + pctBrBnk + HAiFLS_for + Area_km2)",8,388.493759069767,26.6462,1.59676718724266e-07,371.37748
+"~effort","~MEANT + avdep + pctBrBnk + HAiFLS_for + Area_km2","p(~effort)Psi(~MEANT + avdep + pctBrBnk + HAiFLS_for + Area_km2)",8,388.620029069767,26.77247,1.49907174111647e-07,371.50375
+"~1","~pctrun + HAiFLS_for + Area_km2","p(~1)Psi(~pctrun + HAiFLS_for + Area_km2)",5,388.719015454545,26.871456384778,1.42668402071391e-07,378.26447
+"~1","~pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~pctBrBnk + HAiFLS_for + Area_km2)",5,388.877035454545,27.029476384778,1.31829981164349e-07,378.42249
+"~1","~MEANT2 + pctrun + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT2 + pctrun + HAiFLS_for + Area_km2)",6,389.045701374046,27.1981423042783,1.21168254304015e-07,376.40448
+"~effort","~MEANT2 + avdep + pctrun + pctBrBnk + Area_km2","p(~effort)Psi(~MEANT2 + avdep + pctrun + pctBrBnk + Area_km2)",8,389.052089069767,27.20453,1.20781878675136e-07,371.93581
+"~effort","~MEANT2 + mFlow + Area_km2","p(~effort)Psi(~MEANT2 + mFlow + Area_km2)",6,389.055011374046,27.2074523042784,1.20605526844536e-07,376.41379
+"~1","~MEANT + pctrun + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT + pctrun + HAiFLS_for + Area_km2)",6,389.162261374046,27.3147023042784,1.14308405970011e-07,376.52104
+"~effort","~MEANT + avdep + pctrun + pctBrBnk + Area_km2","p(~effort)Psi(~MEANT + avdep + pctrun + pctBrBnk + Area_km2)",8,389.183789069767,27.33623,1.13084605893665e-07,372.06751
+"~effort","~MEANT2 + pctrun + Area_km2","p(~effort)Psi(~MEANT2 + pctrun + Area_km2)",6,389.208321374046,27.3607623042784,1.11705965505186e-07,376.5671
+"~effort","~MEANT + mFlow + Area_km2","p(~effort)Psi(~MEANT + mFlow + Area_km2)",6,389.268541374046,27.4209823042784,1.08392631449972e-07,376.62732
+"~effort","~MEANT + pctrun + Area_km2","p(~effort)Psi(~MEANT + pctrun + Area_km2)",6,389.345511374046,27.4979523042784,1.04300391035472e-07,376.70429
+"~effort","~MEANT2 + mFlow + pctBrBnk + Area_km2","p(~effort)Psi(~MEANT2 + mFlow + pctBrBnk + Area_km2)",7,389.349558461538,27.5019993917711,1.04089548028421e-07,374.48802
+"~1","~MEANT2 + pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT2 + pctBrBnk + HAiFLS_for + Area_km2)",6,389.477741374046,27.6301823042784,9.76275873878536e-08,376.83652
+"~effort","~MEANT + mFlow + pctBrBnk + Area_km2","p(~effort)Psi(~MEANT + mFlow + pctBrBnk + Area_km2)",7,389.490628461539,27.6430693917711,9.70005421240005e-08,374.62909
+"~1","~MEANT + pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT + pctBrBnk + HAiFLS_for + Area_km2)",6,389.583941374046,27.7363823042784,9.25787942031795e-08,376.94272
+"~1","~MEANT2 + avdep + pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT2 + avdep + pctrun + pctBrBnk + HAiFLS_for + Area_km2)",8,389.664609069767,27.81705,8.89190373736986e-08,372.54833
+"~1","~HAiFLS_for + Area_km2","p(~1)Psi(~HAiFLS_for + Area_km2)",4,389.793131879699,27.9455728099318,8.33847015857198e-08,381.49238
+"~1","~MEANT + avdep + pctrun + pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT + avdep + pctrun + pctBrBnk + HAiFLS_for + Area_km2)",8,389.829459069767,27.9819,8.18838077122043e-08,372.71318
+"~1","~MEANT2 + pctrun + pctBrBnk + Area_km2","p(~1)Psi(~MEANT2 + pctrun + pctBrBnk + Area_km2)",6,389.936121374046,28.0885623042784,7.76312545671222e-08,377.2949
+"~effort","~pctrun + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctrun + pctBrBnk + HAiFLS_for)",6,389.942011374046,28.0944523042784,7.74029668410932e-08,377.30079
+"~effort","~pctrun + HAiFLS_for","p(~effort)Psi(~pctrun + HAiFLS_for)",5,390.053065454545,28.205506384778,7.32221573272427e-08,379.59852
+"~1","~MEANT + pctrun + pctBrBnk + Area_km2","p(~1)Psi(~MEANT + pctrun + pctBrBnk + Area_km2)",6,390.054741374046,28.2071823042784,7.31608258068423e-08,377.41352
+"~1","~MEANT2 + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT2 + HAiFLS_for + Area_km2)",5,390.100965454545,28.253406384778,7.1489320212884e-08,379.64642
+"~1","~MEANT + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT + HAiFLS_for + Area_km2)",5,390.178765454545,28.331206384778,6.87617802453591e-08,379.72422
+"~effort","~pctrun + Area_km2","p(~effort)Psi(~pctrun + Area_km2)",5,390.293975454545,28.446416384778,6.49126857617358e-08,379.83943
+"~1","~pctrun + pctBrBnk + Area_km2","p(~1)Psi(~pctrun + pctBrBnk + Area_km2)",5,390.523215454545,28.675656384778,5.78829617449168e-08,380.06867
+"~effort","~HAiFLS_for","p(~effort)Psi(~HAiFLS_for)",4,390.684871879699,28.8373128099318,5.33884728437383e-08,382.38412
+"~effort","~MEANT2 + pctrun + pctBrBnk + HAiFLS_for","p(~effort)Psi(~MEANT2 + pctrun + pctBrBnk + HAiFLS_for)",7,390.742918461538,28.895359391771,5.18612336232458e-08,375.88138
+"~effort","~MEANT2 + pctrun + HAiFLS_for","p(~effort)Psi(~MEANT2 + pctrun + HAiFLS_for)",6,390.785561374046,28.9380023042784,5.07671814386226e-08,378.14434
+"~effort","~MEANT2 + avdep + mFlow + pctBrBnk + Area_km2","p(~effort)Psi(~MEANT2 + avdep + mFlow + pctBrBnk + Area_km2)",8,390.921599069767,29.07404,4.74288770317313e-08,373.80532
+"~effort","~MEANT + avdep + mFlow + pctBrBnk + Area_km2","p(~effort)Psi(~MEANT + avdep + mFlow + pctBrBnk + Area_km2)",8,390.966359069767,29.1188,4.63792083675532e-08,373.85008
+"~effort","~MEANT + pctrun + HAiFLS_for","p(~effort)Psi(~MEANT + pctrun + HAiFLS_for)",6,390.986941374046,29.1393823042783,4.590436043514e-08,378.34572
+"~effort","~MEANT + pctrun + pctBrBnk + HAiFLS_for","p(~effort)Psi(~MEANT + pctrun + pctBrBnk + HAiFLS_for)",7,391.039948461538,29.192389391771,4.47037131943815e-08,376.17841
+"~effort","~pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctBrBnk + HAiFLS_for)",5,391.136415454545,29.288856384778,4.25986716511605e-08,380.68187
+"~effort","~MEANT2 + avdep + pctrun + pctBrBnk + HAiFLS_for","p(~effort)Psi(~MEANT2 + avdep + pctrun + pctBrBnk + HAiFLS_for)",8,391.171849069767,29.32429,4.18506054209196e-08,374.05557
+"~1","~MEANT2 + avdep + pctrun + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT2 + avdep + pctrun + HAiFLS_for + Area_km2)",7,391.202628461538,29.3550693917711,4.12114680105908e-08,376.34109
+"~1","~MEANT + avdep + pctrun + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT + avdep + pctrun + HAiFLS_for + Area_km2)",7,391.323488461538,29.475929391771,3.8794813592377e-08,376.46195
+"~effort","~MEANT2 + HAiFLS_for","p(~effort)Psi(~MEANT2 + HAiFLS_for)",5,391.413555454545,29.565996384778,3.70865018135544e-08,380.95901
+"~effort","~MEANT + avdep + pctrun + pctBrBnk + HAiFLS_for","p(~effort)Psi(~MEANT + avdep + pctrun + pctBrBnk + HAiFLS_for)",8,391.435199069767,29.58764,3.66873226417621e-08,374.31892
+"~effort","~mFlow + pctBrBnk + Area_km2","p(~effort)Psi(~mFlow + pctBrBnk + Area_km2)",6,391.448771374046,29.6012123042784,3.64391997408221e-08,378.80755
+"~effort","~MEANT + HAiFLS_for","p(~effort)Psi(~MEANT + HAiFLS_for)",5,391.565285454545,29.717726384778,3.43770115087027e-08,381.11074
+"~1","~MEANT2 + avdep + pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT2 + avdep + pctBrBnk + HAiFLS_for + Area_km2)",7,391.695108461538,29.8475493917711,3.22164298882057e-08,376.83357
+"~1","~MEANT + avdep + pctBrBnk + HAiFLS_for + Area_km2","p(~1)Psi(~MEANT + avdep + pctBrBnk + HAiFLS_for + Area_km2)",7,391.801078461539,29.9535193917711,3.05538764842214e-08,376.93954
+"~effort","~MEANT2 + pctBrBnk + HAiFLS_for","p(~effort)Psi(~MEANT2 + pctBrBnk + HAiFLS_for)",6,391.979791374046,30.1322323042784,2.79421167394899e-08,379.33857
+"~effort","~avdep + HAiFLS_for","p(~effort)Psi(~avdep + HAiFLS_for)",5,392.069355454545,30.221796384778,2.67184161447451e-08,381.61481
+"~effort","~mFlow + Area_km2","p(~effort)Psi(~mFlow + Area_km2)",5,392.091155454545,30.243596384778,2.64287668651044e-08,381.63661
+"~1","~MEANT2 + mFlow + Area_km2","p(~1)Psi(~MEANT2 + mFlow + Area_km2)",5,392.098575454545,30.251016384778,2.63308977994087e-08,381.64403
+"~1","~MEANT2 + avdep + pctrun + pctBrBnk + Area_km2","p(~1)Psi(~MEANT2 + avdep + pctrun + pctBrBnk + Area_km2)",7,392.156408461538,30.308849391771,2.55804034316105e-08,377.29487
+"~effort","~MEANT + pctBrBnk + HAiFLS_for","p(~effort)Psi(~MEANT + pctBrBnk + HAiFLS_for)",6,392.198371374046,30.3508123042783,2.50492806647707e-08,379.55715
+"~effort","~MEANT2 + mFlow","p(~effort)Psi(~MEANT2 + mFlow)",5,392.268105454545,30.420546384778,2.41909372904194e-08,381.81356
+"~1","~MEANT + avdep + pctrun + pctBrBnk + Area_km2","p(~1)Psi(~MEANT + avdep + pctrun + pctBrBnk + Area_km2)",7,392.274918461539,30.4273593917711,2.41086709777494e-08,377.41338
+"~1","~MEANT + mFlow + Area_km2","p(~1)Psi(~MEANT + mFlow + Area_km2)",5,392.280325454545,30.432766384778,2.40435812945676e-08,381.82578
+"~1","~MEANT2 + pctrun + Area_km2","p(~1)Psi(~MEANT2 + pctrun + Area_km2)",5,392.395375454545,30.547816384778,2.26995039287949e-08,381.94083
+"~1","~MEANT2 + mFlow + pctBrBnk + Area_km2","p(~1)Psi(~MEANT2 + mFlow + pctBrBnk + Area_km2)",6,392.408721374046,30.5611623042784,2.2548535316664e-08,379.7675
+"~effort","~MEANT + mFlow","p(~effort)Psi(~MEANT + mFlow)",5,392.483235454545,30.635676384778,2.17239007371648e-08,382.02869
+"~1","~MEANT + pctrun + Area_km2","p(~1)Psi(~MEANT + pctrun + Area_km2)",5,392.515525454545,30.667966384778,2.13759844711389e-08,382.06098
+"~1","~MEANT + mFlow + pctBrBnk + Area_km2","p(~1)Psi(~MEANT + mFlow + pctBrBnk + Area_km2)",6,392.516711374046,30.6691523042784,2.13633131298954e-08,379.87549
+"~effort","~MEANT2 + pctrun + pctBrBnk","p(~effort)Psi(~MEANT2 + pctrun + pctBrBnk)",6,393.010931374046,31.1633723042784,1.6685917682516e-08,380.36971
+"~effort","~pctrun + pctBrBnk","p(~effort)Psi(~pctrun + pctBrBnk)",5,393.128045454545,31.280486384778,1.57368968171223e-08,382.6735
+"~effort","~MEANT2 + mFlow + pctBrBnk","p(~effort)Psi(~MEANT2 + mFlow + pctBrBnk)",6,393.246971374046,31.3994123042784,1.48284126074866e-08,380.60575
+"~effort","~MEANT + pctrun + pctBrBnk","p(~effort)Psi(~MEANT + pctrun + pctBrBnk)",6,393.256301374046,31.4087423042783,1.47593991616923e-08,380.61508
+"~effort","~MEANT2 + pctBrBnk + Area_km2","p(~effort)Psi(~MEANT2 + pctBrBnk + Area_km2)",6,393.392601374046,31.5450423042784,1.378705503715e-08,380.75138
+"~effort","~MEANT + pctBrBnk + Area_km2","p(~effort)Psi(~MEANT + pctBrBnk + Area_km2)",6,393.401931374046,31.5543723042784,1.37228882108914e-08,380.76071
+"~effort","~MEANT + mFlow + pctBrBnk","p(~effort)Psi(~MEANT + mFlow + pctBrBnk)",6,393.415041374046,31.5674823042784,1.36332288582377e-08,380.77382
+"~1","~pctrun + Area_km2","p(~1)Psi(~pctrun + Area_km2)",4,393.502941879699,31.6553828099318,1.30470213453142e-08,385.20219
+"~1","~pctrun + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctrun + pctBrBnk + HAiFLS_for)",5,393.527205454545,31.679646384778,1.28896939169263e-08,383.07266
+"~1","~pctrun + HAiFLS_for","p(~1)Psi(~pctrun + HAiFLS_for)",4,393.642161879699,31.7946028099318,1.21697073310249e-08,385.34141
+"~effort","~MEANT2 + pctrun","p(~effort)Psi(~MEANT2 + pctrun)",5,393.886755454545,32.039196384778,1.07688000704686e-08,383.43221
+"~1","~MEANT2 + avdep + mFlow + pctBrBnk + Area_km2","p(~1)Psi(~MEANT2 + avdep + mFlow + pctBrBnk + Area_km2)",7,393.928178461538,32.0806193917711,1.0548055892987e-08,379.06664
+"~1","~MEANT + avdep + mFlow + pctBrBnk + Area_km2","p(~1)Psi(~MEANT + avdep + mFlow + pctBrBnk + Area_km2)",7,393.930738461539,32.0831793917711,1.05345630187256e-08,379.0692
+"~1","~MEANT2 + avdep + pctrun + pctBrBnk + HAiFLS_for","p(~1)Psi(~MEANT2 + avdep + pctrun + pctBrBnk + HAiFLS_for)",7,393.997508461538,32.149949391771,1.0188672534907e-08,379.13597
+"~effort","~MEANT + pctrun","p(~effort)Psi(~MEANT + pctrun)",5,394.046245454545,32.198686384778,9.94339061736952e-09,383.5917
+"~1","~MEANT + avdep + pctrun + pctBrBnk + HAiFLS_for","p(~1)Psi(~MEANT + avdep + pctrun + pctBrBnk + HAiFLS_for)",7,394.068188461539,32.2206293917711,9.83489295205579e-09,379.20665
+"~effort","~mFlow","p(~effort)Psi(~mFlow)",4,394.098751879699,32.2511928099318,9.68574152608382e-09,385.798
+"~1","~MEANT2 + pctrun + pctBrBnk + HAiFLS_for","p(~1)Psi(~MEANT2 + pctrun + pctBrBnk + HAiFLS_for)",6,394.264341374046,32.4167823042783,8.91611319484618e-09,381.62312
+"~effort","~pctrun","p(~effort)Psi(~pctrun)",4,394.276491879699,32.4289328099318,8.86210976131155e-09,385.97574
+"~1","~MEANT2 + pctrun + HAiFLS_for","p(~1)Psi(~MEANT2 + pctrun + HAiFLS_for)",5,394.314575454545,32.467016384778,8.69495585633854e-09,383.86003
+"~1","~HAiFLS_for","p(~1)Psi(~HAiFLS_for)",3,394.386484477612,32.5389254078445,8.38788631249087e-09,388.20738
+"~effort","~mFlow + pctBrBnk","p(~effort)Psi(~mFlow + pctBrBnk)",5,394.435905454545,32.588346384778,8.18315743708508e-09,383.98136
+"~1","~MEANT + pctrun + HAiFLS_for","p(~1)Psi(~MEANT + pctrun + HAiFLS_for)",5,394.496575454545,32.649016384778,7.93864869232431e-09,384.04203
+"~1","~MEANT + pctrun + pctBrBnk + HAiFLS_for","p(~1)Psi(~MEANT + pctrun + pctBrBnk + HAiFLS_for)",6,394.538961374046,32.6914023042784,7.77217549083561e-09,381.89774
+"~1","~mFlow + pctBrBnk + Area_km2","p(~1)Psi(~mFlow + pctBrBnk + Area_km2)",5,394.542585454545,32.695026384778,7.75810474824375e-09,384.08804
+"~effort","~MEANT2 + Area_km2","p(~effort)Psi(~MEANT2 + Area_km2)",5,394.586545454545,32.738986384778,7.58944199979589e-09,384.132
+"~effort","~MEANT + Area_km2","p(~effort)Psi(~MEANT + Area_km2)",5,394.631965454545,32.784406384778,7.41902814539602e-09,384.17742
+"~effort","~pctBrBnk + Area_km2","p(~effort)Psi(~pctBrBnk + Area_km2)",5,394.772295454545,32.924736384778,6.91631470639545e-09,384.31775
+"~1","~pctBrBnk + HAiFLS_for","p(~1)Psi(~pctBrBnk + HAiFLS_for)",4,394.851971879699,33.0044128099318,6.64619731191711e-09,386.55122
+"~1","~MEANT2 + HAiFLS_for","p(~1)Psi(~MEANT2 + HAiFLS_for)",4,395.051681879699,33.2041228099318,6.01460006925728e-09,386.75093
+"~1","~mFlow + Area_km2","p(~1)Psi(~mFlow + Area_km2)",4,395.150761879699,33.3032028099318,5.72389694958287e-09,386.85001
+"~1","~MEANT + HAiFLS_for","p(~1)Psi(~MEANT + HAiFLS_for)",4,395.183171879699,33.3356128099318,5.63188870973189e-09,386.88242
+"~1","~avdep + HAiFLS_for","p(~1)Psi(~avdep + HAiFLS_for)",4,395.536711879699,33.6891528099318,4.71936783948215e-09,387.23596
+"~1","~MEANT2 + pctBrBnk + HAiFLS_for","p(~1)Psi(~MEANT2 + pctBrBnk + HAiFLS_for)",5,395.630965454545,33.783406384778,4.50211853204858e-09,385.17642
+"~1","~MEANT + pctBrBnk + HAiFLS_for","p(~1)Psi(~MEANT + pctBrBnk + HAiFLS_for)",5,395.826515454545,33.978956384778,4.08275934916859e-09,385.37197
+"~1","~MEANT2 + mFlow","p(~1)Psi(~MEANT2 + mFlow)",4,395.835541879699,33.9879828099318,4.064374506883e-09,387.53479
+"~effort","~avdep + pctrun","p(~effort)Psi(~avdep + pctrun)",5,395.882585454545,34.035026384778,3.96988874704277e-09,385.42804
+"~1","~MEANT + mFlow","p(~1)Psi(~MEANT + mFlow)",4,396.027931879699,34.1803728099318,3.6916180516187e-09,387.72718
+"~effort","~avdep + mFlow","p(~effort)Psi(~avdep + mFlow)",5,396.246695454545,34.399136384778,3.30912257408951e-09,385.79215
+"~1","~MEANT2 + pctrun + pctBrBnk","p(~1)Psi(~MEANT2 + pctrun + pctBrBnk)",5,396.509835454545,34.662276384778,2.90116700305405e-09,386.05529
+"~1","~MEANT + pctBrBnk + Area_km2","p(~1)Psi(~MEANT + pctBrBnk + Area_km2)",5,396.563225454545,34.715666384778,2.82474493179376e-09,386.10868
+"~1","~MEANT2 + pctBrBnk + Area_km2","p(~1)Psi(~MEANT2 + pctBrBnk + Area_km2)",5,396.575445454545,34.727886384778,2.80753835986748e-09,386.1209
+"~effort","~Area_km2","p(~effort)Psi(~Area_km2)",4,396.643811879699,34.7962528099318,2.71318944085618e-09,388.34306
+"~1","~pctrun + pctBrBnk","p(~1)Psi(~pctrun + pctBrBnk)",4,396.669031879699,34.8214728099318,2.67919093311156e-09,388.36828
+"~1","~MEANT + pctrun + pctBrBnk","p(~1)Psi(~MEANT + pctrun + pctBrBnk)",5,396.743355454545,34.895796384778,2.58145468359527e-09,386.28881
+"~1","~MEANT2 + mFlow + pctBrBnk","p(~1)Psi(~MEANT2 + mFlow + pctBrBnk)",5,396.889045454545,35.041486384778,2.40009440234685e-09,386.4345
+"~1","~MEANT + mFlow + pctBrBnk","p(~1)Psi(~MEANT + mFlow + pctBrBnk)",5,397.035785454545,35.188226384778,2.23030438325696e-09,386.58124
+"~1","~MEANT2 + pctrun","p(~1)Psi(~MEANT2 + pctrun)",4,397.375761879699,35.5282028099318,1.88165151814640e-09,389.07501
+"~1","~MEANT + pctrun","p(~1)Psi(~MEANT + pctrun)",4,397.523541879699,35.6759828099318,1.74762873116374e-09,389.22279
+"~1","~mFlow","p(~1)Psi(~mFlow)",3,397.647344477612,35.7997854078445,1.64272846789807e-09,391.46824
+"~1","~pctrun","p(~1)Psi(~pctrun)",3,397.791734477612,35.9441754078445,1.52831154299793e-09,391.61263
+"~1","~MEANT2 + Area_km2","p(~1)Psi(~MEANT2 + Area_km2)",4,397.802671879699,35.9551128099318,1.51997647583582e-09,389.50192
+"~1","~MEANT + Area_km2","p(~1)Psi(~MEANT + Area_km2)",4,397.827421879699,35.9798628099318,1.50128267341425e-09,389.52667
+"~1","~pctBrBnk + Area_km2","p(~1)Psi(~pctBrBnk + Area_km2)",4,397.999441879699,36.1518828099318,1.37755454494137e-09,389.69869
+"~1","~mFlow + pctBrBnk","p(~1)Psi(~mFlow + pctBrBnk)",4,398.084821879699,36.2372628099318,1.31998432075869e-09,389.78407
+"~effort","~MEANT2 + pctBrBnk","p(~effort)Psi(~MEANT2 + pctBrBnk)",5,398.367765454545,36.520206384778,1.14585154829438e-09,387.91322
+"~effort","~avdep + Area_km2","p(~effort)Psi(~avdep + Area_km2)",5,398.380445454545,36.532886384778,1.13860982998234e-09,387.9259
+"~effort","~MEANT2","p(~effort)Psi(~MEANT2)",4,398.428751879699,36.5811928099318,1.11143820664427e-09,390.128
+"~effort","~MEANT + pctBrBnk","p(~effort)Psi(~MEANT + pctBrBnk)",5,398.452915454545,36.605356384778,1.09809083888638e-09,387.99837
+"~effort","~MEANT","p(~effort)Psi(~MEANT)",4,398.498511879699,36.6509528099318,1.07333954518898e-09,390.19776
+"~effort","~pctBrBnk","p(~effort)Psi(~pctBrBnk)",4,399.055021879699,37.2074628099318,8.12629379062735e-10,390.75427
+"~1","~avdep + pctrun","p(~1)Psi(~avdep + pctrun)",4,399.256451879699,37.4088928099318,7.34771919387285e-10,390.9557
+"~effort","~1","p(~effort)Psi(~1)",3,399.551534477612,37.7039754078445,6.33980906682127e-10,393.37243
+"~1","~avdep + mFlow","p(~1)Psi(~avdep + mFlow)",4,399.768741879699,37.9211828099318,5.68735307688996e-10,391.46799
+"~1","~Area_km2","p(~1)Psi(~Area_km2)",3,399.885154477612,38.0375954078445,5.36576336648989e-10,393.70605
+"~effort","~MEANT2 + avdep","p(~effort)Psi(~MEANT2 + avdep)",5,400.492445454545,38.644886384778,3.96059063297398e-10,390.0379
+"~effort","~MEANT + avdep","p(~effort)Psi(~MEANT + avdep)",5,400.576325454545,38.728766384778,3.79791853945341e-10,390.12178
+"~effort","~avdep + pctBrBnk","p(~effort)Psi(~avdep + pctBrBnk)",5,401.144075454545,39.296516384778,2.85930378644774e-10,390.68953
+"~effort","~pctpool","p(~effort)Psi(~pctpool)",4,401.532781879699,39.6852228099318,2.35425646454541e-10,393.23203
+"~1","~avdep + Area_km2","p(~1)Psi(~avdep + Area_km2)",4,401.614231879699,39.7666728099318,2.26030543257258e-10,393.31348
+"~effort","~avdep","p(~effort)Psi(~avdep)",4,401.640291879699,39.7927328099318,2.2310447004476e-10,393.33954
+"~1","~MEANT2 + pctBrBnk","p(~1)Psi(~MEANT2 + pctBrBnk)",4,402.031821879699,40.1842628099318,1.83437706784504e-10,393.73107
+"~1","~MEANT2","p(~1)Psi(~MEANT2)",3,402.045884477612,40.1983254078445,1.82152425322602e-10,395.86678
+"~1","~MEANT","p(~1)Psi(~MEANT)",3,402.101414477612,40.2538554078445,1.77164528140874e-10,395.92231
+"~1","~MEANT + pctBrBnk","p(~1)Psi(~MEANT + pctBrBnk)",4,402.103351879699,40.2557928099318,1.76992991774706e-10,393.8026
+"~1","~pctBrBnk","p(~1)Psi(~pctBrBnk)",3,402.754294477612,40.9067354078445,1.2782202137658e-10,396.57519
+"~1","~1","p(~1)Psi(~1)",2,403.186358888889,41.3387998191214,1.02987398151615e-10,399.09747
+"~1","~MEANT2 + avdep","p(~1)Psi(~MEANT2 + avdep)",4,404.029051879699,42.1814928099318,6.75764897163671e-11,395.7283
+"~1","~MEANT + avdep","p(~1)Psi(~MEANT + avdep)",4,404.100371879699,42.2528128099318,6.52091722224478e-11,395.79962
+"~1","~avdep + pctBrBnk","p(~1)Psi(~avdep + pctBrBnk)",4,404.772341879699,42.9247828099318,4.66006801862603e-11,396.47159
+"~1","~pctpool","p(~1)Psi(~pctpool)",3,405.137674477612,43.2901154078445,3.88205147798874e-11,398.95857
+"~1","~avdep","p(~1)Psi(~avdep)",3,405.215844477612,43.3682854078445,3.73324842229574e-11,399.03674

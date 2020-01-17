@@ -54,7 +54,7 @@ names(brook)
 
 brook2 <- brook %>%
   rename(effort1 = t1_eff, effort2 = t2_eff, effort3 = t3_eff, pctpool = pctslow)%>%
-  select(1:3, effort1, effort2, effort3, pctex21, pctpool, 
+  select(1:3, effort1, effort2, effort3, pctex21, MEANT, MAXT, RNGT, avgT, pctpool, 
          pctrock, pctBrBnk, pctShade, BRT_100m, HAiFLS_alt, HAiFLS_for)
 
 #Join to new DF
