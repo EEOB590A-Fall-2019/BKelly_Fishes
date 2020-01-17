@@ -157,7 +157,7 @@ brook.process = process.data(brook.df, model="Occupancy", groups = "freq")
 bkt.ddl = make.design.data(brook.process)
 
 ###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
-####   Catchment Scale covariates   ####
+####   Temperature covariates        ####
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 
 run.occ.temp=function()
