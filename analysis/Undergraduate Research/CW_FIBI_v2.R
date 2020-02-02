@@ -21,6 +21,7 @@ library(readxl)
 #-----
 # load fish data
 #-----
+getwd()
 #working with tidyfish1.xlsx data
 metrics <- read_excel("Data/Thesis/Tidy/tidyfish1.xlsx") 
 names(metrics)
@@ -349,7 +350,7 @@ write.csv(IBI, "Data/Thesis/Tidy/tidy_IBI1.csv", row.names = F)
 ###################################################
 ###################################################
 
-# Now we will analyze the IBI dataset
+# CW FIBI Dataset Wrangling and Exploration
 
 ##################################################
 ##################################################
@@ -424,6 +425,8 @@ hab2 <- hab %>%
   rename(site = Site) %>%
   unite(newID, c(HUC8, site), sep = "_", remove = F)
 
+summary(hab2$HAiFLS_dev)
+hist(hab2$HAiFLS_dev)
 #----------------#
 #correlation test
 #----------------#
@@ -441,7 +444,7 @@ corrplot(c, method = "number")
 #-------------------------#
 
 hab3 <- hab2 %>%
-  select(-boulder, -HAiFLS_ag, -HAiFLS_dev, -HAiFLS_for, -HAiFLS_nat)
+  select(-HAiFLS_ag, -HAiFLS_alt, -HAiFLS_nat)
 
 
 #---------------
@@ -460,18 +463,40 @@ data <- left_join(IBI3, hab3, by='newID') %>%
 
 #inspect final df
 skim(data)
+names(data)
 
 #graph response variable
 hist(data$IBIScore)
 
-#log transformation
-data$IBIScore_log <- log(1+data$IBIScore)
-hist(data$IBIScore_log)
+#plot all remaining variables
+pairs(data[,2:10])
+
+#----------
+#export data
+write.csv(data, "Data/Thesis/Tidy/FIBI_and_Hab.csv", row.names = F)
+#----------
+
+###################################################
+###################################################
+
+#             CW FIBI Dataset Analysis
+
+##################################################
+##################################################
+
+
+#consider log transformation of response?
+data2 <- data %>%
+  mutate(log_IBI = log(1+IBIScore))
+hist(data2$log_IBI)
+
+#data$IBIScore_log <- log(1+data$IBIScore)
+#hist(data$IBIScore_log)
 
 #########################################################
 #########################################################
 
-###                 Linear Regression 
+###         Regression Analysis Using GLMs 
 
 #########################################################
 #########################################################
