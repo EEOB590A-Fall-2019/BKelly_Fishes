@@ -41,3 +41,8 @@ ggplot(mydat, aes(x = HAiFLS_dev, y = predict)) + geom_point() + ylab("predicted
   stat_smooth(method = "lm")
 
 Rsquared = 1 - (1410.7/2292.1)
+
+
+#Notes
+# oversidpersed - quasipoisson
+#ordinal data - analysis
