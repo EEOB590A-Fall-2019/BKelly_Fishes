@@ -366,9 +366,13 @@ library(ggResidpanel)
 #read in data
 IBI <- read.csv("Data/Thesis/Tidy/tidy_IBI1.csv", header = T)
 
+names(IBI)
+
 #subset data
 IBI2 <- IBI %>%
-  select(uid,HUC8,site,IBIScore,Rating)
+  select(uid,HUC8,site,M1_spp,M2_CWspp,M3_MINspp,M4_BENspp,M5_TOLspp,M6_BKTsalmonid,
+         M7_pctIntol,M8_pctCW,M9_pctWSU,M10_pctTC,M11_CWindv150,
+         M12_WWindv150,IBIScore,Rating)
 
 #explore data
 skim(IBI2)
@@ -459,7 +463,7 @@ IBI3 <- IBI2 %>%
   unite(newID, c(HUC8, site), sep = "_", remove = F)
 
 data <- left_join(IBI3, hab3, by='newID') %>%
-  select(-HUC8.x, -HUC8.y, -site.x, -site.y, -uid, -Rating)
+  select(-HUC8.y, -site.x, -site.y, -uid)
 
 #inspect final df
 skim(data)

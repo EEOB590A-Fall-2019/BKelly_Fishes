@@ -44,5 +44,5 @@ Rsquared = 1 - (1410.7/2292.1)
 
 
 #Notes
-# oversidpersed - quasipoisson
-#ordinal data - analysis
+#oversidpersed - quasipoisson
+#ordinal analysis
