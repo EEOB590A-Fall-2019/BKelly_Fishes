@@ -3,7 +3,7 @@ library(ggResidpanel)
 library(car)
 
 getwd()
-setwd("/Users/brettkelly/Documents/MyFiles/Iowa State/EEOB590B/BKelly_Fishes")
+#setwd("/Users/brettkelly/Documents/MyFiles/Iowa State/EEOB590B/BKelly_Fishes")
 
 mydat <- read.csv("Data/Thesis/Tidy/FIBI_and_Hab.csv", header = T)
 summary(mydat$IBIScore)
