@@ -3,6 +3,12 @@
 #Need dataset with occurrence and abundance data for BRT, BKT, Sculpins, LND, & SRD,
 #and any relevant habitat covariates
 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#     Misc. citations
+citation("spsurvey")
+citation()
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 library(tidyverse)
 library(skimr)
 
