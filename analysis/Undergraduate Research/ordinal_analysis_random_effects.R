@@ -3,7 +3,7 @@ library(ggplot2)
 library(car)
 
 ### Massage the dataset
-mydat <- read.csv("FIBI_tidy2.csv", header = T)
+mydat <- read.csv("Data/Thesis/Tidy/FIBI_tidy2.csv", header = T)
 mydat$Rating <- factor(mydat$Rating, levels = c("Very Poor", "Poor", "Fair", "Good", "Excellent"))
 mydat$Year <- factor(mydat$Year, levels = c("2018", "2019"))
 table(mydat$Rating)
@@ -43,7 +43,7 @@ predictions$fit_rank <- rank(predictions$fit, ties.method = "first")
 
 ggplot(predictions, aes(x = Rating, y = fit)) + geom_boxplot() +
   ylab("estimated probability") + ggtitle("Probabilities by IBI Rating") +
-  geom_point(data = predictions, aes(x = Rating, y = fit, color = watershed), size = 2) 
+  geom_point(data = predictions, aes(x = Rating, y = fit, color = watershed), size = 2) +
   theme(legend.position = "none")
 
 ggplot(predictions, aes(x = IBIscore, y = fit)) + geom_point() +

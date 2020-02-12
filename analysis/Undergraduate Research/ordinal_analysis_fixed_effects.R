@@ -3,7 +3,7 @@ library(ggplot2)
 library(car)
 
 ### Massage the dataset
-mydat <- read.csv("FIBI_tidy2.csv", header = T)
+mydat <- read.csv("Data/Thesis/Tidy/FIBI_tidy2.csv", header = T)
 mydat$Rating <- factor(mydat$Rating, levels = c("Very Poor", "Poor", "Fair", "Good", "Excellent"))
 mydat$Year <- factor(mydat$Year, levels = c("2018", "2019"))
 table(mydat$Rating)
