@@ -3,14 +3,9 @@
 #Need dataset with occurrence and abundance data for BRT, BKT, Sculpins, LND, & SRD,
 #and any relevant habitat covariates
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#     Misc. citations
-citation("spsurvey")
-citation()
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 library(tidyverse)
 library(skimr)
+library(coin)
 
 #load data
 fish <- read_csv("Data/Thesis/Tidy/tidyfish1.csv", col_names = T)
@@ -251,7 +246,12 @@ cott2 <- sculp %>%
   group_by(status) %>%
   count()
 
+###########################################################
 
+# Mann Whitney U tests and permutation tests of differences
+# in distributions of CPUE/100m for LND, SRD, and Cottus
+
+###########################################################
 
 
 
