@@ -293,17 +293,37 @@ new2 <- newdf %>%
 
 #----------------------------Boxplots of CPUE------------------------------#
 
+#-----------------------Filter by presence of SGCN-------------------------#
+
 #LND
-ggplot(data = new2, aes(x=BRT,y=LND_CPUE)) +
-  geom_boxplot(aes(fill=BRT))
+ldace <- new2 %>%
+  filter(LND == 1)
+ggplot(data = ldace, aes(x=BRT,y=LND_CPUE)) +
+  geom_boxplot(aes(fill=BRT))+
+  labs(x="Brown Trout Presence", y="Longnose Dace CPUE (fish/100m)")+
+  theme_minimal()+
+  scale_x_discrete(labels=c("Absent", "Present"))+
+  theme(legend.position = "NULL")
 
 #SRD
-ggplot(data = new2, aes(x=BRT,y=SRD_CPUE)) +
-  geom_boxplot(aes(fill=BRT))
+sdace <- new2 %>%
+  filter(SRD == 1)
+ggplot(data = sdace, aes(x=BRT,y=SRD_CPUE)) +
+  geom_boxplot(aes(fill=BRT))+
+  labs(x="Brown Trout Presence", y="Southern Redbelly Dace CPUE (fish/100m)")+
+  theme_minimal()+
+  scale_x_discrete(labels=c("Absent", "Present"))+
+  theme(legend.position = "NULL")
 
 #Sculpins
-ggplot(data = new2, aes(x=BRT,y=Cottus_CPUE)) +
-  geom_boxplot(aes(fill=BRT))
+cott <- new2 %>%
+  filter(Cottus == 1)
+ggplot(data = cott, aes(x=BRT,y=Cottus_CPUE)) +
+  geom_boxplot(aes(fill=BRT))+
+  labs(x="Brown Trout Presence", y="Sculpin CPUE (fish/100m)")+
+  theme_minimal()+
+  scale_x_discrete(labels=c("Absent", "Present"))+
+  theme(legend.position = "NULL")
 
 
 #############################################################################
