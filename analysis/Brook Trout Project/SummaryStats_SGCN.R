@@ -254,6 +254,71 @@ cott2 <- sculp %>%
 ###########################################################
 
 
+#-----
+#We first need to create the CPUE (count/100m) variable 
+#-----
+
+#bring in environmental data
+hab <- read.csv("Data/Thesis/Tidy/AllCovariates.csv", header = T)
+names(hab)
+skim(hab)
+
+#add in segment length (this is the total stream distance each site was sampled)
+len <- hab %>%
+  select(HUC8, Site, RchLength) %>%
+  unite(newID, c(HUC8, Site), sep = "_", remove = T) %>%
+  mutate(SegLen = (3*RchLength)) %>%
+  select(-RchLength)
+
+fish <- mydat %>%
+  unite(newID, c(HUC8, site), sep = "_", remove = T) %>%
+  select(-uid)
+
+fish[45,1] <- "UPI_201"
+fish[46,1] <- "UPI_202"
+fish[115,1] <- "YEL_97b"
+
+newdf <- left_join(fish, len, by="newID")
+
+skim(newdf)
+
+#Now we have segment legnth as a variable, let's calculate CPUE(count/100m)
+#the formula we will use is (ab/SegLen)*100
+#Also, remove BKT from further calculations
+
+new2 <- newdf %>%
+  mutate(LND_CPUE = (LND_ab/SegLen)*100, SRD_CPUE = (SRD_ab/SegLen)*100, Cottus_CPUE = (Cottus_ab/SegLen)*100, BRT_CPUE = (BRT_ab/SegLen)*100)
+
+#############################################################################
+
+#----------------------------Boxplots of CPUE------------------------------#
+
+#LND
+ggplot(data = new2, aes(x=BRT,y=LND_CPUE)) +
+  geom_boxplot(aes(fill=BRT))
+
+#SRD
+ggplot(data = new2, aes(x=BRT,y=SRD_CPUE)) +
+  geom_boxplot(aes(fill=BRT))
+
+#Sculpins
+ggplot(data = new2, aes(x=BRT,y=Cottus_CPUE)) +
+  geom_boxplot(aes(fill=BRT))
+
+
+#############################################################################
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
