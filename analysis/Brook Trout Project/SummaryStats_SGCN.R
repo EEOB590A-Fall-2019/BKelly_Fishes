@@ -406,9 +406,85 @@ oneway_test(Cottus_CPUE~BRT, data=cott,
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Let's build some CPUE models for each non-game fish with a combination of 
-# hypotheses: 1) only environment, 2) Brown Trout, 3) All "carnivores", 
-# 4) BRT+environment, 5) TC+environment, 6) null
+# hypotheses: 1) only environment, 2) Brown Trout CPUE, 3) other "top carnivore" CPUE, 
+# 4) BRT+environment, 5) OTC+environment, 6) null
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+# Longnose Dace
+  # Intermediate tolerance, benthic, not TC, native eurythermal
+  # Hypotheses:
+    # Environment: MEANT(+), %riffle(+), %cobble(+), mflow(+), avwidth(+), HAiFLS_alt(-)
+    # BRT influence: (~) Habitat overlap seemingly with BRT, benthic sp. 
+    # maybe less susceptible to predation 
+
+# Southern Redbelly Dace
+  # Intermediate tolerance, column, not TC, native eurythermal
+  # Hypotheses:
+    # Environment: MEANT(+), %fines(+), %run(+), mdepth(m), HAiFLS_alt(-)
+    # BRT influence: (-) column dwelling cyprinid - seems
+    # susceptible to predation
+
+#Sculpins
+  # Intolerant, not TC, native coldwater, benthic
+  # Hypotheses:
+    # Environment: MEANT(+), %cobble(+), HAiFLS_for(-), pctBrBnk(-), pctShade(+), pctpool(+)
+    # BRT influence: (+) habitat overlap, BRT invade -- abundance more
+    # of a function of habitat since intolerant, and coldwater
+
+#############################################################################
+
+# Create dataframe with habitat variables
+
+names(hab)
+huc12 <- read.csv("Data/Thesis/Spatial/sites_with_HUC12.csv", header = T) #data with HUC10 and HUC12 info
+summary(huc12)
+
+habby <- hab %>%
+  select(HUC_Site, HUC8, avwid, avdep, pctfines, pctcbbl, pctrock,
+         mFlow, pctRiffle, pctrun, pctslow, bnkbare.,
+         AvChnlShd., MEANT, HAiFLS_alt, HAiFLS_for) %>%
+  rename(newID=HUC_Site, pctriffle = pctRiffle, pctpool=pctslow,
+         BrBank = bnkbare., Canopy=AvChnlShd.) #trim the fat
+
+
+sgcn <- left_join(new2,habby, by="newID") #join hab to fish data
+skim(sgcn)
+
+sgcn[97,30:31] #<- c(89.50991,1.911236) -- missing HAiFLS values for UPI_165
+
+x <- mean(sgcn$MEANT, na.rm = T) #mean value of MEANT
+
+sgcn2 <- sgcn %>%
+  mutate_at(vars(MEANT), ~replace(.,is.na(.), x)) #replace NAs with mean value
+
+basins <- huc12 %>%
+  select(newID, HUC_10, HUC_12) #trim excess info
+
+sgcn3 <- left_join(sgcn2, basins, by="newID") #join basin info to fish&hab data
+
+names(sgcn3)
+
+sgcn4 <- sgcn3 %>%
+  select(newID, HUC8, HUC_10, HUC_12, 2:11, 13:16, SegLen, avwid, avdep, pctfines, pctcbbl, pctrock, mFlow, pctriffle,
+         pctrun, pctpool, BrBank, Canopy, MEANT, HAiFLS_alt, HAiFLS_for) #organize
+
+#Write tidy csv
+write.csv(sgcn4, "Data/Thesis/Tidy/SGCN_AllCovariates.csv", row.names = F)
+#############################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
