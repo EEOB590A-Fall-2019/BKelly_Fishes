@@ -471,6 +471,82 @@ sgcn4 <- sgcn3 %>%
 #Write tidy csv
 write.csv(sgcn4, "Data/Thesis/Tidy/SGCN_AllCovariates.csv", row.names = F)
 #############################################################################
+library(tidyverse)
+library(lme4)
+library(MASS)
+library(car)
+library(ggResidpanel)
+library(corrplot)
+library(GLMMadaptive)
+
+#load data
+mydat <- read.csv("Data/Thesis/Tidy/SGCN_AllCovariates.csv", header=T)
+
+#arrange watersheds as factors
+mydat$HUC10 <- as.factor(sub('.*(?=.{3}$)', '', mydat$HUC_10, perl=T))
+mydat$HUC12 <- as.factor(sub('.*(?=.{2}$)', '', mydat$HUC_12, perl=T))
+mydat$watershed_med <- as.factor(paste(mydat$HUC8, mydat$HUC10, sep = "_"))
+mydat$watershed_sm <- as.factor(paste(mydat$watershed_med, mydat$HUC12, sep = "_"))
+mydat$HUC8 <- as.factor(mydat$HUC8)
+
+
+#inspect response variable(s)
+
+ggplot(mydat, aes(LND_CPUE))+
+  geom_histogram(binwidth = 10) #Longnose Dace CPUE
+
+ggplot(mydat, aes(SRD_CPUE))+
+  geom_histogram(binwidth = 10) #Southern Redbelly Dace CPUE
+
+ggplot(mydat, aes(Cottus_CPUE))+
+  geom_histogram(binwidth = 10) #Sculpins CPUE
+
+
+#inspect collinearity of predictors
+predictors <- mydat %>%
+  select_at(vars(20:33))
+
+M <- cor(predictors)
+corrplot(M, method = "number", type = "upper")
+
+#correlated predictors to not include in same model (|r| > 0.6)
+
+  #Local:
+    #pctfines & pctcbbl
+    #pctfines & pctrock
+    #pctfines & pctriffle
+    #pctcbbl & pctrock
+    #pctcbbl & pctriffle
+    #pctrock & pctriffle
+    #mFlow & pctpool
+  #Catchment:
+    #HAiFLS_alt & HAiFLS_for
+
+#Honorable mentions (|r| > 0.5):
+    #avwid & avdep (0.5)
+    #pctriffle & pctrun (-0.54)
+    #pctrun & pctpool (-0.52)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# Let's build some CPUE models for each non-game fish with a combination of 
+# hypotheses: 1) only environment, 2) Brown Trout CPUE, 3) other "top carnivore" CPUE, 
+# 4) BRT+environment, 5) OTC+environment, 6) null
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+# Longnose Dace
+# Intermediate tolerance, benthic, not TC, native eurythermal
+# Hypotheses:
+# Environment: MEANT(+), %riffle(+), %cobble(+), mflow(+), avwidth(+), HAiFLS_alt(-)
+# BRT influence: (~) Habitat overlap seemingly with BRT, benthic sp. 
+# maybe less susceptible to predation 
+
+
+lnd_GLMM <- mixed_model(fixed = LND_CPUE ~ MEANT+pctcbbl+mFlow+avwid+HAiFLS_alt+BRT_CPUE,
+                        random = ~ 1 | watershed_sm, data = mydat,
+                        family = zi.negative.binomial(), zi_fixed = ~ 1, iter_EM=0)
+
+
+summary(lnd_GLMM)
 
 
 
