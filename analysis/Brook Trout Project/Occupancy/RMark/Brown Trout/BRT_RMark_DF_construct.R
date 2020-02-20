@@ -32,7 +32,9 @@ names(spc)
 spc2 <- spc %>%
   unite(newID, c(HUC8, Site), sep = "_", remove = T) %>%
   select(newID, POLY_AREA, Avg_Percen, Count_2) %>%
-  rename(Area_km2=POLY_AREA, AvgSlope=Avg_Percen, Cross_Cat=Count_2) %>%
+  rename(Area_km2=POLY_AREA, AvgSlope=Avg_Percen) %>%
+  mutate(Cross_Cat=(Count_2/Area_km2)) %>%
+  select(-Count_2) %>%
   filter(newID != "UPI_29" & newID != "YEL_33") 
 
 spc2[9,1] <- "UPI_57b"
@@ -52,6 +54,7 @@ envc <- envc %>%
 ########################################################
 #merge ch and covariate data
 brown <- full_join(brt, envc, by = "newID")
+skim(brown)
 ########################################################
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#

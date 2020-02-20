@@ -25,7 +25,7 @@ library(cowplot)
 ##Occupancy example
 #?weta
 
-
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 ##--------------------------------------------------------------------------------------------------------------------------------##
 #read in data, rearrange and change some labels to work with grouping ("freq"), and time-varying covariates ("Effort1 --> Effort3")
 brown <- read_csv("Data/Thesis/Tidy/BRT_RMark.csv", col_names = T)
@@ -64,7 +64,6 @@ pairs(psi.vars) #pairs method of visualizing relationships
   #HAiFLS_alt and HAiFLS_al2
   #HAiFLS_nat and HAiFLS_alt and HAiFLS_al2
   #HAiFLS_for and HAiFLS_alt and HAiFLS_al2 and HAiFLS_nat
-  #Area_km2 and Cross_Cat
   #Area_km2 and Area2
 #Both:
   # none >0.6
@@ -150,9 +149,7 @@ run.occ.cat=function()
   Psi.global3 = list(formula = ~HAiFLS_alt+Area2+AvgSlope+Cross_Cat)
   #Psi.global4 = list(formula = ~HAiFLS_al2+Area2+AvgSlope+Cross_Cat)
   Psi.global5 = list(formula = ~HAiFLS_for+Area_km2+AvgSlope+Cross_Cat)
-  Psi.global6 = list(formula = ~HAiFLS_nat+Area_km2+AvgSlope+Cross_Cat)
   Psi.global7 = list(formula = ~HAiFLS_for+Area2+AvgSlope+Cross_Cat)
-  Psi.global8 = list(formula = ~HAiFLS_nat+Area2+AvgSlope+Cross_Cat)
   #3 Covariates
   Psi.alt_area_slpe = list(formula = ~HAiFLS_alt+Area_km2+AvgSlope)
   Psi.alt_area_cross = list(formula = ~HAiFLS_alt+Area_km2+Cross_Cat)
@@ -161,20 +158,10 @@ run.occ.cat=function()
   Psi.for_area_slpe = list(formula = ~HAiFLS_for+Area_km2+AvgSlope)
   Psi.for_area_cross = list(formula = ~HAiFLS_for+Area_km2+Cross_Cat)
   Psi.for_slpe_cross = list(formula = ~HAiFLS_for+AvgSlope+Cross_Cat)
-  Psi.nat_area_slpe = list(formula = ~HAiFLS_nat+Area_km2+AvgSlope)
-  Psi.nat_area_cross = list(formula = ~HAiFLS_nat+Area_km2+Cross_Cat)
-  Psi.nat_slpe_cross = list(formula = ~HAiFLS_nat+AvgSlope+Cross_Cat)
-  
-  #Psi.al2_area_slpe = list(formula = ~HAiFLS_al2+Area_km2+AvgSlope)
-  #Psi.al2_area_cross = list(formula = ~HAiFLS_al2+Area_km2+Cross_Cat)
-  #Psi.al2_slpe_cross = list(formula = ~HAiFLS_al2+AvgSlope+Cross_Cat)
   Psi.ar2_slpe_crs = list(formula = ~Area2+AvgSlope+Cross_Cat)
   Psi.alt_ar2_slpe = list(formula = ~HAiFLS_alt+Area2+AvgSlope)
   Psi.alt_ar2_cross = list(formula = ~HAiFLS_alt+Area2+Cross_Cat)
-  #Psi.al2_ar2_slpe = list(formula = ~HAiFLS_al2+Area2+AvgSlope)
-  #Psi.al2_ar2_cross = list(formula = ~HAiFLS_al2+Area2+Cross_Cat)
   Psi.for_ar2_slpe = list(formula = ~HAiFLS_for+Area2+AvgSlope)
-  Psi.nat_ar2_cross = list(formula = ~HAiFLS_nat+Area2+Cross_Cat)
   #2 covariates
   Psi.alt_area = list(formula = ~HAiFLS_alt+Area_km2)
   Psi.alt_slpe = list(formula = ~HAiFLS_alt+AvgSlope)
@@ -185,26 +172,14 @@ run.occ.cat=function()
   Psi.for_area = list(formula = ~HAiFLS_for+Area_km2)
   Psi.for_slpe = list(formula = ~HAiFLS_for+AvgSlope)
   Psi.for_cross = list(formula = ~HAiFLS_for+Cross_Cat)
-  Psi.nat_area = list(formula = ~HAiFLS_nat+Area_km2)
-  Psi.nat_slpe = list(formula = ~HAiFLS_nat+AvgSlope)
-  Psi.nat_cross = list(formula = ~HAiFLS_nat+Cross_Cat)
-  
-  #Psi.al2_area = list(formula = ~HAiFLS_al2+Area_km2)
-  #Psi.al2_slpe = list(formula = ~HAiFLS_al2+AvgSlope)
-  #Psi.al2_cross = list(formula = ~HAiFLS_al2+Cross_Cat)
-  
   Psi.alt_ar2 = list(formula = ~HAiFLS_alt+Area2)
   Psi.ar2_slpe = list(formula = ~Area2+AvgSlope)
   Psi.ar2_cross = list(formula = ~Area2+Cross_Cat)
   Psi.for_ar2 = list(formula = ~HAiFLS_for+Area2)
-  Psi.nat_ar2 = list(formula = ~HAiFLS_nat+Area2)
-  
-  #Psi.al2_ar2 = list(formula = ~HAiFLS_al2+Area2)
+
   #~~~~~~~~~~~~~ Occupancy - single covariate ~~~~~~~~~~~~~~~~~~~~~~
   Psi.alt = list(formula = ~HAiFLS_alt)
-  #Psi.al2 = list(formula = ~HAiFLS_al2)
   Psi.for = list(formula = ~HAiFLS_for)
-  Psi.nat = list(formula = ~HAiFLS_nat)
   Psi.area = list(formula = ~Area_km2)
   Psi.ar2 = list(formula = ~Area2)
   Psi.slope = list(formula = ~AvgSlope)
@@ -855,3 +830,28 @@ brt.results.BEST$p.tv.effort.Psi.four.21$results$real
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sd(brown$mFlow)
+mean(brown$mFlow)
+mean(brown$mFlow)+sd(brown$mFlow)

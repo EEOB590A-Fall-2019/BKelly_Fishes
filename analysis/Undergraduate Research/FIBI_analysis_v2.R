@@ -3,11 +3,13 @@ library(ggplot2)
 library(car)
 library(MASS)
 library(ggResidpanel)
+library(cowplot)
 
 ### Massage the dataset
-mydat <- read.csv("FIBI_tidy2.csv", header = T)
+mydat <- read.csv("Data/Thesis/Tidy/FIBI_tidy2.csv", header = T)
 mydat$Rating <- factor(mydat$Rating, levels = c("Very Poor", "Poor", "Fair", "Good", "Excellent"))
 mydat$Year <- factor(mydat$Year, levels = c("2018", "2019"))
+mydat$HUC8 <- as.factor(mydat$HUC8)
 
 mydat$HUC10 <- as.factor(sub('.*(?=.{3}$)', '', mydat$HUC_10, perl=T))
 mydat$HUC12 <- as.factor(sub('.*(?=.{2}$)', '', mydat$HUC_12, perl=T))
@@ -34,3 +36,71 @@ Anova(mod_norm, type = "III")
 mod_pois <- glmer(IBIScore ~ Year + MEANT + pctrun + pctrock + pctShade + pctBrBnk + HAiFLS_dev + HAiFLS_for + (1|watershed_sm), data = mydat, family = poisson, nAGQ = 10)
 resid_panel(mod_pois)
 summary(mod_pois)
+
+
+### Models: additive, random effect for watershed (at smallest scale)
+# Normal model
+mod_norm2 <- lmer(IBIScore ~ HUC8 + MEANT + pctrun + pctrock + pctShade + pctBrBnk + HAiFLS_dev + HAiFLS_for + (1|watershed_sm), data = mydat)
+resid_panel(mod_norm2)
+ggsave("ResidPanel_FIBImod.png", dpi = 350)
+summary(mod_norm2)
+Anova(mod_norm2, type = "III")
+
+#significant covariates based on type III Anova:
+  # MEANT (-)***
+  # pctShade (+) *
+  # BrBnk (-) **
+
+#Use predict function to plot significant covariates
+mydat$predict <- predict(mod_norm2, type = "response")  
+
+#observed vs. predicted
+ggplot(mydat, aes(x = IBIScore, y = predict)) + geom_point()+
+  stat_smooth(method = "lm")+
+  theme_classic()+
+  labs(x="Observed FIBI Score", y="Predicted FIBI Score")+
+  theme(axis.title = element_text(size = 12, face = "bold"))
+
+ggsave("PredictedFIBI.png", dpi = 350)
+
+# replace your x-axis variable with the variable you're interested in: MEANT
+a <- ggplot(mydat, aes(x = MEANT, y = predict)) + geom_point()+
+  stat_smooth(method = "lm")+
+  theme_cowplot()+
+  labs(x="Max Daily Mean Stream Temp (°C)***", y="Predicted FIBI Score")+
+  theme(axis.title = element_text(size = 12, face = "bold"))
+a
+
+# replace your x-axis variable with the variable you're interested in: pctShade
+b <- ggplot(mydat, aes(x = pctShade, y = predict)) + geom_point() + 
+  stat_smooth(method = "lm")+
+  theme_cowplot()+
+  labs(x="Percent Canopy Cover*", y="Predicted FIBI Score")+
+  theme(axis.title = element_text(size = 12, face = "bold"))
+
+# replace your x-axis variable with the variable you're interested in: pctBrBnk
+c <- ggplot(mydat, aes(x = pctBrBnk, y = predict)) + geom_point() + 
+  stat_smooth(method = "lm")+
+  theme_cowplot()+
+  labs(x="Bare Bank Index**", y="Predicted FIBI Score")+
+  theme(axis.title = element_text(size = 12, face = "bold"))
+
+#cowplot
+plot_grid(a,c,b, align = "h", labels = NULL, nrow = 1)
+
+ggsave("FIBIcovars.png", dpi = 350)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

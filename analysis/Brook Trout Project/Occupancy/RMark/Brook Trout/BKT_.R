@@ -50,7 +50,6 @@ names(brook.df)
 #> Cross_Cat (-) "Road Crossing density of upstream catchment (count/Area_km2)"
 ##########################################################################################
 
-
 #---------------------------------------------#
 #standardize covariates to have center 0 --- Only effort variables (all high and 3-4 digits) (subtract mean and divide by sd)
 #---------------------------------------------#
@@ -627,5 +626,28 @@ P.predictions.eff1 <- p.pred.eff1$estimates %>%
 ##       Write tidy csv for P predictions         ## 
 ####################################################
 write_csv(P.predictions.eff1, "Data/Thesis/Tidy/BKT_CatchMod_DProb_predictions.csv")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
