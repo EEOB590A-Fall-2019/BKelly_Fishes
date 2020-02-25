@@ -30,22 +30,22 @@ par(mfrow = c(1,1))
 
 ### Models: additive, random effect for watershed (at smallest scale)
   # Normal model
-mod_norm <- lmer(IBIScore ~ Year + MEANT + pctrun + pctrock + pctShade + pctBrBnk + HAiFLS_dev + HAiFLS_for + (1|watershed_sm), data = mydat)
-resid_panel(mod_norm)
-summary(mod_norm)
-Anova(mod_norm, type = "III")
+#mod_norm <- lmer(IBIScore ~ Year + MEANT + pctrun + pctrock + pctShade + pctBrBnk + HAiFLS_dev + HAiFLS_for + (1|watershed_sm), data = mydat)
+#resid_panel(mod_norm)
+#summary(mod_norm)
+#Anova(mod_norm, type = "III")
 
   # Poisson model
-mod_pois <- glmer(IBIScore ~ Year + MEANT + pctrun + pctrock + pctShade + pctBrBnk + HAiFLS_dev + HAiFLS_for + (1|watershed_sm), data = mydat, family = poisson, nAGQ = 10)
-resid_panel(mod_pois)
-summary(mod_pois)
+#mod_pois <- glmer(IBIScore ~ Year + MEANT + pctrun + pctrock + pctShade + pctBrBnk + HAiFLS_dev + HAiFLS_for + (1|watershed_sm), data = mydat, family = poisson, nAGQ = 10)
+#resid_panel(mod_pois)
+#summary(mod_pois)
 
 
 ### Models: additive, random effect for watershed (at smallest scale)
-# Normal model
+# Normal model with 
 mod_norm2 <- lmer(IBIScore ~ HUC8 + MEANT + pctrun + pctrock + pctShade + pctBrBnk + HAiFLS_dev + HAiFLS_for + (1|watershed_sm), data = mydat)
 resid_panel(mod_norm2)
-ggsave("ResidPanel_FIBImod.png", dpi = 350)
+#ggsave("ResidPanel_FIBImod.png", dpi = 350)
 summary(mod_norm2)
 Anova(mod_norm2, type = "III")
 
@@ -54,13 +54,17 @@ Anova(mod_norm2, type = "III")
   # pctShade (+) *
   # BrBnk (-) **
 
-#Use predict function to plot significant covariates
-mydat$predict <- predict(mod_norm2, type = "response")  
+## Normal model without HUC8
+mod_norm3 <- lmer(IBIScore ~ MEANT + pctrun + pctrock + pctShade + pctBrBnk + HAiFLS_dev + HAiFLS_for + (1|watershed_sm), data = mydat)
+resid_panel(mod_norm3)
+summary(mod_norm3)
+Anova(mod_norm3, type = "III")
 
+AIC(mod_norm2, mod_norm3)
 ######################################################
 #predict while holding other values constant 
 #####################################################
-huc.mean <- as.factor(rep("YEL", 50)) #HUC8=YEL
+huc.YEL <- as.factor(rep("YEL", 50)) #HUC8=YEL
 huc.UPI <- as.factor(rep("UPI", 50)) #HUC8=UPI
 huc.LMAQ <- as.factor(rep("LMAQ", 50)) #HUC8=LMAQ
 temp.mean <- rep(mean(mydat$MEANT), 50) #MEANT
@@ -77,8 +81,8 @@ for.mean <- rep(mean(mydat$HAiFLS_for), 50) #HAiFLS_for
 #-----
 basin <- factor(levels(mydat$HUC8))
 basin
-watersheds <- levels(mydat$watershed_sm)
-watersheds
+watershed_sm <- levels(mydat$watershed_sm)
+watershed_sm
 
 #------------------------------------------
 #Dataframes for each predictor of interest
@@ -88,69 +92,169 @@ watersheds
 min.temp <- min(mydat$MEANT)
 max.temp <- max(mydat$MEANT)
 temp.values <- seq(from = min.temp, to = max.temp, length = 50)
-temperature <- data.frame(HUC8 = huc.mean, MEANT = temp.values, pctrun = run.mean,
+temperature <- data.frame(HUC8 = huc.YEL, MEANT = temp.values, pctrun = run.mean,
                           pctrock = rock.mean, pctShade = shade.mean, pctBrBnk = bare.mean,
                           HAiFLS_dev = dev.mean, HAiFLS_for = for.mean)
-temp.df <- crossing(temperature, watersheds)
+temp.df <- crossing(temperature, watershed_sm)
 
 #pctShade
 min.shade <- min(mydat$pctShade)
 max.shade <- max(mydat$pctShade)
 shade.values <- seq(from = min.shade, to = max.shade, length = 50)
-canopy <- data.frame(HUC8 = huc.mean, MEANT = temp.mean, pctrun = run.mean,
+canopy <- data.frame(HUC8 = huc.YEL, MEANT = temp.mean, pctrun = run.mean,
                           pctrock = rock.mean, pctShade = shade.values, pctBrBnk = bare.mean,
                           HAiFLS_dev = dev.mean, HAiFLS_for = for.mean)
-canopy.df <- crossing(canopy, watersheds)
+canopy.df <- crossing(canopy, watershed_sm)
 
 #pctBrBnk
 min.bare <- min(mydat$pctBrBnk)
 max.bare <- max(mydat$pctBrBnk)
 bare.values <- seq(from = min.bare, to = max.bare, length = 50)
-barebank <- data.frame(HUC8 = huc.mean, MEANT = temp.mean, pctrun = run.mean,
+barebank <- data.frame(HUC8 = huc.YEL, MEANT = temp.mean, pctrun = run.mean,
                      pctrock = rock.mean, pctShade = shade.mean, pctBrBnk = bare.values,
                      HAiFLS_dev = dev.mean, HAiFLS_for = for.mean)
-bare.df <- crossing(barebank, watersheds)
+bare.df <- crossing(barebank, watershed_sm)
 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Make predictions using new function with varying temperature values.
 
+predict.fun.temp <- function(my.lmm) {
+  predict(my.lmm, newdata = temperature, re.form = NA)   # This is predict.merMod 
+}
+temperature$ml.value <- predict.fun.temp(mod_norm2)
 
+# Make predictions in 100 bootstraps of the LMM. Use these to get confidence
+# intervals.
+lmm.temp.boots <- bootMer(mod_norm2, predict.fun.temp, nsim = 10000)
+temp.df.predicted <- cbind(temperature, confint(lmm.temp.boots))
+head(temp.df.predicted)
 
+#Make ggplot for predicted FIBI as function of temperature 
+a <- ggplot(data = temperature, aes(x=MEANT))+
+  geom_ribbon(aes(ymin=temp.df.predicted$`2.5 %`, ymax=temp.df.predicted$`97.5 %`), fill="grey70", alpha=0.7)+
+  geom_line(aes(y=ml.value), colour="Blue", size=1)+
+  labs(x="Max Daily Mean Stream Temp (°C)***",
+       y="Predicted FIBI Score")+
+  theme_cowplot()+
+  theme(axis.title = element_text(face = "bold"))+
+  theme(panel.grid = element_blank())+
+  theme(strip.text.x = element_text(size=10,face = "bold"))
 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Make predictions using new function with varying BareBank values.
+
+predict.fun.bare <- function(my.lmm) {
+  predict(my.lmm, newdata = barebank, re.form = NA)   # This is predict.merMod 
+}
+barebank$ml.value <- predict.fun.bare(mod_norm2)
+head(barebank)
+
+# Make predictions in 10000 bootstraps of the LMM. Use these to get confidence
+# intervals.
+lmm.bare.boots <- bootMer(mod_norm2, predict.fun.bare, nsim = 10000)
+bare.df.predicted <- cbind(barebank, confint(lmm.bare.boots))
+head(bare.df.predicted)
+
+#Make ggplot for predicted FIBI as function of barebank 
+b <- ggplot(data = barebank, aes(x=pctBrBnk))+
+  geom_ribbon(aes(ymin=bare.df.predicted$`2.5 %`, ymax=bare.df.predicted$`97.5 %`), fill="grey70", alpha=0.7)+
+  geom_line(aes(y=ml.value), colour="Blue", size=1)+
+  labs(x="Bare Bank Index**",
+       y="Predicted FIBI Score")+
+  theme_cowplot()+
+  theme(axis.title = element_text(face = "bold"))+
+  theme(panel.grid = element_blank())+
+  theme(strip.text.x = element_text(size=10,face = "bold"))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Make predictions using new function with varying canopy cover values.
+
+predict.fun.canopy <- function(my.lmm) {
+  predict(my.lmm, newdata = canopy, re.form = NA)   # This is predict.merMod 
+}
+canopy$ml.value <- predict.fun.canopy(mod_norm2)
+head(canopy)
+
+# Make predictions in 10000 bootstraps of the LMM. Use these to get confidence
+# intervals.
+lmm.canopy.boots <- bootMer(mod_norm2, predict.fun.canopy, nsim = 10000)
+canopy.df.predicted <- cbind(canopy, confint(lmm.canopy.boots))
+head(canopy.df.predicted)
+
+#Make ggplot for predicted FIBI as function of canopy 
+c <- ggplot(data = canopy, aes(x=pctShade))+
+  geom_ribbon(aes(ymin=canopy.df.predicted$`2.5 %`, ymax=canopy.df.predicted$`97.5 %`), fill="grey70", alpha=0.7)+
+  geom_line(aes(y=ml.value), colour="Blue", size=1)+
+  labs(x="Percent Canopy Cover*",
+       y="Predicted FIBI Score")+
+  theme_cowplot()+
+  theme(axis.title = element_text(face = "bold"))+
+  theme(panel.grid = element_blank())+
+  theme(strip.text.x = element_text(size=10,face = "bold"))
+
+#cowplot
+plot_grid(a,b,c, align = "h", labels = NULL, nrow = 1)
+
+ggsave("FIBIcovars.png", dpi = 350)
+
+####################################################
+######        Observed VS Predicted          ######
+###################################################
 
 #observed vs. predicted
-ggplot(mydat, aes(x = IBIScore, y = predict)) + geom_point()+
-  stat_smooth(method = "lm")+
-  theme_classic()+
-  labs(x="Observed FIBI Score", y="Predicted FIBI Score")+
-  theme(axis.title = element_text(size = 12, face = "bold"))
+names(mydat)
+mydat2 <- mydat %>%
+  select(IBIScore, HUC8, MEANT, pctrun, pctrock, 
+         pctShade, pctBrBnk, HAiFLS_dev, HAiFLS_for,
+         watershed_sm)
+
+
+# Make predictions using new function
+predict.fun <- function(my.lmm) {
+  predict(my.lmm, newdata = mydat2, re.form = NA)   # This is predict.merMod 
+}
+mydat2$estimate <- predict.fun(mod_norm2)
+head(mydat2)
+
+# Make predictions in 10000 bootstraps of the LMM. Use these to get confidence
+# intervals.
+lmm.boots <- bootMer(mod_norm2, predict.fun, nsim = 10000)
+FIBI.df.predicted <- cbind(mydat2, confint(lmm.boots))
+head(FIBI.df.predicted)
+
+#Make ggplot for predicted FIBI as function of canopy 
+ggplot(data = mydat2, aes(x=IBIScore))+
+  geom_ribbon(aes(ymin=FIBI.df.predicted$`2.5 %`, ymax=FIBI.df.predicted$`97.5 %`), fill="grey70", alpha=0.7)+
+  geom_line(aes(y=estimate), colour="Blue", size=1)+
+  labs(x="Observed FIBI Score",
+       y="Predicted FIBI Score")+
+  theme_cowplot()+
+  theme(axis.title = element_text(face = "bold"))+
+  theme(panel.grid = element_blank())+
+  theme(strip.text.x = element_text(size=10,face = "bold"))
+
+# Use 95% confidence interval instead of SEM
+ggplot(mydat2, aes(x=IBIScore, y=estimate)) + 
+  geom_errorbar(aes(ymin=FIBI.df.predicted$`2.5 %`, ymax=FIBI.df.predicted$`97.5 %`), width=.1)+
+  geom_point(
+    color="black",
+    fill="#69b3a2",
+    shape=21,
+    alpha=0.75,
+    size=4,
+    stroke = 2
+  )+
+  theme_cowplot()+
+  theme(legend.position = "bottom")+
+  labs(x="Observed FIBI Score", 
+       y="Predicted FIBI Score")+
+  ggtitle("Observed versus Predicted FIBI Score")+
+  theme(axis.title = element_text(size = 14, face = "bold"))
 
 ggsave("PredictedFIBI.png", dpi = 350)
 
-# replace your x-axis variable with the variable you're interested in: MEANT
-a <- ggplot(mydat, aes(x = MEANT, y = predict)) + geom_point()+
-  stat_smooth(method = "lm")+
-  theme_cowplot()+
-  labs(x="Max Daily Mean Stream Temp (°C)***", y="Predicted FIBI Score")+
-  theme(axis.title = element_text(size = 12, face = "bold"))
-a
 
-# replace your x-axis variable with the variable you're interested in: pctShade
-b <- ggplot(mydat, aes(x = pctShade, y = predict)) + geom_point() + 
-  stat_smooth(method = "lm")+
-  theme_cowplot()+
-  labs(x="Percent Canopy Cover*", y="Predicted FIBI Score")+
-  theme(axis.title = element_text(size = 12, face = "bold"))
 
-# replace your x-axis variable with the variable you're interested in: pctBrBnk
-c <- ggplot(mydat, aes(x = pctBrBnk, y = predict)) + geom_point() + 
-  stat_smooth(method = "lm")+
-  theme_cowplot()+
-  labs(x="Bare Bank Index**", y="Predicted FIBI Score")+
-  theme(axis.title = element_text(size = 12, face = "bold"))
-
-#cowplot
-plot_grid(a,c,b, align = "h", labels = NULL, nrow = 1)
-
-ggsave("FIBIcovars.png", dpi = 350)
 
 
 
