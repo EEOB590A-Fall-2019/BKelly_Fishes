@@ -27,10 +27,9 @@ temp19 <- read_csv("Data/Thesis/Tidy/TempData2019_DateTimeCelcius.csv", col_name
                    col_types = list(col_character(),col_character(),col_factor(),col_datetime(),
                                     col_time(),col_date(),col_double(),col_double())) 
 temp18 <- read_csv("Data/Thesis/Tidy/TempData18_DateTimeCelcius.csv", col_names = T,
-                   col_types = list(col_time(), col_double(), col_character(),
-                                    col_character(), col_character(), col_factor(),
-                                    col_character(),col_double()))
-
+                   col_types = list(col_character(),col_character(),col_factor(),col_character(),
+                                    col_date(),col_time(),col_double(),col_double()))
+names(temp18)
 
 ##make date and datetime class columns and arrage to match 2019 data
 names(temp18)
