@@ -6,7 +6,6 @@ library(ggResidpanel)
 library(cowplot)
 library(pracma)
 library(tidyverse)
-library(rsq)
 
 ### Massage the dataset
 mydat <- read.csv("Data/Thesis/Tidy/FIBI_tidy2.csv", header = T)
@@ -49,8 +48,6 @@ resid_panel(mod_norm2)
 #ggsave("ResidPanel_FIBImod.png", dpi = 350)
 summary(mod_norm2)
 Anova(mod_norm2, type = "III")
-rsq(mod_norm2)
-
 #significant covariates based on type III Anova:
   # MEANT (-)***
   # pctShade (+) *
@@ -179,8 +176,7 @@ predict.fun.canopy <- function(my.lmm) {
 canopy$ml.value <- predict.fun.canopy(mod_norm2)
 head(canopy)
 
-# Make predictions in 10000 bootstraps of the LMM. Use these to get confidence
-# intervals.
+# Make predictions in 10000 bootstraps of the LMM. Use these to get prediction intervals.
 lmm.canopy.boots <- bootMer(mod_norm2, predict.fun.canopy, nsim = 10000)
 canopy.df.predicted <- cbind(canopy, confint(lmm.canopy.boots))
 head(canopy.df.predicted)
@@ -200,7 +196,7 @@ c <- ggplot(data = canopy, aes(x=pctShade))+
 #cowplot
 plot_grid(a,b,c, align = "h", labels = NULL, nrow = 1)
 
-ggsave("FIBIcovars.png", dpi = 350)
+#ggsave("FIBIcovars.png", dpi = 350)
 
 ####################################################
 ######        Observed VS Predicted          ######
@@ -261,7 +257,7 @@ ggplot(mydat2, aes(x=estimate, y=IBIScore)) +
   ggtitle("Observed versus Predicted FIBI Score")+
   theme(axis.title = element_text(size = 14, face = "bold"))
 
-ggsave("Predicted_Xaxis_FIBI.png", dpi = 350)
+#ggsave("Predicted_Xaxis_FIBI.png", dpi = 350)
 
 
 ## Switch Axis Labels
@@ -287,7 +283,7 @@ ggplot(mydat2, aes(x=IBIScore, y=estimate)) +
   ggtitle("Predicted versus Observed FIBI Score")+
   theme(axis.title = element_text(size = 14, face = "bold"))
 
-ggsave("Predicted_Yaxis_FIBI.png", dpi = 350)
+#ggsave("Predicted_Yaxis_FIBI.png", dpi = 350)
 
 
 # Split color by watershed
@@ -311,7 +307,7 @@ ggplot(mydat2, aes(x=estimate, y=IBIScore, fill=HUC8)) +
   ggtitle("Observed versus Predicted FIBI Score")+
   theme(axis.title = element_text(size = 14, face = "bold"))
 
-ggsave("Predicted_Xaxis_HUC8_FIBI.png", dpi = 350)
+#ggsave("Predicted_Xaxis_HUC8_FIBI.png", dpi = 350)
 
 
 
