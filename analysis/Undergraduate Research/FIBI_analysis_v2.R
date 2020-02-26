@@ -57,12 +57,12 @@ rsq(mod_norm2)
   # BrBnk (-) **
 
 ## Normal model without HUC8
-mod_norm3 <- lmer(IBIScore ~ MEANT + pctrun + pctrock + pctShade + pctBrBnk + HAiFLS_dev + HAiFLS_for + (1|watershed_sm), data = mydat)
-resid_panel(mod_norm3)
-summary(mod_norm3)
-Anova(mod_norm3, type = "III")
+#mod_norm3 <- lmer(IBIScore ~ MEANT + pctrun + pctrock + pctShade + pctBrBnk + HAiFLS_dev + HAiFLS_for + (1|watershed_sm), data = mydat)
+#resid_panel(mod_norm3)
+#summary(mod_norm3)
+#Anova(mod_norm3, type = "III")
 
-AIC(mod_norm2, mod_norm3)
+#AIC(mod_norm2, mod_norm3)
 ######################################################
 #predict while holding other values constant 
 #####################################################
@@ -130,6 +130,7 @@ temperature$ml.value <- predict.fun.temp(mod_norm2)
 lmm.temp.boots <- bootMer(mod_norm2, predict.fun.temp, nsim = 10000)
 temp.df.predicted <- cbind(temperature, confint(lmm.temp.boots))
 head(temp.df.predicted)
+write.csv(temp.df.predicted, "Data/Thesis/Tidy/temp_df_predicted.csv", row.names = F)
 
 #Make ggplot for predicted FIBI as function of temperature 
 a <- ggplot(data = temperature, aes(x=MEANT))+
@@ -156,6 +157,7 @@ head(barebank)
 lmm.bare.boots <- bootMer(mod_norm2, predict.fun.bare, nsim = 10000)
 bare.df.predicted <- cbind(barebank, confint(lmm.bare.boots))
 head(bare.df.predicted)
+write.csv(bare.df.predicted, "Data/Thesis/Tidy/bare_df_predicted.csv", row.names = F)
 
 #Make ggplot for predicted FIBI as function of barebank 
 b <- ggplot(data = barebank, aes(x=pctBrBnk))+
@@ -182,6 +184,7 @@ head(canopy)
 lmm.canopy.boots <- bootMer(mod_norm2, predict.fun.canopy, nsim = 10000)
 canopy.df.predicted <- cbind(canopy, confint(lmm.canopy.boots))
 head(canopy.df.predicted)
+write.csv(canopy.df.predicted, "Data/Thesis/Tidy/canopy_df_predicted.csv", row.names = F)
 
 #Make ggplot for predicted FIBI as function of canopy 
 c <- ggplot(data = canopy, aes(x=pctShade))+
@@ -223,6 +226,7 @@ head(mydat2)
 lmm.boots <- bootMer(mod_norm2, predict.fun, nsim = 10000)
 FIBI.df.predicted <- cbind(mydat2, confint(lmm.boots))
 head(FIBI.df.predicted)
+write.csv(FIBI.df.predicted, "Data/Thesis/Tidy/FIBI_df_predicted.csv", row.names = F)
 
 #Make ggplot for predicted FIBI as function of canopy 
 ggplot(data = mydat2, aes(x=IBIScore))+
