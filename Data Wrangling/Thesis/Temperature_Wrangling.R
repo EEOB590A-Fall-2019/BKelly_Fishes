@@ -292,6 +292,10 @@ skim(Temps2018) #only three missing obs of $Temp_F out of 501028
 
 skim(Temps2019) #no missing obs!
 
+LMAQ_28b <- Temps2018 %>%
+  filter(SN18 == 4613)
+hist(LMAQ_28b$Temp_F)
+summary(LMAQ_28b$Temp_F)
 #Later we will need to check to make sure Temperature is at constant units across sites, Celcius for my work
 
 #For now let's write csv's of both and upload them to google drive as back-ups!
@@ -467,10 +471,14 @@ hist(t$avg) #wow, data distribution is actually normal
 
 SN4613 <- tmp18_joined %>%
   filter(SN18 == '4613') %>%
-  mutate(Temp_F = Temp_F*(9/5)+32)
+  mutate(Temp_F2 = Temp_F*(9/5)+32)
+max(SN4613$Temp_F)
+max(SN4613$Temp_F2)
 
-
-tmp18_joined[384690:390935,] <- SN4613
+tmp18_joined[384690:390935,4] <- SN4613$Temp_F2
+ppp <- tmp18_joined[384690:390935,4]
+str(ppp)
+summary(ppp)
 #now ALL obs are in F
 #ultimately not what we want - but much easier to mutate an entire column at one time :)
 
@@ -570,6 +578,7 @@ skim(tmpvars18_tidy)
 
 # First: merged raw data without the two "nohome" sites
 getwd()
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 write.csv(tmps2018, "Data/Thesis/Tidy/TempData_2018Sites_exclude_nohome.csv", row.names = F)
 
 # 2nd: data set with Date and Time separated and Celcius
