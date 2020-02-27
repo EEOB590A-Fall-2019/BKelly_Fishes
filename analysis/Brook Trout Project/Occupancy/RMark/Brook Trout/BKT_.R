@@ -154,7 +154,7 @@ setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/An
 #?make.design.data
 brook.process = process.data(brook.df, model="Occupancy", groups = "freq")
 bkt.ddl = make.design.data(brook.process)
-
+summary(brook.df$pctex21)
 ###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 ####   Temperature covariates        ####
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
@@ -362,12 +362,17 @@ write.csv(BKT.AICc.Table, "Data/Thesis/Tidy/BrookTrout_OccuMod_Table.csv", row.n
 
 #look at summary of top model(s)
 summary(bkt.results$p.tv.effort.Psi.mixed75) #1st, DAICc = 0, pctex21, pctBrBnk, HAiFLS_for (ci for pctBrBnk overlaps 0)
-summary(bkt.results$p.tv.effort.Psi.mixed43) #2nd, DAICc = 0.480, pctex21, pctpool, pctBrBnk, HAiFLS_for (ci for pctpool & pctBrBnk overlaps 0)
-summary(bkt.results$p.tv.effort.Psi.mixed82) #3rd, DAICc = 0.549, pctex21, BRT_100m, HAiFLS_for (ci for BRT_100m overlaps 0)
-summary(bkt.results$p.tv.effort.Psi.pct21_for) #4th, Delta AICc = 0.713, no uninformative parameters
+summary(bkt.results$p.tv.effort.Psi.mixed43) #2nd, DAICc = 0.177, pctex21, pctpool, pctBrBnk, HAiFLS_for (ci for all)
+summary(bkt.results$p.tv.effort.Psi.pct21_bare) #3rd,  pctex21, pctBrBnk
+summary(bkt.results$p.tv.effort.Psi.pct21_for) #7th, Delta AICc = 0.713, no uninformative parameters
 
+bkt.results$p.tv.effort.Psi.mixed75$results$real
+bkt.results$p.tv.effort.Psi.pct21_bare$results$real
 bkt.results$p.tv.effort.Psi.pct21_for$results$real 
-top.mod <- bkt.results$p.tv.effort.Psi.pct21_for
+
+bkt.results$p.tv.effort.Psi.forest$results$real
+
+top.mod <- bkt.results$p.tv.effort.Psi.mixed75
 
 cleanup(ask = F)
 
@@ -382,20 +387,28 @@ temp.values <- seq(from = min.temp, to = max.temp, length = 100)
 min.for <- min(brook.df$HAiFLS_for)
 max.for <- max(brook.df$HAiFLS_for)
 for.values <- seq(from = min.for, to = max.for, length = 100)
+min.bare <- min(brook.df$pctBrBnk)
+max.bare <- max(brook.df$pctBrBnk)
+bare.values <- seq(from = min.bare, to = max.bare, length = 100)
 
 bkt.ddl #par.index = 1, model.index = 4
 
-##################################################
-#predict while holding one value constant (forest)
-##################################################
+###############################################################
+#predict while holding other values constant (forest&pctBrBnk)
+##############################################################
 for.mean <- rep(mean(brook.df$HAiFLS_for), 100)
 for.minus <- rep(0, 100)
 for.plus <- rep(mean(brook.df$HAiFLS_for)+sd(brook.df$HAiFLS_for), 100)
 
+bare.mean <- rep(mean(brook.df$pctBrBnk), 100)
+bare.minus <- rep(mean(brook.df$pctBrBnk)-sd(brook.df$pctBrBnk), 100)
+bare.plus <- rep(mean(brook.df$pctBrBnk)+sd(brook.df$pctBrBnk), 100)
+
 #predictions of Psi for full range of p21 & -1SD of forest values (would be negative so just forest=0)
 p21.pred.minus <- covariate.predictions(top.mod, 
                                   data = data.frame(pctex21 = temp.values,
-                                                    HAiFLS_for = for.minus),
+                                                    HAiFLS_for = for.minus,
+                                                    pctBrBnk = bare.minus),
                                   indices = 4)
 
 p21.pred.minus$estimates
