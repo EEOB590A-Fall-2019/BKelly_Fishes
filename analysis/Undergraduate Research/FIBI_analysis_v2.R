@@ -45,7 +45,7 @@ par(mfrow = c(1,1))
 # Normal model with 
 mod_norm2 <- lmer(IBIScore ~ HUC8 + MEANT + pctrun + pctrock + pctShade + pctBrBnk + HAiFLS_dev + HAiFLS_for + (1|watershed_sm), data = mydat)
 resid_panel(mod_norm2)
-#ggsave("ResidPanel_FIBImod.png", dpi = 350)
+ggsave("ResidPanel_FIBImod.png", dpi = 350)
 summary(mod_norm2)
 Anova(mod_norm2, type = "III")
 #significant covariates based on type III Anova:
@@ -139,6 +139,7 @@ a <- ggplot(data = temperature, aes(x=MEANT))+
   theme(axis.title = element_text(face = "bold"))+
   theme(panel.grid = element_blank())+
   theme(strip.text.x = element_text(size=10,face = "bold"))
+a
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Make predictions using new function with varying BareBank values.
@@ -166,7 +167,7 @@ b <- ggplot(data = barebank, aes(x=pctBrBnk))+
   theme(axis.title = element_text(face = "bold"))+
   theme(panel.grid = element_blank())+
   theme(strip.text.x = element_text(size=10,face = "bold"))
-
+b
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Make predictions using new function with varying canopy cover values.
 
@@ -192,11 +193,11 @@ c <- ggplot(data = canopy, aes(x=pctShade))+
   theme(axis.title = element_text(face = "bold"))+
   theme(panel.grid = element_blank())+
   theme(strip.text.x = element_text(size=10,face = "bold"))
-
+c
 #cowplot
 plot_grid(a,b,c, align = "h", labels = NULL, nrow = 1)
 
-#ggsave("FIBIcovars.png", dpi = 350)
+ggsave("FIBIcovars.png", dpi = 350)
 
 ####################################################
 ######        Observed VS Predicted          ######
@@ -216,6 +217,7 @@ predict.fun <- function(my.lmm) {
 }
 mydat2$estimate <- predict.fun(mod_norm2)
 head(mydat2)
+mydat2[32,11] <- 0
 
 # Make predictions in 10000 bootstraps of the LMM. Use these to get confidence
 # intervals.
@@ -223,17 +225,6 @@ lmm.boots <- bootMer(mod_norm2, predict.fun, nsim = 10000)
 FIBI.df.predicted <- cbind(mydat2, confint(lmm.boots))
 head(FIBI.df.predicted)
 write.csv(FIBI.df.predicted, "Data/Thesis/Tidy/FIBI_df_predicted.csv", row.names = F)
-
-#Make ggplot for predicted FIBI as function of canopy 
-ggplot(data = mydat2, aes(x=IBIScore))+
-  geom_ribbon(aes(ymin=FIBI.df.predicted$`2.5 %`, ymax=FIBI.df.predicted$`97.5 %`), fill="grey70", alpha=0.7)+
-  geom_line(aes(y=estimate), colour="Blue", size=1)+
-  labs(x="Observed FIBI Score",
-       y="Predicted FIBI Score")+
-  theme_cowplot()+
-  theme(axis.title = element_text(face = "bold"))+
-  theme(panel.grid = element_blank())+
-  theme(strip.text.x = element_text(size=10,face = "bold"))
 
 # Use 95% confidence interval instead of SEM
 ggplot(mydat2, aes(x=estimate, y=IBIScore)) + 
@@ -257,7 +248,32 @@ ggplot(mydat2, aes(x=estimate, y=IBIScore)) +
   ggtitle("Observed versus Predicted FIBI Score")+
   theme(axis.title = element_text(size = 14, face = "bold"))
 
-#ggsave("Predicted_Xaxis_FIBI.png", dpi = 350)
+ggsave("Predicted_Xaxis_FIBI.png", dpi = 350)
+
+## Different axis breaks
+# Use 95% confidence interval instead of SEM
+ggplot(mydat2, aes(x=estimate, y=IBIScore)) + 
+  #geom_errorbar(aes(ymax=FIBI.df.predicted$`2.5 %`, ymin=FIBI.df.predicted$`97.5 %`), width=.1)+
+  geom_point(
+    color="black",
+    fill="#69b3a2",
+    shape=21,
+    alpha=0.75,
+    size=4,
+    stroke = 2
+  )+
+  scale_y_continuous(limits = c(0,110))+
+  scale_x_continuous(limits = c(0,110))+
+  geom_abline(intercept = 0, slope = 1, color="blue", linetype="dashed",
+              size=1)+
+  theme_cowplot()+
+  theme(legend.position = "bottom")+
+  labs(y="Observed FIBI Score", 
+       x="Predicted FIBI Score")+
+  ggtitle("Observed versus Predicted FIBI Score")+
+  theme(axis.title = element_text(size = 14, face = "bold"))
+
+ggsave("Predicted_Xaxis_FIBI.png", dpi = 350)
 
 
 ## Switch Axis Labels

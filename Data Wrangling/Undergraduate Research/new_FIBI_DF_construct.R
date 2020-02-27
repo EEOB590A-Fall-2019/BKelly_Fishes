@@ -52,7 +52,7 @@ newDF2 <- newDF %>%
 #subset
 ndf <- newDF %>%
   select(newID, HUC8, HUC_10, HUC_12, Year, IBIScore, Rating, MEANT, pctrun, pctrock, pctShade, pctBrBnk, HAiFLS_dev, HAiFLS_for)
-
+names(ndf)
 #Write csvs
 write.csv(newDF2, "Data/Thesis/Tidy/FIBI_full.csv", row.names = F)
 write.csv(ndf, "Data/Thesis/Tidy/FIBI_tidy2.csv", row.names = F)
