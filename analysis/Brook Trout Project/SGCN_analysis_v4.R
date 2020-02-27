@@ -2,9 +2,11 @@ library(tidyverse)
 library(GLMMadaptive)
 library(emmeans)
 library(reshape2)
+library(skimr)
+library(MuMIn)
 
 #load data
-getwd()
+#getwd()
 mydat <- read.csv("Data/Thesis/Tidy/SGCN_AllCovariates.csv", header=T)
 
 #arrange watersheds as factors
@@ -15,6 +17,7 @@ mydat$watershed_sm <- as.factor(paste(mydat$watershed_med, mydat$HUC12, sep = "_
 mydat$HUC8 <- as.factor(mydat$HUC8)
 mydat <- mydat %>%
   mutate_at(vars(c("BRT","LND","SRD","Cottus")), as.factor)
+skim(mydat)
 
 # Look at covariates
 mydat_org <- mydat
@@ -24,33 +27,102 @@ ggplot(mydat, aes(x = BRT_CPUE)) + geom_histogram(binwidth = 1) # note: one real
   mydat[which(mydat$BRT_CPUE > 50),] # row 115
   ## this data point is valid, but mostly all were YOY - ask Mike about beefing up plain BRT_CPUE
   ## to potentially BRT_CPUE if > 6inches, or Avg Body Condition, etc.
-ggplot(mydat, aes(x = MEANT)) + geom_histogram(binwidth = 1) # another really big outlier -- No!
-  mydat[which(mydat$MEANT > 50),] # row 84
-  ## this is NOT correct. Will get to the bottom of it. 
+ggplot(mydat, aes(x = MEANT)) + geom_histogram(binwidth = 1) 
 ggplot(mydat, aes(x = pctcbbl)) + geom_histogram(binwidth = 0.1)
 ggplot(mydat, aes(x = mFlow)) + geom_histogram(binwidth = 0.01)
 ggplot(mydat, aes(x = avwid)) + geom_histogram(binwidth = 0.1)
 ggplot(mydat, aes(x = HAiFLS_alt)) + geom_histogram(binwidth = 1)
 
 # Remove outlier rows 115 and 84
-mydat <- mydat[-c(84, 115), ]
+mydat2 <- mydat2[-c(115), ]
 
 #Longnose Dace all additive global model with watershed_small as random effect
 #zero-inflated negative binomial model fitted using GLMMadaptive package, mixed_model() function
 
-negbin_mod <- mixed_model(fixed = LND_CPUE ~ BRT_CPUE + MEANT + pctcbbl + mFlow + avwid + HAiFLS_alt,
+lnd1 <- mixed_model(fixed = LND_CPUE ~ BRT_CPUE + MEANT + pctcbbl + mFlow + avwid + HAiFLS_alt,
                         random = ~ 1 | watershed_sm, data = mydat,
                         family = zi.negative.binomial(), zi_fixed = ~ 1,
                         zi_random = ~ 1 | watershed_sm, iter_EM=0)
+summary(lnd1)
 
-summary(negbin_mod)
+lnd2 <- mixed_model(fixed = LND_CPUE ~ MEANT + pctcbbl + mFlow + avwid + HAiFLS_alt,
+                              random = ~ 1 | watershed_sm, data = mydat,
+                              family = zi.negative.binomial(), zi_fixed = ~ 1,
+                              zi_random = ~ 1 | watershed_sm, iter_EM=0)
+
+lnd3 <- mixed_model(fixed = LND_CPUE ~ BRT_CPUE + pctcbbl + mFlow + avwid + HAiFLS_alt,
+                               random = ~ 1 | watershed_sm, data = mydat,
+                               family = zi.negative.binomial(), zi_fixed = ~ 1,
+                               zi_random = ~ 1 | watershed_sm, iter_EM=0)
+
+lnd4 <- mixed_model(fixed = LND_CPUE ~ BRT_CPUE + MEANT + mFlow + avwid + HAiFLS_alt,
+                               random = ~ 1 | watershed_sm, data = mydat,
+                               family = zi.negative.binomial(), zi_fixed = ~ 1,
+                               zi_random = ~ 1 | watershed_sm, iter_EM=0)
+
+lnd5 <- mixed_model(fixed = LND_CPUE ~ BRT_CPUE + MEANT + pctcbbl + avwid + HAiFLS_alt,
+                               random = ~ 1 | watershed_sm, data = mydat,
+                               family = zi.negative.binomial(), zi_fixed = ~ 1,
+                               zi_random = ~ 1 | watershed_sm, iter_EM=0)
+summary(lnd5)
+
+lnd6 <- mixed_model(fixed = LND_CPUE ~ BRT_CPUE + MEANT + pctcbbl + mFlow + HAiFLS_alt,
+                               random = ~ 1 | watershed_sm, data = mydat,
+                               family = zi.negative.binomial(), zi_fixed = ~ 1,
+                               zi_random = ~ 1 | watershed_sm, iter_EM=0)
+
+lnd7 <- mixed_model(fixed = LND_CPUE ~ BRT_CPUE + MEANT + pctcbbl + mFlow + avwid,
+                               random = ~ 1 | watershed_sm, data = mydat,
+                               family = zi.negative.binomial(), zi_fixed = ~ 1,
+                               zi_random = ~ 1 | watershed_sm, iter_EM=0)
+
+AIC(lnd1,lnd2,lnd3,lnd4,lnd5,lnd6,lnd7)
+
+lnd_2.1 <- mixed_model(fixed = LND_CPUE ~ MEANT + pctcbbl + avwid + HAiFLS_alt,
+                    random = ~ 1 | watershed_sm, data = mydat,
+                    family = zi.negative.binomial(), zi_fixed = ~ 1,
+                    zi_random = ~ 1 | watershed_sm, iter_EM=0)
+lnd_2.2 <- mixed_model(fixed = LND_CPUE ~ BRT_CPUE + pctcbbl + avwid + HAiFLS_alt,
+                       random = ~ 1 | watershed_sm, data = mydat,
+                       family = zi.negative.binomial(), zi_fixed = ~ 1,
+                       zi_random = ~ 1 | watershed_sm, iter_EM=0)
+lnd_2.3 <- mixed_model(fixed = LND_CPUE ~ BRT_CPUE + MEANT + avwid + HAiFLS_alt,
+                       random = ~ 1 | watershed_sm, data = mydat,
+                       family = zi.negative.binomial(), zi_fixed = ~ 1,
+                       zi_random = ~ 1 | watershed_sm, iter_EM=0)
+lnd_2.4 <- mixed_model(fixed = LND_CPUE ~ BRT_CPUE + MEANT + pctcbbl + HAiFLS_alt,
+                       random = ~ 1 | watershed_sm, data = mydat,
+                       family = zi.negative.binomial(), zi_fixed = ~ 1,
+                       zi_random = ~ 1 | watershed_sm, iter_EM=0)
+lnd_2.5 <- mixed_model(fixed = LND_CPUE ~ BRT_CPUE + MEANT + pctcbbl + avwid,
+                       random = ~ 1 | watershed_sm, data = mydat,
+                       family = zi.negative.binomial(), zi_fixed = ~ 1,
+                       zi_random = ~ 1 | watershed_sm, iter_EM=0)
+AIC(lnd1,lnd2,lnd3,lnd4,lnd5,lnd6,lnd7,
+    lnd_2.1,lnd_2.2,lnd_2.3,lnd_2.4,lnd_2.5)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+#Southern Redbally Dace all additive global model with watershed_small as random effect
+#zero-inflated negative binomial model fitted using GLMMadaptive package, mixed_model() function
+# Intermediate tolerance, column, not TC, native eurythermal
+# Hypotheses:
+# Environment: MEANT(+), %fines(+), %run(+), avdep(m), HAiFLS_alt(-)
+# BRT influence: (-) column dwelling cyprinid - seems
+# susceptible to predation
+
+srd.mod <- mixed_model(fixed = SRD_CPUE ~ BRT_CPUE + MEANT + pctfines + avdep + HAiFLS_alt,
+                    random = ~ 1 | watershed_sm, data = mydat,
+                    family = zi.negative.binomial(), zi_fixed = ~ 1,
+                    zi_random = ~ 1 | watershed_sm, iter_EM=0)
+summary(srd.mod)
+
 
 # emmeans on continuous predictors
   # See Russ Lenth's long response to this question:
   # https://stackoverflow.com/questions/52381434/emmeans-continuous-independant-variable
   # Also the "basics" vignette to emmeans
 
-ref_grid(negbin_mod) #these are the mean values for all the covariates
+ref_grid(lnd5) #these are the mean values for all the covariates
 
   # look at temperature and BRT_CPUE
 summary(mydat$MEANT)
