@@ -162,6 +162,7 @@ plot2019 <-ggplot(data = temp19.months, aes(x = Temp_C, y = factor(month_x), fil
   theme(legend.position = "none",
         axis.title.x = element_text(size = "14"),
         axis.title.y = element_text(size = "14"))
+plot2019
 ggsave("plot2019.png",width = 10, height = 8, units = "in", dpi = 350)
 
 
@@ -185,6 +186,7 @@ plot2018 <-ggplot(data = temp18.months, aes(x = Temp_C, y = factor(month_x), fil
   theme(legend.position = "none",
         axis.title.x = element_text(size = "14"),
         axis.title.y = element_text(size = "14"))
+plot2018
 ggsave("plot2018.png",width = 10, height = 8, units = "in", dpi = 350)
 #plot2018
 

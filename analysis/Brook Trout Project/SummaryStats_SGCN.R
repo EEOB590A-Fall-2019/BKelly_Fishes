@@ -450,15 +450,18 @@ habby <- hab %>%
 sgcn <- left_join(new2,habby, by="newID") #join hab to fish data
 skim(sgcn)
 
-sgcn[97,30:31] #<- c(89.50991,1.911236) -- missing HAiFLS values for UPI_165
+sgcn[97,30:31] <- c(89.50991,1.911236) #-- missing HAiFLS values for UPI_165
 
 x <- mean(sgcn$MEANT, na.rm = T) #mean value of MEANT
+x
 
 sgcn2 <- sgcn %>%
   mutate_at(vars(MEANT), ~replace(.,is.na(.), x)) #replace NAs with mean value
 
 basins <- huc12 %>%
   select(newID, HUC_10, HUC_12) #trim excess info
+basins$newID <- as.character(basins$newID)
+basins[47,1] <- "YEL_97b"
 
 sgcn3 <- left_join(sgcn2, basins, by="newID") #join basin info to fish&hab data
 
@@ -467,6 +470,11 @@ names(sgcn3)
 sgcn4 <- sgcn3 %>%
   select(newID, HUC8, HUC_10, HUC_12, 2:11, 13:16, SegLen, avwid, avdep, pctfines, pctcbbl, pctrock, mFlow, pctriffle,
          pctrun, pctpool, BrBank, Canopy, MEANT, HAiFLS_alt, HAiFLS_for) #organize
+
+sgcn4[97,3:4] <- sgcn4[88,3:4] ##missing values for UPI_165
+sgcn4[88,3:4] ##UPI_165 is in the same HUC_12 and HUC_10 as UPI_23 & UPI_25
+
+skim(sgcn4)
 
 #Write tidy csv
 write.csv(sgcn4, "Data/Thesis/Tidy/SGCN_AllCovariates.csv", row.names = F)
@@ -481,6 +489,7 @@ library(GLMMadaptive)
 
 #load data
 mydat <- read.csv("Data/Thesis/Tidy/SGCN_AllCovariates.csv", header=T)
+skim(mydat)
 
 #arrange watersheds as factors
 mydat$HUC10 <- as.factor(sub('.*(?=.{3}$)', '', mydat$HUC_10, perl=T))

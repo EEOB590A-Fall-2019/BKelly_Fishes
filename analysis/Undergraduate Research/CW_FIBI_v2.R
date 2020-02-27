@@ -212,7 +212,8 @@ IBI <- metrics2 %>%
   select(uid, HUC8, site, numspecies, TopCarn_ab, total_ab, numCWspp, numTOLspp, numMINspp, numBENspp, CW_ab, 
          pctCWindv, Intol_ab, pctINTOLindv, trout_ab, pctBKTsalmon, pctWSUindv, pctTOPCARNindv, CWindv150, WW_ab, WWindv150)
 head(IBI)
-
+skim(IBI)
+IBI[72,3] <- "97b"
 #create new df or columns with the actual scores of each metric using ifelse statements
 
 #M1
@@ -456,7 +457,7 @@ hab3 <- hab2 %>%
 #---------------
 
 IBI2$site <- as.character(IBI2$site)
-IBI2[71,3] <- "97b"
+
 
 #create newID column for IBI df 
 IBI3 <- IBI2 %>%
