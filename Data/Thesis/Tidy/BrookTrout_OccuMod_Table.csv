@@ -1,233 +1,233 @@
 "p","Psi","model","npar","AICc","DeltaAICc","weight","Neg2LnL"
-"~effort","~pctex21 + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctex21 + pctBrBnk + HAiFLS_for)",6,153.541351374046,0,0.0485861620870533,140.90013
-"~effort","~pctex21 + pctpool + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctex21 + pctpool + pctBrBnk + HAiFLS_for)",7,153.718848461538,0.177497087492668,0.0444600136652948,138.85731
-"~effort","~pctex21 + pctBrBnk","p(~effort)Psi(~pctex21 + pctBrBnk)",5,153.859755454545,0.318404080499676,0.0414354468827404,143.40521
-"~effort","~pctex21 + pctpool + pctBrBnk","p(~effort)Psi(~pctex21 + pctpool + pctBrBnk)",6,153.909151374046,0.367800000000017,0.040424610069636,141.26793
-"~effort","~pctex21 + BRT_100m + HAiFLS_for","p(~effort)Psi(~pctex21 + BRT_100m + HAiFLS_for)",6,154.265811374046,0.724460000000022,0.0338219080488079,141.62459
-"~effort","~pctex21 + BRT_100m + pctBrBnk","p(~effort)Psi(~pctex21 + BRT_100m + pctBrBnk)",6,154.330771374046,0.789420000000007,0.0327410211012503,141.68955
-"~effort","~pctex21 + HAiFLS_for","p(~effort)Psi(~pctex21 + HAiFLS_for)",5,154.386325454545,0.844974080499668,0.0318440871943325,143.93178
-"~effort","~pctex21 + BRT_100m","p(~effort)Psi(~pctex21 + BRT_100m)",5,154.409205454545,0.867854080499654,0.0314818666885392,143.95466
-"~effort","~pctex21 + pctpool + BRT_100m + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctex21 + pctpool + BRT_100m + pctBrBnk + HAiFLS_for)",8,154.615329069767,1.07397769572165,0.0283988857937489,137.49905
-"~effort","~pctex21","p(~effort)Psi(~pctex21)",4,154.729371879699,1.18802050565344,0.0268248449063569,146.42862
-"~effort","~pctex21 + pctpool + HAiFLS_for","p(~effort)Psi(~pctex21 + pctpool + HAiFLS_for)",6,155.132361374046,1.59101000000001,0.0219295218701173,142.49114
-"~effort","~pctex21 + pctpool + BRT_100m + HAiFLS_for","p(~effort)Psi(~pctex21 + pctpool + BRT_100m + HAiFLS_for)",7,155.149308461538,1.60795708749265,0.021744486168415,140.28777
-"~effort","~pctex21 + pctpool + BRT_100m","p(~effort)Psi(~pctex21 + pctpool + BRT_100m)",6,155.287361374046,1.74601000000001,0.0202941721707036,142.64614
-"~effort","~pctex21 + pctrock + pctBrBnk","p(~effort)Psi(~pctex21 + pctrock + pctBrBnk)",6,155.444221374046,1.90287000000001,0.0187633173626675,142.803
-"~effort","~pctex21 + pctpool","p(~effort)Psi(~pctex21 + pctpool)",5,155.451925454545,1.91057408049966,0.0186911793374545,144.99738
-"~effort","~pctex21 + pctrock + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctex21 + pctrock + pctBrBnk + HAiFLS_for)",7,155.509968461538,1.96861708749265,0.0181565289156476,140.64843
-"~effort","~pctex21 + pctrock + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctex21 + pctrock + pctBrBnk + HAiFLS_for)",7,155.509968461538,1.96861708749265,0.0181565289156476,140.64843
-"~effort","~pctex21 + pctpool + pctrock + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctex21 + pctpool + pctrock + pctBrBnk + HAiFLS_for)",8,155.552149069767,2.01079769572164,0.0177776119809592,138.43587
-"~effort","~pctex21 + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~pctex21 + pctBrBnk + pctShade + HAiFLS_for)",7,155.594118461538,2.05276708749267,0.0174084412152512,140.73258
-"~effort","~pctex21 + pctrock","p(~effort)Psi(~pctex21 + pctrock)",5,155.684945454545,2.14359408049967,0.0166355458020332,145.2304
-"~effort","~pctex21 + pctShade + HAiFLS_for","p(~effort)Psi(~pctex21 + pctShade + HAiFLS_for)",6,155.826261374046,2.28491,0.0155006779184643,143.18504
-"~effort","~pctex21 + pctpool + pctShade + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctex21 + pctpool + pctShade + pctBrBnk + HAiFLS_for)",8,155.835389069767,2.29403769572164,0.0154300963669464,138.71911
-"~effort","~pctex21 + pctShade + pctBrBnk","p(~effort)Psi(~pctex21 + pctShade + pctBrBnk)",6,155.939321374046,2.39797000000002,0.0146487317191509,143.2981
-"~effort","~pctex21 + pctrock + HAiFLS_for","p(~effort)Psi(~pctex21 + pctrock + HAiFLS_for)",6,155.980941374046,2.43959000000001,0.0143470415852363,143.33972
-"~effort","~pctex21 + pctpool + pctShade + pctBrBnk","p(~effort)Psi(~pctex21 + pctpool + pctShade + pctBrBnk)",7,156.020018461538,2.47866708749265,0.0140694420619944,141.15848
-"~effort","~pctex21 + pctpool + pctrock","p(~effort)Psi(~pctex21 + pctpool + pctrock)",6,156.030931374046,2.48958000000002,0.0139928818305978,143.38971
-"~effort","~pctex21 + BRT_100m + pctShade + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctex21 + BRT_100m + pctShade + pctBrBnk + HAiFLS_for)",8,156.150229069767,2.60887769572165,0.0131826281260935,139.03395
-"~effort","~pctex21 + pctrock + BRT_100m","p(~effort)Psi(~pctex21 + pctrock + BRT_100m)",6,156.256461374046,2.71511000000001,0.0125006889606814,143.61524
-"~effort","~pctex21 + pctrock + BRT_100m + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctex21 + pctrock + BRT_100m + pctBrBnk + HAiFLS_for)",8,156.400779069767,2.85942769572165,0.0116304296812238,139.2845
-"~effort","~pctex21 + pctrock + BRT_100m + HAiFLS_for","p(~effort)Psi(~pctex21 + pctrock + BRT_100m + HAiFLS_for)",7,156.417728461538,2.87637708749264,0.0115322818007952,141.55619
-"~effort","~pctex21 + pctpool + pctrock + HAiFLS_for","p(~effort)Psi(~pctex21 + pctpool + pctrock + HAiFLS_for)",7,156.488548461538,2.94719708749267,0.0111310690946333,141.62701
-"~effort","~pctex21 + BRT_100m + pctShade + pctBrBnk","p(~effort)Psi(~pctex21 + BRT_100m + pctShade + pctBrBnk)",7,156.508178461538,2.96682708749265,0.0110223520531137,141.64664
-"~effort","~pctex21 + BRT_100m + pctShade","p(~effort)Psi(~pctex21 + BRT_100m + pctShade)",6,156.549571374046,3.00822000000002,0.010796572899414,143.90835
-"~effort","~pctex21 + pctpool + pctShade + HAiFLS_for","p(~effort)Psi(~pctex21 + pctpool + pctShade + HAiFLS_for)",7,156.581048461538,3.03969708749267,0.0106279807420814,141.71951
-"~effort","~pctex21 + pctpool + BRT_100m + pctShade + HAiFLS_for","p(~effort)Psi(~pctex21 + pctpool + BRT_100m + pctShade + HAiFLS_for)",8,156.591349069767,3.04999769572163,0.0105733841244132,139.47507
-"~effort","~pctex21 + pctpool + pctrock + BRT_100m + pctBrBnk","p(~effort)Psi(~pctex21 + pctpool + pctrock + BRT_100m + pctBrBnk)",8,156.641339069767,3.09998769572164,0.0103123779019838,139.52506
-"~effort","~pctex21 + pctpool + BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~pctex21 + pctpool + BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",9,156.70122,3.1598686259542,0.0100081968943466,137.29497
-"~effort","~pctex21 + pctrock + pctShade + HAiFLS_for","p(~effort)Psi(~pctex21 + pctrock + pctShade + HAiFLS_for)",7,156.761738461538,3.22038708749267,0.00970989254579547,141.9002
-"~effort","~pctex21 + pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctex21 + pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for)",9,156.83209,3.29073862595419,0.0093742769792287,137.42584
-"~effort","~pctex21 + pctShade","p(~effort)Psi(~pctex21 + pctShade)",5,156.863785454545,3.32243408049968,0.00922688697730201,146.40924
-"~effort","~pctex21 + pctpool + BRT_100m + pctShade + pctBrBnk","p(~effort)Psi(~pctex21 + pctpool + BRT_100m + pctShade + pctBrBnk)",8,156.899469069767,3.35811769572163,0.00906372253759888,139.78319
-"~effort","~pctex21 + pctpool + pctrock + BRT_100m","p(~effort)Psi(~pctex21 + pctpool + pctrock + BRT_100m)",7,156.925698461538,3.38434708749264,0.00894563063521977,142.06416
-"~effort","~pctex21 + pctpool + pctrock + pctShade + HAiFLS_for","p(~effort)Psi(~pctex21 + pctpool + pctrock + pctShade + HAiFLS_for)",8,157.153589069767,3.61223769572163,0.00798224668877142,140.03731
-"~effort","~pctex21 + pctpool + pctrock + BRT_100m + HAiFLS_for","p(~effort)Psi(~pctex21 + pctpool + pctrock + BRT_100m + HAiFLS_for)",8,157.227129069767,3.68577769572164,0.00769407007306224,140.11085
-"~effort","~pctex21 + pctrock + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~pctex21 + pctrock + pctBrBnk + pctShade + HAiFLS_for)",8,157.318939069767,3.77758769572165,0.00734885788814889,140.20266
-"~effort","~pctex21 + pctpool + pctrock + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~pctex21 + pctpool + pctrock + pctBrBnk + pctShade + HAiFLS_for)",9,157.38026,3.83890862595419,0.00712695765253994,137.97401
-"~effort","~pctex21 + pctrock + BRT_100m + pctShade + HAiFLS_for","p(~effort)Psi(~pctex21 + pctrock + BRT_100m + pctShade + HAiFLS_for)",8,157.507519069767,3.96616769572165,0.00668759897279618,140.39124
-"~effort","~pctex21 + pctpool + pctrock + pctShade + pctBrBnk","p(~effort)Psi(~pctex21 + pctpool + pctrock + pctShade + pctBrBnk)",8,157.516239069767,3.97488769572163,0.00665850451328607,140.39996
-"~effort","~pctex21 + pctrock + pctShade","p(~effort)Psi(~pctex21 + pctrock + pctShade)",6,157.577731374046,4.03638000000001,0.00645689634015123,144.93651
-"~effort","~pctex21 + pctpool + pctShade","p(~effort)Psi(~pctex21 + pctpool + pctShade)",6,157.604001374046,4.06265000000002,0.00637263957441797,144.96278
-"~effort","~pctex21 + pctrock + pctShade + pctBrBnk","p(~effort)Psi(~pctex21 + pctrock + pctShade + pctBrBnk)",7,157.664318461538,4.12296708749267,0.00618331920760006,142.80278
-"~1","~pctex21 + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctex21 + pctBrBnk + HAiFLS_for)",5,157.982835454545,4.44148408049966,0.00527298554591334,147.52829
-"~1","~pctex21 + pctpool + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctex21 + pctpool + pctBrBnk + HAiFLS_for)",6,158.089061374046,4.54771000000002,0.0050002292413039,145.44784
-"~1","~pctex21 + BRT_100m + HAiFLS_for","p(~1)Psi(~pctex21 + BRT_100m + HAiFLS_for)",5,158.246655454545,4.70530408049967,0.0046213493030662,147.79211
-"~effort","~pctex21 + pctpool + pctrock + BRT_100m + pctShade + HAiFLS_for","p(~effort)Psi(~pctex21 + pctpool + pctrock + BRT_100m + pctShade + HAiFLS_for)",9,158.24745,4.70609862595418,0.00461951373166034,138.8412
-"~effort","~pctex21 + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~pctex21 + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",9,158.32438,4.78302862595419,0.00444519815229719,138.91813
-"~1","~pctex21 + BRT_100m","p(~1)Psi(~pctex21 + BRT_100m)",4,158.450801879699,4.90945050565344,0.00417290946861401,150.15005
-"~1","~pctex21 + pctpool + pctBrBnk","p(~1)Psi(~pctex21 + pctpool + pctBrBnk)",5,158.462065454545,4.92071408049966,0.00414947458164212,148.00752
-"~1","~pctex21 + pctBrBnk","p(~1)Psi(~pctex21 + pctBrBnk)",4,158.503461879699,4.96211050565344,0.0040644706243904,150.20271
-"~1","~pctex21 + BRT_100m + pctBrBnk","p(~1)Psi(~pctex21 + BRT_100m + pctBrBnk)",5,158.512375454545,4.97102408049966,0.00404639644912572,148.05783
-"~effort","~pctex21 + pctrock + BRT_100m + pctShade + pctBrBnk","p(~effort)Psi(~pctex21 + pctrock + BRT_100m + pctShade + pctBrBnk)",8,158.662069069767,5.12071769572165,0.00375459307980904,141.54579
-"~1","~pctex21 + pctpool + BRT_100m + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctex21 + pctpool + BRT_100m + pctBrBnk + HAiFLS_for)",7,158.667688461538,5.12633708749266,0.00374405862132355,143.80615
-"~1","~pctex21 + HAiFLS_for","p(~1)Psi(~pctex21 + HAiFLS_for)",4,158.719741879699,5.17839050565345,0.00364787025974648,150.41899
-"~effort","~pctex21 + pctpool + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~pctex21 + pctpool + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",10,158.786603464567,5.24525209052112,0.00352793500156921,137.05432
-"~effort","~pctex21 + pctpool + pctrock + BRT_100m + pctShade","p(~effort)Psi(~pctex21 + pctpool + pctrock + BRT_100m + pctShade)",8,158.888139069767,5.34678769572164,0.00335329992014735,141.77186
-"~effort","~pctex21 + pctpool + pctrock + BRT_100m + pctBrBnk + pctShade","p(~effort)Psi(~pctex21 + pctpool + pctrock + BRT_100m + pctBrBnk + pctShade)",9,158.93116,5.3898086259542,0.00328193913258879,139.52491
-"~1","~pctex21 + pctpool + BRT_100m + HAiFLS_for","p(~1)Psi(~pctex21 + pctpool + BRT_100m + HAiFLS_for)",6,159.079231374046,5.53788,0.00304773520680836,146.43801
-"~1","~pctex21","p(~1)Psi(~pctex21)",3,159.216314477612,5.67496310356611,0.00284583695218847,153.03721
-"~1","~pctex21 + pctpool + BRT_100m","p(~1)Psi(~pctex21 + pctpool + BRT_100m)",5,159.284265454545,5.74291408049967,0.00275077232965082,148.82972
-"~1","~pctex21 + pctpool + HAiFLS_for","p(~1)Psi(~pctex21 + pctpool + HAiFLS_for)",5,159.387565454545,5.84621408049966,0.00261230172426888,148.93302
-"~1","~pctex21 + pctpool + pctrock + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctex21 + pctpool + pctrock + pctBrBnk + HAiFLS_for)",7,159.804638461538,6.26328708749264,0.00212059183228735,144.9431
-"~1","~pctex21 + pctpool","p(~1)Psi(~pctex21 + pctpool)",4,159.848791879699,6.30744050565343,0.00207428912954984,151.54804
-"~1","~pctex21 + pctrock + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctex21 + pctrock + pctBrBnk + HAiFLS_for)",6,159.885981374046,6.34463000000002,0.00203607464307385,147.24476
-"~1","~pctex21 + pctrock + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctex21 + pctrock + pctBrBnk + HAiFLS_for)",6,159.885981374046,6.34463000000002,0.00203607464307385,147.24476
-"~1","~pctex21 + pctrock + pctBrBnk","p(~1)Psi(~pctex21 + pctrock + pctBrBnk)",5,159.954275454545,6.41292408049966,0.00196772237564753,149.49973
-"~1","~pctex21 + pctrock","p(~1)Psi(~pctex21 + pctrock)",4,160.013801879699,6.47245050565346,0.0019100196057896,151.71305
-"~1","~pctex21 + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~pctex21 + pctBrBnk + pctShade + HAiFLS_for)",6,160.014211374046,6.47286,0.00190962857470705,147.37299
-"~1","~pctex21 + pctShade + HAiFLS_for","p(~1)Psi(~pctex21 + pctShade + HAiFLS_for)",5,160.156225454545,6.61487408049967,0.00177873372268365,149.70168
-"~1","~pctex21 + BRT_100m + pctShade + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctex21 + BRT_100m + pctShade + pctBrBnk + HAiFLS_for)",7,160.198358461538,6.65700708749264,0.00174165396424128,145.33682
-"~1","~pctex21 + pctpool + pctShade + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctex21 + pctpool + pctShade + pctBrBnk + HAiFLS_for)",7,160.201658461538,6.66030708749267,0.0017387826047233,145.34012
-"~1","~pctex21 + pctpool + pctrock","p(~1)Psi(~pctex21 + pctpool + pctrock)",5,160.213495454545,6.67214408049966,0.00172852201952685,149.75895
-"~1","~pctex21 + pctrock + HAiFLS_for","p(~1)Psi(~pctex21 + pctrock + HAiFLS_for)",5,160.227375454545,6.68602408049966,0.00171656760650511,149.77283
-"~1","~pctex21 + pctrock + BRT_100m","p(~1)Psi(~pctex21 + pctrock + BRT_100m)",5,160.264015454545,6.72266408049967,0.00168540639616909,149.80947
-"~1","~pctex21 + pctrock + BRT_100m + HAiFLS_for","p(~1)Psi(~pctex21 + pctrock + BRT_100m + HAiFLS_for)",6,160.367221374046,6.82587000000001,0.0016006403367376,147.726
-"~1","~pctex21 + pctrock + BRT_100m + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctex21 + pctrock + BRT_100m + pctBrBnk + HAiFLS_for)",7,160.453018461538,6.91166708749265,0.00153342717784663,145.59148
-"~1","~pctex21 + pctpool + pctShade + pctBrBnk","p(~1)Psi(~pctex21 + pctpool + pctShade + pctBrBnk)",6,160.491891374046,6.95054000000002,0.00150391056596998,147.85067
-"~1","~pctex21 + pctpool + BRT_100m + pctShade + HAiFLS_for","p(~1)Psi(~pctex21 + pctpool + BRT_100m + pctShade + HAiFLS_for)",7,160.517038461538,6.97568708749264,0.0014851194636147,145.6555
-"~1","~pctex21 + pctShade + pctBrBnk","p(~1)Psi(~pctex21 + pctShade + pctBrBnk)",5,160.517605454545,6.97625408049967,0.00148469849711355,150.06306
-"~1","~pctex21 + BRT_100m + pctShade","p(~1)Psi(~pctex21 + BRT_100m + pctShade)",5,160.564275454545,7.02292408049968,0.00145045415740321,150.10973
-"~1","~pctex21 + pctpool + pctrock + HAiFLS_for","p(~1)Psi(~pctex21 + pctpool + pctrock + HAiFLS_for)",6,160.617061374046,7.07571000000002,0.00141267314865435,147.97584
-"~1","~pctex21 + BRT_100m + pctShade + pctBrBnk","p(~1)Psi(~pctex21 + BRT_100m + pctShade + pctBrBnk)",6,160.652711374046,7.11136000000002,0.00138771534700478,148.01149
-"~1","~pctex21 + pctpool + pctrock + BRT_100m + pctBrBnk","p(~1)Psi(~pctex21 + pctpool + pctrock + BRT_100m + pctBrBnk)",7,160.730908461538,7.18955708749266,0.00133450470550217,145.86937
-"~1","~pctex21 + pctpool + BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~pctex21 + pctpool + BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",8,160.735799069767,7.19444769572164,0.00133124542224845,143.61952
-"~1","~pctex21 + pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctex21 + pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for)",8,160.840969069767,7.29961769572165,0.00126305060742166,143.72469
-"~1","~pctex21 + pctpool + pctShade + HAiFLS_for","p(~1)Psi(~pctex21 + pctpool + pctShade + HAiFLS_for)",6,160.847521374046,7.30617000000001,0.00125891943234634,148.2063
-"~1","~pctex21 + pctpool + pctrock + BRT_100m","p(~1)Psi(~pctex21 + pctpool + pctrock + BRT_100m)",6,160.862591374046,7.32124000000002,0.0012494691231761,148.22137
-"~1","~pctex21 + pctrock + pctShade + HAiFLS_for","p(~1)Psi(~pctex21 + pctrock + pctShade + HAiFLS_for)",6,160.984791374046,7.44344000000001,0.00117541204138524,148.34357
-"~1","~pctex21 + pctpool + BRT_100m + pctShade + pctBrBnk","p(~1)Psi(~pctex21 + pctpool + BRT_100m + pctShade + pctBrBnk)",7,161.008388461538,7.46703708749266,0.00116162538217724,146.14685
-"~1","~pctex21 + pctpool + pctrock + BRT_100m + HAiFLS_for","p(~1)Psi(~pctex21 + pctpool + pctrock + BRT_100m + HAiFLS_for)",7,161.115138461538,7.57378708749266,0.00110124924853953,146.2536
-"~1","~pctex21 + pctpool + pctrock + pctShade + HAiFLS_for","p(~1)Psi(~pctex21 + pctpool + pctrock + pctShade + HAiFLS_for)",7,161.260388461538,7.71903708749267,0.00102410618332791,146.39885
-"~1","~pctex21 + pctShade","p(~1)Psi(~pctex21 + pctShade)",4,161.328491879699,7.78714050565344,0.000989820670487886,153.02774
-"~1","~pctex21 + pctrock + BRT_100m + pctShade + HAiFLS_for","p(~1)Psi(~pctex21 + pctrock + BRT_100m + pctShade + HAiFLS_for)",7,161.441468461538,7.90011708749265,0.00093545729461916,146.57993
-"~1","~pctex21 + pctpool + pctrock + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~pctex21 + pctpool + pctrock + pctBrBnk + pctShade + HAiFLS_for)",8,161.602149069767,8.06079769572165,0.000863242105179001,144.48587
-"~1","~pctex21 + pctrock + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~pctex21 + pctrock + pctBrBnk + pctShade + HAiFLS_for)",7,161.650318461538,8.10896708749266,0.000842699555139962,146.78878
-"~1","~pctex21 + pctpool + pctrock + pctShade + pctBrBnk","p(~1)Psi(~pctex21 + pctpool + pctrock + pctShade + pctBrBnk)",7,161.827868461538,8.28651708749265,0.000771113438879358,146.96633
-"~1","~pctex21 + pctrock + pctShade","p(~1)Psi(~pctex21 + pctrock + pctShade)",5,161.898965454545,8.35761408049967,0.000744183019383193,151.44442
-"~1","~pctex21 + pctpool + pctShade","p(~1)Psi(~pctex21 + pctpool + pctShade)",5,161.982615454545,8.44126408049968,0.000713699494985466,151.52807
-"~1","~pctex21 + pctpool + pctrock + BRT_100m + pctShade + HAiFLS_for","p(~1)Psi(~pctex21 + pctpool + pctrock + BRT_100m + pctShade + HAiFLS_for)",8,162.127319069767,8.58596769572165,0.000663885829232355,145.01104
-"~1","~pctex21 + pctrock + pctShade + pctBrBnk","p(~1)Psi(~pctex21 + pctrock + pctShade + pctBrBnk)",6,162.140201374046,8.59885,0.000659623381876029,149.49898
-"~1","~pctex21 + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~pctex21 + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",8,162.339599069767,8.79824769572164,0.000597031688032398,145.22332
-"~1","~pctex21 + pctpool + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~pctex21 + pctpool + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",9,162.76911,9.22775862595421,0.000481648562973019,143.36286
-"~1","~pctex21 + pctrock + BRT_100m + pctShade + pctBrBnk","p(~1)Psi(~pctex21 + pctrock + BRT_100m + pctShade + pctBrBnk)",7,162.773068461538,9.23171708749265,0.000480696212089209,147.91153
-"~1","~pctex21 + pctpool + pctrock + BRT_100m + pctShade","p(~1)Psi(~pctex21 + pctpool + pctrock + BRT_100m + pctShade)",7,162.811438461538,9.27008708749267,0.000471561955778298,147.9499
-"~1","~pctex21 + pctpool + pctrock + BRT_100m + pctBrBnk + pctShade","p(~1)Psi(~pctex21 + pctpool + pctrock + BRT_100m + pctBrBnk + pctShade)",8,162.984999069767,9.44364769572164,0.000432365022416843,145.86872
-"~effort","~BRT_100m + pctBrBnk + HAiFLS_for","p(~effort)Psi(~BRT_100m + pctBrBnk + HAiFLS_for)",6,167.263721374046,13.72237,5.09023473111627e-05,154.6225
-"~effort","~pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctBrBnk + HAiFLS_for)",5,168.000245454545,14.4588940804997,3.52211585918084e-05,157.5457
-"~effort","~pctpool + BRT_100m + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctpool + BRT_100m + pctBrBnk + HAiFLS_for)",7,168.308848461538,14.7674970874926,3.01850115497286e-05,153.44731
-"~effort","~pctpool + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctpool + pctBrBnk + HAiFLS_for)",6,168.694441374046,15.15309,2.48920640202913e-05,156.05322
-"~effort","~BRT_100m + HAiFLS_for","p(~effort)Psi(~BRT_100m + HAiFLS_for)",5,169.386795454545,15.8454440804997,1.76083284653726e-05,158.93225
-"~effort","~BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",7,169.431698461538,15.8903470874926,1.72173999053732e-05,154.57016
-"~effort","~BRT_100m + pctBrBnk","p(~effort)Psi(~BRT_100m + pctBrBnk)",5,169.587845454545,16.0464940804997,1.59243120057806e-05,159.1333
-"~effort","~pctpool + BRT_100m + pctBrBnk","p(~effort)Psi(~pctpool + BRT_100m + pctBrBnk)",6,169.632921374046,16.09157,1.55694247424135e-05,156.9917
-"~effort","~pctpool + pctBrBnk","p(~effort)Psi(~pctpool + pctBrBnk)",5,170.012425454545,16.4710740804997,1.28784709475439e-05,159.55788
-"~effort","~pctrock + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctrock + pctBrBnk + HAiFLS_for)",6,170.117241374046,16.57589,1.22209175717125e-05,157.47602
-"~effort","~pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~pctBrBnk + pctShade + HAiFLS_for)",6,170.179901374046,16.63855,1.18439719106452e-05,157.53868
-"~effort","~pctpool + BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~pctpool + BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",8,170.486249069767,16.9448976957216,1.01618975431034e-05,153.36997
-"~effort","~pctBrBnk","p(~effort)Psi(~pctBrBnk)",4,170.548361879699,17.0070105056535,9.85115577436329e-06,162.24761
-"~effort","~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for)",8,170.548419069767,17.0070676957216,9.85087408425554e-06,153.43214
-"~effort","~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for)",8,170.548419069767,17.0070676957216,9.85087408425554e-06,153.43214
-"~effort","~pctpool + pctrock + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctpool + pctrock + pctBrBnk + HAiFLS_for)",7,170.797418461538,17.2560670874927,8.697716281993e-06,155.93588
-"~effort","~pctpool + BRT_100m + HAiFLS_for","p(~effort)Psi(~pctpool + BRT_100m + HAiFLS_for)",6,170.831471374046,17.29012,8.55087860618155e-06,158.19025
-"~effort","~pctpool + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~pctpool + pctBrBnk + pctShade + HAiFLS_for)",7,170.888118461538,17.3467670874927,8.31208512431594e-06,156.02658
-"~1","~BRT_100m + pctBrBnk + HAiFLS_for","p(~1)Psi(~BRT_100m + pctBrBnk + HAiFLS_for)",5,171.163085454545,17.6217340804997,7.24438726267497e-06,160.70854
-"~effort","~BRT_100m + pctShade + HAiFLS_for","p(~effort)Psi(~BRT_100m + pctShade + HAiFLS_for)",6,171.207041374046,17.66569,7.08690729412711e-06,158.56582
-"~effort","~BRT_100m + pctShade + pctBrBnk","p(~effort)Psi(~BRT_100m + pctShade + pctBrBnk)",6,171.313901374046,17.77255,6.71819178441196e-06,158.67268
-"~effort","~pctrock + BRT_100m + HAiFLS_for","p(~effort)Psi(~pctrock + BRT_100m + HAiFLS_for)",6,171.569621374046,18.02827,5.91185134451145e-06,158.9284
-"~effort","~pctpool + BRT_100m + pctShade + pctBrBnk","p(~effort)Psi(~pctpool + BRT_100m + pctShade + pctBrBnk)",7,171.575418461538,18.0340670874926,5.89474039516518e-06,156.71388
-"~effort","~pctrock + BRT_100m + pctShade + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctrock + BRT_100m + pctShade + pctBrBnk + HAiFLS_for)",8,171.672409069767,18.1310576957216,5.61569407135115e-06,154.55613
-"~effort","~pctrock + BRT_100m + pctBrBnk","p(~effort)Psi(~pctrock + BRT_100m + pctBrBnk)",6,171.756771374046,18.21542,5.38374397687833e-06,159.11555
-"~effort","~pctpool + pctShade + pctBrBnk","p(~effort)Psi(~pctpool + pctShade + pctBrBnk)",6,171.778931374046,18.23758,5.3244213478801e-06,159.13771
-"~effort","~pctBrBnk + pctShade","p(~effort)Psi(~pctBrBnk + pctShade)",5,171.951235454545,18.4098840804997,4.88491555315581e-06,161.49669
-"~effort","~pctpool + pctrock + pctBrBnk","p(~effort)Psi(~pctpool + pctrock + pctBrBnk)",6,171.967141374046,18.42579,4.84622009205662e-06,159.32592
-"~effort","~HAiFLS_for","p(~effort)Psi(~HAiFLS_for)",4,172.078781879699,18.5374305056534,4.58311448601798e-06,163.77803
-"~1","~pctpool + BRT_100m + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctpool + BRT_100m + pctBrBnk + HAiFLS_for)",6,172.235871374046,18.69452,4.23690918927423e-06,159.59465
-"~effort","~BRT_100m","p(~effort)Psi(~BRT_100m)",4,172.251731879699,18.7103805056534,4.2034423040213e-06,163.95098
-"~1","~pctBrBnk + HAiFLS_for","p(~1)Psi(~pctBrBnk + HAiFLS_for)",4,172.277061879699,18.7357105056535,4.15054140927336e-06,163.97631
-"~effort","~pctrock + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~pctrock + pctBrBnk + pctShade + HAiFLS_for)",7,172.288228461538,18.7468770874927,4.12743230157902e-06,157.42669
-"~effort","~pctrock + pctBrBnk","p(~effort)Psi(~pctrock + pctBrBnk)",5,172.571665454545,19.0303140804997,3.58205621899153e-06,162.11712
-"~effort","~pctpool + BRT_100m + pctShade + HAiFLS_for","p(~effort)Psi(~pctpool + BRT_100m + pctShade + HAiFLS_for)",7,172.626028461538,19.0846770874927,3.48600190956814e-06,157.76449
-"~effort","~pctpool + BRT_100m + pctShade + HAiFLS_for","p(~effort)Psi(~pctpool + BRT_100m + pctShade + HAiFLS_for)",7,172.626028461538,19.0846770874927,3.48600190956814e-06,157.76449
-"~effort","~pctpool + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",9,172.77622,19.2348686259542,3.23380585100163e-06,153.36997
-"~effort","~pctpool + pctrock + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~pctpool + pctrock + pctBrBnk + pctShade + HAiFLS_for)",8,172.936349069767,19.3949976957216,2.98498640013412e-06,155.82007
-"~1","~pctpool + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctpool + pctBrBnk + HAiFLS_for)",5,173.011075454545,19.4697240804997,2.87551560309343e-06,162.55653
-"~effort","~pctpool + pctrock + BRT_100m + HAiFLS_for","p(~effort)Psi(~pctpool + pctrock + BRT_100m + HAiFLS_for)",7,173.022888461538,19.4815370874927,2.85858142026616e-06,158.16135
-"~1","~BRT_100m + HAiFLS_for","p(~1)Psi(~BRT_100m + HAiFLS_for)",4,173.132281879699,19.5909305056534,2.70642556833396e-06,164.83153
-"~1","~BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",6,173.291761374046,19.75041,2.4989959685495e-06,160.65054
-"~effort","~pctrock + BRT_100m + pctShade + HAiFLS_for","p(~effort)Psi(~pctrock + BRT_100m + pctShade + HAiFLS_for)",7,173.315588461538,19.7742370874927,2.46940071298552e-06,158.45405
-"~effort","~pctrock + BRT_100m + pctShade + pctBrBnk","p(~effort)Psi(~pctrock + BRT_100m + pctShade + pctBrBnk)",7,173.376888461538,19.8355370874927,2.394861726312e-06,158.51535
-"~effort","~pctpool + HAiFLS_for","p(~effort)Psi(~pctpool + HAiFLS_for)",5,173.409075454545,19.8677240804997,2.35662850579239e-06,162.95453
-"~1","~BRT_100m + pctBrBnk","p(~1)Psi(~BRT_100m + pctBrBnk)",4,173.524291879699,19.9829405056535,2.22470380586951e-06,165.22354
-"~1","~pctpool + BRT_100m + pctBrBnk","p(~1)Psi(~pctpool + BRT_100m + pctBrBnk)",5,173.608145454545,20.0667940804997,2.13335743305063e-06,163.1536
-"~effort","~pctrock + HAiFLS_for","p(~effort)Psi(~pctrock + HAiFLS_for)",5,173.710735454545,20.1693840804997,2.02668610465411e-06,163.25619
-"~effort","~pctpool + pctrock + BRT_100m + pctShade + pctBrBnk","p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctShade + pctBrBnk)",8,173.794349069767,20.2529976957216,1.94370353291768e-06,156.67807
-"~effort","~pctpool + pctrock + pctShade + pctBrBnk","p(~effort)Psi(~pctpool + pctrock + pctShade + pctBrBnk)",7,173.928338461538,20.3869870874927,1.81775185834435e-06,159.0668
-"~effort","~pctShade + HAiFLS_for","p(~effort)Psi(~pctShade + HAiFLS_for)",5,173.961985454545,20.4206340804997,1.7874267189896e-06,163.50744
-"~effort","~pctrock + pctShade + pctBrBnk","p(~effort)Psi(~pctrock + pctShade + pctBrBnk)",6,174.134541374046,20.59319,1.63967661862243e-06,161.49332
-"~effort","~BRT_100m + pctShade","p(~effort)Psi(~BRT_100m + pctShade)",5,174.335535454545,20.7941840804997,1.48290351207088e-06,163.88099
-"~1","~pctrock + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctrock + pctBrBnk + HAiFLS_for)",5,174.349475454545,20.8081240804997,1.47260361144361e-06,163.89493
-"~1","~pctpool + BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~pctpool + BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",7,174.373158461538,20.8318070874926,1.45526860943396e-06,159.51162
-"~1","~pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~pctBrBnk + pctShade + HAiFLS_for)",5,174.423635454545,20.8822840804997,1.41899943268149e-06,163.96909
-"~1","~pctpool + pctBrBnk","p(~1)Psi(~pctpool + pctBrBnk)",4,174.425551879699,20.8842005056534,1.41764038081278e-06,166.1248
-"~1","~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for)",7,174.441848461538,20.9004970874927,1.40613596887076e-06,159.58031
-"~1","~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for)",7,174.441848461538,20.9004970874927,1.40613596887076e-06,159.58031
-"~1","~pctpool + BRT_100m + HAiFLS_for","p(~1)Psi(~pctpool + BRT_100m + HAiFLS_for)",5,174.571025454545,21.0296740804997,1.31818659231288e-06,164.11648
-"~effort","~pctpool + pctrock + BRT_100m + pctShade + HAiFLS_for","p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctShade + HAiFLS_for)",8,174.661589069767,21.1202376957216,1.25982798369327e-06,157.54531
-"~effort","~pctpool + pctrock + HAiFLS_for","p(~effort)Psi(~pctpool + pctrock + HAiFLS_for)",6,174.882381374046,21.34103,1.12814990486045e-06,162.24116
-"~1","~BRT_100m + pctShade + HAiFLS_for","p(~1)Psi(~BRT_100m + pctShade + HAiFLS_for)",5,174.911845454545,21.3704940804997,1.11165177896698e-06,164.4573
-"~1","~pctBrBnk","p(~1)Psi(~pctBrBnk)",3,174.962154477612,21.4208031035661,1.08403748951512e-06,168.78305
-"~1","~pctpool + pctrock + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctpool + pctrock + pctBrBnk + HAiFLS_for)",6,175.049121374046,21.50777,1.03790996143516e-06,162.4079
-"~1","~pctpool + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~pctpool + pctBrBnk + pctShade + HAiFLS_for)",6,175.171311374046,21.62996,9.76397050387303e-07,162.53009
-"~effort","~pctrock + pctShade + HAiFLS_for","p(~effort)Psi(~pctrock + pctShade + HAiFLS_for)",6,175.173951374046,21.6326,9.75109056543753e-07,162.53273
-"~1","~BRT_100m + pctShade + pctBrBnk","p(~1)Psi(~BRT_100m + pctShade + pctBrBnk)",5,175.221495454545,21.6801440804997,9.52202076367596e-07,164.76695
-"~effort","~pctpool + pctShade + HAiFLS_for","p(~effort)Psi(~pctpool + pctShade + HAiFLS_for)",6,175.243721374046,21.70237,9.41678873284265e-07,162.6025
-"~1","~pctrock + BRT_100m + HAiFLS_for","p(~1)Psi(~pctrock + BRT_100m + HAiFLS_for)",5,175.283765454545,21.7424140804997,9.23012038634123e-07,164.82922
-"~effort","~pctpool + BRT_100m + pctShade","p(~effort)Psi(~pctpool + BRT_100m + pctShade)",6,175.354941374046,21.81359,8.90741549603701e-07,162.71372
-"~effort","~1","p(~effort)Psi(~1)",3,175.476744477612,21.9353931035661,8.38112857156255e-07,169.29764
-"~1","~pctrock + BRT_100m + pctShade + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctrock + BRT_100m + pctShade + pctBrBnk + HAiFLS_for)",7,175.497108461538,21.9557570874927,8.29622496523851e-07,160.63557
-"~1","~pctpool + BRT_100m + pctShade + pctBrBnk","p(~1)Psi(~pctpool + BRT_100m + pctShade + pctBrBnk)",6,175.514671374046,21.97332,8.22369097179558e-07,162.87345
-"~1","~pctrock + BRT_100m + pctBrBnk","p(~1)Psi(~pctrock + BRT_100m + pctBrBnk)",5,175.662955454545,22.1216040804997,7.63602432456828e-07,165.20841
-"~1","~BRT_100m","p(~1)Psi(~BRT_100m)",3,175.949394477612,22.4080431035661,6.61710246376187e-07,169.77029
-"~1","~pctpool + pctShade + pctBrBnk","p(~1)Psi(~pctpool + pctShade + pctBrBnk)",5,176.130455454545,22.5891040804997,6.04436897908718e-07,165.67591
-"~effort","~pctpool + pctrock + pctShade + HAiFLS_for","p(~effort)Psi(~pctpool + pctrock + pctShade + HAiFLS_for)",7,176.159568461538,22.6182170874927,5.95702138106475e-07,161.29803
-"~effort","~pctpool","p(~effort)Psi(~pctpool)",4,176.172111879699,22.6307605056535,5.91977758917083e-07,167.87136
-"~1","~HAiFLS_for","p(~1)Psi(~HAiFLS_for)",3,176.196614477612,22.6552631035661,5.84769507796383e-07,170.01751
-"~1","~pctpool + pctrock + pctBrBnk","p(~1)Psi(~pctpool + pctrock + pctBrBnk)",5,176.268665454545,22.7273140804997,5.64077851957863e-07,165.81412
-"~1","~pctBrBnk + pctShade","p(~1)Psi(~pctBrBnk + pctShade)",4,176.291131879699,22.7497805056534,5.57776901750478e-07,167.99038
-"~1","~pctpool + BRT_100m + pctShade + HAiFLS_for","p(~1)Psi(~pctpool + BRT_100m + pctShade + HAiFLS_for)",6,176.323271374046,22.78192,5.48885202981966e-07,163.68205
-"~1","~pctpool + BRT_100m + pctShade + HAiFLS_for","p(~1)Psi(~pctpool + BRT_100m + pctShade + HAiFLS_for)",6,176.323271374046,22.78192,5.48885202981966e-07,163.68205
-"~1","~pctrock + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~pctrock + pctBrBnk + pctShade + HAiFLS_for)",6,176.481521374046,22.94017,5.07128446474564e-07,163.8403
-"~effort","~pctrock + BRT_100m + pctShade","p(~effort)Psi(~pctrock + BRT_100m + pctShade)",6,176.490821374046,22.94947,5.04775773402572e-07,163.8496
-"~1","~pctpool + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",8,176.627839069767,23.0864876957216,4.71352145545393e-07,159.51156
-"~effort","~pctrock","p(~effort)Psi(~pctrock)",4,176.704611879699,23.1632605056535,4.53601502492567e-07,168.40386
-"~1","~pctpool + pctrock + BRT_100m + HAiFLS_for","p(~1)Psi(~pctpool + pctrock + BRT_100m + HAiFLS_for)",6,176.732181374046,23.19083,4.47391619628714e-07,164.09096
-"~1","~pctrock + pctBrBnk","p(~1)Psi(~pctrock + pctBrBnk)",4,176.911241879699,23.3698905056534,4.09077270972456e-07,168.61049
-"~1","~pctrock + BRT_100m + pctShade + HAiFLS_for","p(~1)Psi(~pctrock + BRT_100m + pctShade + HAiFLS_for)",6,176.996551374046,23.4552,3.9199509133527e-07,164.35533
-"~1","~pctpool + pctrock + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~pctpool + pctrock + pctBrBnk + pctShade + HAiFLS_for)",7,177.138848461538,23.5974970874927,3.6507425595429e-07,162.27731
-"~1","~pctrock + BRT_100m + pctShade + pctBrBnk","p(~1)Psi(~pctrock + BRT_100m + pctShade + pctBrBnk)",6,177.259771374046,23.71842,3.43655367868858e-07,164.61855
-"~effort","~pctShade","p(~effort)Psi(~pctShade)",4,177.434141879699,23.8927905056534,3.14962651390414e-07,169.13339
-"~1","~pctpool + HAiFLS_for","p(~1)Psi(~pctpool + HAiFLS_for)",4,177.520871879699,23.9795205056535,3.0159620850396e-07,169.22012
-"~1","~pctpool + pctrock + BRT_100m + pctShade + pctBrBnk","p(~1)Psi(~pctpool + pctrock + BRT_100m + pctShade + pctBrBnk)",7,177.707918461538,24.1665670874927,2.74668735634215e-07,162.84638
-"~1","~pctrock + HAiFLS_for","p(~1)Psi(~pctrock + HAiFLS_for)",4,177.779461879699,24.2381105056535,2.65017023827522e-07,169.47871
-"~1","~BRT_100m + pctShade","p(~1)Psi(~BRT_100m + pctShade)",4,178.002441879699,24.4610905056535,2.37057816955349e-07,169.70169
-"~1","~pctShade + HAiFLS_for","p(~1)Psi(~pctShade + HAiFLS_for)",4,178.045651879699,24.5043005056534,2.31991112972929e-07,169.7449
-"~1","~pctpool + pctrock + pctShade + pctBrBnk","p(~1)Psi(~pctpool + pctrock + pctShade + pctBrBnk)",6,178.204381374046,24.66303,2.14290874256375e-07,165.56316
-"~effort","~pctpool + pctShade","p(~effort)Psi(~pctpool + pctShade)",5,178.262335454545,24.7209840804997,2.0817046292454e-07,167.80779
-"~1","~pctpool + pctrock + BRT_100m + pctShade + HAiFLS_for","p(~1)Psi(~pctpool + pctrock + BRT_100m + pctShade + HAiFLS_for)",7,178.333648461538,24.7922970874926,2.00878605699273e-07,163.47211
-"~1","~pctrock + pctShade + pctBrBnk","p(~1)Psi(~pctrock + pctShade + pctBrBnk)",5,178.434015454545,24.8926640804997,1.91046580897666e-07,167.97947
-"~effort","~pctrock + pctShade","p(~effort)Psi(~pctrock + pctShade)",5,178.834265454545,25.2929140804997,1.56396160309385e-07,168.37972
-"~1","~pctpool + pctrock + HAiFLS_for","p(~1)Psi(~pctpool + pctrock + HAiFLS_for)",5,178.931265454545,25.3899140804997,1.48991949957987e-07,168.47672
-"~1","~pctpool + BRT_100m + pctShade","p(~1)Psi(~pctpool + BRT_100m + pctShade)",5,179.019205454545,25.4778540804997,1.42582713561166e-07,168.56466
-"~1","~pctrock + pctShade + HAiFLS_for","p(~1)Psi(~pctrock + pctShade + HAiFLS_for)",5,179.208355454545,25.6670040804997,1.29715978212988e-07,168.75381
-"~effort","~pctpool + pctrock + pctShade","p(~effort)Psi(~pctpool + pctrock + pctShade)",6,179.226311374046,25.68496,1.28556605569573e-07,166.58509
-"~1","~pctpool + pctShade + HAiFLS_for","p(~1)Psi(~pctpool + pctShade + HAiFLS_for)",5,179.318015454545,25.7766640804997,1.22795120226999e-07,168.86347
-"~1","~1","p(~1)Psi(~1)",2,179.630518888889,26.0891675148431,1.05032051944094e-07,175.54163
-"~1","~pctrock + BRT_100m + pctShade","p(~1)Psi(~pctrock + BRT_100m + pctShade)",5,180.126705454545,26.5853540804997,8.19551607316982e-08,169.67216
-"~1","~pctpool + pctrock + pctShade + HAiFLS_for","p(~1)Psi(~pctpool + pctrock + pctShade + HAiFLS_for)",6,180.162701374046,26.62135,8.0493329497669e-08,167.52148
-"~1","~pctpool","p(~1)Psi(~pctpool)",3,180.286034477612,26.7446831035661,7.56795338944817e-08,174.10693
-"~1","~pctrock","p(~1)Psi(~pctrock)",3,180.767024477612,27.2256731035661,5.9502169009308e-08,174.58792
-"~1","~pctShade","p(~1)Psi(~pctShade)",3,181.544984477612,28.0036331035661,4.03274656190181e-08,175.36588
-"~1","~pctpool + pctShade","p(~1)Psi(~pctpool + pctShade)",4,182.338521879699,28.7971705056534,2.71197993590971e-08,174.03777
-"~1","~pctrock + pctShade","p(~1)Psi(~pctrock + pctShade)",4,182.861811879699,29.3204605056534,2.08763943722469e-08,174.56106
-"~1","~pctpool + pctrock + pctShade","p(~1)Psi(~pctpool + pctrock + pctShade)",5,183.190225454545,29.6488740804997,1.77150095491121e-08,172.73568
+"~effort","~avgT + pctpool + pctBrBnk","p(~effort)Psi(~avgT + pctpool + pctBrBnk)",6,156.654091374046,0,0.0895011540381952,144.01287
+"~effort","~avgT + pctBrBnk","p(~effort)Psi(~avgT + pctBrBnk)",5,156.983685454545,0.329594080499675,0.075902868681638,146.52914
+"~effort","~avgT + pctBrBnk + HAiFLS_for","p(~effort)Psi(~avgT + pctBrBnk + HAiFLS_for)",6,158.202001374046,1.54791,0.0412766316195015,145.56078
+"~effort","~avgT + BRT_100m + pctBrBnk","p(~effort)Psi(~avgT + BRT_100m + pctBrBnk)",6,158.346371374046,1.69228000000001,0.0384020759557158,145.70515
+"~effort","~avgT + pctpool + pctBrBnk + HAiFLS_for","p(~effort)Psi(~avgT + pctpool + pctBrBnk + HAiFLS_for)",7,158.405778461538,1.75168708749266,0.0372781727997084,143.54424
+"~effort","~avgT","p(~effort)Psi(~avgT)",4,158.460981879699,1.80689050565346,0.0362633020340135,150.16023
+"~effort","~avgT + pctpool + pctShade + pctBrBnk","p(~effort)Psi(~avgT + pctpool + pctShade + pctBrBnk)",7,158.872768461538,2.21867708749267,0.0295154240462378,144.01123
+"~effort","~avgT + pctpool","p(~effort)Psi(~avgT + pctpool)",5,158.879145454545,2.22505408049966,0.0294214640949589,148.4246
+"~effort","~avgT + pctrock + pctBrBnk","p(~effort)Psi(~avgT + pctrock + pctBrBnk)",6,159.031901374046,2.37781000000001,0.0272579853753745,146.39068
+"~effort","~avgT + BRT_100m","p(~effort)Psi(~avgT + BRT_100m)",5,159.096485454545,2.44239408049967,0.0263918296481886,148.64194
+"~effort","~avgT + pctShade + pctBrBnk","p(~effort)Psi(~avgT + pctShade + pctBrBnk)",6,159.163061374046,2.50897000000001,0.0255277608166074,146.52184
+"~effort","~avgT + pctpool + BRT_100m","p(~effort)Psi(~avgT + pctpool + BRT_100m)",6,159.686341374046,3.03225,0.0196509664336359,147.04512
+"~effort","~avgT + HAiFLS_for","p(~effort)Psi(~avgT + HAiFLS_for)",5,159.693025454545,3.03893408049967,0.0195854017338251,149.23848
+"~effort","~avgT + pctpool + BRT_100m + pctBrBnk + HAiFLS_for","p(~effort)Psi(~avgT + pctpool + BRT_100m + pctBrBnk + HAiFLS_for)",8,159.977959069767,3.32386769572165,0.0169847803854687,142.86168
+"~effort","~avgT + pctrock","p(~effort)Psi(~avgT + pctrock)",5,160.169385454545,3.51529408049967,0.0154344878948787,149.71484
+"~effort","~avgT + BRT_100m + HAiFLS_for","p(~effort)Psi(~avgT + BRT_100m + HAiFLS_for)",6,160.239741374046,3.58565000000002,0.0149009730990383,147.59852
+"~effort","~avgT + pctpool + pctrock","p(~effort)Psi(~avgT + pctpool + pctrock)",6,160.318851374046,3.66476,0.0143230699348173,147.67763
+"~effort","~avgT + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~avgT + pctBrBnk + pctShade + HAiFLS_for)",7,160.334468461538,3.68037708749264,0.0142116631451151,145.47293
+"~effort","~avgT + pctrock + pctBrBnk + HAiFLS_for","p(~effort)Psi(~avgT + pctrock + pctBrBnk + HAiFLS_for)",7,160.341638461538,3.68754708749265,0.0141608055494495,145.4801
+"~effort","~avgT + pctrock + pctBrBnk + HAiFLS_for","p(~effort)Psi(~avgT + pctrock + pctBrBnk + HAiFLS_for)",7,160.341638461538,3.68754708749265,0.0141608055494495,145.4801
+"~effort","~avgT + pctpool + pctrock + pctBrBnk + HAiFLS_for","p(~effort)Psi(~avgT + pctpool + pctrock + pctBrBnk + HAiFLS_for)",8,160.425929069767,3.77183769572164,0.0135763956604526,143.30965
+"~effort","~avgT + pctpool + HAiFLS_for","p(~effort)Psi(~avgT + pctpool + HAiFLS_for)",6,160.430911374046,3.77682000000001,0.013542616884864,147.78969
+"~effort","~avgT + pctpool + pctrock + BRT_100m + pctBrBnk","p(~effort)Psi(~avgT + pctpool + pctrock + BRT_100m + pctBrBnk)",8,160.443209069767,3.78911769572164,0.0134596008819455,143.32693
+"~effort","~avgT + pctShade","p(~effort)Psi(~avgT + pctShade)",5,160.521355454545,3.86726408049967,0.0129438332682866,150.06681
+"~effort","~avgT + pctpool + BRT_100m + pctShade + pctBrBnk","p(~effort)Psi(~avgT + pctpool + BRT_100m + pctShade + pctBrBnk)",8,160.543069069767,3.88897769572165,0.0128040646540989,143.42679
+"~effort","~avgT + pctpool + pctShade + pctBrBnk + HAiFLS_for","p(~effort)Psi(~avgT + pctpool + pctShade + pctBrBnk + HAiFLS_for)",8,160.559169069767,3.90507769572164,0.0127014056903417,143.44289
+"~1","~avgT + pctpool + pctBrBnk","p(~1)Psi(~avgT + pctpool + pctBrBnk)",5,160.564705454545,3.91061408049967,0.0126662943756382,150.11016
+"~effort","~avgT + BRT_100m + pctShade + pctBrBnk","p(~effort)Psi(~avgT + BRT_100m + pctShade + pctBrBnk)",7,160.566088461538,3.91199708749267,0.0126575386164577,145.70455
+"~effort","~avgT + pctpool + pctrock + pctShade + pctBrBnk","p(~effort)Psi(~avgT + pctpool + pctrock + pctShade + pctBrBnk)",8,160.760759069767,4.10666769572163,0.0114835740589844,143.64448
+"~effort","~avgT + pctpool + pctShade","p(~effort)Psi(~avgT + pctpool + pctShade)",6,160.887081374046,4.23299,0.0107806894461483,148.24586
+"~1","~avgT + pctBrBnk","p(~1)Psi(~avgT + pctBrBnk)",4,160.995881879699,4.34179050565345,0.0102098839586583,152.69513
+"~effort","~avgT + pctpool + BRT_100m + HAiFLS_for","p(~effort)Psi(~avgT + pctpool + BRT_100m + HAiFLS_for)",7,161.154628461538,4.50053708749266,0.00943081930538481,146.29309
+"~effort","~avgT + BRT_100m + pctShade","p(~effort)Psi(~avgT + BRT_100m + pctShade)",6,161.180631374046,4.52654000000001,0.00930899856031515,148.53941
+"~effort","~avgT + pctrock + BRT_100m","p(~effort)Psi(~avgT + pctrock + BRT_100m)",6,161.199871374046,4.54578000000001,0.00921987536405893,148.55865
+"~effort","~avgT + pctrock + pctShade + pctBrBnk","p(~effort)Psi(~avgT + pctrock + pctShade + pctBrBnk)",7,161.249838461538,4.59574708749264,0.0089923838099641,146.3883
+"~effort","~avgT + pctShade + HAiFLS_for","p(~effort)Psi(~avgT + pctShade + HAiFLS_for)",6,161.424081374046,4.76999000000001,0.00824211115699819,148.78286
+"~effort","~avgT + pctrock + HAiFLS_for","p(~effort)Psi(~avgT + pctrock + HAiFLS_for)",6,161.559201374046,4.90511000000001,0.00770366754092551,148.91798
+"~effort","~avgT + BRT_100m + pctShade + pctBrBnk + HAiFLS_for","p(~effort)Psi(~avgT + BRT_100m + pctShade + pctBrBnk + HAiFLS_for)",8,161.614079069767,4.95998769572165,0.00749516144451697,144.4978
+"~effort","~avgT + pctpool + pctrock + BRT_100m","p(~effort)Psi(~avgT + pctpool + pctrock + BRT_100m)",7,161.666688461538,5.01259708749265,0.00730057400388916,146.80515
+"~effort","~avgT + pctrock + BRT_100m + pctBrBnk + HAiFLS_for","p(~effort)Psi(~avgT + pctrock + BRT_100m + pctBrBnk + HAiFLS_for)",8,161.750849069767,5.09675769572164,0.00699973766285731,144.63457
+"~1","~avgT + pctBrBnk + HAiFLS_for","p(~1)Psi(~avgT + pctBrBnk + HAiFLS_for)",5,162.035415454545,5.38132408049967,0.00607140156792544,151.58087
+"~effort","~avgT + pctpool + pctrock + HAiFLS_for","p(~effort)Psi(~avgT + pctpool + pctrock + HAiFLS_for)",7,162.052378461538,5.39828708749266,0.00602012471409283,147.19084
+"~effort","~avgT + pctrock + pctShade","p(~effort)Psi(~avgT + pctrock + pctShade)",6,162.077021374046,5.42293000000001,0.00594640312215956,149.4358
+"~effort","~avgT + pctpool + pctShade + HAiFLS_for","p(~effort)Psi(~avgT + pctpool + pctShade + HAiFLS_for)",7,162.125568461538,5.47147708749264,0.00580380058211217,147.26403
+"~1","~avgT + BRT_100m + pctBrBnk","p(~1)Psi(~avgT + BRT_100m + pctBrBnk)",5,162.132955454545,5.47886408049968,0.0057824038037425,151.67841
+"~effort","~avgT + pctpool + BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~avgT + pctpool + BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",9,162.13414,5.4800486259542,0.00577898005766733,142.72789
+"~effort","~avgT + pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for","p(~effort)Psi(~avgT + pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for)",9,162.21534,5.56124862595419,0.00554905257790266,142.80909
+"~1","~avgT + pctpool + pctBrBnk + HAiFLS_for","p(~1)Psi(~avgT + pctpool + pctBrBnk + HAiFLS_for)",6,162.241051374046,5.58696,0.00547817227834956,149.59983
+"~1","~avgT","p(~1)Psi(~avgT)",3,162.383684477612,5.72959310356612,0.00510109369988157,156.20458
+"~effort","~avgT + pctrock + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~avgT + pctrock + pctBrBnk + pctShade + HAiFLS_for)",8,162.403119069767,5.74902769572165,0.00505176492141085,145.28684
+"~effort","~avgT + pctrock + BRT_100m + HAiFLS_for","p(~effort)Psi(~avgT + pctrock + BRT_100m + HAiFLS_for)",7,162.427438461538,5.77334708749265,0.00499070895954581,147.5659
+"~effort","~avgT + pctpool + pctrock + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~avgT + pctpool + pctrock + pctBrBnk + pctShade + HAiFLS_for)",9,162.43126,5.7771686259542,0.00498118197126281,143.02501
+"~effort","~avgT + pctpool + pctrock + BRT_100m + pctBrBnk + pctShade","p(~effort)Psi(~avgT + pctpool + pctrock + BRT_100m + pctBrBnk + pctShade)",9,162.69416,6.04006862595421,0.0043676154934085,143.28791
+"~1","~avgT + pctpool","p(~1)Psi(~avgT + pctpool)",4,162.700951879699,6.04686050565346,0.00435280848998312,154.4002
+"~1","~avgT + pctpool + pctShade + pctBrBnk","p(~1)Psi(~avgT + pctpool + pctShade + pctBrBnk)",6,162.749201374046,6.09511000000001,0.00424905463546559,150.10798
+"~1","~avgT + BRT_100m","p(~1)Psi(~avgT + BRT_100m)",4,162.749401879699,6.09531050565343,0.00424862867707966,154.44865
+"~effort","~avgT + pctrock + BRT_100m + pctShade + pctBrBnk","p(~effort)Psi(~avgT + pctrock + BRT_100m + pctShade + pctBrBnk)",8,162.808749069767,6.15465769572162,0.00412440873118556,145.69247
+"~effort","~avgT + pctpool + BRT_100m + pctShade + HAiFLS_for","p(~effort)Psi(~avgT + pctpool + BRT_100m + pctShade + HAiFLS_for)",8,162.895599069767,6.24150769572165,0.00394913935995935,145.77932
+"~effort","~avgT + pctrock + pctShade + HAiFLS_for","p(~effort)Psi(~avgT + pctrock + pctShade + HAiFLS_for)",7,162.952828461538,6.29873708749264,0.00383773740591327,148.09129
+"~1","~avgT + pctrock + pctBrBnk","p(~1)Psi(~avgT + pctrock + pctBrBnk)",5,163.045895454545,6.39180408049967,0.00366324541249057,152.59135
+"~1","~avgT + pctShade + pctBrBnk","p(~1)Psi(~avgT + pctShade + pctBrBnk)",5,163.145775454545,6.49168408049965,0.00348479590701022,152.69123
+"~1","~avgT + pctpool + BRT_100m","p(~1)Psi(~avgT + pctpool + BRT_100m)",5,163.229615454545,6.57552408049966,0.00334173281462668,152.77507
+"~effort","~avgT + pctpool + pctrock + BRT_100m + HAiFLS_for","p(~effort)Psi(~avgT + pctpool + pctrock + BRT_100m + HAiFLS_for)",8,163.263199069767,6.60910769572163,0.00328608757964992,146.14692
+"~effort","~avgT + pctpool + pctrock + pctShade + HAiFLS_for","p(~effort)Psi(~avgT + pctpool + pctrock + pctShade + HAiFLS_for)",8,163.269639069767,6.61554769572163,0.00327552339510837,146.15336
+"~1","~avgT + HAiFLS_for","p(~1)Psi(~avgT + HAiFLS_for)",4,163.501311879699,6.84722050565344,0.00291724963519322,155.20056
+"~effort","~avgT + pctpool + pctrock + BRT_100m + pctShade","p(~effort)Psi(~avgT + pctpool + pctrock + BRT_100m + pctShade)",8,163.566039069767,6.91194769572164,0.00282434836749782,146.44976
+"~1","~avgT + pctpool + BRT_100m + pctBrBnk + HAiFLS_for","p(~1)Psi(~avgT + pctpool + BRT_100m + pctBrBnk + HAiFLS_for)",7,163.634028461538,6.97993708749266,0.00272994913111719,148.77249
+"~1","~avgT + BRT_100m + HAiFLS_for","p(~1)Psi(~avgT + BRT_100m + HAiFLS_for)",5,163.833425454545,7.17933408049967,0.00247090499736907,153.37888
+"~effort","~avgT + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~avgT + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",9,163.8739,7.21980862595419,0.00242140319918145,144.46765
+"~effort","~avgT + pctrock + BRT_100m + pctShade + HAiFLS_for","p(~effort)Psi(~avgT + pctrock + BRT_100m + pctShade + HAiFLS_for)",8,164.016999069767,7.36290769572165,0.00225420570041132,146.90072
+"~1","~avgT + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~avgT + pctBrBnk + pctShade + HAiFLS_for)",6,164.079881374046,7.42579000000001,0.00218443348314027,151.43866
+"~1","~avgT + pctrock","p(~1)Psi(~avgT + pctrock)",4,164.092941879699,7.43885050565345,0.00217021505570295,155.79219
+"~1","~avgT + pctpool + pctrock","p(~1)Psi(~avgT + pctpool + pctrock)",5,164.101925454545,7.44783408049966,0.00216048877156394,153.64738
+"~1","~avgT + pctpool + pctrock + BRT_100m + pctBrBnk","p(~1)Psi(~avgT + pctpool + pctrock + BRT_100m + pctBrBnk)",7,164.138868461538,7.48477708749266,0.00212094761226581,149.27733
+"~1","~avgT + pctrock + pctBrBnk + HAiFLS_for","p(~1)Psi(~avgT + pctrock + pctBrBnk + HAiFLS_for)",6,164.191551374046,7.53746000000001,0.00206580817828865,151.55033
+"~1","~avgT + pctrock + pctBrBnk + HAiFLS_for","p(~1)Psi(~avgT + pctrock + pctBrBnk + HAiFLS_for)",6,164.191551374046,7.53746000000001,0.00206580817828865,151.55033
+"~1","~avgT + pctpool + HAiFLS_for","p(~1)Psi(~avgT + pctpool + HAiFLS_for)",5,164.200155454545,7.54606408049966,0.00205694007749773,153.74561
+"~1","~avgT + pctpool + BRT_100m + pctShade + pctBrBnk","p(~1)Psi(~avgT + pctpool + BRT_100m + pctShade + pctBrBnk)",7,164.215828461538,7.56173708749265,0.00204088385388329,149.35429
+"~1","~avgT + pctpool + pctrock + pctBrBnk + HAiFLS_for","p(~1)Psi(~avgT + pctpool + pctrock + pctBrBnk + HAiFLS_for)",7,164.257508461538,7.60341708749266,0.00199879195533579,149.39597
+"~effort","~avgT + pctpool + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~avgT + pctpool + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",10,164.300053464567,7.64596209052112,0.00195672170660888,142.56777
+"~1","~avgT + BRT_100m + pctShade + pctBrBnk","p(~1)Psi(~avgT + BRT_100m + pctShade + pctBrBnk)",6,164.319611374046,7.66552000000001,0.00193768026802621,151.67839
+"~1","~avgT + pctpool + pctShade + pctBrBnk + HAiFLS_for","p(~1)Psi(~avgT + pctpool + pctShade + pctBrBnk + HAiFLS_for)",7,164.338428461538,7.68433708749265,0.00191953501252555,149.47689
+"~1","~avgT + pctShade","p(~1)Psi(~avgT + pctShade)",4,164.404021879699,7.74993050565345,0.00185760173628276,156.10327
+"~1","~avgT + pctpool + pctrock + pctShade + pctBrBnk","p(~1)Psi(~avgT + pctpool + pctrock + pctShade + pctBrBnk)",7,164.603168461538,7.94907708749264,0.00168154493622399,149.74163
+"~1","~avgT + pctpool + pctShade","p(~1)Psi(~avgT + pctpool + pctShade)",5,164.669395454545,8.01530408049967,0.00162677492173476,154.21485
+"~1","~avgT + pctpool + BRT_100m + HAiFLS_for","p(~1)Psi(~avgT + pctpool + BRT_100m + HAiFLS_for)",6,164.691261374046,8.03717,0.00160908632752931,152.05004
+"~effort","~avgT + pctpool + pctrock + BRT_100m + pctShade + HAiFLS_for","p(~effort)Psi(~avgT + pctpool + pctrock + BRT_100m + pctShade + HAiFLS_for)",9,164.72439,8.07029862595419,0.00158265245188762,145.31814
+"~1","~avgT + BRT_100m + pctShade","p(~1)Psi(~avgT + BRT_100m + pctShade)",5,164.791385454545,8.13729408049966,0.00153051530481026,154.33684
+"~1","~avgT + pctrock + BRT_100m","p(~1)Psi(~avgT + pctrock + BRT_100m)",5,164.846545454545,8.19245408049966,0.00148888047610785,154.392
+"~1","~avgT + pctShade + HAiFLS_for","p(~1)Psi(~avgT + pctShade + HAiFLS_for)",5,165.120515454545,8.46642408049965,0.00129827891947319,154.66597
+"~1","~avgT + BRT_100m + pctShade + pctBrBnk + HAiFLS_for","p(~1)Psi(~avgT + BRT_100m + pctShade + pctBrBnk + HAiFLS_for)",7,165.195258461538,8.54116708749265,0.00125065570244148,150.33372
+"~1","~avgT + pctpool + pctrock + BRT_100m","p(~1)Psi(~avgT + pctpool + pctrock + BRT_100m)",6,165.204181374046,8.55009000000001,0.0012450883851425,152.56296
+"~1","~avgT + pctrock + pctShade + pctBrBnk","p(~1)Psi(~avgT + pctrock + pctShade + pctBrBnk)",6,165.229401374046,8.57531,0.00122948639787709,152.58818
+"~1","~avgT + pctrock + BRT_100m + pctBrBnk + HAiFLS_for","p(~1)Psi(~avgT + pctrock + BRT_100m + pctBrBnk + HAiFLS_for)",7,165.372898461538,8.71880708749265,0.00114436280021071,150.51136
+"~1","~avgT + pctrock + HAiFLS_for","p(~1)Psi(~avgT + pctrock + HAiFLS_for)",5,165.396665454545,8.74257408049965,0.00113084425177478,154.94212
+"~1","~avgT + pctpool + BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~avgT + pctpool + BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",8,165.735169069767,9.08107769572163,0.000954767590948544,148.61889
+"~1","~avgT + pctpool + pctrock + HAiFLS_for","p(~1)Psi(~avgT + pctpool + pctrock + HAiFLS_for)",6,165.815381374046,9.16129000000001,0.000917233246788983,153.17416
+"~1","~avgT + pctpool + pctShade + HAiFLS_for","p(~1)Psi(~avgT + pctpool + pctShade + HAiFLS_for)",6,165.818491374046,9.1644,0.00091580805746211,153.17727
+"~1","~avgT + pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for","p(~1)Psi(~avgT + pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for)",8,165.857719069767,9.20362769572165,0.000898020548538974,148.74144
+"~1","~avgT + pctrock + pctShade","p(~1)Psi(~avgT + pctrock + pctShade)",5,165.966425454545,9.31233408049965,0.000850513052192586,155.51188
+"~1","~avgT + pctrock + BRT_100m + HAiFLS_for","p(~1)Psi(~avgT + pctrock + BRT_100m + HAiFLS_for)",6,166.006671374046,9.35258000000002,0.000833569263619171,153.36545
+"~1","~avgT + pctrock + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~avgT + pctrock + pctBrBnk + pctShade + HAiFLS_for)",7,166.187758461538,9.53366708749266,0.00076141097243675,151.32622
+"~1","~avgT + pctpool + pctrock + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~avgT + pctpool + pctrock + pctBrBnk + pctShade + HAiFLS_for)",8,166.209309069767,9.55521769572164,0.000753250581953716,149.09303
+"~1","~avgT + pctpool + pctrock + BRT_100m + pctBrBnk + pctShade","p(~1)Psi(~avgT + pctpool + pctrock + BRT_100m + pctBrBnk + pctShade)",8,166.354079069767,9.69998769572163,0.000700653135404755,149.2378
+"~1","~avgT + pctpool + BRT_100m + pctShade + HAiFLS_for","p(~1)Psi(~avgT + pctpool + BRT_100m + pctShade + HAiFLS_for)",7,166.379718461538,9.72562708749265,0.000691728304326412,151.51818
+"~1","~avgT + pctrock + BRT_100m + pctShade + pctBrBnk","p(~1)Psi(~avgT + pctrock + BRT_100m + pctShade + pctBrBnk)",7,166.537528461538,9.88343708749267,0.00063924529548487,151.67599
+"~1","~avgT + pctrock + pctShade + HAiFLS_for","p(~1)Psi(~avgT + pctrock + pctShade + HAiFLS_for)",6,166.719481374046,10.06539,0.000583656017674183,154.07826
+"~1","~avgT + pctpool + pctrock + BRT_100m + HAiFLS_for","p(~1)Psi(~avgT + pctpool + pctrock + BRT_100m + HAiFLS_for)",7,166.793598461538,10.1395070874927,0.000562422448204506,151.93206
+"~1","~avgT + pctpool + pctrock + pctShade + HAiFLS_for","p(~1)Psi(~avgT + pctpool + pctrock + pctShade + HAiFLS_for)",7,166.980418461538,10.3263270874926,0.000512265607263806,152.11888
+"~1","~avgT + pctpool + pctrock + BRT_100m + pctShade","p(~1)Psi(~avgT + pctpool + pctrock + BRT_100m + pctShade)",7,167.075938461538,10.4218470874927,0.000488374854141827,152.2144
+"~effort","~BRT_100m + pctBrBnk + HAiFLS_for","p(~effort)Psi(~BRT_100m + pctBrBnk + HAiFLS_for)",6,167.263721374046,10.60963,0.000444607467978342,154.6225
+"~1","~avgT + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~avgT + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",8,167.442759069767,10.7886676957216,0.000406536188896312,150.32648
+"~1","~avgT + pctrock + BRT_100m + pctShade + HAiFLS_for","p(~1)Psi(~avgT + pctrock + BRT_100m + pctShade + HAiFLS_for)",7,167.550098461538,10.8960070874926,0.000385292680557362,152.68856
+"~1","~avgT + pctpool + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~avgT + pctpool + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",9,167.90076,11.2466686259542,0.000323329680545723,148.49451
+"~effort","~pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctBrBnk + HAiFLS_for)",5,168.000245454545,11.3461540804997,0.000307639843110604,157.5457
+"~1","~avgT + pctpool + pctrock + BRT_100m + pctShade + HAiFLS_for","p(~1)Psi(~avgT + pctpool + pctrock + BRT_100m + pctShade + HAiFLS_for)",8,168.230869069767,11.5767776957216,0.000274134250192364,151.11459
+"~effort","~pctpool + BRT_100m + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctpool + BRT_100m + pctBrBnk + HAiFLS_for)",7,168.308848461538,11.6547570874926,0.00026365152620533,153.44731
+"~effort","~pctpool + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctpool + pctBrBnk + HAiFLS_for)",6,168.694441374046,12.04035,0.000217420180825129,156.05322
+"~effort","~BRT_100m + HAiFLS_for","p(~effort)Psi(~BRT_100m + HAiFLS_for)",5,169.386795454545,12.7327040804997,0.000153800261635546,158.93225
+"~effort","~BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",7,169.431698461538,12.7776070874926,0.00015038568909807,154.57016
+"~effort","~BRT_100m + pctBrBnk","p(~effort)Psi(~BRT_100m + pctBrBnk)",5,169.587845454545,12.9337540804997,0.000139091189585172,159.1333
+"~effort","~pctpool + BRT_100m + pctBrBnk","p(~effort)Psi(~pctpool + BRT_100m + pctBrBnk)",6,169.632921374046,12.97883,0.000135991420401271,156.9917
+"~effort","~pctpool + pctBrBnk","p(~effort)Psi(~pctpool + pctBrBnk)",5,170.012425454545,13.3583340804997,0.000112487236087922,159.55788
+"~effort","~pctrock + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctrock + pctBrBnk + HAiFLS_for)",6,170.117241374046,13.46315,0.000106743824301784,157.47602
+"~effort","~pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~pctBrBnk + pctShade + HAiFLS_for)",6,170.179901374046,13.52581,0.000103451385646488,157.53868
+"~effort","~pctpool + BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~pctpool + BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",8,170.486249069767,13.8321576957216,8.87592768340517e-05,153.36997
+"~effort","~pctBrBnk","p(~effort)Psi(~pctBrBnk)",4,170.548361879699,13.8942705056535,8.60450972668483e-05,162.24761
+"~effort","~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for)",8,170.548419069767,13.8943276957216,8.60426368395364e-05,153.43214
+"~effort","~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for)",8,170.548419069767,13.8943276957216,8.60426368395364e-05,153.43214
+"~effort","~pctpool + pctrock + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctpool + pctrock + pctBrBnk + HAiFLS_for)",7,170.797418461538,14.1433270874927,7.59703592781638e-05,155.93588
+"~effort","~pctpool + BRT_100m + HAiFLS_for","p(~effort)Psi(~pctpool + BRT_100m + HAiFLS_for)",6,170.831471374046,14.17738,7.46878029581719e-05,158.19025
+"~effort","~pctpool + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~pctpool + pctBrBnk + pctShade + HAiFLS_for)",7,170.888118461538,14.2340270874926,7.26020569965369e-05,156.02658
+"~1","~BRT_100m + pctBrBnk + HAiFLS_for","p(~1)Psi(~BRT_100m + pctBrBnk + HAiFLS_for)",5,171.163085454545,14.5089940804997,6.32762308233698e-05,160.70854
+"~effort","~BRT_100m + pctShade + HAiFLS_for","p(~effort)Psi(~BRT_100m + pctShade + HAiFLS_for)",6,171.207041374046,14.55295,6.19007192060889e-05,158.56582
+"~effort","~BRT_100m + pctShade + pctBrBnk","p(~effort)Psi(~BRT_100m + pctShade + pctBrBnk)",6,171.313901374046,14.65981,5.86801669557834e-05,158.67268
+"~effort","~pctrock + BRT_100m + HAiFLS_for","p(~effort)Psi(~pctrock + BRT_100m + HAiFLS_for)",6,171.569621374046,14.91553,5.16371718828609e-05,158.9284
+"~effort","~pctpool + BRT_100m + pctShade + pctBrBnk","p(~effort)Psi(~pctpool + BRT_100m + pctShade + pctBrBnk)",7,171.575418461538,14.9213270874926,5.14877159880857e-05,156.71388
+"~effort","~pctrock + BRT_100m + pctShade + pctBrBnk + HAiFLS_for","p(~effort)Psi(~pctrock + BRT_100m + pctShade + pctBrBnk + HAiFLS_for)",8,171.672409069767,15.0183176957216,4.90503808545758e-05,154.55613
+"~effort","~pctrock + BRT_100m + pctBrBnk","p(~effort)Psi(~pctrock + BRT_100m + pctBrBnk)",6,171.756771374046,15.10268,4.70244085831894e-05,159.11555
+"~effort","~pctpool + pctShade + pctBrBnk","p(~effort)Psi(~pctpool + pctShade + pctBrBnk)",6,171.778931374046,15.12484,4.65062540133914e-05,159.13771
+"~effort","~pctBrBnk + pctShade","p(~effort)Psi(~pctBrBnk + pctShade)",5,171.951235454545,15.2971440804997,4.26673827456351e-05,161.49669
+"~effort","~pctpool + pctrock + pctBrBnk","p(~effort)Psi(~pctpool + pctrock + pctBrBnk)",6,171.967141374046,15.31305,4.23293965447946e-05,159.32592
+"~effort","~HAiFLS_for","p(~effort)Psi(~HAiFLS_for)",4,172.078781879699,15.4246905056534,4.00312958973595e-05,163.77803
+"~1","~pctpool + BRT_100m + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctpool + BRT_100m + pctBrBnk + HAiFLS_for)",6,172.235871374046,15.58178,3.70073595070592e-05,159.59465
+"~effort","~BRT_100m","p(~effort)Psi(~BRT_100m)",4,172.251731879699,15.5976405056534,3.67150423959745e-05,163.95098
+"~1","~pctBrBnk + HAiFLS_for","p(~1)Psi(~pctBrBnk + HAiFLS_for)",4,172.277061879699,15.6229705056535,3.62529785794693e-05,163.97631
+"~effort","~pctrock + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~pctrock + pctBrBnk + pctShade + HAiFLS_for)",7,172.288228461538,15.6341370874927,3.60511316627365e-05,157.42669
+"~effort","~pctrock + pctBrBnk","p(~effort)Psi(~pctrock + pctBrBnk)",5,172.571665454545,15.9175740804997,3.12875344617486e-05,162.11712
+"~effort","~pctpool + BRT_100m + pctShade + HAiFLS_for","p(~effort)Psi(~pctpool + BRT_100m + pctShade + HAiFLS_for)",7,172.626028461538,15.9719370874926,3.04485463687226e-05,157.76449
+"~effort","~pctpool + BRT_100m + pctShade + HAiFLS_for","p(~effort)Psi(~pctpool + BRT_100m + pctShade + HAiFLS_for)",7,172.626028461538,15.9719370874926,3.04485463687226e-05,157.76449
+"~effort","~pctpool + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",9,172.77622,16.1221286259542,2.82457353598718e-05,153.36997
+"~effort","~pctpool + pctrock + pctBrBnk + pctShade + HAiFLS_for","p(~effort)Psi(~pctpool + pctrock + pctBrBnk + pctShade + HAiFLS_for)",8,172.936349069767,16.2822576957216,2.60724173916903e-05,155.82007
+"~1","~pctpool + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctpool + pctBrBnk + HAiFLS_for)",5,173.011075454545,16.3569840804997,2.51162427462991e-05,162.55653
+"~effort","~pctpool + pctrock + BRT_100m + HAiFLS_for","p(~effort)Psi(~pctpool + pctrock + BRT_100m + HAiFLS_for)",7,173.022888461538,16.3687970874927,2.49683308218628e-05,158.16135
+"~1","~BRT_100m + HAiFLS_for","p(~1)Psi(~BRT_100m + HAiFLS_for)",4,173.132281879699,16.4781905056534,2.36393227969063e-05,164.83153
+"~1","~BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",6,173.291761374046,16.63767,2.18275252273331e-05,160.65054
+"~effort","~pctrock + BRT_100m + pctShade + HAiFLS_for","p(~effort)Psi(~pctrock + BRT_100m + pctShade + HAiFLS_for)",7,173.315588461538,16.6614970874926,2.1569024935391e-05,158.45405
+"~effort","~pctrock + BRT_100m + pctShade + pctBrBnk","p(~effort)Psi(~pctrock + BRT_100m + pctShade + pctBrBnk)",7,173.376888461538,16.7227970874927,2.09179628158389e-05,158.51535
+"~effort","~pctpool + HAiFLS_for","p(~effort)Psi(~pctpool + HAiFLS_for)",5,173.409075454545,16.7549840804997,2.05840140636533e-05,162.95453
+"~1","~BRT_100m + pctBrBnk","p(~1)Psi(~BRT_100m + pctBrBnk)",4,173.524291879699,16.8702005056535,1.94317153997438e-05,165.22354
+"~1","~pctpool + BRT_100m + pctBrBnk","p(~1)Psi(~pctpool + BRT_100m + pctBrBnk)",5,173.608145454545,16.9540540804997,1.86338488636537e-05,163.1536
+"~effort","~pctrock + HAiFLS_for","p(~effort)Psi(~pctrock + HAiFLS_for)",5,173.710735454545,17.0566440804997,1.77021262274785e-05,163.25619
+"~effort","~pctpool + pctrock + BRT_100m + pctShade + pctBrBnk","p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctShade + pctBrBnk)",8,173.794349069767,17.1402576957216,1.69773134623514e-05,156.67807
+"~effort","~pctpool + pctrock + pctShade + pctBrBnk","p(~effort)Psi(~pctpool + pctrock + pctShade + pctBrBnk)",7,173.928338461538,17.2742470874927,1.58771862957718e-05,159.0668
+"~effort","~pctShade + HAiFLS_for","p(~effort)Psi(~pctShade + HAiFLS_for)",5,173.961985454545,17.3078940804997,1.56123108207335e-05,163.50744
+"~effort","~pctrock + pctShade + pctBrBnk","p(~effort)Psi(~pctrock + pctShade + pctBrBnk)",6,174.134541374046,17.48045,1.43217849120513e-05,161.49332
+"~effort","~BRT_100m + pctShade","p(~effort)Psi(~BRT_100m + pctShade)",5,174.335535454545,17.6814440804997,1.29524473935888e-05,163.88099
+"~1","~pctrock + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctrock + pctBrBnk + HAiFLS_for)",5,174.349475454545,17.6953840804997,1.28624827263344e-05,163.89493
+"~1","~pctpool + BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~pctpool + BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",7,174.373158461538,17.7190670874926,1.27110698395417e-05,159.51162
+"~1","~pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~pctBrBnk + pctShade + HAiFLS_for)",5,174.423635454545,17.7695440804997,1.23942760629601e-05,163.96909
+"~1","~pctpool + pctBrBnk","p(~1)Psi(~pctpool + pctBrBnk)",4,174.425551879699,17.7714605056534,1.23824053999726e-05,166.1248
+"~1","~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for)",7,174.441848461538,17.7877570874927,1.22819199069785e-05,159.58031
+"~1","~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + HAiFLS_for)",7,174.441848461538,17.7877570874927,1.22819199069785e-05,159.58031
+"~1","~pctpool + BRT_100m + HAiFLS_for","p(~1)Psi(~pctpool + BRT_100m + HAiFLS_for)",5,174.571025454545,17.9169340804997,1.15137244958192e-05,164.11648
+"~effort","~pctpool + pctrock + BRT_100m + pctShade + HAiFLS_for","p(~effort)Psi(~pctpool + pctrock + BRT_100m + pctShade + HAiFLS_for)",8,174.661589069767,18.0074976957216,1.10039901793545e-05,157.54531
+"~effort","~pctpool + pctrock + HAiFLS_for","p(~effort)Psi(~pctpool + pctrock + HAiFLS_for)",6,174.882381374046,18.22829,9.85384563179105e-06,162.24116
+"~1","~BRT_100m + pctShade + HAiFLS_for","p(~1)Psi(~BRT_100m + pctShade + HAiFLS_for)",5,174.911845454545,18.2577540804997,9.70974245448481e-06,164.4573
+"~1","~pctBrBnk","p(~1)Psi(~pctBrBnk)",3,174.962154477612,18.3080631035661,9.46854494667321e-06,168.78305
+"~1","~pctpool + pctrock + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctpool + pctrock + pctBrBnk + HAiFLS_for)",6,175.049121374046,18.39503,9.06564322313651e-06,162.4079
+"~1","~pctpool + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~pctpool + pctBrBnk + pctShade + HAiFLS_for)",6,175.171311374046,18.51722,8.52835759538777e-06,162.53009
+"~effort","~pctrock + pctShade + HAiFLS_for","p(~effort)Psi(~pctrock + pctShade + HAiFLS_for)",6,175.173951374046,18.51986,8.51710758999898e-06,162.53273
+"~1","~BRT_100m + pctShade + pctBrBnk","p(~1)Psi(~BRT_100m + pctShade + pctBrBnk)",5,175.221495454545,18.5674040804997,8.31702615970868e-06,164.76695
+"~effort","~pctpool + pctShade + HAiFLS_for","p(~effort)Psi(~pctpool + pctShade + HAiFLS_for)",6,175.243721374046,18.58963,8.22511105313607e-06,162.6025
+"~1","~pctrock + BRT_100m + HAiFLS_for","p(~1)Psi(~pctrock + BRT_100m + HAiFLS_for)",5,175.283765454545,18.6296740804997,8.06206525019428e-06,164.82922
+"~effort","~pctpool + BRT_100m + pctShade","p(~effort)Psi(~pctpool + BRT_100m + pctShade)",6,175.354941374046,18.70085,7.7801980834302e-06,162.71372
+"~effort","~1","p(~effort)Psi(~1)",3,175.476744477612,18.8226531035661,7.32051182281371e-06,169.29764
+"~1","~pctrock + BRT_100m + pctShade + pctBrBnk + HAiFLS_for","p(~1)Psi(~pctrock + BRT_100m + pctShade + pctBrBnk + HAiFLS_for)",7,175.497108461538,18.8430170874927,7.24635261518581e-06,160.63557
+"~1","~pctpool + BRT_100m + pctShade + pctBrBnk","p(~1)Psi(~pctpool + BRT_100m + pctShade + pctBrBnk)",6,175.514671374046,18.86058,7.18299766817349e-06,162.87345
+"~1","~pctrock + BRT_100m + pctBrBnk","p(~1)Psi(~pctrock + BRT_100m + pctBrBnk)",5,175.662955454545,19.0088640804996,6.66969917833792e-06,165.20841
+"~1","~BRT_100m","p(~1)Psi(~BRT_100m)",3,175.949394477612,19.2953031035661,5.7797200466652e-06,169.77029
+"~1","~pctpool + pctShade + pctBrBnk","p(~1)Psi(~pctpool + pctShade + pctBrBnk)",5,176.130455454545,19.4763640804996,5.27946495451587e-06,165.67591
+"~effort","~pctpool + pctrock + pctShade + HAiFLS_for","p(~effort)Psi(~pctpool + pctrock + pctShade + HAiFLS_for)",7,176.159568461538,19.5054770874927,5.20317103794393e-06,161.29803
+"~effort","~pctpool","p(~effort)Psi(~pctpool)",4,176.172111879699,19.5180205056535,5.17064038093779e-06,167.87136
+"~1","~HAiFLS_for","p(~1)Psi(~HAiFLS_for)",3,176.196614477612,19.5425231035661,5.10767978189633e-06,170.01751
+"~1","~pctpool + pctrock + pctBrBnk","p(~1)Psi(~pctpool + pctrock + pctBrBnk)",5,176.268665454545,19.6145740804997,4.92694814187183e-06,165.81412
+"~1","~pctBrBnk + pctShade","p(~1)Psi(~pctBrBnk + pctShade)",4,176.291131879699,19.6370405056534,4.87191237897395e-06,167.99038
+"~1","~pctpool + BRT_100m + pctShade + HAiFLS_for","p(~1)Psi(~pctpool + BRT_100m + pctShade + HAiFLS_for)",6,176.323271374046,19.66918,4.79424767617885e-06,163.68205
+"~1","~pctpool + BRT_100m + pctShade + HAiFLS_for","p(~1)Psi(~pctpool + BRT_100m + pctShade + HAiFLS_for)",6,176.323271374046,19.66918,4.79424767617885e-06,163.68205
+"~1","~pctrock + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~pctrock + pctBrBnk + pctShade + HAiFLS_for)",6,176.481521374046,19.82743,4.42952253554328e-06,163.8403
+"~effort","~pctrock + BRT_100m + pctShade","p(~effort)Psi(~pctrock + BRT_100m + pctShade)",6,176.490821374046,19.83673,4.40897307028729e-06,163.8496
+"~1","~pctpool + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~pctpool + pctrock + BRT_100m + pctBrBnk + pctShade + HAiFLS_for)",8,176.627839069767,19.9737476957216,4.11703379170372e-06,159.51156
+"~effort","~pctrock","p(~effort)Psi(~pctrock)",4,176.704611879699,20.0505205056535,3.96199048074479e-06,168.40386
+"~1","~pctpool + pctrock + BRT_100m + HAiFLS_for","p(~1)Psi(~pctpool + pctrock + BRT_100m + HAiFLS_for)",6,176.732181374046,20.07809,3.90775014719667e-06,164.09096
+"~1","~pctrock + pctBrBnk","p(~1)Psi(~pctrock + pctBrBnk)",4,176.911241879699,20.2571505056534,3.57309277984256e-06,168.61049
+"~1","~pctrock + BRT_100m + pctShade + HAiFLS_for","p(~1)Psi(~pctrock + BRT_100m + pctShade + HAiFLS_for)",6,176.996551374046,20.34246,3.42388817460867e-06,164.35533
+"~1","~pctpool + pctrock + pctBrBnk + pctShade + HAiFLS_for","p(~1)Psi(~pctpool + pctrock + pctBrBnk + pctShade + HAiFLS_for)",7,177.138848461538,20.4847570874927,3.18874765384972e-06,162.27731
+"~1","~pctrock + BRT_100m + pctShade + pctBrBnk","p(~1)Psi(~pctrock + BRT_100m + pctShade + pctBrBnk)",6,177.259771374046,20.60568,3.00166399068657e-06,164.61855
+"~effort","~pctShade","p(~effort)Psi(~pctShade)",4,177.434141879699,20.7800505056534,2.75104694261767e-06,169.13339
+"~1","~pctpool + HAiFLS_for","p(~1)Psi(~pctpool + HAiFLS_for)",4,177.520871879699,20.8667805056535,2.63429750685403e-06,169.22012
+"~1","~pctpool + pctrock + BRT_100m + pctShade + pctBrBnk","p(~1)Psi(~pctpool + pctrock + BRT_100m + pctShade + pctBrBnk)",7,177.707918461538,21.0538270874927,2.39909901083011e-06,162.84638
+"~1","~pctrock + HAiFLS_for","p(~1)Psi(~pctrock + HAiFLS_for)",4,177.779461879699,21.1253705056534,2.31479596048552e-06,169.47871
+"~1","~BRT_100m + pctShade","p(~1)Psi(~BRT_100m + pctShade)",4,178.002441879699,21.3483505056535,2.07058576526348e-06,169.70169
+"~1","~pctShade + HAiFLS_for","p(~1)Psi(~pctShade + HAiFLS_for)",4,178.045651879699,21.3915605056534,2.02633054821329e-06,169.7449
+"~1","~pctpool + pctrock + pctShade + pctBrBnk","p(~1)Psi(~pctpool + pctrock + pctShade + pctBrBnk)",6,178.204381374046,21.55029,1.87172749483596e-06,165.56316
+"~effort","~pctpool + pctShade","p(~effort)Psi(~pctpool + pctShade)",5,178.262335454545,21.6082440804997,1.81826865199323e-06,167.80779
+"~1","~pctpool + pctrock + BRT_100m + pctShade + HAiFLS_for","p(~1)Psi(~pctpool + pctrock + BRT_100m + pctShade + HAiFLS_for)",7,178.333648461538,21.6795570874926,1.75457779392794e-06,163.47211
+"~1","~pctrock + pctShade + pctBrBnk","p(~1)Psi(~pctrock + pctShade + pctBrBnk)",5,178.434015454545,21.7799240804997,1.66869979648666e-06,167.97947
+"~effort","~pctrock + pctShade","p(~effort)Psi(~pctrock + pctShade)",5,178.834265454545,22.1801740804997,1.36604507473159e-06,168.37972
+"~1","~pctpool + pctrock + HAiFLS_for","p(~1)Psi(~pctpool + pctrock + HAiFLS_for)",5,178.931265454545,22.2771740804997,1.30137286626563e-06,168.47672
+"~1","~pctpool + BRT_100m + pctShade","p(~1)Psi(~pctpool + BRT_100m + pctShade)",5,179.019205454545,22.3651140804997,1.24539127569878e-06,168.56466
+"~1","~pctrock + pctShade + HAiFLS_for","p(~1)Psi(~pctrock + pctShade + HAiFLS_for)",5,179.208355454545,22.5542640804996,1.13300654441456e-06,168.75381
+"~effort","~pctpool + pctrock + pctShade","p(~effort)Psi(~pctpool + pctrock + pctShade)",6,179.226311374046,22.57222,1.12287998321138e-06,166.58509
+"~1","~pctpool + pctShade + HAiFLS_for","p(~1)Psi(~pctpool + pctShade + HAiFLS_for)",5,179.318015454545,22.6639240804997,1.07255618587651e-06,168.86347
+"~1","~1","p(~1)Psi(~1)",2,179.630518888889,22.9764275148431,9.17404346522001e-07,175.54163
+"~1","~pctrock + BRT_100m + pctShade","p(~1)Psi(~pctrock + BRT_100m + pctShade)",5,180.126705454545,23.4726140804997,7.15838825230122e-07,169.67216
+"~1","~pctpool + pctrock + pctShade + HAiFLS_for","p(~1)Psi(~pctpool + pctrock + pctShade + HAiFLS_for)",6,180.162701374046,23.50861,7.03070434028036e-07,167.52148
+"~1","~pctpool","p(~1)Psi(~pctpool)",3,180.286034477612,23.6319431035661,6.61024249764368e-07,174.10693
+"~1","~pctrock","p(~1)Psi(~pctrock)",3,180.767024477612,24.1129331035661,5.19722765253427e-07,174.58792
+"~1","~pctShade","p(~1)Psi(~pctShade)",3,181.544984477612,24.8908931035661,3.52240973667698e-07,175.36588
+"~1","~pctpool + pctShade","p(~1)Psi(~pctpool + pctShade)",4,182.338521879699,25.6844305056534,2.36878375203822e-07,174.03777
+"~1","~pctrock + pctShade","p(~1)Psi(~pctrock + pctShade)",4,182.861811879699,26.2077205056534,1.82345242069544e-07,174.56106
+"~1","~pctpool + pctrock + pctShade","p(~1)Psi(~pctpool + pctrock + pctShade)",5,183.190225454545,26.5361340804997,1.5473206947994e-07,172.73568

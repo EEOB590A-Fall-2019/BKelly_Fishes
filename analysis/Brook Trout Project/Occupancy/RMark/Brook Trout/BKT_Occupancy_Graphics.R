@@ -11,29 +11,29 @@ library(tidyverse)
 library(cowplot)
 
 #load data
-Psi.temp <- read_csv("Data/Thesis/Tidy/Psi_predictions_pctex21.csv", col_names = T)
-Psi.forest <- read_csv("Data/Thesis/Tidy/Psi_predictions_HAiFLS_for.csv", col_names = T)
+Psi.temp <- read_csv("Data/Thesis/Tidy/Psi_predictions_avgT.csv", col_names = T)
+Psi.bare <- read_csv("Data/Thesis/Tidy/Psi_predictions_BrBnk.csv", col_names = T)
 p.effort <- read_csv("Data/Thesis/Tidy/P_predictions_effort.csv", col_names = T)
 Psi.for_Cat <- read_csv("Data/Thesis/Tidy/BKT_Catchment_Model_Predictions.csv", col_names = T)
 
 # Add column that translates the value of the constant covariate to a factor with three levels
 
 Psi.temp2 <- Psi.temp %>%
-  mutate(For_Status = ifelse(HAiFLS_for==0,"HAiFLS Forest (0%)",ifelse(HAiFLS_for<27,"HAiFLS Forest (27%)", ifelse(HAiFLS_for>50,"HAiFLS Forest (55%)", "NA"))))
-Psi.temp2$For_Status <- factor(Psi.temp2$For_Status, c("HAiFLS Forest (0%)","HAiFLS Forest (27%)","HAiFLS Forest (55%)"))
+  mutate(Bare_Status = ifelse(pctBrBnk<0.5,"Bare Bank Index (0.43)",ifelse(pctBrBnk<1,"Bare Bank Index (0.87)", ifelse(pctBrBnk>1,"Bare Bank Index (1.20)", "NA"))))
+Psi.temp2$Bare_Status <- factor(Psi.temp2$Bare_Status, c("Bare Bank Index (0.43)","Bare Bank Index (0.87)","Bare Bank Index (1.20)"))
 
-Psi.forest2 <- Psi.forest %>%
-  mutate(P21_Status = ifelse(pctex21==0,"PctEx21 (0%)",ifelse(pctex21<6,"PctEx21 (5%)", ifelse(pctex21>10,"PctEx21 (16%)", "NA"))))
-Psi.forest2$P21_Status <- factor(Psi.forest2$P21_Status, c("PctEx21 (0%)","PctEx21 (5%)","PctEx21 (16%)"))
+Psi.bare2 <- Psi.bare %>%
+  mutate(avgT_Status = ifelse(avgT<15,"avgT (14.39°C)",ifelse(avgT<16,"avgT (15.58°C)", ifelse(avgT<17,"avgT (16.79°C)", "NA"))))
+Psi.bare2$avgT_Status <- factor(Psi.bare2$avgT_Status, c("avgT (14.39°C)","avgT (15.58°C)","avgT (16.79°C)"))
 
 
 #Make ggplot for predicted occupancy probabilies as function of temperature and forested catchment
-Psi1 <- ggplot(data = Psi.temp2, aes(x=pctex21))+
+Psi1 <- ggplot(data = Psi.temp2, aes(x=avgT))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), colour="Blue", size=1)+
-  facet_grid(cols = vars(For_Status))+
-  scale_x_continuous(limits = c(0,10.5))+
-  labs(x="Percent of Summer Stream Temperature > 21C",
+  facet_grid(cols = vars(Bare_Status))+
+  #scale_x_continuous(limits = c(0,10.5))+
+  labs(x="Average Summer Stream Temperature (°C)",
        y="Occupancy Probability (Psi)")+
   theme_bw()+
   theme(axis.title = element_text(face = "bold"))+
@@ -41,11 +41,11 @@ Psi1 <- ggplot(data = Psi.temp2, aes(x=pctex21))+
   theme(strip.text.x = element_text(size=10,face = "bold"))
 Psi1
 
-Psi2 <- ggplot(data = Psi.forest2, aes(x=HAiFLS_for))+
+Psi2 <- ggplot(data = Psi.bare2, aes(x=pctBrBnk))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), colour="Blue", size=1)+
-  facet_grid(cols = vars(P21_Status))+
-  labs(x="% HAiFLS Forest Land Cover in Catchment",
+  facet_grid(cols = vars(avgT_Status))+
+  labs(x="Bare Bank Index",
        y="Occupancy Probability (Psi)")+
   theme_bw()+
   theme(axis.title = element_text(face = "bold"))+
