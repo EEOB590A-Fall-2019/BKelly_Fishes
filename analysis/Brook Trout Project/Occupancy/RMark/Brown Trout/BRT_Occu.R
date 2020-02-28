@@ -454,8 +454,8 @@ run.occ=function()
   Psi.five.24 = list(formula = ~MEANT2+avdep+mFlow+HAiFLS_for+Area_km2)
   Psi.five.25 = list(formula = ~MEANT+avdep+pctrun+HAiFLS_for+Area_km2)
   Psi.five.26 = list(formula = ~MEANT2+avdep+pctrun+HAiFLS_for+Area_km2)
-  Psi.five.27 = list(formula = ~MEANT+mFlow+pctrun+HAiFLS_for+Area_km2)  ##4th top model: Delta AICc = 0.543##
-  Psi.five.28 = list(formula = ~MEANT2+mFlow+pctrun+HAiFLS_for+Area_km2) ##3rd top model: Delta AICc = 0.205##
+  Psi.five.27 = list(formula = ~MEANT+mFlow+pctrun+HAiFLS_for+Area_km2)  
+  Psi.five.28 = list(formula = ~MEANT2+mFlow+pctrun+HAiFLS_for+Area_km2) ##3rd top model
   Psi.five.29 = list(formula = ~avdep+mFlow+pctrun+HAiFLS_for+Area_km2)
   Psi.five.30 = list(formula = ~MEANT+avdep+pctBrBnk+HAiFLS_for+Area_km2)
   Psi.five.31 = list(formula = ~MEANT2+avdep+pctBrBnk+HAiFLS_for+Area_km2)
@@ -589,6 +589,8 @@ write.csv(AICc.Table.BRT, "Data/Thesis/Tidy/BrownTrout_OccuMod_Table.csv", row.n
 #look at summary of top model(s)
 summary(brt.results$p.tv.effort.Psi.five.37) #top
 summary(brt.results$p.tv.effort.Psi.four.21) #2nd
+summary(brt.results$p.tv.effort.Psi.five.28) #3rd
+summary(brt.results$p.tv.effort.Psi.five.27) #4th -- same as 3rd but with MEANT instead of MEANT2
 
 #real parameter values
 brt.results$p.tv.effort.Psi.four.21$results$real
@@ -657,7 +659,8 @@ a <- ggplot(data=flow.preds, aes(x=mFlow))+
   geom_line(aes(y=estimate), size=1, color="black")+
   labs(x="Mean Flow Velocity (m/sec)",
        y="Occupancy Probability (Psi)")+
-  theme_classic()+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
   theme(axis.title = element_text(face = "bold"))
 a
 
@@ -679,8 +682,9 @@ b <- ggplot(data=run.preds, aes(x=pctrun))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
   labs(x="Percentage of Run Macrohabitat",
-       y="Occupancy Probability (Psi)")+
-  theme_classic()+
+       y=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
   theme(axis.title = element_text(face = "bold"))
 b
 
@@ -704,9 +708,11 @@ class(for.preds$lcl)
 c <- ggplot(data=for.preds, aes(x=HAiFLS_for))+
   geom_ribbon(aes(ymin=for.preds$lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
+  scale_y_continuous(limits = c(0.2,1), breaks = c(0.20,0.40,0.60,0.80,1.00), labels = c("0.20","0.40","0.60","0.80","1.00"))+
   labs(x="% HAiFLS Forest Land Cover",
        y="Occupancy Probability (Psi)")+
-  theme_classic()+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
   theme(axis.title = element_text(face = "bold"))
 c
 
@@ -728,15 +734,17 @@ area.preds <- predictions_area$estimates
 d <- ggplot(data=area.preds, aes(x=Area_km2))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
+  scale_y_continuous(limits = c(0.2,1), breaks = c(0.20,0.40,0.60,0.80,1.00), labels = c("0.20","0.40","0.60","0.80","1.00"))+
   labs(x="Upstream Catchment Area (km^2)",
-       y="Occupancy Probability (Psi)")+
-  theme_classic()+
+       y=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
   theme(axis.title = element_text(face = "bold"))
 d
 
 #cowplot
 plot_grid(a,b,c,d, labels = NULL, ncol = 2)
-ggsave("brt_OccuProb.png",
+ggsave("brt_OccuProb_NEW_02_28.png",
        dpi = 350)
 
 ####################################################
@@ -775,7 +783,9 @@ ggplot(data=effort.preds, aes(x=Effort_sec))+
   geom_line(aes(y=estimate), size=1, color="black")+
   labs(x="Electrofishing Effort (sec)",
        y="Detection Probability (p)")+
-  theme_classic()+
+  scale_y_continuous(limits = c(0.4,1), breaks = c(0.40,0.60,0.80,1.00), labels = c("0.40","0.60","0.80","1.00"))+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
   theme(axis.title = element_text(face = "bold"))
 
 ggsave("brt_DetProb.png",
