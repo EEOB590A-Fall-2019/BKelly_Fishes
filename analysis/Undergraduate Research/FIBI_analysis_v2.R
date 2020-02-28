@@ -202,7 +202,7 @@ ggsave("FIBIcovars.png", dpi = 350)
 ####################################################
 ######        Observed VS Predicted          ######
 ###################################################
-
+snore <- read.csv("Data/Thesis/Tidy/FIBI_df_predicted.csv", header = T)
 #observed vs. predicted
 names(mydat)
 mydat2 <- mydat %>%
@@ -325,9 +325,37 @@ ggplot(mydat2, aes(x=estimate, y=IBIScore, fill=HUC8)) +
 
 #ggsave("Predicted_Xaxis_HUC8_FIBI.png", dpi = 350)
 
+#--------------------------------------------------------------------------------------------------
+## More Graphix
+## Observed (y) vs. Predicted (x)
+## 1-1 line PLUS stat smooth
+summary(snore)
+snore[which(snore$estimate<0),]
+snore[32,11] <- 0
 
+ggplot(snore, aes(x=estimate, y=IBIScore)) + 
+  #geom_errorbar(aes(ymax=FIBI.df.predicted$`2.5 %`, ymin=FIBI.df.predicted$`97.5 %`), width=.1)+
+  geom_point(
+    color="black",
+    fill="#69b3a2",
+    shape=21,
+    alpha=0.75,
+    size=4,
+    stroke = 2
+  )+
+  scale_y_continuous(limits = c(0,115), breaks = c(0,10,35,70,105))+
+  scale_x_continuous(limits = c(0,115), breaks = c(0,10,35,70,105))+
+  geom_abline(intercept = 0, slope = 1, color="black", linetype="dashed",
+              size=1)+
+  stat_smooth(method = "lm", se=F, color="red", size=1.5)+
+  theme_cowplot()+
+  theme(legend.position = "bottom")+
+  labs(y="Observed FIBI Score", 
+       x="Predicted FIBI Score")+
+  ggtitle("Observed versus Predicted FIBI Score")+
+  theme(axis.title = element_text(size = 14, face = "bold"))
 
-
+ggsave("Predicted_Xaxis_trendline_FIBI.png", dpi = 350)
 
 
 
