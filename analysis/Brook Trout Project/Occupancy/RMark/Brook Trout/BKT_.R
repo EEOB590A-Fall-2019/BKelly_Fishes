@@ -29,7 +29,8 @@ library(corrplot)
 ##--------------------------------------------------------------------------------------------------------------------------------##
 #read in data, rearrange and change some labels to work with grouping ("freq"), and time-varying covariates ("Effort1 --> Effort3")
 brook <- read_csv("Data/Thesis/Tidy/BKT_Occu_File.csv", col_names = T)
-brook.df <- as.data.frame(brook)
+brook.df <- as.data.frame(brook) %>%
+  rename(BrBnk = pctBrBnk)
 #examine
 skim(brook.df)
 names(brook.df)
@@ -195,7 +196,7 @@ AICc.Table
 #summary(bkt.results.temp$p.tv.effort.Psi.p21)
 #bkt.results.temp$p.tv.effort.Psi.p21$results$real
 
-summary(bkt.results.temp$p.tv.effort.Psi.avgT) #top without pctex21
+summary(bkt.results.temp$p.tv.effort.Psi.avgT) #top 
 bkt.results.temp$p.tv.effort.Psi.avgT$results$real
 
 cleanup(ask = F)
@@ -216,102 +217,102 @@ run.occ=function()
   #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
   #direct effects - hypothesized larger effects (factors that may directly influence BKT persistence)
   Psi.biol = list(formula = ~avgT+pctpool+pctrock+BRT_100m)
-  Psi.p21_pool_rck = list(formula = ~avgT+pctpool+pctrock)
-  Psi.p21_pool_brt = list(formula = ~avgT+pctpool+BRT_100m)
-  Psi.p21_rck_brt = list(formula = ~avgT+pctrock+BRT_100m)
-  Psi.pct21_pool = list(formula = ~avgT + pctpool) 
-  Psi.pct21_rock = list(formula = ~avgT + pctrock) 
-  Psi.pct21_brt = list(formula = ~avgT + BRT_100m)
+  Psi.avgT_pool_rck = list(formula = ~avgT+pctpool+pctrock)
+  Psi.avgT_pool_brt = list(formula = ~avgT+pctpool+BRT_100m)
+  Psi.avgT_rck_brt = list(formula = ~avgT+pctrock+BRT_100m)
+  Psi.avgT_pool = list(formula = ~avgT + pctpool) 
+  Psi.avgT_rock = list(formula = ~avgT + pctrock) 
+  Psi.avgT_brt = list(formula = ~avgT + BRT_100m)
   #indirect effects - hypothesized smaller effects (features of high quality stream habitats (for Brook Trout))
-  Psi.indEff = list(formula = ~pctBrBnk+pctShade+HAiFLS_for)
-  Psi.BBnk_shade = list(formula = ~pctBrBnk+pctShade)
-  Psi.BBnk_for = list(formula = ~pctBrBnk+HAiFLS_for)
+  Psi.indEff = list(formula = ~BrBnk+pctShade+HAiFLS_for)
+  Psi.BBnk_shade = list(formula = ~BrBnk+pctShade)
+  Psi.BBnk_for = list(formula = ~BrBnk+HAiFLS_for)
   Psi.shade_for = list(formula = ~pctShade+HAiFLS_for)
   #combination of effects
   #all covariates
-  Psi.global = list(formula = ~avgT+pctpool+pctrock+BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
+  Psi.global = list(formula = ~avgT+pctpool+pctrock+BRT_100m+BrBnk+pctShade+HAiFLS_for)
   #6 covariates
-  Psi.mixed1 = list(formula = ~avgT+pctpool+pctrock+BRT_100m+pctBrBnk+pctShade)
-  Psi.mixed2 = list(formula = ~avgT+pctpool+pctrock+BRT_100m+pctBrBnk+HAiFLS_for)
+  Psi.mixed1 = list(formula = ~avgT+pctpool+pctrock+BRT_100m+BrBnk+pctShade)
+  Psi.mixed2 = list(formula = ~avgT+pctpool+pctrock+BRT_100m+BrBnk+HAiFLS_for)
   Psi.mixed3 = list(formula = ~avgT+pctpool+pctrock+BRT_100m+pctShade+HAiFLS_for)
-  Psi.mixed4 = list(formula = ~avgT+pctpool+pctrock+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed5 = list(formula = ~avgT+pctpool+BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed6 = list(formula = ~avgT+pctrock+BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed7 = list(formula = ~pctpool+pctrock+BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
+  Psi.mixed4 = list(formula = ~avgT+pctpool+pctrock+BrBnk+pctShade+HAiFLS_for)
+  Psi.mixed5 = list(formula = ~avgT+pctpool+BRT_100m+BrBnk+pctShade+HAiFLS_for)
+  Psi.mixed6 = list(formula = ~avgT+pctrock+BRT_100m+BrBnk+pctShade+HAiFLS_for)
+  Psi.mixed7 = list(formula = ~pctpool+pctrock+BRT_100m+BrBnk+pctShade+HAiFLS_for)
   #5 covariates
-  Psi.mixed8 = list(formula = ~avgT+pctpool+pctrock+BRT_100m+pctBrBnk)
+  Psi.mixed8 = list(formula = ~avgT+pctpool+pctrock+BRT_100m+BrBnk)
   Psi.mixed9 = list(formula = ~avgT+pctpool+pctrock+BRT_100m+pctShade)
-  Psi.mixed10 = list(formula = ~avgT+pctpool+pctrock+pctShade+pctBrBnk)
-  Psi.mixed11 = list(formula = ~avgT+pctpool+BRT_100m+pctShade+pctBrBnk)
-  Psi.mixed12 = list(formula = ~avgT+pctrock+BRT_100m+pctShade+pctBrBnk)
-  Psi.mixed13 = list(formula = ~pctpool+pctrock+BRT_100m+pctShade+pctBrBnk)
+  Psi.mixed10 = list(formula = ~avgT+pctpool+pctrock+pctShade+BrBnk)
+  Psi.mixed11 = list(formula = ~avgT+pctpool+BRT_100m+pctShade+BrBnk)
+  Psi.mixed12 = list(formula = ~avgT+pctrock+BRT_100m+pctShade+BrBnk)
+  Psi.mixed13 = list(formula = ~pctpool+pctrock+BRT_100m+pctShade+BrBnk)
   Psi.mixed14 = list(formula = ~avgT+pctpool+pctrock+BRT_100m+HAiFLS_for)
   Psi.mixed15 = list(formula = ~avgT+pctpool+pctrock+pctShade+HAiFLS_for)
-  Psi.mixed16 = list(formula = ~avgT+pctpool+pctShade+pctBrBnk+HAiFLS_for)
-  Psi.mixed17 = list(formula = ~avgT+BRT_100m+pctShade+pctBrBnk+HAiFLS_for)
-  Psi.mixed18 = list(formula = ~pctrock+BRT_100m+pctShade+pctBrBnk+HAiFLS_for)
-  Psi.mixed19 = list(formula = ~pctpool+pctrock+BRT_100m+pctBrBnk+HAiFLS_for)
+  Psi.mixed16 = list(formula = ~avgT+pctpool+pctShade+BrBnk+HAiFLS_for)
+  Psi.mixed17 = list(formula = ~avgT+BRT_100m+pctShade+BrBnk+HAiFLS_for)
+  Psi.mixed18 = list(formula = ~pctrock+BRT_100m+pctShade+BrBnk+HAiFLS_for)
+  Psi.mixed19 = list(formula = ~pctpool+pctrock+BRT_100m+BrBnk+HAiFLS_for)
   Psi.mixed20 = list(formula = ~avgT+pctrock+BRT_100m+pctShade+HAiFLS_for)
-  Psi.mixed21 = list(formula = ~pctpool+pctrock+BRT_100m+pctBrBnk+HAiFLS_for)
-  Psi.mixed22 = list(formula = ~avgT+pctpool+pctrock+pctBrBnk+HAiFLS_for)
+  Psi.mixed21 = list(formula = ~pctpool+pctrock+BRT_100m+BrBnk+HAiFLS_for)
+  Psi.mixed22 = list(formula = ~avgT+pctpool+pctrock+BrBnk+HAiFLS_for)
   Psi.mixed23 = list(formula = ~avgT+pctpool+BRT_100m+pctShade+HAiFLS_for)
-  Psi.mixed24 = list(formula = ~avgT+pctrock+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed25 = list(formula = ~pctpool+BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed26 = list(formula = ~avgT+pctpool+BRT_100m+pctBrBnk+HAiFLS_for)
-  Psi.mixed27 = list(formula = ~avgT+pctrock+BRT_100m+pctBrBnk+HAiFLS_for)
-  Psi.mixed28 = list(formula = ~pctpool+pctrock+pctBrBnk+pctShade+HAiFLS_for)
+  Psi.mixed24 = list(formula = ~avgT+pctrock+BrBnk+pctShade+HAiFLS_for)
+  Psi.mixed25 = list(formula = ~pctpool+BRT_100m+BrBnk+pctShade+HAiFLS_for)
+  Psi.mixed26 = list(formula = ~avgT+pctpool+BRT_100m+BrBnk+HAiFLS_for)
+  Psi.mixed27 = list(formula = ~avgT+pctrock+BRT_100m+BrBnk+HAiFLS_for)
+  Psi.mixed28 = list(formula = ~pctpool+pctrock+BrBnk+pctShade+HAiFLS_for)
   Psi.mixed29 = list(formula = ~pctpool+pctrock+BRT_100m+pctShade+HAiFLS_for)
   #4 covariates
-  Psi.mixed30 = list(formula = ~avgT+pctpool+pctShade+pctBrBnk)
-  Psi.mixed31 = list(formula = ~avgT+pctrock+pctShade+pctBrBnk)
-  Psi.mixed32 = list(formula = ~avgT+BRT_100m+pctShade+pctBrBnk)
-  Psi.mixed33 = list(formula = ~pctrock+BRT_100m+pctShade+pctBrBnk)
-  Psi.mixed34 = list(formula = ~pctpool+pctrock+pctShade+pctBrBnk)
-  Psi.mixed35 = list(formula = ~pctpool+BRT_100m+pctShade+pctBrBnk)
+  Psi.mixed30 = list(formula = ~avgT+pctpool+pctShade+BrBnk)
+  Psi.mixed31 = list(formula = ~avgT+pctrock+pctShade+BrBnk)
+  Psi.mixed32 = list(formula = ~avgT+BRT_100m+pctShade+BrBnk)
+  Psi.mixed33 = list(formula = ~pctrock+BRT_100m+pctShade+BrBnk)
+  Psi.mixed34 = list(formula = ~pctpool+pctrock+pctShade+BrBnk)
+  Psi.mixed35 = list(formula = ~pctpool+BRT_100m+pctShade+BrBnk)
   Psi.mixed36 = list(formula = ~avgT+pctpool+pctrock+HAiFLS_for)
   Psi.mixed37 = list(formula = ~avgT+pctpool+pctShade+HAiFLS_for)
-  Psi.mixed38 = list(formula = ~avgT+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed39 = list(formula = ~BRT_100m+pctBrBnk+pctShade+HAiFLS_for)
+  Psi.mixed38 = list(formula = ~avgT+BrBnk+pctShade+HAiFLS_for)
+  Psi.mixed39 = list(formula = ~BRT_100m+BrBnk+pctShade+HAiFLS_for)
   Psi.mixed40 = list(formula = ~avgT+pctpool+BRT_100m+HAiFLS_for)
   Psi.mixed41 = list(formula = ~pctpool+pctrock+BRT_100m+HAiFLS_for)
   Psi.mixed42 = list(formula = ~avgT+pctrock+BRT_100m+HAiFLS_for)
-  Psi.mixed43 = list(formula = ~avgT+pctpool+pctBrBnk+HAiFLS_for)
-  Psi.mixed44 = list(formula = ~avgT+pctrock+pctBrBnk+HAiFLS_for)
-  Psi.mixed45 = list(formula = ~pctpool+pctrock+pctBrBnk+HAiFLS_for)
-  Psi.mixed46 = list(formula = ~avgT+pctrock+pctBrBnk+HAiFLS_for)
+  Psi.mixed43 = list(formula = ~avgT+pctpool+BrBnk+HAiFLS_for)
+  Psi.mixed44 = list(formula = ~avgT+pctrock+BrBnk+HAiFLS_for)
+  Psi.mixed45 = list(formula = ~pctpool+pctrock+BrBnk+HAiFLS_for)
+  Psi.mixed46 = list(formula = ~avgT+pctrock+BrBnk+HAiFLS_for)
   Psi.mixed47 = list(formula = ~avgT+pctrock+pctShade+HAiFLS_for)
   Psi.mixed48 = list(formula = ~pctpool+pctrock+pctShade+HAiFLS_for)
   Psi.mixed49 = list(formula = ~pctpool+BRT_100m+pctShade+HAiFLS_for)
   Psi.mixed50 = list(formula = ~pctrock+BRT_100m+pctShade+HAiFLS_for)
-  Psi.mixed51 = list(formula = ~pctrock+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed52 = list(formula = ~pctpool+pctBrBnk+pctShade+HAiFLS_for)
-  Psi.mixed53 = list(formula = ~pctpool+BRT_100m+pctBrBnk+HAiFLS_for)
+  Psi.mixed51 = list(formula = ~pctrock+BrBnk+pctShade+HAiFLS_for)
+  Psi.mixed52 = list(formula = ~pctpool+BrBnk+pctShade+HAiFLS_for)
+  Psi.mixed53 = list(formula = ~pctpool+BRT_100m+BrBnk+HAiFLS_for)
   Psi.mixed54 = list(formula = ~pctpool+BRT_100m+pctShade+HAiFLS_for)
   #3 covariates
-  Psi.mixed55 = list(formula = ~avgT+pctShade+pctBrBnk)
-  Psi.mixed56 = list(formula = ~pctpool+pctShade+pctBrBnk)
-  Psi.mixed57 = list(formula = ~pctrock+pctShade+pctBrBnk)
-  Psi.mixed58 = list(formula = ~BRT_100m+pctShade+pctBrBnk)
+  Psi.mixed55 = list(formula = ~avgT+pctShade+BrBnk)
+  Psi.mixed56 = list(formula = ~pctpool+pctShade+BrBnk)
+  Psi.mixed57 = list(formula = ~pctrock+pctShade+BrBnk)
+  Psi.mixed58 = list(formula = ~BRT_100m+pctShade+BrBnk)
   Psi.mixed59 = list(formula = ~avgT+pctpool+pctShade)
   Psi.mixed60 = list(formula = ~pctpool+pctrock+pctShade)
   Psi.mixed61 = list(formula = ~pctrock+BRT_100m+pctShade)
   Psi.mixed62 = list(formula = ~avgT+BRT_100m+pctShade)
   Psi.mixed63 = list(formula = ~avgT+pctrock+pctShade)
   Psi.mixed64 = list(formula = ~pctpool+BRT_100m+pctShade)
-  Psi.mixed65 = list(formula = ~avgT+pctpool+pctBrBnk)
-  Psi.mixed66 = list(formula = ~pctpool+pctrock+pctBrBnk)
-  Psi.mixed67 = list(formula = ~pctrock+BRT_100m+pctBrBnk)
-  Psi.mixed68 = list(formula = ~avgT+BRT_100m+pctBrBnk)
-  Psi.mixed69 = list(formula = ~avgT+pctrock+pctBrBnk)
-  Psi.mixed70 = list(formula = ~pctpool+BRT_100m+pctBrBnk)
+  Psi.mixed65 = list(formula = ~avgT+pctpool+BrBnk)
+  Psi.mixed66 = list(formula = ~pctpool+pctrock+BrBnk)
+  Psi.mixed67 = list(formula = ~pctrock+BRT_100m+BrBnk)
+  Psi.mixed68 = list(formula = ~avgT+BRT_100m+BrBnk)
+  Psi.mixed69 = list(formula = ~avgT+pctrock+BrBnk)
+  Psi.mixed70 = list(formula = ~pctpool+BRT_100m+BrBnk)
   Psi.mixed71 = list(formula = ~avgT+pctShade+HAiFLS_for)
   Psi.mixed72 = list(formula = ~pctpool+pctShade+HAiFLS_for)
   Psi.mixed73 = list(formula = ~pctrock+pctShade+HAiFLS_for)
   Psi.mixed74 = list(formula = ~BRT_100m+pctShade+HAiFLS_for)
-  Psi.mixed75 = list(formula = ~avgT+pctBrBnk+HAiFLS_for)
-  Psi.mixed76 = list(formula = ~pctpool+pctBrBnk+HAiFLS_for)
-  Psi.mixed77 = list(formula = ~pctrock+pctBrBnk+HAiFLS_for)
-  Psi.mixed78 = list(formula = ~BRT_100m+pctBrBnk+HAiFLS_for)
+  Psi.mixed75 = list(formula = ~avgT+BrBnk+HAiFLS_for)
+  Psi.mixed76 = list(formula = ~pctpool+BrBnk+HAiFLS_for)
+  Psi.mixed77 = list(formula = ~pctrock+BrBnk+HAiFLS_for)
+  Psi.mixed78 = list(formula = ~BRT_100m+BrBnk+HAiFLS_for)
   Psi.mixed79 = list(formula = ~avgT+pctpool+HAiFLS_for)
   Psi.mixed80 = list(formula = ~pctpool+pctrock+HAiFLS_for)
   Psi.mixed81 = list(formula = ~pctrock+BRT_100m+HAiFLS_for)
@@ -319,23 +320,23 @@ run.occ=function()
   Psi.mixed83 = list(formula = ~avgT+pctrock+HAiFLS_for)
   Psi.mixed84 = list(formula = ~pctpool+BRT_100m+HAiFLS_for)
   #2 covariates
-  Psi.pct21_bare = list(formula = ~avgT + pctBrBnk) 
-  Psi.pct21_shade = list(formula = ~avgT + pctShade)
-  Psi.pool_bare = list(formula = ~pctpool + pctBrBnk) 
+  Psi.avgT_bare = list(formula = ~avgT + BrBnk) 
+  Psi.avgT_shade = list(formula = ~avgT + pctShade)
+  Psi.pool_bare = list(formula = ~pctpool + BrBnk) 
   Psi.pool_shade = list(formula = ~pctpool + pctShade) 
-  Psi.rock_bare = list(formula = ~pctrock + pctBrBnk) 
+  Psi.rock_bare = list(formula = ~pctrock + BrBnk) 
   Psi.rock_shade = list(formula = ~pctrock + pctShade) 
-  Psi.BRT_bare = list(formula = ~BRT_100m + pctBrBnk) 
+  Psi.BRT_bare = list(formula = ~BRT_100m + BrBnk) 
   Psi.BRT_shade = list(formula = ~BRT_100m + pctShade) 
-  Psi.pct21_for = list(formula = ~avgT + HAiFLS_for)
+  Psi.avgT_for = list(formula = ~avgT + HAiFLS_for)
   Psi.pool_for = list(formula = ~pctpool + HAiFLS_for)
   Psi.rock_for = list(formula = ~pctrock + HAiFLS_for) 
   Psi.BRT_for = list(formula = ~BRT_100m + HAiFLS_for) 
   #~~~~~~~~~~~~~ Occupancy - single covariate ~~~~~~~~~~~~~~~~~~~~~~
-  Psi.pctex21 = list(formula=~avgT) 
+  Psi.avgT = list(formula=~avgT) 
   Psi.pool = list(formula=~pctpool) 
   Psi.rock = list(formula=~pctrock) 
-  Psi.bare = list(formula=~pctBrBnk) 
+  Psi.bare = list(formula=~BrBnk) 
   Psi.shade = list(formula=~pctShade) 
   Psi.brt = list(formula=~BRT_100m)
   Psi.forest = list(formula = ~HAiFLS_for)
@@ -377,7 +378,7 @@ bkt.results$p.tv.effort.Psi.pct21_for$results$real
 
 
 
-top.mod <- bkt.results$p.tv.effort.Psi.pct21_bare
+top.mod <- bkt.results$p.tv.effort.Psi.mixed65
 
 cleanup(ask = F)
 
@@ -389,12 +390,17 @@ cleanup(ask = F)
 min.temp <- min(brook.df$avgT)
 max.temp <- max(brook.df$avgT)
 temp.values <- seq(from = min.temp, to = max.temp, length = 100)
+#
 #min.for <- min(brook.df$HAiFLS_for)
 #max.for <- max(brook.df$HAiFLS_for)
 #for.values <- seq(from = min.for, to = max.for, length = 100)
-min.bare <- min(brook.df$pctBrBnk)
-max.bare <- max(brook.df$pctBrBnk)
+min.bare <- min(brook.df$BrBnk)
+max.bare <- max(brook.df$BrBnk)
 bare.values <- seq(from = min.bare, to = max.bare, length = 100)
+#
+min.pool <- min(brook.df$pctpool)
+max.pool <- max(brook.df$pctpool)
+pool.values <- seq(from = min.pool, to = max.pool, length = 100)
 
 bkt.ddl #par.index = 1, model.index = 4
 
@@ -404,64 +410,67 @@ bkt.ddl #par.index = 1, model.index = 4
 #for.mean <- rep(mean(brook.df$HAiFLS_for), 100)
 #for.minus <- rep(0, 100)
 #for.plus <- rep(mean(brook.df$HAiFLS_for)+sd(brook.df$HAiFLS_for), 100)
-summary(brook.df$pctBrBnk)
-bare.mean <- rep(mean(brook.df$pctBrBnk), 100)
-bare.lower <- rep(0.4271, 100)
-bare.upper <- rep(1.197, 100)
+summary(brook.df$BrBnk)
+bare.mean <- rep(mean(brook.df$BrBnk), 100)
+#bare.lower <- rep(0.4271, 100)
+#bare.upper <- rep(1.197, 100)
+pool.mean <- rep(mean(brook.df$pctpool), 100)
 
 #predictions of Psi for full range of p21 & -1SD of forest values (would be negative so just forest=0)
-avgT.pred.lower <- covariate.predictions(top.mod, 
-                                  data = data.frame(avgT = temp.values,
+#avgT.pred.lower <- covariate.predictions(top.mod, 
+                                  #data = data.frame(avgT = temp.values,
                                                     #HAiFLS_for = for.minus,
-                                                    pctBrBnk = bare.lower),
-                                  indices = 4)
+                                  #                  BrBnk = bare.lower),
+                                  #indices = 4)
 
-head(avgT.pred.lower$estimates)
+#head(avgT.pred.lower$estimates)
 
-#predictions of Psi for full range of p21 & mean of forest values 
+#predictions of Psi for full range of avgT & mean values of Brbnk & pctpool 
 avgT.pred.mean <- covariate.predictions(top.mod, 
                                         data = data.frame(avgT = temp.values,
-                                                          pctBrBnk = bare.mean),
+                                                          BrBnk = bare.mean,
+                                                          pctpool = pool.mean),
                                         indices = 4)
 
 head(avgT.pred.mean$estimates)
 
 #predictions of Psi for full range of p21 & +1SD of forest values 
-avgT.pred.upper <- covariate.predictions(top.mod, 
-                                        data = data.frame(avgT = temp.values,
-                                                          pctBrBnk = bare.upper),
-                                        indices = 4)
+#avgT.pred.upper <- covariate.predictions(top.mod, 
+#                                        data = data.frame(avgT = temp.values,
+#                                                          pctBrBnk = bare.upper),
+#                                        indices = 4)
 
-head(avgT.pred.upper$estimates)
+#head(avgT.pred.upper$estimates)
 
-Psi.Predictions.avgT <- rbind(avgT.pred.lower$estimates, avgT.pred.mean$estimates, avgT.pred.upper$estimates)%>%
-  select(avgT, pctBrBnk, estimate, se, lcl, ucl)%>%
-  round(digits = 4)
-head(Psi.Predictions.avgT)
+#Psi.Predictions.avgT <- rbind(avgT.pred.lower$estimates, avgT.pred.mean$estimates, avgT.pred.upper$estimates)%>%
+#  select(avgT, pctBrBnk, estimate, se, lcl, ucl)%>%
+#  round(digits = 4)
+#head(Psi.Predictions.avgT)
 
 ##########################################################
 #predict while holding one value constant (temp this time)
 ##########################################################
 summary(brook.df$avgT)
 temp.mean <- rep(mean(brook.df$avgT), 100)
-temp.lower <- rep(14.391, 100)
-temp.upper <- rep(16.790, 100)
+#temp.lower <- rep(14.391, 100)
+#temp.upper <- rep(16.790, 100)
 
-#predictions of Psi for full range of HAiFLS_for & -1SD of pctex21 values (would be negative so just =0)
-bare.pred.lower <- covariate.predictions(top.mod, 
-                                        data = data.frame(avgT = temp.lower,
-                                                          pctBrBnk = bare.values),
-                                        indices = 4)
+#predictions of Psi for full range of BrBnk
+#bare.pred.lower <- covariate.predictions(top.mod, 
+#                                        data = data.frame(avgT = temp.lower,
+#                                                          pctBrBnk = bare.values),
+#                                        indices = 4)
 
-head(bare.pred.lower$estimates)
+#head(bare.pred.lower$estimates)
 
-#predictions of Psi for full range of HAiFLS_for & mean of pctex21 values 
+#predictions of Psi for full range of bare & mean of other values 
 bare.pred.mean <- covariate.predictions(top.mod, 
                                        data = data.frame(avgT = temp.mean,
-                                                         pctBrBnk = bare.values),
+                                                         BrBnk = bare.values,
+                                                         pctpool = pool.mean),
                                        indices = 4)
 
-bare.pred.mean$estimates
+head(bare.pred.mean$estimates)
 
 #predictions of Psi for full range of HAiFLS_for & +1SD of pctex21 values
 bare.pred.upper <- covariate.predictions(top.mod, 
@@ -474,6 +483,15 @@ head(bare.pred.upper$estimates)
 Psi.Predictions.bare <- rbind(bare.pred.lower$estimates, bare.pred.mean$estimates, bare.pred.upper$estimates)%>%
   select(avgT, pctBrBnk, estimate, se, lcl, ucl)%>%
   round(digits = 4)
+
+#predictions of Psi for full range of pool & mean of other values 
+pool.pred.mean <- covariate.predictions(top.mod, 
+                                        data = data.frame(avgT = temp.mean,
+                                                          BrBnk = bare.mean,
+                                                          pctpool = pool.values),
+                                        indices = 4)
+
+head(pool.pred.mean$estimates)
 
 ####################################################
 ##     Write tidy csv's for Psi predictions       ## 
@@ -652,9 +670,73 @@ write_csv(P.predictions.eff1, "Data/Thesis/Tidy/BKT_CatchMod_DProb_predictions.c
 
 
 
+library(cowplot)
+#########################################################################################################
+pred.temps <- as.data.frame(avgT.pred.mean) %>%
+  select(avgT=estimates.avgT, BrBnk=estimates.BrBnk, pctpool=estimates.pctpool,
+         estimate=estimates.estimate, se=estimates.se, lcl=estimates.lcl,
+         ucl=estimates.ucl)
+head(pred.temps)
 
 
+#Make ggplot for predicted occupancy probabilies 
+Psi1 <- ggplot(data = pred.temps, aes(x=avgT))+
+  geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
+  geom_line(aes(y=estimate), colour="Blue", size=1)+
+  scale_y_continuous(limits = c(0,1), breaks = c(0.00,0.25,0.50,0.75,1.00))+
+  labs(x="Average Summer Stream Temperature (°C)",
+       y="Occupancy Probability (Psi)")+
+  theme_bw()+
+  theme(axis.title = element_text(face = "bold"))+
+  theme(panel.grid = element_blank())+
+  theme(strip.text.x = element_text(size=10,face = "bold"))
+Psi1
+###############################################################################
+pred.bare <- as.data.frame(bare.pred.mean) %>%
+  select(avgT=estimates.avgT, BrBnk=estimates.BrBnk, pctpool=estimates.pctpool,
+         estimate=estimates.estimate, se=estimates.se, lcl=estimates.lcl,
+         ucl=estimates.ucl)
+head(pred.bare)
 
+Psi2 <- ggplot(data = pred.bare, aes(x=BrBnk))+
+  geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
+  geom_line(aes(y=estimate), colour="Blue", size=1)+
+  #scale_y_continuous(limits = c(0,0.40), breaks = c(0.00,0.10,0.20,0.30,0.40))+
+  labs(x="Bare Bank Index",
+       y=NULL)+
+  theme_bw()+
+  theme(axis.title = element_text(face = "bold"))+
+  theme(panel.grid = element_blank())+
+  theme(strip.text.x = element_text(size=10,face = "bold"))
+Psi2
+
+###############################################################################
+pred.pool <- as.data.frame(pool.pred.mean) %>%
+  select(avgT=estimates.avgT, BrBnk=estimates.BrBnk, pctpool=estimates.pctpool,
+         estimate=estimates.estimate, se=estimates.se, lcl=estimates.lcl,
+         ucl=estimates.ucl)
+head(pred.pool)
+
+Psi3 <- ggplot(data = pred.pool, aes(x=pctpool))+
+  geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
+  geom_line(aes(y=estimate), colour="Blue", size=1)+
+  scale_y_continuous(limits = c(0,1), breaks = c(0.00,0.25,0.50,0.75,1.00))+
+  labs(x="Percent Pool Macrohabitat",
+       y=NULL)+
+  theme_bw()+
+  theme(axis.title = element_text(face = "bold"))+
+  theme(panel.grid = element_blank())+
+  theme(strip.text.x = element_text(size=10,face = "bold"))
+Psi3
+
+#cowplot
+plot_grid(Psi1,Psi2,Psi3, align = "h", labels = c(NA,"*",NA), nrow = 1)
+
+ggsave("bkt_OccuProb_AvgT_Bnk_Pool.png",
+       dpi = 350)
+
+
+############################
 
 
 
