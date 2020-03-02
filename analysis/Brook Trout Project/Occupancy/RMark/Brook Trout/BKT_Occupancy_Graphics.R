@@ -92,11 +92,16 @@ ggsave("bkt_Occu_Cat.png",
 ggplot(data=p.effort, aes(x=Effort_sec))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
-  labs(x="Electrofishing Effort (sec)",
+  labs(x="Electrofishing Effort (s)",
        y="Detection Probability (p)")+
-  theme_classic()+
+  scale_y_continuous(limits = c(0,1), breaks = c(0.00,0.25,0.50,0.75,1.00))+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
   theme(axis.title = element_text(face = "bold"))
 
 ggsave("bkt_DetProb.png",
-       dpi = 350)
+       dpi = 350,
+       width = 5,
+       height = 4.75, 
+       units = "in")
 

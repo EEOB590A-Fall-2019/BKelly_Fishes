@@ -189,8 +189,13 @@ bkt.results.temp = run.occ.temp()
 ##Examine model list and look at model comparisons
 bkt.results.temp
 ##Model Table
-AICc.Table = model.table(bkt.results.temp, use.lnl = T)
-AICc.Table
+AICc.Table.temp = model.table(bkt.results.temp, use.lnl = T)
+AICc.Table.temp
+
+getwd()
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+#write csv for model table
+write.csv(AICc.Table.temp, "Data/Thesis/Tidy/BrookTrout_OccuModTemp_Table.csv", row.names = F)
 
 #look at summary of top model(s)
 #summary(bkt.results.temp$p.tv.effort.Psi.p21)
@@ -200,6 +205,9 @@ summary(bkt.results.temp$p.tv.effort.Psi.avgT) #top
 bkt.results.temp$p.tv.effort.Psi.avgT$results$real
 
 cleanup(ask = F)
+
+#set wd to scratch folder because MARK outputs an insane amount of files
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/Occupancy/RMark/Brook Trout") #because MARK loves output files
 
 ###~~~~~~~~~~~~~~~~~~~~~~~##
 ####   All covariates   ####
@@ -473,16 +481,16 @@ bare.pred.mean <- covariate.predictions(top.mod,
 head(bare.pred.mean$estimates)
 
 #predictions of Psi for full range of HAiFLS_for & +1SD of pctex21 values
-bare.pred.upper <- covariate.predictions(top.mod, 
-                                       data = data.frame(avgT = temp.upper,
-                                                         pctBrBnk = bare.values),
-                                       indices = 4)
+#bare.pred.upper <- covariate.predictions(top.mod, 
+                                       #data = data.frame(avgT = temp.upper,
+                                      #                   pctBrBnk = bare.values),
+                                      # indices = 4)
 
-head(bare.pred.upper$estimates)
+#head(bare.pred.upper$estimates)
 
-Psi.Predictions.bare <- rbind(bare.pred.lower$estimates, bare.pred.mean$estimates, bare.pred.upper$estimates)%>%
-  select(avgT, pctBrBnk, estimate, se, lcl, ucl)%>%
-  round(digits = 4)
+#Psi.Predictions.bare <- rbind(bare.pred.lower$estimates, bare.pred.mean$estimates, bare.pred.upper$estimates)%>%
+#  select(avgT, pctBrBnk, estimate, se, lcl, ucl)%>%
+#  round(digits = 4)
 
 #predictions of Psi for full range of pool & mean of other values 
 pool.pred.mean <- covariate.predictions(top.mod, 
@@ -496,9 +504,18 @@ head(pool.pred.mean$estimates)
 ####################################################
 ##     Write tidy csv's for Psi predictions       ## 
 ####################################################
+
+# Convert to df
+avgT.predictions <- as.data.frame(avgT.pred.mean) #temp
+bare.predictions <- as.data.frame(bare.pred.mean) #bare
+pool.predictions <- as.data.frame(pool.pred.mean) #pool
+
+
+
 setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
-write_csv(Psi.Predictions.avgT, "Data/Thesis/Tidy/Psi_predictions_avgT.csv")
-write_csv(Psi.Predictions.bare, "Data/Thesis/Tidy/Psi_predictions_BrBnk.csv")
+write_csv(avgT.predictions, "Data/Thesis/Tidy/Psi_predictions_avgT.csv")
+write_csv(bare.predictions, "Data/Thesis/Tidy/Psi_predictions_BrBnk.csv")
+write_csv(pool.predictions, "Data/Thesis/Tidy/Psi_predictions_pctpool.csv")
 
 
 
@@ -516,7 +533,7 @@ p.pred.effort <- covariate.predictions(top.mod,
                                        data = data.frame(effort1 = effort.values),
                                        indices = 1)
 
-p.pred.effort$estimates
+head(p.pred.effort$estimates)
 
 
 P.predictions.effort <- p.pred.effort$estimates %>%
@@ -535,7 +552,7 @@ write_csv(P.predictions.effort, "Data/Thesis/Tidy/P_predictions_effort.csv")
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ################################################################################################################################
 #set wd to scratch folder because MARK outputs an insane amount of files
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/RMark/output") #because MARK loves output files
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/Occupancy/RMark/Brook Trout") #because MARK loves output files
 
 #Process Data
 #?process.data
@@ -596,8 +613,10 @@ bkt.results.cat = run.occ.cat()
 ##Examine model list and look at model comparisons
 bkt.results.cat
 ##Model Table
-AICc.Table = model.table(bkt.results.cat, use.lnl = T)
-AICc.Table
+AICc.Table.cat = model.table(bkt.results.cat, use.lnl = T)
+AICc.Table.cat
+
+write.csv(AICc.Table.cat, "BrookTrout_CatModTable.csv", row.names = F)
 
 #look at summary of top model(s)
 summary(bkt.results.cat$p.tv.effort.Psi.for)
@@ -682,7 +701,7 @@ head(pred.temps)
 #Make ggplot for predicted occupancy probabilies 
 Psi1 <- ggplot(data = pred.temps, aes(x=avgT))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
-  geom_line(aes(y=estimate), colour="Blue", size=1)+
+  geom_line(aes(y=estimate), colour="black", size=1)+
   scale_y_continuous(limits = c(0,1), breaks = c(0.00,0.25,0.50,0.75,1.00))+
   labs(x="Average Summer Stream Temperature (°C)",
        y="Occupancy Probability (Psi)")+
@@ -700,7 +719,7 @@ head(pred.bare)
 
 Psi2 <- ggplot(data = pred.bare, aes(x=BrBnk))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
-  geom_line(aes(y=estimate), colour="Blue", size=1)+
+  geom_line(aes(y=estimate), colour="black", size=1)+
   #scale_y_continuous(limits = c(0,0.40), breaks = c(0.00,0.10,0.20,0.30,0.40))+
   labs(x="Bare Bank Index",
        y=NULL)+
@@ -719,7 +738,7 @@ head(pred.pool)
 
 Psi3 <- ggplot(data = pred.pool, aes(x=pctpool))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
-  geom_line(aes(y=estimate), colour="Blue", size=1)+
+  geom_line(aes(y=estimate), colour="black", size=1)+
   scale_y_continuous(limits = c(0,1), breaks = c(0.00,0.25,0.50,0.75,1.00))+
   labs(x="Percent Pool Macrohabitat",
        y=NULL)+
@@ -730,6 +749,7 @@ Psi3 <- ggplot(data = pred.pool, aes(x=pctpool))+
 Psi3
 
 #cowplot
+library(cowplot)
 plot_grid(Psi1,Psi2,Psi3, align = "h", labels = c(NA,"*",NA), nrow = 1)
 
 ggsave("bkt_OccuProb_AvgT_Bnk_Pool.png",
@@ -739,11 +759,13 @@ ggsave("bkt_OccuProb_AvgT_Bnk_Pool.png",
 ############################
 
 
+mean(brook.df$avgT)
+sd(brook.df$avgT)
+voi.temp = mean(brook.df$avgT) - sd(brook.df$avgT)
+voi.temp
 
-
-
-
-
+d.t <- avgT.predictions %>%
+  filter(estimates.avgT<16)
 
 
 
