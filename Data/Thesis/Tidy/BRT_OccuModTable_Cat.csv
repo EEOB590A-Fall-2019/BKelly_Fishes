@@ -1,0 +1,71 @@
+"p","Psi","model","npar","AICc","DeltaAICc","weight","Neg2LnL"
+"~effort","~HAiFLS_for + Area_km2","p(~effort)Psi(~HAiFLS_for + Area_km2)",5,386.461915454545,0,0.287156894101558,376.00737
+"~effort","~HAiFLS_for + Area_km2 + AvgSlope","p(~effort)Psi(~HAiFLS_for + Area_km2 + AvgSlope)",6,388.394171374046,1.93225591950039,0.109278620912707,375.75295
+"~effort","~HAiFLS_for + Area_km2 + Cross_Cat","p(~effort)Psi(~HAiFLS_for + Area_km2 + Cross_Cat)",6,388.592021374046,2.13010591950041,0.0989857376864895,375.9508
+"~effort","~HAiFLS_alt + Area_km2","p(~effort)Psi(~HAiFLS_alt + Area_km2)",5,388.979965454545,2.51805000000002,0.0815326648564065,378.52542
+"~1","~HAiFLS_for + Area_km2","p(~1)Psi(~HAiFLS_for + Area_km2)",4,389.793131879699,3.33121642515385,0.0542943691765549,381.49238
+"~effort","~HAiFLS_for + Area_km2 + AvgSlope + Cross_Cat","p(~effort)Psi(~HAiFLS_for + Area_km2 + AvgSlope + Cross_Cat)",7,390.556088461538,4.09417300699306,0.0370749756867143,375.69455
+"~effort","~HAiFLS_for","p(~effort)Psi(~HAiFLS_for)",4,390.684871879699,4.22295642515382,0.034762892943504,382.38412
+"~effort","~HAiFLS_alt + Area_km2 + AvgSlope","p(~effort)Psi(~HAiFLS_alt + Area_km2 + AvgSlope)",6,390.843511374046,4.3815959195004,0.0321120315959628,378.20229
+"~effort","~HAiFLS_alt + Area_km2 + Cross_Cat","p(~effort)Psi(~HAiFLS_alt + Area_km2 + Cross_Cat)",6,391.012101374046,4.55018591950039,0.0295160970129782,378.37088
+"~effort","~HAiFLS_for + AvgSlope","p(~effort)Psi(~HAiFLS_for + AvgSlope)",5,391.247885454545,4.78597000000002,0.0262336709317088,380.79334
+"~1","~HAiFLS_for + Area_km2 + AvgSlope","p(~1)Psi(~HAiFLS_for + Area_km2 + AvgSlope)",5,391.701365454545,5.23945000000003,0.0209115938688946,381.24682
+"~1","~HAiFLS_for + Area_km2 + Cross_Cat","p(~1)Psi(~HAiFLS_for + Area_km2 + Cross_Cat)",5,391.891065454545,5.42914999999999,0.0190192901605327,381.43652
+"~effort","~HAiFLS_for + Area2","p(~effort)Psi(~HAiFLS_for + Area2)",5,392.256665454545,5.79475000000002,0.0158418272390476,381.80212
+"~1","~HAiFLS_alt + Area_km2","p(~1)Psi(~HAiFLS_alt + Area_km2)",4,392.283691879699,5.82177642515381,0.0156291931802728,383.98294
+"~effort","~HAiFLS_for + Cross_Cat","p(~effort)Psi(~HAiFLS_for + Cross_Cat)",5,392.824515454545,6.36260000000004,0.0119260935602287,382.36997
+"~effort","~HAiFLS_alt","p(~effort)Psi(~HAiFLS_alt)",4,392.900341879699,6.43842642515381,0.0114824010894713,384.59959
+"~effort","~HAiFLS_alt + Area_km2 + AvgSlope + Cross_Cat","p(~effort)Psi(~HAiFLS_alt + Area_km2 + AvgSlope + Cross_Cat)",7,392.907738461538,6.44582300699307,0.0114400142575161,378.0462
+"~effort","~HAiFLS_for + Area2 + AvgSlope","p(~effort)Psi(~HAiFLS_for + Area2 + AvgSlope)",6,393.170191374046,6.70827591950041,0.0100331115278502,380.52897
+"~effort","~HAiFLS_alt + AvgSlope","p(~effort)Psi(~HAiFLS_alt + AvgSlope)",5,393.377855454545,6.91594000000003,0.00904361275613103,382.92331
+"~effort","~HAiFLS_for + AvgSlope + Cross_Cat","p(~effort)Psi(~HAiFLS_for + AvgSlope + Cross_Cat)",6,393.431691374046,6.96977591950042,0.00880342434568014,380.79047
+"~1","~HAiFLS_for + Area_km2 + AvgSlope + Cross_Cat","p(~1)Psi(~HAiFLS_for + Area_km2 + AvgSlope + Cross_Cat)",6,393.830171374046,7.36825591950037,0.00721311412832172,381.18895
+"~1","~HAiFLS_alt + Area_km2 + AvgSlope","p(~1)Psi(~HAiFLS_alt + Area_km2 + AvgSlope)",5,394.125915454545,7.66400000000004,0.00622161012463667,383.67137
+"~1","~HAiFLS_alt + Area_km2 + Cross_Cat","p(~1)Psi(~HAiFLS_alt + Area_km2 + Cross_Cat)",5,394.283805454545,7.82189,0.00574933235407996,383.82926
+"~1","~HAiFLS_for","p(~1)Psi(~HAiFLS_for)",3,394.386484477612,7.92456902306651,0.00546161331036465,388.20738
+"~effort","~HAiFLS_alt + Area2","p(~effort)Psi(~HAiFLS_alt + Area2)",5,394.633595454545,8.17168000000004,0.00482682419930187,384.17905
+"~1","~HAiFLS_for + AvgSlope","p(~1)Psi(~HAiFLS_for + AvgSlope)",4,394.874911879699,8.41299642515384,0.00427819213997537,386.57416
+"~effort","~HAiFLS_alt + Cross_Cat","p(~effort)Psi(~HAiFLS_alt + Cross_Cat)",5,395.053125454545,8.59121000000005,0.00391346721076412,384.59858
+"~effort","~HAiFLS_for + Area2 + AvgSlope + Cross_Cat","p(~effort)Psi(~HAiFLS_for + Area2 + AvgSlope + Cross_Cat)",7,395.390508461539,8.92859300699308,0.00330597762783946,380.52897
+"~effort","~HAiFLS_alt + Area2 + AvgSlope","p(~effort)Psi(~HAiFLS_alt + Area2 + AvgSlope)",6,395.409641374046,8.94772591950039,0.00327450193296285,382.76842
+"~effort","~HAiFLS_alt + AvgSlope + Cross_Cat","p(~effort)Psi(~HAiFLS_alt + AvgSlope + Cross_Cat)",6,395.555991374046,9.09407591950037,0.00304344706496149,382.91477
+"~1","~HAiFLS_for + Area2","p(~1)Psi(~HAiFLS_for + Area2)",4,395.863191879699,9.40127642515381,0.00261010518987579,387.56244
+"~1","~HAiFLS_alt + Area_km2 + AvgSlope + Cross_Cat","p(~1)Psi(~HAiFLS_alt + Area_km2 + AvgSlope + Cross_Cat)",6,396.156941374046,9.69502591950038,0.00225357033922146,383.51572
+"~effort","~Area_km2 + Cross_Cat","p(~effort)Psi(~Area_km2 + Cross_Cat)",5,396.453865454545,9.99195000000003,0.00194265138972995,385.99932
+"~1","~HAiFLS_for + Cross_Cat","p(~1)Psi(~HAiFLS_for + Cross_Cat)",4,396.491271879699,10.0293564251538,0.00190665523896702,388.19052
+"~1","~HAiFLS_alt","p(~1)Psi(~HAiFLS_alt)",3,396.600984477612,10.1390690230665,0.00180488021048543,390.42188
+"~effort","~Area_km2","p(~effort)Psi(~Area_km2)",4,396.643811879699,10.1818964251538,0.00176664191807822,388.34306
+"~1","~HAiFLS_for + Area2 + AvgSlope","p(~1)Psi(~HAiFLS_for + Area2 + AvgSlope)",5,396.723695454545,10.26178,0.00169746970886323,386.26915
+"~effort","~HAiFLS_alt + Area2 + Cross_Cat","p(~effort)Psi(~HAiFLS_alt + Area2 + Cross_Cat)",6,396.807401374046,10.3454859195004,0.00162789175527919,384.16618
+"~1","~HAiFLS_alt + AvgSlope","p(~1)Psi(~HAiFLS_alt + AvgSlope)",4,396.992211879699,10.5302964251538,0.00148420685197794,388.69146
+"~1","~HAiFLS_for + AvgSlope + Cross_Cat","p(~1)Psi(~HAiFLS_for + AvgSlope + Cross_Cat)",5,397.024715454545,10.5628,0.00146028078501635,386.57017
+"~effort","~HAiFLS_alt + Area2 + AvgSlope + Cross_Cat","p(~effort)Psi(~HAiFLS_alt + Area2 + AvgSlope + Cross_Cat)",7,397.610488461538,11.148573006993,0.00108952544756861,382.74895
+"~effort","~Area_km2 + AvgSlope + Cross_Cat","p(~effort)Psi(~Area_km2 + AvgSlope + Cross_Cat)",6,398.225051374046,11.7631359195004,0.000801284491935471,385.58383
+"~1","~HAiFLS_alt + Area2","p(~1)Psi(~HAiFLS_alt + Area2)",4,398.244061879699,11.7821464251538,0.000793704163794594,389.94331
+"~effort","~Area_km2 + AvgSlope","p(~effort)Psi(~Area_km2 + AvgSlope)",5,398.405435454545,11.94352,0.000732178264255217,387.95089
+"~1","~HAiFLS_alt + Cross_Cat","p(~1)Psi(~HAiFLS_alt + Cross_Cat)",4,398.722191879699,12.2602764251538,0.000624933848752656,390.42144
+"~1","~HAiFLS_for + Area2 + AvgSlope + Cross_Cat","p(~1)Psi(~HAiFLS_for + Area2 + AvgSlope + Cross_Cat)",6,398.910341374046,12.4484259195004,0.000568823990485857,386.26912
+"~1","~HAiFLS_alt + Area2 + AvgSlope","p(~1)Psi(~HAiFLS_alt + Area2 + AvgSlope)",5,398.958095454545,12.49618,0.00055540302129713,388.50355
+"~1","~HAiFLS_alt + AvgSlope + Cross_Cat","p(~1)Psi(~HAiFLS_alt + AvgSlope + Cross_Cat)",5,399.139115454545,12.6772,0.000507341331487293,388.68457
+"~effort","~1","p(~effort)Psi(~1)",3,399.551534477612,13.0896190230665,0.000412804660131821,393.37243
+"~1","~Area_km2 + Cross_Cat","p(~1)Psi(~Area_km2 + Cross_Cat)",4,399.667341879699,13.2054264251538,0.000389580610234914,391.36659
+"~1","~Area_km2","p(~1)Psi(~Area_km2)",3,399.885154477612,13.4232390230665,0.000349381519144428,393.70605
+"~effort","~AvgSlope","p(~effort)Psi(~AvgSlope)",4,400.093051879699,13.6311364251538,0.00031488761649618,391.7923
+"~1","~HAiFLS_alt + Area2 + Cross_Cat","p(~1)Psi(~HAiFLS_alt + Area2 + Cross_Cat)",5,400.386275454545,13.92436,0.000271946135304383,389.93173
+"~effort","~Cross_Cat","p(~effort)Psi(~Cross_Cat)",4,400.542641879699,14.0807264251538,0.000251494419930603,392.24189
+"~effort","~AvgSlope + Cross_Cat","p(~effort)Psi(~AvgSlope + Cross_Cat)",5,400.960915454545,14.499,0.000204033463002065,390.50637
+"~1","~HAiFLS_alt + Area2 + AvgSlope + Cross_Cat","p(~1)Psi(~HAiFLS_alt + Area2 + AvgSlope + Cross_Cat)",6,401.126611374046,14.6646959195004,0.000187810984403601,388.48539
+"~1","~Area_km2 + AvgSlope + Cross_Cat","p(~1)Psi(~Area_km2 + AvgSlope + Cross_Cat)",5,401.419325454545,14.95741,0.000162240372229781,390.96478
+"~effort","~Area2","p(~effort)Psi(~Area2)",4,401.477031879699,15.0151164251538,0.000157626104616843,393.17628
+"~1","~Area_km2 + AvgSlope","p(~1)Psi(~Area_km2 + AvgSlope)",4,401.630991879699,15.1690764251538,0.000145947329845659,393.33024
+"~effort","~Area2 + AvgSlope","p(~effort)Psi(~Area2 + AvgSlope)",5,402.205565454545,15.74365,0.000109503774032836,391.75102
+"~effort","~Area2 + Cross_Cat","p(~effort)Psi(~Area2 + Cross_Cat)",5,402.315055454545,15.85314,0.000103670128279357,391.86051
+"~effort","~Area2 + AvgSlope + Cross_Cat","p(~effort)Psi(~Area2 + AvgSlope + Cross_Cat)",6,403.001211374046,16.5392959195004,7.35625492828627e-05,390.35999
+"~1","~1","p(~1)Psi(~1)",2,403.186358888889,16.7244434343435,6.70582937810051e-05,399.09747
+"~1","~AvgSlope","p(~1)Psi(~AvgSlope)",3,403.657154477612,17.1952390230665,5.29932476805856e-05,397.47805
+"~1","~Cross_Cat","p(~1)Psi(~Cross_Cat)",3,404.175714477612,17.7137990230665,4.08899578345041e-05,397.99661
+"~1","~AvgSlope + Cross_Cat","p(~1)Psi(~AvgSlope + Cross_Cat)",4,404.517151879699,18.0552364251539,3.44726343535637e-05,396.2164
+"~1","~Area2","p(~1)Psi(~Area2)",3,405.037514477612,18.5755990230665,2.657536086317e-05,398.85841
+"~1","~Area2 + AvgSlope","p(~1)Psi(~Area2 + AvgSlope)",4,405.717661879699,19.2557464251538,1.89141591344727e-05,397.41691
+"~1","~Area2 + Cross_Cat","p(~1)Psi(~Area2 + Cross_Cat)",4,405.860241879699,19.3983264251538,1.76127100288038e-05,397.55949
+"~1","~Area2 + AvgSlope + Cross_Cat","p(~1)Psi(~Area2 + AvgSlope + Cross_Cat)",5,406.490945454545,20.02903,1.28490388993085e-05,396.0364
