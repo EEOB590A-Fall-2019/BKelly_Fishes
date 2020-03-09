@@ -145,6 +145,202 @@ corrplot(c, method="color", col=col(200),
 #> EFac_Cat (-) "Environmental Facility density of upstream catchment (count/Area_km2)"
 #> Cross_Cat (-) "Road Crossing density of upstream catchment (count/Area_km2)"
 ##########################################################################################
+################################################################################################################################
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+################################################################################################################################
+#set wd to scratch folder because MARK outputs an insane amount of files
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/Occupancy/RMark/Brook Trout") #because MARK loves output files
+
+#Process Data
+#?process.data
+#?make.design.data
+brook.process = process.data(brook.df, model="Occupancy", groups = "freq")
+bkt.ddl = make.design.data(brook.process)
+
+# Catchment Scale: within the upstream land area that drains to the outlet of the sampled segment
+#> HAiFLS_for (+) "Hydrologically Active inserve flow length to the stream of forest LULC"
+#> Area_km2 (-) "Catchment Area"
+#> AvgSlope (+) "Mean Slope of the catchment"
+#> Cross_Cat (-) "Road Crossing density of upstream catchment (count/Area_km2)"
+
+##-------------------------------------------------------------------------------------------##
+## --------------------------- Check constant p hypothesis --------------------------------- ##
+##-------------------------------------------------------------------------------------------##
+
+run.occ.cat.dp1=function()
+{
+  #~~~~~~~~~~~~~ Model List ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  #~~~~~~~~~~~ Detection Probability - null model ~~~~~~~~~~~~
+  p.Dot = list(formula= ~1)
+  #~~~~~~~~~~~ Detection Probability - single covariate ~~~~~~~~~~~~
+  p.tv.effort = list(formula = ~effort)
+  #~~~~~~~~~~~~~ Occupancy - null model ~~~~~~~~~~~~~~~~~~~~~~
+  Psi.Dot        = list(formula=~1) 
+  #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
+  #all covariates
+  Psi.global = list(formula = ~HAiFLS_for+Area_km2+AvgSlope+Cross_Cat)
+  #~~~~~~~~~~~~ model list & wrapper ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  cml.cat.dp1=create.model.list("Occupancy")
+  results.cat.dp1=mark.wrapper(cml.cat.dp1, data=brook.process, ddl=bkt.ddl, output=F)
+  return(results.cat.dp1)
+}
+
+bkt.results.dp1 = run.occ.cat.dp1()
+
+bkt.results.dp1
+
+#the two models including effort were the only models <2 DeltaAICc
+
+summary(bkt.results.dp1$p.Dot.Psi.global) #top model
+summary(bkt.results.dp1$p.tv.effort.Psi.Dot) #2nd model 
+
+## continue with effort on p
+
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+####   Catchment Scale covariates   ####
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+
+run.occ.cat=function()
+{
+  #~~~~~~~~~~~~~ Model List ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  #~~~~~~~~~~~ Detection Probability - null model ~~~~~~~~~~~~
+  #p.Dot = list(formula= ~1)
+  #~~~~~~~~~~~ Detection Probability - single covariate ~~~~~~~~~~~~
+  p.tv.effort = list(formula = ~effort)
+  #~~~~~~~~~~~~~ Occupancy - null model ~~~~~~~~~~~~~~~~~~~~~~
+  Psi.Dot        = list(formula=~1) 
+  #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
+  #all covariates
+  Psi.global = list(formula = ~HAiFLS_for+Area_km2+AvgSlope+Cross_Cat)
+  #3 Covariates
+  Psi.for_area_slpe = list(formula = ~HAiFLS_for+Area_km2+AvgSlope)
+  Psi.for_area_cross = list(formula = ~HAiFLS_for+Area_km2+Cross_Cat)
+  Psi.for_slpe_cross = list(formula = ~HAiFLS_for+AvgSlope+Cross_Cat)
+  Psi.area_slpe_crs = list(formula = ~Area_km2+AvgSlope+Cross_Cat)
+  #2 covariates
+  Psi.for_area = list(formula = ~HAiFLS_for+Area_km2)
+  Psi.for_slpe = list(formula = ~HAiFLS_for+AvgSlope)
+  Psi.for_cross = list(formula = ~HAiFLS_for+Cross_Cat)
+  Psi.area_slpe = list(formula = ~Area_km2+AvgSlope)
+  Psi.area_cross = list(formula = ~Area_km2+Cross_Cat)
+  Psi.slpe_cross = list(formula = ~AvgSlope+Cross_Cat)
+  #~~~~~~~~~~~~~ Occupancy - single covariate ~~~~~~~~~~~~~~~~~~~~~~
+  Psi.for = list(formula = ~HAiFLS_for)
+  Psi.area = list(formula = ~Area_km2)
+  Psi.slope = list(formula = ~AvgSlope)
+  Psi.cross = list(formula = ~Cross_Cat)
+  #~~~~~~~~~~~~ model list & wrapper ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  cml.cat=create.model.list("Occupancy")
+  results.cat=mark.wrapper(cml.cat, data=brook.process, ddl=bkt.ddl, output=F)
+  return(results.cat)
+}
+
+bkt.results.cat = run.occ.cat()
+
+
+##Examine model list and look at model comparisons
+bkt.results.cat
+##Model Table
+AICc.Table.cat = model.table(bkt.results.cat, use.lnl = T)
+AICc.Table.cat
+
+#save model table output
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+write.csv(AICc.Table.cat, "BrookTrout_CatModTable.csv", row.names = F)
+
+#look at summary of top model(s)
+summary(bkt.results.cat$p.tv.effort.Psi.for)
+summary(bkt.results.cat$p.tv.effort.Psi.for_slpe)
+summary(bkt.results.cat$p.tv.effort.Psi.for_area)
+
+bkt.results.cat$p.tv.effort.Psi.for$results$real
+
+#designate top cat model
+tm.cat <- bkt.results.cat$p.tv.effort.Psi.for
+
+
+cleanup(ask = F)
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+#### Visualizing HAiFLS_for effect on psi ####
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+bkt.ddl #par.index = 1, model.index = 4
+
+#covariate.predictions method
+min.for <- min(brook.df$HAiFLS_for)
+max.for <- max(brook.df$HAiFLS_for)
+for.values <- seq(from = min.for, to = max.for, length = 100)
+
+##################################################
+#predict across range of observed values (forest)
+##################################################
+
+#predictions of Psi for full range of p21 & -1SD of forest values (would be negative so just forest=0)
+predictions_for <- covariate.predictions(tm.cat, 
+                                         data = data.frame(HAiFLS_for = for.values),
+                                         indices = 4)
+
+head(predictions_for$estimates)
+
+catch.mod.predictions <- predictions_for$estimates
+names(catch.mod.predictions)
+
+#-----ggplot-----#
+
+#---Occupancy---#
+
+ggplot(data=catch.mod.predictions, aes(x=covdata))+
+  geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
+  geom_line(aes(y=estimate), size=1, color="black")+
+  labs(x="% HAiFLS Forest Land Cover",
+       y="Occupancy Probability")+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  scale_y_continuous(limits = c(0.00,0.75),
+                     breaks = c(0.00, 0.25, 0.50, 0.75),
+                     labels = c("0.00", "0.25", "0.50", "0.75"))+
+  theme(axis.title = element_text(size = 12, face = "bold"))
+ggsave("bkt_Psi_CatScale.png", dpi = 350)
+
+####################################################
+##     Write tidy csv's for Psi predictions       ## 
+####################################################
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+write_csv(catch.mod.predictions, "Data/Thesis/Tidy/BKT_Catchment_Model_Predictions.csv")
+
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+#### Visualizing effort effect on p   ####
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+min.effort <- min(brook.df$effort1)
+max.effort <- max(brook.df$effort1)
+effort.values <- seq(min.effort, max.effort, length.out = 100)
+mean.effort <- mean(brook.df$effort1) #906.231
+
+#predictions of p for full range of effort1 values
+p.pred.eff1 <- covariate.predictions(tm.cat, 
+                                     data = data.frame(effort1 = effort.values),
+                                     indices = 1)
+
+p.pred.eff1$estimates
+
+
+P.predictions.eff1 <- p.pred.eff1$estimates %>%
+  select(covdata, estimate, se, lcl, ucl) %>%
+  rename(Effort_sec = covdata) %>%
+  round(digits = 4)
+
+####################################################
+##       Write tidy csv for P predictions         ## 
+####################################################
+write_csv(P.predictions.eff1, "Data/Thesis/Tidy/BKT_CatchMod_DProb_predictions.csv")
+
+
+
+
+##########################################################################################
+##### ----------------- Local and Catchment Scale Models -------------------------- ######
+##########################################################################################
 getwd()
 #set wd to scratch folder because MARK outputs an insane amount of files
 setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/Occupancy/RMark/Brook Trout") #because MARK loves output files
@@ -154,6 +350,7 @@ setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/An
 #?make.design.data
 brook.process = process.data(brook.df, model="Occupancy", groups = "freq")
 bkt.ddl = make.design.data(brook.process)
+
 ###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 ####   Temperature covariates        ####
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
@@ -162,7 +359,7 @@ run.occ.temp=function()
 {
   #~~~~~~~~~~~~~ Model List ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   #~~~~~~~~~~~ Detection Probability - null model ~~~~~~~~~~~~
-  p.Dot = list(formula= ~1)
+  #p.Dot = list(formula= ~1)
   #~~~~~~~~~~~ Detection Probability - single covariate ~~~~~~~~~~~~
   p.tv.effort = list(formula = ~effort)
   #~~~~~~~~~~~~~ Occupancy - null model ~~~~~~~~~~~~~~~~~~~~~~
@@ -197,23 +394,23 @@ setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 #write csv for model table
 write.csv(AICc.Table.temp, "Data/Thesis/Tidy/BrookTrout_OccuModTemp_Table.csv", row.names = F)
 
-#look at summary of top model(s)
-#summary(bkt.results.temp$p.tv.effort.Psi.p21)
-#bkt.results.temp$p.tv.effort.Psi.p21$results$real
+#look at summary of top model
+summary(bkt.results.temp$p.tv.effort.Psi.avgT)
+bkt.results.temp$p.tv.effort.Psi.avgT$results$real
 
 summary(bkt.results.temp$p.tv.effort.Psi.avgT) #top 
 bkt.results.temp$p.tv.effort.Psi.avgT$results$real
 
 cleanup(ask = F)
 
+#---------------------------------------------------------------------------------------------------------------------------------------#
 #set wd to scratch folder because MARK outputs an insane amount of files
 setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/Occupancy/RMark/Brook Trout") #because MARK loves output files
 
-###~~~~~~~~~~~~~~~~~~~~~~~##
-####   All covariates   ####
-##~~~~~~~~~~~~~~~~~~~~~~~##
-
-run.occ=function()
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+####   dot versus effort on detection probability   ####
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+run.occ.dp2=function()
 {
   #~~~~~~~~~~~~~ Model List ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   #~~~~~~~~~~~ Detection Probability - null model ~~~~~~~~~~~~
@@ -223,21 +420,42 @@ run.occ=function()
   #~~~~~~~~~~~~~ Occupancy - null model ~~~~~~~~~~~~~~~~~~~~~~
   Psi.Dot        = list(formula=~1) 
   #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
-  #direct effects - hypothesized larger effects (factors that may directly influence BKT persistence)
-  Psi.biol = list(formula = ~avgT+pctpool+pctrock+BRT_100m)
-  Psi.avgT_pool_rck = list(formula = ~avgT+pctpool+pctrock)
-  Psi.avgT_pool_brt = list(formula = ~avgT+pctpool+BRT_100m)
-  Psi.avgT_rck_brt = list(formula = ~avgT+pctrock+BRT_100m)
-  Psi.avgT_pool = list(formula = ~avgT + pctpool) 
-  Psi.avgT_rock = list(formula = ~avgT + pctrock) 
-  Psi.avgT_brt = list(formula = ~avgT + BRT_100m)
-  #indirect effects - hypothesized smaller effects (features of high quality stream habitats (for Brook Trout))
-  Psi.indEff = list(formula = ~BrBnk+pctShade+HAiFLS_for)
-  Psi.BBnk_shade = list(formula = ~BrBnk+pctShade)
-  Psi.BBnk_for = list(formula = ~BrBnk+HAiFLS_for)
-  Psi.shade_for = list(formula = ~pctShade+HAiFLS_for)
-  #combination of effects
   #all covariates
+  Psi.global = list(formula = ~avgT+pctpool+pctrock+BRT_100m+BrBnk+pctShade+HAiFLS_for)
+
+  #~~~~~~~~~~~~ model list & wrapper ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  cml.dp2=create.model.list("Occupancy")
+  results.dp2=mark.wrapper(cml.dp2, data=brook.process, ddl=bkt.ddl, output=F)
+  return(results.dp2)
+}
+
+bkt.results.dp2 = run.occ.dp2()
+
+
+##Examine model list and look at model comparisons
+bkt.results.dp2
+
+## Move forward with effort on p
+
+#---------------------------------------------------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------------------------------------------#
+
+###~~~~~~~~~~~~~~~~~~~~~~~##
+####   All covariates   ####
+##~~~~~~~~~~~~~~~~~~~~~~~##
+
+run.occ=function()
+{
+  #~~~~~~~~~~~~~ Model List ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  #~~~~~~~~~~~ Detection Probability - null model ~~~~~~~~~~~~
+  #p.Dot = list(formula= ~1)
+  #~~~~~~~~~~~ Detection Probability - single covariate ~~~~~~~~~~~~
+  p.tv.effort = list(formula = ~effort)
+  #~~~~~~~~~~~~~ Occupancy - null model ~~~~~~~~~~~~~~~~~~~~~~
+  Psi.Dot        = list(formula=~1) 
+  #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
+  #Global Model
   Psi.global = list(formula = ~avgT+pctpool+pctrock+BRT_100m+BrBnk+pctShade+HAiFLS_for)
   #6 covariates
   Psi.mixed1 = list(formula = ~avgT+pctpool+pctrock+BRT_100m+BrBnk+pctShade)
@@ -261,7 +479,6 @@ run.occ=function()
   Psi.mixed18 = list(formula = ~pctrock+BRT_100m+pctShade+BrBnk+HAiFLS_for)
   Psi.mixed19 = list(formula = ~pctpool+pctrock+BRT_100m+BrBnk+HAiFLS_for)
   Psi.mixed20 = list(formula = ~avgT+pctrock+BRT_100m+pctShade+HAiFLS_for)
-  Psi.mixed21 = list(formula = ~pctpool+pctrock+BRT_100m+BrBnk+HAiFLS_for)
   Psi.mixed22 = list(formula = ~avgT+pctpool+pctrock+BrBnk+HAiFLS_for)
   Psi.mixed23 = list(formula = ~avgT+pctpool+BRT_100m+pctShade+HAiFLS_for)
   Psi.mixed24 = list(formula = ~avgT+pctrock+BrBnk+pctShade+HAiFLS_for)
@@ -271,6 +488,7 @@ run.occ=function()
   Psi.mixed28 = list(formula = ~pctpool+pctrock+BrBnk+pctShade+HAiFLS_for)
   Psi.mixed29 = list(formula = ~pctpool+pctrock+BRT_100m+pctShade+HAiFLS_for)
   #4 covariates
+  Psi.biol = list(formula = ~avgT+pctpool+pctrock+BRT_100m)
   Psi.mixed30 = list(formula = ~avgT+pctpool+pctShade+BrBnk)
   Psi.mixed31 = list(formula = ~avgT+pctrock+pctShade+BrBnk)
   Psi.mixed32 = list(formula = ~avgT+BRT_100m+pctShade+BrBnk)
@@ -297,6 +515,9 @@ run.occ=function()
   Psi.mixed53 = list(formula = ~pctpool+BRT_100m+BrBnk+HAiFLS_for)
   Psi.mixed54 = list(formula = ~pctpool+BRT_100m+pctShade+HAiFLS_for)
   #3 covariates
+  Psi.avgT_pool_rck = list(formula = ~avgT+pctpool+pctrock)
+  Psi.avgT_pool_brt = list(formula = ~avgT+pctpool+BRT_100m)
+  Psi.avgT_rck_brt = list(formula = ~avgT+pctrock+BRT_100m)
   Psi.mixed55 = list(formula = ~avgT+pctShade+BrBnk)
   Psi.mixed56 = list(formula = ~pctpool+pctShade+BrBnk)
   Psi.mixed57 = list(formula = ~pctrock+pctShade+BrBnk)
@@ -307,17 +528,17 @@ run.occ=function()
   Psi.mixed62 = list(formula = ~avgT+BRT_100m+pctShade)
   Psi.mixed63 = list(formula = ~avgT+pctrock+pctShade)
   Psi.mixed64 = list(formula = ~pctpool+BRT_100m+pctShade)
-  Psi.mixed65 = list(formula = ~avgT+pctpool+BrBnk)
+  Psi.mixed65 = list(formula = ~avgT+pctpool+BrBnk) # Top Model
   Psi.mixed66 = list(formula = ~pctpool+pctrock+BrBnk)
   Psi.mixed67 = list(formula = ~pctrock+BRT_100m+BrBnk)
-  Psi.mixed68 = list(formula = ~avgT+BRT_100m+BrBnk)
+  Psi.mixed68 = list(formula = ~avgT+BRT_100m+BrBnk) #4th top model
   Psi.mixed69 = list(formula = ~avgT+pctrock+BrBnk)
   Psi.mixed70 = list(formula = ~pctpool+BRT_100m+BrBnk)
   Psi.mixed71 = list(formula = ~avgT+pctShade+HAiFLS_for)
   Psi.mixed72 = list(formula = ~pctpool+pctShade+HAiFLS_for)
   Psi.mixed73 = list(formula = ~pctrock+pctShade+HAiFLS_for)
   Psi.mixed74 = list(formula = ~BRT_100m+pctShade+HAiFLS_for)
-  Psi.mixed75 = list(formula = ~avgT+BrBnk+HAiFLS_for)
+  Psi.mixed75 = list(formula = ~avgT+BrBnk+HAiFLS_for) #3rd top model
   Psi.mixed76 = list(formula = ~pctpool+BrBnk+HAiFLS_for)
   Psi.mixed77 = list(formula = ~pctrock+BrBnk+HAiFLS_for)
   Psi.mixed78 = list(formula = ~BRT_100m+BrBnk+HAiFLS_for)
@@ -327,8 +548,12 @@ run.occ=function()
   Psi.mixed82 = list(formula = ~avgT+BRT_100m+HAiFLS_for)
   Psi.mixed83 = list(formula = ~avgT+pctrock+HAiFLS_for)
   Psi.mixed84 = list(formula = ~pctpool+BRT_100m+HAiFLS_for)
+  Psi.indEff = list(formula = ~BrBnk+pctShade+HAiFLS_for)
   #2 covariates
-  Psi.avgT_bare = list(formula = ~avgT + BrBnk) 
+  Psi.avgT_pool = list(formula = ~avgT + pctpool) 
+  Psi.avgT_rock = list(formula = ~avgT + pctrock) 
+  Psi.avgT_brt = list(formula = ~avgT + BRT_100m)
+  Psi.avgT_bare = list(formula = ~avgT + BrBnk) #2nd top model 
   Psi.avgT_shade = list(formula = ~avgT + pctShade)
   Psi.pool_bare = list(formula = ~pctpool + BrBnk) 
   Psi.pool_shade = list(formula = ~pctpool + pctShade) 
@@ -340,6 +565,9 @@ run.occ=function()
   Psi.pool_for = list(formula = ~pctpool + HAiFLS_for)
   Psi.rock_for = list(formula = ~pctrock + HAiFLS_for) 
   Psi.BRT_for = list(formula = ~BRT_100m + HAiFLS_for) 
+  Psi.BBnk_shade = list(formula = ~BrBnk+pctShade)
+  Psi.BBnk_for = list(formula = ~BrBnk+HAiFLS_for)
+  Psi.shade_for = list(formula = ~pctShade+HAiFLS_for)
   #~~~~~~~~~~~~~ Occupancy - single covariate ~~~~~~~~~~~~~~~~~~~~~~
   Psi.avgT = list(formula=~avgT) 
   Psi.pool = list(formula=~pctpool) 
@@ -375,14 +603,18 @@ write.csv(BKT.AICc.Table, "Data/Thesis/Tidy/BrookTrout_OccuMod_Table.csv", row.n
 summary(bkt.results$p.tv.effort.Psi.mixed65) 
 bkt.results$p.tv.effort.Psi.mixed65$results$real
 ## Second top model (dAIC=0.33) -- num parms = 5 (excludes pctpool from top model -- top most parsimonious model)
-summary(bkt.results$p.tv.effort.Psi.pct21_bare) 
-bkt.results$p.tv.effort.Psi.pct21_bare$results$real
+summary(bkt.results$p.tv.effort.Psi.avgT_bare) 
+bkt.results$p.tv.effort.Psi.avgT_bare$results$real
 ## 3rd top model (dAIC=1.55) -- num parms = 6 (replaces pctpool in top model with HAiFLS_for)
 summary(bkt.results$p.tv.effort.Psi.mixed75) 
 bkt.results$p.tv.effort.Psi.mixed75$results$real
+## 4th top model (dAIC=1.69) -- num parms = 6 (avgT+BrBank+BRT_100m)
+summary(bkt.results$p.tv.effort.Psi.mixed68) 
+bkt.results$p.tv.effort.Psi.mixed68$results$real
+
 ## Exploratory -- avgT+HAiFLS_for
-summary(bkt.results$p.tv.effort.Psi.pct21_for) 
-bkt.results$p.tv.effort.Psi.pct21_for$results$real
+#summary(bkt.results$p.tv.effort.Psi.avgT_for) 
+#bkt.results$p.tv.effort.Psi.avgT_for$results$real
 
 
 
@@ -548,141 +780,7 @@ write_csv(P.predictions.effort, "Data/Thesis/Tidy/P_predictions_effort.csv")
 
 
 
-################################################################################################################################
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-################################################################################################################################
-#set wd to scratch folder because MARK outputs an insane amount of files
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/Occupancy/RMark/Brook Trout") #because MARK loves output files
 
-#Process Data
-#?process.data
-#?make.design.data
-brook.process = process.data(brook.df, model="Occupancy", groups = "freq")
-bkt.ddl = make.design.data(brook.process)
-
-# Catchment Scale: within the upstream land area that drains to the outlet of the sampled segment
-#> HAiFLS_for (+) "Hydrologically Active inserve flow length to the stream of forest LULC"
-#> Area_km2 (-) "Catchment Area"
-#> AvgSlope (+) "Mean Slope of the catchment"
-#> EFac_Cat (-) "Environmental Facility density of upstream catchment (count/Area_km2)"
-#> Cross_Cat (-) "Road Crossing density of upstream catchment (count/Area_km2)"
-pairs(brook.df[,14:18])
-
-###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
-####   Catchment Scale covariates   ####
-##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
-
-run.occ.cat=function()
-{
-  #~~~~~~~~~~~~~ Model List ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  #~~~~~~~~~~~ Detection Probability - null model ~~~~~~~~~~~~
-  p.Dot = list(formula= ~1)
-  #~~~~~~~~~~~ Detection Probability - single covariate ~~~~~~~~~~~~
-  p.tv.effort = list(formula = ~effort)
-  #~~~~~~~~~~~~~ Occupancy - null model ~~~~~~~~~~~~~~~~~~~~~~
-  Psi.Dot        = list(formula=~1) 
-  #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
-  #all covariates
-  Psi.global = list(formula = ~HAiFLS_for+Area_km2+AvgSlope+Cross_Cat)
-  #3 Covariates
-  Psi.for_area_slpe = list(formula = ~HAiFLS_for+Area_km2+AvgSlope)
-  Psi.for_area_cross = list(formula = ~HAiFLS_for+Area_km2+Cross_Cat)
-  Psi.for_slpe_cross = list(formula = ~HAiFLS_for+AvgSlope+Cross_Cat)
-  Psi.area_slpe_crs = list(formula = ~Area_km2+AvgSlope+Cross_Cat)
-  #2 covariates
-  Psi.for_area = list(formula = ~HAiFLS_for+Area_km2)
-  Psi.for_slpe = list(formula = ~HAiFLS_for+AvgSlope)
-  Psi.for_cross = list(formula = ~HAiFLS_for+Cross_Cat)
-  Psi.area_slpe = list(formula = ~Area_km2+AvgSlope)
-  Psi.area_cross = list(formula = ~Area_km2+Cross_Cat)
-  Psi.slpe_cross = list(formula = ~AvgSlope+Cross_Cat)
-  #~~~~~~~~~~~~~ Occupancy - single covariate ~~~~~~~~~~~~~~~~~~~~~~
-  Psi.for = list(formula = ~HAiFLS_for)
-  Psi.area = list(formula = ~Area_km2)
-  Psi.slope = list(formula = ~AvgSlope)
-  Psi.cross = list(formula = ~Cross_Cat)
-  #~~~~~~~~~~~~ model list & wrapper ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  cml.cat=create.model.list("Occupancy")
-  results.cat=mark.wrapper(cml.cat, data=brook.process, ddl=bkt.ddl, output=F)
-  return(results.cat)
-}
-
-bkt.results.cat = run.occ.cat()
-
-
-##Examine model list and look at model comparisons
-bkt.results.cat
-##Model Table
-AICc.Table.cat = model.table(bkt.results.cat, use.lnl = T)
-AICc.Table.cat
-
-write.csv(AICc.Table.cat, "BrookTrout_CatModTable.csv", row.names = F)
-
-#look at summary of top model(s)
-summary(bkt.results.cat$p.tv.effort.Psi.for)
-summary(bkt.results.cat$p.tv.effort.Psi.for_slpe)
-summary(bkt.results.cat$p.tv.effort.Psi.for_area)
-bkt.results.cat$p.tv.effort.Psi.for$results$real
-tm.cat <- bkt.results.cat$p.tv.effort.Psi.for
-
-
-cleanup(ask = F)
-
-##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
-#### Visualizing HAiFLS_for effect on psi ####
-##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
-bkt.ddl #par.index = 1, model.index = 4
-
-#covariate.predictions method
-min.for <- min(brook.df$HAiFLS_for)
-max.for <- max(brook.df$HAiFLS_for)
-for.values <- seq(from = min.for, to = max.for, length = 100)
-
-##################################################
-#predict across range of observed values (forest)
-##################################################
-
-#predictions of Psi for full range of p21 & -1SD of forest values (would be negative so just forest=0)
-predictions_for <- covariate.predictions(tm.cat, 
-                                        data = data.frame(HAiFLS_for = for.values),
-                                        indices = 4)
-
-predictions_for$estimates
-
-catch.mod.predictions <- predictions_for$estimates
-
-####################################################
-##     Write tidy csv's for Psi predictions       ## 
-####################################################
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
-write_csv(catch.mod.predictions, "Data/Thesis/Tidy/BKT_Catchment_Model_Predictions.csv")
-
-
-##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
-#### Visualizing effort effect on p   ####
-##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
-min.effort <- min(brook.df$effort1)
-max.effort <- max(brook.df$effort1)
-effort.values <- seq(min.effort, max.effort, length.out = 100)
-mean.effort <- mean(brook.df$effort1) #906.231
-
-#predictions of p for full range of effort1 values
-p.pred.eff1 <- covariate.predictions(tm.cat, 
-                                       data = data.frame(effort1 = effort.values),
-                                       indices = 1)
-
-p.pred.eff1$estimates
-
-
-P.predictions.eff1 <- p.pred.eff1$estimates %>%
-  select(covdata, estimate, se, lcl, ucl) %>%
-  rename(Effort_sec = covdata) %>%
-  round(digits = 4)
-
-####################################################
-##       Write tidy csv for P predictions         ## 
-####################################################
-write_csv(P.predictions.eff1, "Data/Thesis/Tidy/BKT_CatchMod_DProb_predictions.csv")
 
 
 
@@ -704,7 +802,7 @@ Psi1 <- ggplot(data = pred.temps, aes(x=avgT))+
   geom_line(aes(y=estimate), colour="black", size=1)+
   scale_y_continuous(limits = c(0,1), breaks = c(0.00,0.25,0.50,0.75,1.00))+
   labs(x="Average Summer Stream Temperature (°C)",
-       y="Occupancy Probability (Psi)")+
+       y="Occupancy Probability")+
   theme_bw()+
   theme(axis.title = element_text(face = "bold"))+
   theme(panel.grid = element_blank())+
@@ -720,7 +818,8 @@ head(pred.bare)
 Psi2 <- ggplot(data = pred.bare, aes(x=BrBnk))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), colour="black", size=1)+
-  #scale_y_continuous(limits = c(0,0.40), breaks = c(0.00,0.10,0.20,0.30,0.40))+
+  scale_y_continuous(breaks = c(0.00,0.10,0.20, 0.30, 0.40),
+                     labels = c("0.00","0.10","0.20","0.30","0.40"))+
   labs(x="Bare Bank Index",
        y=NULL)+
   theme_bw()+
@@ -749,8 +848,7 @@ Psi3 <- ggplot(data = pred.pool, aes(x=pctpool))+
 Psi3
 
 #cowplot
-library(cowplot)
-plot_grid(Psi1,Psi2,Psi3, align = "h", labels = c(NA,"*",NA), nrow = 1)
+plot_grid(Psi1,Psi3,Psi2, align = "h", labels = c(NA,NA,NA), nrow = 1)
 
 ggsave("bkt_OccuProb_AvgT_Bnk_Pool.png",
        dpi = 350)
@@ -758,14 +856,6 @@ ggsave("bkt_OccuProb_AvgT_Bnk_Pool.png",
 
 ############################
 
-
-mean(brook.df$avgT)
-sd(brook.df$avgT)
-voi.temp = mean(brook.df$avgT) - sd(brook.df$avgT)
-voi.temp
-
-d.t <- avgT.predictions %>%
-  filter(estimates.avgT<16)
 
 
 

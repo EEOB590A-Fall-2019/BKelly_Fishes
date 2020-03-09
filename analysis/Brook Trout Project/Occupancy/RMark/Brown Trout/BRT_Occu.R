@@ -133,7 +133,9 @@ brt.ddl = make.design.data(brown.process)
 ####   Catchment Scale covariates   ####
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 
-run.occ.cat=function()
+#Compare dot model vs effort for d-prob
+
+run.occ.catc=function()
 {
   #~~~~~~~~~~~~~ Model List ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   #~~~~~~~~~~~ Detection Probability - null model ~~~~~~~~~~~~
@@ -143,11 +145,41 @@ run.occ.cat=function()
   #~~~~~~~~~~~~~ Occupancy - null model ~~~~~~~~~~~~~~~~~~~~~~
   Psi.Dot        = list(formula=~1) 
   #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
+  #Full Psi models
+  Psi.global1 = list(formula = ~HAiFLS_alt+Area_km2+AvgSlope+Cross_Cat)
+  #Psi.global2 = list(formula = ~HAiFLS_alt+Area2+AvgSlope+Cross_Cat)
+  #Psi.global3 = list(formula = ~HAiFLS_for+Area_km2+AvgSlope+Cross_Cat)
+  #Psi.global4 = list(formula = ~HAiFLS_for+Area2+AvgSlope+Cross_Cat)
+  #~~~~~~~~~~~~ model list & wrapper ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  cml.catc=create.model.list("Occupancy")
+  results.catc=mark.wrapper(cml.catc, data=brown.process, ddl=brt.ddl, output=F)
+  return(results.catc)
+}
+
+brt.results.catc = run.occ.catc()
+
+##Examine model list and look at model comparisons -- effort versus dot model
+brt.results.catc
+
+##Model Table
+AICc.Table.BTdot = model.table(brt.results.catc, use.lnl = T)
+AICc.Table.BTdot
+
+#continue with effort on p
+
+run.occ.catEFF=function()
+{
+  #~~~~~~~~~~~~~ Model List ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  #~~~~~~~~~~~ Detection Probability - null model ~~~~~~~~~~~~
+  #p.Dot = list(formula= ~1)
+  #~~~~~~~~~~~ Detection Probability - single covariate ~~~~~~~~~~~~
+  p.tv.effort = list(formula = ~effort)
+  #~~~~~~~~~~~~~ Occupancy - null model ~~~~~~~~~~~~~~~~~~~~~~
+  Psi.Dot        = list(formula=~1) 
+  #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
   #all covariates
   Psi.global1 = list(formula = ~HAiFLS_alt+Area_km2+AvgSlope+Cross_Cat)
-  #Psi.global2 = list(formula = ~HAiFLS_al2+Area_km2+AvgSlope+Cross_Cat)
   Psi.global3 = list(formula = ~HAiFLS_alt+Area2+AvgSlope+Cross_Cat)
-  #Psi.global4 = list(formula = ~HAiFLS_al2+Area2+AvgSlope+Cross_Cat)
   Psi.global5 = list(formula = ~HAiFLS_for+Area_km2+AvgSlope+Cross_Cat)
   Psi.global7 = list(formula = ~HAiFLS_for+Area2+AvgSlope+Cross_Cat)
   #3 Covariates
@@ -185,50 +217,39 @@ run.occ.cat=function()
   Psi.slope = list(formula = ~AvgSlope)
   Psi.cross = list(formula = ~Cross_Cat)
   #~~~~~~~~~~~~ model list & wrapper ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  cml.cat=create.model.list("Occupancy")
-  results.cat=mark.wrapper(cml.cat, data=brown.process, ddl=brt.ddl, output=F)
-  return(results.cat)
+  cml.catEFF=create.model.list("Occupancy")
+  results.catEFF=mark.wrapper(cml.catEFF, data=brown.process, ddl=brt.ddl, output=F)
+  return(results.catEFF)
 }
-
-brt.results.cat = run.occ.cat()
+brt.results.catEFF = run.occ.catEFF()
 
 
 ##Examine model list and look at model comparisons
-brt.results.cat
+brt.results.catEFF
+
+
 ##Model Table
-AICc.Table.BTcat = model.table(brt.results.cat, use.lnl = T)
+AICc.Table.BTcat = model.table(brt.results.catEFF, use.lnl = T)
 AICc.Table.BTcat
 
 setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
-write.csv(AICc.Table.BTcat, "Data/Thesis/Tidy/BRT_OccuModTable_Cat.csv", row.names = F)
+write.csv(AICc.Table.BTcat, "Data/Thesis/Tidy/BRT_OccuModTable_Cat_new.csv", row.names = F)
 #-----
 #look at summary of top model(s) (delta AICc < 2)
 #-----
 
-#without quadratic term
-summary(brt.results.cat$p.tv.effort.Psi.for_area) #top
-summary(brt.results.cat$p.tv.effort.Psi.for_area_slpe) #2nd
+#without quadratic term for HAiFLS_alt
+summary(brt.results.catEFF$p.tv.effort.Psi.for_area) #top
+summary(brt.results.catEFF$p.tv.effort.Psi.for_area_slpe) #2nd
 
-#With quadratic term
-#summary(brt.results.cat$p.tv.effort.Psi.al2_area_cross) #top
-#summary(brt.results.cat$p.tv.effort.Psi.al2_area) #2nd
-#summary(brt.results.cat$p.tv.effort.Psi.alt_area_cross) 
 
 #-----
 #real parameter values
 #-----
 
 #without quadratic term
-brt.results.cat$p.tv.effort.Psi.for_area$results$real 
-tmnq.cat <- brt.results.cat$p.tv.effort.Psi.for_area 
-
-#With quadratic term
-#brt.results.cat$p.tv.effort.Psi.al2_area_cross$results$real #top
-#brt.results.cat$p.tv.effort.Psi.al2_area$results$real #2nd
-#brt.results.cat$p.tv.effort.Psi.alt_area_cross$results$real 
-#tm.cat <- brt.results.cat$p.tv.effort.Psi.al2_area_cross
-#tm2.cat <- brt.results.cat$p.tv.effort.Psi.al2_area
-
+brt.results.catEFF$p.tv.effort.Psi.for_area$results$real 
+tmnq.cat <- brt.results.catEFF$p.tv.effort.Psi.for_area 
 
 
 cleanup(ask = F)
@@ -264,12 +285,19 @@ head(predictions_for$estimates)
 
 cat.for.preds <- predictions_for$estimates
 
-ap <- ggplot(data=cat.for.preds, aes(x=HAiFLS_for))+
+ap <- 
+  ggplot(data=cat.for.preds, aes(x=HAiFLS_for))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
   labs(x="% HAiFLS Forest Land Cover",
-       y="Occupancy Probability (Psi)")+
-  theme_minimal_grid()
+       y="Occupancy Probability")+
+  theme_bw()+
+    theme(panel.grid = element_blank())+
+    scale_y_continuous(limits = c(0.00,1.00),
+                       breaks = c(0.00, 0.25, 0.50, 0.75, 1.00),
+                       labels = c("0.00", "0.25", "0.50", "0.75", "1.00"))+
+    theme(axis.title = element_text(size = 12, face = "bold"))
+#ap
 
 
 
@@ -283,33 +311,21 @@ head(predictions_area$estimates)
 
 cat.area.preds <- predictions_area$estimates
 
-bp <- ggplot(data=cat.area.preds, aes(x=Area_km2))+
+bp <- 
+  ggplot(data=cat.area.preds, aes(x=Area_km2))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
-  labs(x="Upstream Catchment Area (km^2)",
-       y="Occupancy Probability (Psi)")+
-  theme_minimal_grid()#+
-  #theme(axis.title = element_text(face = "bold"))
+  labs(x= bquote(bold('Upstream Catchment Area' ~(km^2))),
+       y=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  scale_y_continuous(limits = c(0.00,1.00),
+                     breaks = c(0.00, 0.25, 0.50, 0.75, 1.00),
+                     labels = c("0.00", "0.25", "0.50", "0.75", "1.00"))+
+  theme(axis.title = element_text(size = 12, face = "bold"))
 
-
-#cowplot
-# now add the title
-title <- ggdraw() + 
-  draw_label(
-    "Catchment Scale Occupancy of Brown Trout",
-    fontface = 'bold',
-    x = 0,
-    hjust = 0
-  ) +
-  theme(
-    # add margin on the left of the drawing canvas,
-    # so title is aligned with left edge of first plot
-    plot.margin = margin(0, 0, 0, 7)
-  )
-plot_row <- plot_grid(ap, bp, cp, ncol = 3)
-plot_grid(title, plot_row, labels = NULL, ncol = 1,
-          rel_heights = c(0.1, 1))
-
+plot_grid(ap, bp, labels = NULL, ncol = 2)
+ggsave("brt_occuCAT_new.png", dpi = 350)
 
 
 ####################################################
@@ -370,12 +386,43 @@ write_csv(P.predictions.eff1, "Data/Thesis/Tidy/BRT_cat_DProb_preds.csv")
 #Area_km2 and avwid (0.53) #don't include... likely tell same exact story
 #avwid and avdep (0.50)
 #mFlow and pctslow (-0.48)
+## test vs null detection model
 
-run.occ=function()
+#set wd to scratch folder because MARK outputs an insane amount of files
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/Occupancy/RMark/Brown Trout") #because MARK loves output files
+getwd()
+
+run.occ.btc=function()
 {
   #~~~~~~~~~~~~~ Model List ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   #~~~~~~~~~~~ Detection Probability - null model ~~~~~~~~~~~~
   p.Dot = list(formula= ~1)
+  #~~~~~~~~~~~ Detection Probability - single covariate ~~~~~~~~~~~~
+  p.tv.effort = list(formula = ~effort)
+  #~~~~~~~~~~~~~ Occupancy - null model ~~~~~~~~~~~~~~~~~~~~~~
+  Psi.Dot        = list(formula=~1) #dAICc > 37
+  #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
+  #7 covariates
+  Psi.global1 = list(formula = ~MEANT+avdep+mFlow+pctrun+pctBrBnk+HAiFLS_for+Area_km2) #dAICc > 3
+  #~~~~~~~~~~~~ model list & wrapper ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  cml.btc=create.model.list("Occupancy")
+  results.btc=mark.wrapper(cml.btc, data=brown.process, ddl=brt.ddl, output=F)
+  return(results.btc)
+}
+
+brt.results.c = run.occ.btc()
+cleanup(ask = F)
+
+##Examine model list and look at model comparisons
+brt.results.c
+
+#--------------------------------------------------------------------------------------------------------
+
+run.occ.btf=function()
+{
+  #~~~~~~~~~~~~~ Model List ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  #~~~~~~~~~~~ Detection Probability - null model ~~~~~~~~~~~~
+  #p.Dot = list(formula= ~1)
   #~~~~~~~~~~~ Detection Probability - single covariate ~~~~~~~~~~~~
   p.tv.effort = list(formula = ~effort)
   #~~~~~~~~~~~~~ Occupancy - null model ~~~~~~~~~~~~~~~~~~~~~~
@@ -387,129 +434,80 @@ run.occ=function()
   #6 covariates
   Psi.six.1 = list(formula = ~MEANT+avdep+mFlow+pctrun+pctBrBnk+HAiFLS_for)
   Psi.six.3 = list(formula = ~MEANT+avdep+mFlow+pctrun+pctBrBnk+Area_km2)
- 
   Psi.six.5 = list(formula = ~MEANT+avdep+mFlow+pctrun+HAiFLS_for+Area_km2)
-  #Psi.six.6 = list(formula = ~MEANT2+avdep+mFlow+pctrun+HAiFLS_for+Area_km2)
   Psi.six.7 = list(formula = ~MEANT+avdep+mFlow+pctBrBnk+HAiFLS_for+Area_km2)
-  #Psi.six.8 = list(formula = ~MEANT2+avdep+mFlow+pctBrBnk+HAiFLS_for+Area_km2)
   Psi.six.9 = list(formula = ~MEANT+avdep+pctrun+pctBrBnk+HAiFLS_for+Area_km2)
-  #Psi.six.10 = list(formula = ~MEANT2+avdep+pctrun+pctBrBnk+HAiFLS_for+Area_km2)
-  Psi.six.11 = list(formula = ~MEANT+mFlow+pctrun+pctBrBnk+HAiFLS_for+Area_km2)  ##6th top model: delta AICc = 1.253##
-  #Psi.six.12 = list(formula = ~MEANT2+mFlow+pctrun+pctBrBnk+HAiFLS_for+Area_km2) ##5th top model: delta AICc = 0.991##
+  Psi.six.11 = list(formula = ~MEANT+mFlow+pctrun+pctBrBnk+HAiFLS_for+Area_km2)  
   Psi.six.13 = list(formula = ~avdep+mFlow+pctrun+pctBrBnk+HAiFLS_for+Area_km2)
   
   #5 covariates
   Psi.five.1 = list(formula = ~MEANT+avdep+mFlow+pctrun+pctBrBnk)
-  #Psi.five.2 = list(formula = ~MEANT2+avdep+mFlow+pctrun+pctBrBnk)
-  #Psi.five.3 = list(formula = ~MEANT+avdep+mFlow+pctpool+pctBrBnk)
-  #Psi.five.4 = list(formula = ~MEANT2+avdep+mFlow+pctpool+pctBrBnk)
   Psi.five.5 = list(formula = ~MEANT+avdep+mFlow+pctrun+HAiFLS_for)
-  #Psi.five.6 = list(formula = ~MEANT2+avdep+mFlow+pctrun+HAiFLS_for)
   Psi.five.7 = list(formula = ~MEANT+avdep+mFlow+pctBrBnk+HAiFLS_for)
-  #Psi.five.8 = list(formula = ~MEANT2+avdep+mFlow+pctBrBnk+HAiFLS_for)
   Psi.five.9 = list(formula = ~MEANT+avdep+pctrun+pctBrBnk+HAiFLS_for)
-  #Psi.five.10 = list(formula = ~MEANT2+avdep+pctrun+pctBrBnk+HAiFLS_for)
   Psi.five.11 = list(formula = ~MEANT+mFlow+pctrun+pctBrBnk+HAiFLS_for)
-  #Psi.five.12 = list(formula = ~MEANT2+mFlow+pctrun+pctBrBnk+HAiFLS_for)
   Psi.five.13 = list(formula = ~avdep+mFlow+pctrun+pctBrBnk+HAiFLS_for)
   Psi.five.14 = list(formula = ~MEANT+avdep+mFlow+pctrun+Area_km2)
-  #Psi.five.15 = list(formula = ~MEANT2+avdep+mFlow+pctrun+Area_km2)
   Psi.five.16 = list(formula = ~MEANT+avdep+mFlow+pctBrBnk+Area_km2)
-  #Psi.five.17 = list(formula = ~MEANT2+avdep+mFlow+pctBrBnk+Area_km2)
   Psi.five.18 = list(formula = ~MEANT+avdep+pctrun+pctBrBnk+Area_km2)
-  #Psi.five.19 = list(formula = ~MEANT2+avdep+pctrun+pctBrBnk+Area_km2)
   Psi.five.20 = list(formula = ~MEANT+mFlow+pctrun+pctBrBnk+Area_km2)
-  #Psi.five.21 = list(formula = ~MEANT2+mFlow+pctrun+pctBrBnk+Area_km2)
   Psi.five.22 = list(formula = ~avdep+mFlow+pctrun+pctBrBnk+Area_km2)
   Psi.five.23 = list(formula = ~MEANT+avdep+mFlow+HAiFLS_for+Area_km2)
-  #Psi.five.24 = list(formula = ~MEANT2+avdep+mFlow+HAiFLS_for+Area_km2)
   Psi.five.25 = list(formula = ~MEANT+avdep+pctrun+HAiFLS_for+Area_km2)
-  #Psi.five.26 = list(formula = ~MEANT2+avdep+pctrun+HAiFLS_for+Area_km2)
   Psi.five.27 = list(formula = ~MEANT+mFlow+pctrun+HAiFLS_for+Area_km2)  
-  #Psi.five.28 = list(formula = ~MEANT2+mFlow+pctrun+HAiFLS_for+Area_km2) ##3rd top model
   Psi.five.29 = list(formula = ~avdep+mFlow+pctrun+HAiFLS_for+Area_km2)
   Psi.five.30 = list(formula = ~MEANT+avdep+pctBrBnk+HAiFLS_for+Area_km2)
-  #Psi.five.31 = list(formula = ~MEANT2+avdep+pctBrBnk+HAiFLS_for+Area_km2)
   Psi.five.32 = list(formula = ~MEANT+mFlow+pctBrBnk+HAiFLS_for+Area_km2)
-  #Psi.five.33 = list(formula = ~MEANT2+mFlow+pctBrBnk+HAiFLS_for+Area_km2)
   Psi.five.34 = list(formula = ~avdep+mFlow+pctBrBnk+HAiFLS_for+Area_km2)
   Psi.five.35 = list(formula = ~MEANT+pctrun+pctBrBnk+HAiFLS_for+Area_km2)
-  #Psi.five.36 = list(formula = ~MEANT2+pctrun+pctBrBnk+HAiFLS_for+Area_km2)
   Psi.five.37 = list(formula = ~avdep+pctrun+pctBrBnk+HAiFLS_for+Area_km2)
   Psi.five.37 = list(formula = ~mFlow+pctrun+pctBrBnk+HAiFLS_for+Area_km2) ##Top Model##
   
   #4 covariates
   Psi.four.1 = list(formula = ~MEANT+mFlow+pctrun+pctBrBnk)
-  #Psi.four.2 = list(formula = ~MEANT2+mFlow+pctrun+pctBrBnk)
   Psi.four.3 = list(formula = ~MEANT+mFlow+pctrun+HAiFLS_for)
-  #Psi.four.4 = list(formula = ~MEANT2+mFlow+pctrun+HAiFLS_for)
   Psi.four.5 = list(formula = ~MEANT+mFlow+pctBrBnk+HAiFLS_for)
-  #Psi.four.6 = list(formula = ~MEANT2+mFlow+pctBrBnk+HAiFLS_for)
   Psi.four.7 = list(formula = ~MEANT+pctrun+pctBrBnk+HAiFLS_for)
-  #Psi.four.8 = list(formula = ~MEANT2+pctrun+pctBrBnk+HAiFLS_for)
   Psi.four.9 = list(formula = ~mFlow+pctrun+pctBrBnk+HAiFLS_for)
   Psi.four.10 = list(formula = ~MEANT+mFlow+pctrun+Area_km2)
-  #Psi.four.11 = list(formula = ~MEANT2+mFlow+pctrun+Area_km2)
   Psi.four.12 = list(formula = ~MEANT+mFlow+pctBrBnk+Area_km2)
-  #Psi.four.13 = list(formula = ~MEANT2+mFlow+pctBrBnk+Area_km2)
   Psi.four.14 = list(formula = ~MEANT+pctrun+pctBrBnk+Area_km2)
-  #Psi.four.15 = list(formula = ~MEANT2+pctrun+pctBrBnk+Area_km2)
   Psi.four.16 = list(formula = ~mFlow+pctrun+pctBrBnk+Area_km2)
   Psi.four.17 = list(formula = ~MEANT+mFlow+HAiFLS_for+Area_km2)
-  #Psi.four.18 = list(formula = ~MEANT2+mFlow+HAiFLS_for+Area_km2)
   Psi.four.19 = list(formula = ~MEANT+pctrun+HAiFLS_for+Area_km2)
-  #Psi.four.20 = list(formula = ~MEANT2+pctrun+HAiFLS_for+Area_km2)
   Psi.four.21 = list(formula = ~mFlow+pctrun+HAiFLS_for+Area_km2) ##2nd Top Model - Delta AICc = 0.022
   Psi.four.22 = list(formula = ~MEANT+pctBrBnk+HAiFLS_for+Area_km2)
-  #Psi.four.23 = list(formula = ~MEANT2+pctBrBnk+HAiFLS_for+Area_km2)
   Psi.four.24 = list(formula = ~mFlow+pctBrBnk+HAiFLS_for+Area_km2)
   Psi.four.25 = list(formula = ~pctrun+pctBrBnk+HAiFLS_for+Area_km2)
 
   #3 covariates
   Psi.three.1 = list(formula = ~MEANT+mFlow+pctrun)
-  #Psi.three.2 = list(formula = ~MEANT2+mFlow+pctrun)
   Psi.three.3 = list(formula = ~MEANT+mFlow+pctBrBnk)
-  #Psi.three.4 = list(formula = ~MEANT2+mFlow+pctBrBnk)
   Psi.three.5 = list(formula = ~MEANT+pctrun+pctBrBnk)
-  #Psi.three.6 = list(formula = ~MEANT2+pctrun+pctBrBnk)
   Psi.three.7 = list(formula = ~mFlow+pctrun+pctBrBnk)
   Psi.three.8 = list(formula = ~MEANT+mFlow+HAiFLS_for)
-  #Psi.three.9 = list(formula = ~MEANT2+mFlow+HAiFLS_for)
   Psi.three.10 = list(formula = ~MEANT+pctBrBnk+HAiFLS_for)
-  #Psi.three.11 = list(formula = ~MEANT2+pctBrBnk+HAiFLS_for)
   Psi.three.12 = list(formula = ~pctrun+pctBrBnk+HAiFLS_for)
   Psi.three.13 = list(formula = ~MEANT+mFlow+Area_km2)
-  #Psi.three.14 = list(formula = ~MEANT2+mFlow+Area_km2)
   Psi.three.15 = list(formula = ~MEANT+pctrun+Area_km2)
-  #Psi.three.16 = list(formula = ~MEANT2+pctrun+Area_km2)
   Psi.three.17 = list(formula = ~mFlow+pctrun+Area_km2)
   Psi.three.18 = list(formula = ~MEANT+pctBrBnk+Area_km2)
-  #Psi.three.19 = list(formula = ~MEANT2+pctBrBnk+Area_km2)
   Psi.three.20 = list(formula = ~pctrun+pctBrBnk+Area_km2)
   Psi.three.21 = list(formula = ~MEANT+HAiFLS_for+Area_km2)
-  #Psi.three.22 = list(formula = ~MEANT2+HAiFLS_for+Area_km2)
   Psi.three.23 = list(formula = ~mFlow+HAiFLS_for+Area_km2)
   Psi.three.24 = list(formula = ~pctrun+HAiFLS_for+Area_km2)
   Psi.three.25 = list(formula = ~pctBrBnk+HAiFLS_for+Area_km2)
   Psi.three.26 = list(formula = ~MEANT+pctrun+HAiFLS_for)
-  #Psi.three.27 = list(formula = ~MEANT2+pctrun+HAiFLS_for)
   Psi.three.28 = list(formula = ~mFlow+pctrun+HAiFLS_for)
   Psi.three.29 = list(formula = ~mFlow+pctBrBnk+Area_km2)
   
   #2 covariates
-  #MEANT+avdep+mFlow+pctrun+pctBrBnk+HAiFLS_for+Area_km2
   Psi.two.1 = list(formula = ~MEANT+avdep)
-  #Psi.two.2 = list(formula = ~MEANT2+avdep)
   Psi.two.3 = list(formula = ~MEANT+mFlow)
-  #Psi.two.4 = list(formula = ~MEANT2+mFlow)
   Psi.two.5 = list(formula = ~MEANT+pctrun)
-  #Psi.two.6 = list(formula = ~MEANT2+pctrun)
   Psi.two.9 = list(formula = ~MEANT+pctBrBnk)
-  #Psi.two.10 = list(formula = ~MEANT2+pctBrBnk)
   Psi.two.11 = list(formula = ~MEANT+HAiFLS_for)
-  #Psi.two.12 = list(formula = ~MEANT2+HAiFLS_for)
   Psi.two.13 = list(formula = ~MEANT+Area_km2)
-  #Psi.two.14 = list(formula = ~MEANT2+Area_km2)
   Psi.two.15 = list(formula = ~avdep+mFlow)
   Psi.two.16 = list(formula = ~avdep+pctrun)
   Psi.two.18 = list(formula = ~avdep+pctBrBnk)
@@ -528,46 +526,48 @@ run.occ=function()
 
   #~~~~~~~~~~~~~ Occupancy - single covariate ~~~~~~~~~~~~~~~~~~~~~~
   Psi.MEANT = list(formula = ~MEANT)
-  #Psi.MEANT2 = list(formula = ~MEANT2)
   Psi.depth = list(formula = ~avdep)
   Psi.flow = list(formula = ~mFlow)
   Psi.run = list(formula = ~pctrun)
-  Psi.pool = list(formula = ~pctpool) 
   Psi.bare = list(formula = ~pctBrBnk) 
   Psi.forest = list(formula = ~HAiFLS_for)
   Psi.area = list(formula = ~Area_km2)
   #~~~~~~~~~~~~ model list & wrapper ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  cml=create.model.list("Occupancy")
-  results=mark.wrapper(cml, data=brown.process, ddl=brt.ddl, output=F)
-  return(results)
+  cml.btf=create.model.list("Occupancy")
+  results.btf=mark.wrapper(cml.btf, data=brown.process, ddl=brt.ddl, output=F)
+  return(results.btf)
 }
 
-brt.results = run.occ()
+brt.results.f = run.occ.btf()
 cleanup(ask = F)
 
 ##Examine model list and look at model comparisons
-brt.results
+brt.results.f
+
+
+##########################################################################################################
+
 ##Model Table
-AICc.Table.BRT = model.table(brt.results, use.lnl = T)
+AICc.Table.BRT = model.table(brt.results.f, use.lnl = T)
 AICc.Table.BRT
 class(AICc.Table)
 #export model table 
 getwd()
 setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 #write csv for model table
-write.csv(AICc.Table.BRT, "Data/Thesis/Tidy/BrownTrout_OccuMod_Table.csv", row.names = F)
+write.csv(AICc.Table.BRT, "Data/Thesis/Tidy/BrownTrout_OccuMod_Table_new.csv", row.names = F)
 
 #look at summary of top model(s)
-summary(brt.results$p.tv.effort.Psi.five.37) #top
-summary(brt.results$p.tv.effort.Psi.four.21) #2nd
-summary(brt.results$p.tv.effort.Psi.five.28) #3rd
-summary(brt.results$p.tv.effort.Psi.five.27) #4th -- same as 3rd but with MEANT instead of MEANT2
+summary(brt.results.f$p.tv.effort.Psi.five.37) #top
+summary(brt.results.f$p.tv.effort.Psi.four.21) #2nd
+summary(brt.results.f$p.tv.effort.Psi.five.27) #3rd
+summary(brt.results.f$p.tv.effort.Psi.six.11) #4th -- same as 3rd but with BareBank
 
 #real parameter values
-brt.results$p.tv.effort.Psi.four.21$results$real
+brt.results.f$p.tv.effort.Psi.four.21$results$real
 
 #save top model into new object for later projections
-p.mod <- brt.results$p.tv.effort.Psi.four.21
+p.mod <- brt.results.f$p.tv.effort.Psi.four.21
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 #### Visualizing covariate effects on psi ####
@@ -753,32 +753,19 @@ ggplot(data=effort.preds, aes(x=Effort_sec))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
   labs(x="Electrofishing Effort (sec)",
-       y="Detection Probability (p)")+
+       y="Detection Probability")+
   scale_y_continuous(limits = c(0.4,1), breaks = c(0.40,0.60,0.80,1.00), labels = c("0.40","0.60","0.80","1.00"))+
   theme_bw()+
   theme(panel.grid = element_blank())+
   theme(axis.title = element_text(face = "bold"))
 
-ggsave("brt_DetProb.png",
+ggsave("brt_DetProb_3_8_2020.png",
        dpi = 350)
 
 ####################################################
 ##       Write tidy csv for P predictions         ## 
 ####################################################
 write_csv(effort.preds, "Data/Thesis/BRT_p_effort_preds.csv")
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 run.occ.BEST=function()
@@ -793,7 +780,7 @@ run.occ.BEST=function()
   #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
   
   #4 covariates
-  Psi.four.21 = list(formula = ~mFlow+pctrun+HAiFLS_for+Area_km2) ##2nd Top Model - Delta AICc = 0.022
+  Psi.four.21 = list(formula = ~mFlow+pctrun+HAiFLS_for+Area_km2) ##2nd Top Model - Delta AICc = 
 
   #~~~~~~~~~~~~ model list & wrapper ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   cml.BEST=create.model.list("Occupancy")
