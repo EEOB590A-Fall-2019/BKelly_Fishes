@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xml:lang="en"><Esri><CreaDate>20200309</CreaDate><CreaTime>10460900</CreaTime><ArcGISFormat>1.0</ArcGISFormat><SyncOnce>TRUE</SyncOnce><DataProperties><lineage><Process ToolSource="c:\program files (x86)\arcgis\desktop10.6\ArcToolbox\Toolboxes\Spatial Analyst Tools.tbx\ExtractMultiValuesToPoints" Date="20200309" Time="104254">ExtractMultiValuesToPoints Strm_outlets "floAcc_utm.tif floAcc_utm" NONE</Process></lineage></DataProperties></Esri></metadata>
