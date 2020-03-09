@@ -247,7 +247,7 @@ summary(brt.results.catEFF$p.tv.effort.Psi.for_area_slpe) #2nd
 #real parameter values
 #-----
 
-#without quadratic term
+#--------------------
 brt.results.catEFF$p.tv.effort.Psi.for_area$results$real 
 tmnq.cat <- brt.results.catEFF$p.tv.effort.Psi.for_area 
 
@@ -289,15 +289,16 @@ ap <-
   ggplot(data=cat.for.preds, aes(x=HAiFLS_for))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
-  labs(x="% HAiFLS Forest Land Cover",
+  labs(x= "% HAiFLS Forest Land Cover",
        y="Occupancy Probability")+
   theme_bw()+
     theme(panel.grid = element_blank())+
     scale_y_continuous(limits = c(0.00,1.00),
                        breaks = c(0.00, 0.25, 0.50, 0.75, 1.00),
                        labels = c("0.00", "0.25", "0.50", "0.75", "1.00"))+
-    theme(axis.title = element_text(size = 12, face = "bold"))
-#ap
+    theme(axis.title = element_text(size = 12, face = "bold"))+
+  theme(axis.title.x = element_text(margin = margin(b = 6)))
+ap
 
 
 
@@ -322,7 +323,8 @@ bp <-
   scale_y_continuous(limits = c(0.00,1.00),
                      breaks = c(0.00, 0.25, 0.50, 0.75, 1.00),
                      labels = c("0.00", "0.25", "0.50", "0.75", "1.00"))+
-  theme(axis.title = element_text(size = 12, face = "bold"))
+  theme(axis.title = element_text(size = 12, face = "bold"))+
+  theme(axis.title.x = element_text(margin = margin(b = 0.1)))
 
 plot_grid(ap, bp, labels = NULL, ncol = 2)
 ggsave("brt_occuCAT_new.png", dpi = 350)
@@ -437,7 +439,7 @@ run.occ.btf=function()
   Psi.six.5 = list(formula = ~MEANT+avdep+mFlow+pctrun+HAiFLS_for+Area_km2)
   Psi.six.7 = list(formula = ~MEANT+avdep+mFlow+pctBrBnk+HAiFLS_for+Area_km2)
   Psi.six.9 = list(formula = ~MEANT+avdep+pctrun+pctBrBnk+HAiFLS_for+Area_km2)
-  Psi.six.11 = list(formula = ~MEANT+mFlow+pctrun+pctBrBnk+HAiFLS_for+Area_km2)  
+  Psi.six.11 = list(formula = ~MEANT+mFlow+pctrun+pctBrBnk+HAiFLS_for+Area_km2) #second top model  
   Psi.six.13 = list(formula = ~avdep+mFlow+pctrun+pctBrBnk+HAiFLS_for+Area_km2)
   
   #5 covariates
@@ -454,7 +456,7 @@ run.occ.btf=function()
   Psi.five.22 = list(formula = ~avdep+mFlow+pctrun+pctBrBnk+Area_km2)
   Psi.five.23 = list(formula = ~MEANT+avdep+mFlow+HAiFLS_for+Area_km2)
   Psi.five.25 = list(formula = ~MEANT+avdep+pctrun+HAiFLS_for+Area_km2)
-  Psi.five.27 = list(formula = ~MEANT+mFlow+pctrun+HAiFLS_for+Area_km2)  
+  Psi.five.27 = list(formula = ~MEANT+mFlow+pctrun+HAiFLS_for+Area_km2) #3rd model 
   Psi.five.29 = list(formula = ~avdep+mFlow+pctrun+HAiFLS_for+Area_km2)
   Psi.five.30 = list(formula = ~MEANT+avdep+pctBrBnk+HAiFLS_for+Area_km2)
   Psi.five.32 = list(formula = ~MEANT+mFlow+pctBrBnk+HAiFLS_for+Area_km2)
@@ -475,7 +477,7 @@ run.occ.btf=function()
   Psi.four.16 = list(formula = ~mFlow+pctrun+pctBrBnk+Area_km2)
   Psi.four.17 = list(formula = ~MEANT+mFlow+HAiFLS_for+Area_km2)
   Psi.four.19 = list(formula = ~MEANT+pctrun+HAiFLS_for+Area_km2)
-  Psi.four.21 = list(formula = ~mFlow+pctrun+HAiFLS_for+Area_km2) ##2nd Top Model - Delta AICc = 0.022
+  Psi.four.21 = list(formula = ~mFlow+pctrun+HAiFLS_for+Area_km2) ##4th top model
   Psi.four.22 = list(formula = ~MEANT+pctBrBnk+HAiFLS_for+Area_km2)
   Psi.four.24 = list(formula = ~mFlow+pctBrBnk+HAiFLS_for+Area_km2)
   Psi.four.25 = list(formula = ~pctrun+pctBrBnk+HAiFLS_for+Area_km2)
@@ -559,21 +561,23 @@ write.csv(AICc.Table.BRT, "Data/Thesis/Tidy/BrownTrout_OccuMod_Table_new.csv", r
 
 #look at summary of top model(s)
 summary(brt.results.f$p.tv.effort.Psi.five.37) #top
-summary(brt.results.f$p.tv.effort.Psi.four.21) #2nd
+summary(brt.results.f$p.tv.effort.Psi.six.11) #2nd
 summary(brt.results.f$p.tv.effort.Psi.five.27) #3rd
-summary(brt.results.f$p.tv.effort.Psi.six.11) #4th -- same as 3rd but with BareBank
+summary(brt.results.f$p.tv.effort.Psi.four.21) #4th
+
+
 
 #real parameter values
-brt.results.f$p.tv.effort.Psi.four.21$results$real
+brt.results.f$p.tv.effort.Psi.five.37$results$real
 
 #save top model into new object for later projections
-p.mod <- brt.results.f$p.tv.effort.Psi.four.21
+p.mod <- brt.results.f$p.tv.effort.Psi.five.37
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 #### Visualizing covariate effects on psi ####
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 
-#Covars to predict on: mFlow, pctrun, HAiFLS_for, Area_km2
+#Covars to predict on: mFlow, pctrun, bare bank, HAiFLS_for, Area_km2
 #covariate.predictions method
 
 #-----
@@ -590,6 +594,13 @@ min.run <- min(brown.df$pctrun)
 max.run <- max(brown.df$pctrun)
 mean.run <- mean(brown.df$pctrun)
 run.values <- seq(from = min.run, to = max.run, length = 100)
+#-----
+#BrBank
+#-----
+min.bare <- min(brown.df$pctBrBnk)
+max.bare <- max(brown.df$pctBrBnk)
+mean.bare <- mean(brown.df$pctBrBnk)
+bare.values <- seq(from = min.bare, to = max.bare, length = 100)
 #-----
 #HAiFLS_for
 #-----
@@ -617,11 +628,12 @@ brt.ddl #model.index=4
 predictions_flow <- covariate.predictions(p.mod, 
                                            data = data.frame(mFlow = flow.values,
                                                              pctrun = mean.run,
+                                                             pctBrBnk = mean.bare,
                                                              HAiFLS_for = mean.for,
                                                              Area_km2 = mean.area),
                                            indices = 4)
 
-predictions_flow$estimates
+head(predictions_flow$estimates)
 
 flow.preds <- predictions_flow$estimates
 
@@ -629,11 +641,21 @@ a <- ggplot(data=flow.preds, aes(x=mFlow))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
   labs(x="Mean Flow Velocity (m/sec)",
-       y="Occupancy Probability (Psi)")+
+       y=NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
   theme(axis.title = element_text(face = "bold"))
 a
+
+aa <- ggplot(data=flow.preds, aes(x=mFlow))+
+  geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
+  geom_line(aes(y=estimate), size=1, color="black")+
+  labs(x="Mean Flow Velocity (m/sec)",
+       y="Occupancy Probability")+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold"))
+aa
 
 #-----
 #pctrun
@@ -641,6 +663,7 @@ a
 predictions_run <- covariate.predictions(p.mod, 
                                           data = data.frame(mFlow = mean.flow,
                                                             pctrun = run.values,
+                                                            pctBrBnk = mean.bare,
                                                             HAiFLS_for = mean.for,
                                                             Area_km2 = mean.area),
                                           indices = 4)
@@ -652,7 +675,7 @@ run.preds <- predictions_run$estimates
 b <- ggplot(data=run.preds, aes(x=pctrun))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
-  labs(x="Percentage of Run Macrohabitat",
+  labs(x="Proportion of Run Macrohabitat",
        y=NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
@@ -660,28 +683,56 @@ b <- ggplot(data=run.preds, aes(x=pctrun))+
 b
 
 #-----
+#pctBrBnk
+#-----
+predictions_bare <- covariate.predictions(p.mod, 
+                                         data = data.frame(mFlow = mean.flow,
+                                                           pctrun = mean.run,
+                                                           pctBrBnk = bare.values,
+                                                           HAiFLS_for = mean.for,
+                                                           Area_km2 = mean.area),
+                                         indices = 4)
+
+head(predictions_bare$estimates)
+
+bare.preds <- predictions_bare$estimates
+
+e <- ggplot(data=bare.preds, aes(x=pctBrBnk))+
+  geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
+  geom_line(aes(y=estimate), size=1, color="black")+
+  labs(x="Bare Bank Index",
+       y=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold"))+
+  scale_y_continuous(limits = c(0,1),
+                     breaks = c(0,0.25,0.50,0.75,1),
+                     labels = c("0.00","0.25","0.50","0.75","1.00"))
+e
+#-----
 #HAiFLS_for
 #-----
 predictions_for <- covariate.predictions(p.mod, 
                                          data = data.frame(mFlow = mean.flow,
                                                            pctrun = mean.run,
+                                                           pctBrBnk = mean.bare,
                                                            HAiFLS_for = for.values,
                                                            Area_km2 = mean.area),
                                          indices = 4)
 
-predictions_for$estimates
+head(predictions_for$estimates)
 
 for.preds <- predictions_for$estimates
-class(for.preds)
-names(for.preds)
-class(for.preds$lcl)
+#class(for.preds)
+#names(for.preds)
+#class(for.preds$lcl)
 
 c <- ggplot(data=for.preds, aes(x=HAiFLS_for))+
   geom_ribbon(aes(ymin=for.preds$lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
-  scale_y_continuous(limits = c(0.2,1), breaks = c(0.20,0.40,0.60,0.80,1.00), labels = c("0.20","0.40","0.60","0.80","1.00"))+
+  scale_y_continuous(limits = c(0,1), breaks = c(0,0.25,0.50,0.75,1.00), labels = c("0.00","0.25","0.50","0.75","1.00"))+
   labs(x="% HAiFLS Forest Land Cover",
-       y="Occupancy Probability (Psi)")+
+       y=NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
   theme(axis.title = element_text(face = "bold"))
@@ -694,18 +745,19 @@ c
 predictions_area <- covariate.predictions(p.mod, 
                                          data = data.frame(mFlow = mean.flow,
                                                            pctrun = mean.run,
+                                                           pctBrBnk = mean.bare,
                                                            HAiFLS_for = mean.for,
                                                            Area_km2 = area.values),
                                          indices = 4)
 
-predictions_area$estimates
+head(predictions_area$estimates)
 
 area.preds <- predictions_area$estimates
 
 d <- ggplot(data=area.preds, aes(x=Area_km2))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
-  scale_y_continuous(limits = c(0.2,1), breaks = c(0.20,0.40,0.60,0.80,1.00), labels = c("0.20","0.40","0.60","0.80","1.00"))+
+  scale_y_continuous(limits = c(0,1), breaks = c(0,0.25,0.50,0.75,1.00), labels = c("0.00","0.25","0.50","0.75","1.00"))+
   labs(x="Upstream Catchment Area (km^2)",
        y=NULL)+
   theme_bw()+
@@ -714,10 +766,23 @@ d <- ggplot(data=area.preds, aes(x=Area_km2))+
 d
 
 #cowplot
-plot_grid(a,b,c,d, labels = NULL, ncol = 2)
-ggsave("brt_OccuProb_NEW_02_28.png",
-       dpi = 350)
+vert <- plot_grid(a,b,e,c,d, labels = NULL, ncol = 1)
 
+#create common y axis label
+library(gridExtra)
+library(grid)
+y.grob <- textGrob("Occupancy Probability", 
+                   gp=gpar(fontface="bold", col="black", fontsize=14), rot=90)
+#add to plot
+f <- grid.arrange(arrangeGrob(vert, left = y.grob))
+
+
+ggsave("trial.png", plot = f, dpi = 350)
+
+#cowplot -- horizontal
+horiz <- plot_grid(aa,b,e,c,d, labels = NULL, ncol = 5)
+horiz
+ggsave("trial2.png",dpi = 350)
 ####################################################
 ##     Write tidy csv's for Psi predictions       ## 
 ####################################################
@@ -726,6 +791,7 @@ write_csv(flow.preds, "Data/Thesis/Tidy/BRT_psi_flow_preds.csv")
 write_csv(run.preds, "Data/Thesis/Tidy/BRT_psi_run_preds.csv")
 write_csv(for.preds, "Data/Thesis/Tidy/BRT_psi_for_preds.csv")
 write_csv(area.preds, "Data/Thesis/Tidy/BRT_psi_area_preds.csv")
+write_csv(bare.preds, "Data/Thesis/Tidy/BRT_psi_bare_preds.csv")
 
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
@@ -759,7 +825,7 @@ ggplot(data=effort.preds, aes(x=Effort_sec))+
   theme(panel.grid = element_blank())+
   theme(axis.title = element_text(face = "bold"))
 
-ggsave("brt_DetProb_3_8_2020.png",
+ggsave("brt_DetProb_3_9_2020.png",
        dpi = 350)
 
 ####################################################
