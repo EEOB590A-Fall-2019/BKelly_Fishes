@@ -9,39 +9,58 @@ library(skimr)
 library(forcats)
 
 #read data
-catch <- read_csv("Data/Thesis/Raw/All Years/Catchment_Attributes.csv", col_names = T)
+catch <- read_csv("Data/Thesis/Raw/All Years/Catchment_Attributes.csv", col_names = T) %>%
+  unite(newID, c(HUC8, Site), sep = "_", remove = F) %>%
+  select(-FID, -OBJECTID)
+
+FlowAcc <- read.csv("data/Thesis/Tidy/Watershed_Accumulation.csv") %>%
+  select(HUC8, Site, floAcc_utm) %>%
+  unite(newID, c(HUC8, Site), sep = "_", remove = T)
 
 #Examine structure, correct any data types, look for NA's
-names(catch)
+skim(catch)
+
+skim(FlowAcc)
+
+## Catch df 
 #site number to character
 catch$Site <- as.character(catch$Site)
 
-#remove unwanted variables, rename variables, calculate density (per watershed area) instead of counts
-catch2 <- catch %>%
-  select(HUC8, Site, POLY_AREA, Avg_Percen, Count_1, Count_2)%>%
-  rename(Area_km2 = POLY_AREA, AvgSlope = Avg_Percen, EnvFac = Count_1, CrossCat = Count_2)%>%
-  mutate(EFac_Cat = (EnvFac/Area_km2), Cross_Cat = (CrossCat/Area_km2))%>%
-  select(-EnvFac, -CrossCat)
-
 #rename site numbers to include characters
-catch2[9,2] <- '57b'
-catch2[13,2] <- '14b'
-catch2[27,2] <- '78b'
-catch2[58,2] <- '118b'
-catch2[68,2] <- '32b'
-catch2[134,2] <- '28b'
-catch2[106,2] <- "97b"
+catch[9,3] <- '57b'
+catch[13,3] <- '14b'
+catch[27,3] <- '78b'
+catch[58,3] <- '118b'
+catch[68,3] <- '32b'
+catch[134,3] <- '28b'
+catch[106,3] <- "97b"
+catch[133,3] <- "48"
+catch[133,1] <- "LMAQ_48"
+##-----------------------------------------
 
+#Left Join
+catch2 <- left_join(catch, FlowAcc, by="newID") %>%
+  unite(newID, c(HUC8, Site), sep = "_", remove = F)
 
-#create "newID" 
-#delete columns we will not use for analysis (YEL_33 and UPI_29 because of fishless status)
+skim(catch2)
 names(catch2)
+
+
+#remove unwanted variables, rename variables, calculate density (per watershed area) instead of counts
 catch3 <- catch2 %>%
-  unite(newID, c(HUC8, Site), sep = "_", remove = T)%>%
+  select(newID, floAcc_utm, Avg_Percen, Count_1, Count_2)%>%
+  mutate(Acc_m2 = (floAcc_utm*79.636)) %>%
+  mutate(Area_km2 = (Acc_m2/1000000)) %>%
+  rename(AvgSlope = Avg_Percen, EnvFac = Count_1, CrossCat = Count_2)%>%
+  mutate(EFac_Cat = (EnvFac/Area_km2), Cross_Cat = (CrossCat/Area_km2))%>%
+  select(-EnvFac, -CrossCat, -floAcc_utm, -Acc_m2, -EnvFac)
+
+summary(catch3$Area_km2)
+hist(catch3$Area_km2)
+
+#delete columns we will not use for analysis (YEL_33 and UPI_29 because of fishless status)
+catch4 <- catch3 %>%
   filter(newID != "YEL_33" & newID != "UPI_29")
-
-catch3[129,1] = "LMAQ_48"
-
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 ##              Making a DF ready for occupancy analysis               ##
@@ -58,7 +77,8 @@ brook2 <- brook %>%
          pctrock, pctBrBnk, pctShade, BRT_100m, HAiFLS_alt, HAiFLS_for)
 
 #Join to new DF
-occupancy_input <- full_join(brook2, catch3, by="newID")
+occupancy_input <- full_join(brook2, catch3, by="newID")%>%
+  filter(newID != "YEL_33" & newID != "UPI_29")
 
 write.csv(occupancy_input, "Data/Thesis/Tidy/BKT_Occu_File.csv", row.names = F)
 
