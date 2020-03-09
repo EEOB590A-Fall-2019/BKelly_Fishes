@@ -1,0 +1,17 @@
+"p","Psi","model","npar","AICc","DeltaAICc","weight","Neg2LnL"
+"~effort","~HAiFLS_for","p(~effort)Psi(~HAiFLS_for)",4,172.078781879699,0,0.21885936344988,163.77803
+"~effort","~HAiFLS_for + AvgSlope","p(~effort)Psi(~HAiFLS_for + AvgSlope)",5,172.104815454545,0.0260335748462239,0.216028978861703,161.65027
+"~effort","~HAiFLS_for + Cross_Cat","p(~effort)Psi(~HAiFLS_for + Cross_Cat)",5,174.117385454545,2.03860357484621,0.0789747009533542,163.66284
+"~effort","~HAiFLS_for + AvgSlope + Cross_Cat","p(~effort)Psi(~HAiFLS_for + AvgSlope + Cross_Cat)",6,174.132781374046,2.05399949434656,0.0783690908558408,161.49156
+"~effort","~HAiFLS_for + Area_km2","p(~effort)Psi(~HAiFLS_for + Area_km2)",5,174.208135454545,2.12935357484622,0.0754713081921164,163.75359
+"~effort","~HAiFLS_for + Area_km2 + AvgSlope","p(~effort)Psi(~HAiFLS_for + Area_km2 + AvgSlope)",6,174.288381374046,2.20959949434658,0.0725031203563161,161.64716
+"~effort","~AvgSlope","p(~effort)Psi(~AvgSlope)",4,175.278501879699,3.19971999999999,0.0441931300161877,166.97775
+"~effort","~1","p(~effort)Psi(~1)",3,175.476744477612,3.39796259791268,0.0400227502446158,169.29764
+"~effort","~AvgSlope + Cross_Cat","p(~effort)Psi(~AvgSlope + Cross_Cat)",5,175.628325454545,3.54954357484621,0.0371015059369526,165.17378
+"~effort","~Cross_Cat","p(~effort)Psi(~Cross_Cat)",4,176.101981879699,4.0232,0.0292777940814061,167.80123
+"~effort","~HAiFLS_for + Area_km2 + Cross_Cat","p(~effort)Psi(~HAiFLS_for + Area_km2 + Cross_Cat)",6,176.281141374046,4.20235949434655,0.0267691364886746,163.63992
+"~effort","~HAiFLS_for + Area_km2 + AvgSlope + Cross_Cat","p(~effort)Psi(~HAiFLS_for + Area_km2 + AvgSlope + Cross_Cat)",7,176.349598461538,4.2708165818392,0.0258683718034687,161.48806
+"~effort","~Area_km2 + AvgSlope","p(~effort)Psi(~Area_km2 + AvgSlope)",5,177.100065454545,5.02128357484622,0.0177749037378426,166.64552
+"~effort","~Area_km2","p(~effort)Psi(~Area_km2)",4,177.473731879699,5.39494999999999,0.0147457417693912,169.17298
+"~effort","~Area_km2 + AvgSlope + Cross_Cat","p(~effort)Psi(~Area_km2 + AvgSlope + Cross_Cat)",6,177.614491374046,5.53570949434658,0.0137436184043748,164.97327
+"~effort","~Area_km2 + Cross_Cat","p(~effort)Psi(~Area_km2 + Cross_Cat)",5,178.192035454545,6.11325357484623,0.0102964848478757,167.73749

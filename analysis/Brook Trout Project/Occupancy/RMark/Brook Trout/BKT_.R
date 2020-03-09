@@ -191,8 +191,8 @@ bkt.results.dp1
 
 #the two models including effort were the only models <2 DeltaAICc
 
-summary(bkt.results.dp1$p.Dot.Psi.global) #top model
-summary(bkt.results.dp1$p.tv.effort.Psi.Dot) #2nd model 
+summary(bkt.results.dp1$p.Dot.Psi.global) #2nd model
+summary(bkt.results.dp1$p.tv.effort.Psi.Dot) #top model 
 
 ## continue with effort on p
 
@@ -251,7 +251,6 @@ write.csv(AICc.Table.cat, "BrookTrout_CatModTable.csv", row.names = F)
 #look at summary of top model(s)
 summary(bkt.results.cat$p.tv.effort.Psi.for)
 summary(bkt.results.cat$p.tv.effort.Psi.for_slpe)
-summary(bkt.results.cat$p.tv.effort.Psi.for_area)
 
 bkt.results.cat$p.tv.effort.Psi.for$results$real
 
