@@ -111,16 +111,30 @@ corrplot(c, method="color", col=col(200),
 pairs(psi.vars)
 
 ############################################################################
-#         Remove covars based on correlation and lit review               #
+#         Tidy up dataframe and add in new spatial vars @ cat scale       #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 brown <- brown %>%
   select(-RNGT)
 
+newstuff <- read.csv("Data/Thesis/Tidy/Spat_Atts_Cats.csv", header=T)
+skim(newstuff)
+
+brown2 <- left_join(brown, newstuff, by="newID")
+
+summary(brown2[,19:26])
+
+names(brown2)
+
+brown3 <- brown2 %>%
+  select(-Area_km2.x, -AvgSlope.x, -Cross_Cat.x, -EFac_Cat) %>%
+  rename(Area_km2 = Area_km2.y, AvgSlope = AvgSlope.y, Cross_Cat = Cross_Cat.y)
+
+names(brown3)
 ###########################################################################
 #Write CSV's
 
 #RMARK dataframe
-write.csv(brown,"Data/Thesis/Tidy/BRT_RMark.csv", row.names = F)
+write.csv(brown3,"Data/Thesis/Tidy/BRT_RMark.csv", row.names = F)
 
 

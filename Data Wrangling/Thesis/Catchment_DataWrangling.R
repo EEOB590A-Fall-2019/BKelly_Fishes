@@ -62,6 +62,14 @@ hist(catch3$Area_km2)
 catch4 <- catch3 %>%
   filter(newID != "YEL_33" & newID != "UPI_29")
 
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+##              Write csv with the new vars of interest                ##
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+write.csv(catch4, "Data/Thesis/Tidy/Spat_Atts_Cats.csv", row.names = F)
+
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 ##              Making a DF ready for occupancy analysis               ##
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
