@@ -130,16 +130,28 @@ head(temp.df.predicted)
 write.csv(temp.df.predicted, "Data/Thesis/Tidy/temp_df_predicted.csv", row.names = F)
 
 #Make ggplot for predicted FIBI as function of temperature 
+temperature <- read.csv("Data/Thesis/Tidy/temp_df_predicted.csv", header=T)
+names(temperature)
+temperature <- temperature %>%
+  rename(lcl=X2.5..,ucl=X97.5..)
 a <- ggplot(data = temperature, aes(x=MEANT))+
-  geom_ribbon(aes(ymin=temp.df.predicted$`2.5 %`, ymax=temp.df.predicted$`97.5 %`), fill="grey70", alpha=0.7)+
-  geom_line(aes(y=ml.value), colour="Blue", size=1)+
-  labs(x="Max Daily Mean Stream Temp (°C)***",
+  geom_ribbon(aes(ymin=temperature$lcl, ymax=temperature$ucl), fill="grey70", alpha=0.7)+
+  geom_line(aes(y=ml.value), colour="Black", size=1)+
+  labs(x="Max Daily Mean Stream Temp (°C)",
        y="Predicted FIBI Score")+
-  theme_cowplot()+
-  theme(axis.title = element_text(face = "bold"))+
+  theme_bw()+
+  theme(axis.title = element_text(face = "bold", size = 14))+
   theme(panel.grid = element_blank())+
-  theme(strip.text.x = element_text(size=10,face = "bold"))
+  theme(strip.text.x = element_text(size=10,face = "bold"))+
+  theme(axis.text.y = element_text(size = 12))+
+  theme(axis.text.x = element_text(size = 12))+
+  scale_y_continuous(limits = c(0,120),
+                     breaks = c(0,10,35,70,105),
+                     labels = c("0","10","35","70","105"))+
+  scale_x_continuous(limits = c(10,22),
+                     breaks = c(10,12,14,16,18,20,22))
 a
+ggsave("FIBI_vs_Temp.png", dpi = 400)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Make predictions using new function with varying BareBank values.
@@ -158,16 +170,28 @@ head(bare.df.predicted)
 write.csv(bare.df.predicted, "Data/Thesis/Tidy/bare_df_predicted.csv", row.names = F)
 
 #Make ggplot for predicted FIBI as function of barebank 
+barebank <- read.csv("Data/Thesis/Tidy/bare_df_predicted.csv", header=T)
+names(barebank)
+barebank <- barebank %>%
+  rename(lcl=X2.5..,ucl=X97.5..)
 b <- ggplot(data = barebank, aes(x=pctBrBnk))+
-  geom_ribbon(aes(ymin=bare.df.predicted$`2.5 %`, ymax=bare.df.predicted$`97.5 %`), fill="grey70", alpha=0.7)+
-  geom_line(aes(y=ml.value), colour="Blue", size=1)+
-  labs(x="Bare Bank Index**",
-       y="Predicted FIBI Score")+
-  theme_cowplot()+
-  theme(axis.title = element_text(face = "bold"))+
+  geom_ribbon(aes(ymin=barebank$lcl, ymax=barebank$ucl), fill="grey70", alpha=0.7)+
+  geom_line(aes(y=ml.value), colour="Black", size=1)+
+  labs(x="Bare Bank Index",
+       y=NULL)+
+  theme_bw()+
+  theme(axis.title = element_text(face = "bold",size = 14))+
   theme(panel.grid = element_blank())+
-  theme(strip.text.x = element_text(size=10,face = "bold"))
+  theme(strip.text.x = element_text(size=10,face = "bold"))+
+  scale_y_continuous(limits = c(0,120),
+                     breaks = c(0,10,35,70,105),
+                     labels = c("0","10","35","70","105"))+
+  scale_x_continuous(limits = c(0,2.5),
+                     breaks = c(0.0,0.5,1.0,1.5,2.0,2.5))+
+  theme(axis.text.y = element_text(size = 12))+
+  theme(axis.text.x = element_text(size = 12))
 b
+ggsave("FIBI_vs_BrBank.png", dpi = 400)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Make predictions using new function with varying canopy cover values.
 
@@ -184,16 +208,26 @@ head(canopy.df.predicted)
 write.csv(canopy.df.predicted, "Data/Thesis/Tidy/canopy_df_predicted.csv", row.names = F)
 
 #Make ggplot for predicted FIBI as function of canopy 
+canopy <- read.csv("Data/Thesis/Tidy/canopy_df_predicted.csv", header=T)
+names(canopy)
+canopy <- canopy %>%
+  rename(lcl=X2.5..,ucl=X97.5..)
 c <- ggplot(data = canopy, aes(x=pctShade))+
-  geom_ribbon(aes(ymin=canopy.df.predicted$`2.5 %`, ymax=canopy.df.predicted$`97.5 %`), fill="grey70", alpha=0.7)+
-  geom_line(aes(y=ml.value), colour="Blue", size=1)+
-  labs(x="Percent Canopy Cover*",
-       y="Predicted FIBI Score")+
-  theme_cowplot()+
-  theme(axis.title = element_text(face = "bold"))+
+  geom_ribbon(aes(ymin=canopy$lcl, ymax=canopy$ucl), fill="grey70", alpha=0.7)+
+  geom_line(aes(y=ml.value), colour="Black", size=1)+
+  labs(x="% Canopy Cover",
+       y=NULL)+
+  theme_bw()+
+  theme(axis.title = element_text(face = "bold", size = 14))+
   theme(panel.grid = element_blank())+
-  theme(strip.text.x = element_text(size=10,face = "bold"))
+  theme(strip.text.x = element_text(size=10,face = "bold"))+
+  scale_y_continuous(limits = c(0,120),
+                     breaks = c(0,10,35,70,105),
+                     labels = c("0","10","35","70","105"))+
+  theme(axis.text.y = element_text(size = 12))+
+  theme(axis.text.x = element_text(size = 12))
 c
+ggsave("FIBI_vs_Canopy.png", dpi = 400)
 #cowplot
 plot_grid(a,b,c, align = "h", labels = NULL, nrow = 1)
 
@@ -202,7 +236,7 @@ ggsave("FIBIcovars.png", dpi = 350)
 ####################################################
 ######        Observed VS Predicted          ######
 ###################################################
-snore <- read.csv("Data/Thesis/Tidy/FIBI_df_predicted.csv", header = T)
+
 #observed vs. predicted
 names(mydat)
 mydat2 <- mydat %>%
@@ -326,41 +360,79 @@ ggplot(mydat2, aes(x=estimate, y=IBIScore, fill=HUC8)) +
 #ggsave("Predicted_Xaxis_HUC8_FIBI.png", dpi = 350)
 
 #--------------------------------------------------------------------------------------------------
+snore <- read.csv("Data/Thesis/Tidy/FIBI_df_predicted.csv", header = T)
 ## More Graphix
 ## Observed (y) vs. Predicted (x)
 ## 1-1 line PLUS stat smooth
 summary(snore)
-snore[which(snore$estimate<0),]
-snore[32,11] <- 0
+#snore[which(snore$estimate<0),]
+#snore[32,11] <- 0
+snore <- snore %>%
+  rename(lcl=X2.5.., ucl=X97.5..) %>%
+  mutate(cl_range = ucl-lcl)
+max(snore$estimate)
+max(snore$IBIScore)
 
 ggplot(snore, aes(x=estimate, y=IBIScore)) + 
-  #geom_errorbar(aes(ymax=FIBI.df.predicted$`2.5 %`, ymin=FIBI.df.predicted$`97.5 %`), width=.1)+
   geom_point(
     color="black",
-    fill="#69b3a2",
+    fill="grey70",
     shape=21,
     alpha=0.75,
     size=4,
-    stroke = 2
+    stroke = 1.5
   )+
-  scale_y_continuous(limits = c(0,115), breaks = c(0,10,35,70,105))+
-  scale_x_continuous(limits = c(0,115), breaks = c(0,10,35,70,105))+
+  scale_y_continuous(limits = c(0,112), breaks = c(0,10,35,70,105))+
+  scale_x_continuous(limits = c(0,112), breaks = c(0,10,35,70,105))+
   geom_abline(intercept = 0, slope = 1, color="black", linetype="dashed",
               size=1)+
-  stat_smooth(method = "lm", se=F, color="red", size=1.5)+
-  theme_cowplot()+
+  stat_smooth(method = "lm", se=F, color="black", size=1.5)+
+  theme_bw()+
   theme(legend.position = "bottom")+
   labs(y="Observed FIBI Score", 
        x="Predicted FIBI Score")+
-  ggtitle("Observed versus Predicted FIBI Score")+
-  theme(axis.title = element_text(size = 14, face = "bold"))
+  theme(axis.title = element_text(size = 14, face = "bold"))+
+  theme(axis.text = element_text(size = 12))+
+  theme(panel.grid = element_blank())+
+  annotate("text",x=20,y=110,label="Pearson's r = 0.72",
+           fontface="bold", size=5)
 
-ggsave("Predicted_Xaxis_trendline_FIBI.png", dpi = 350)
+y <- snore$IBIScore
+x <- snore$estimate
+cor(x,y, use = "everything", method = "pearson")
+cor(x,y, use = "everything", method = "kendall")
+cor(x,y, use = "everything", method = "spearman")
 
+ggsave("FIBI_ObsY_vs_PredX_BW.png", dpi = 350)
 
+#---------------------------------------------------
 
+#color, no 0
 
+ggplot(snore, aes(x=estimate, y=IBIScore)) + 
+  geom_point(
+    color="black",
+    fill="darkseagreen4",
+    shape=21,
+    alpha=0.75,
+    size=4,
+    stroke = 1.5
+  )+
+  scale_y_continuous(limits = c(0,112), breaks = c(0,10,35,70,105))+
+  scale_x_continuous(limits = c(0,112), breaks = c(0,10,35,70,105))+
+  geom_abline(intercept = 0, slope = 1, color="black", linetype="dashed",
+              size=1)+
+  stat_smooth(method = "lm", se=F, color="black", size=1.5)+
+  theme_bw()+
+  theme(legend.position = "bottom")+
+  labs(y="Observed FIBI Score", 
+       x="Predicted FIBI Score")+
+  theme(axis.title = element_text(size = 14, face = "bold"))+
+  theme(axis.text = element_text(size = 12))+
+  theme(panel.grid = element_blank())+
+  annotate("text",x=15,y=110,label="Pearson's r = 0.72",
+           fontface="bold", size=5)
 
-
+ggsave("FIBI_ObsY_vs_PredX_color.png", dpi = 350)
 
 
