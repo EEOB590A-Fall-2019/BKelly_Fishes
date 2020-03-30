@@ -161,6 +161,14 @@ trout4 <- trout3 %>%
 
 #combine into new DF
 combo <- full_join(sites3, trout4, by="newID")
+combo$HUC8 <- as.factor(combo$HUC8)
+class(combo$BRT)
+combo$BRT <- as.factor(combo$BRT)
+
+combo2 <- combo %>%
+  group_by(HUC8) %>%
+  count(BRT)
+  
 
 #Write csv's
 write.csv(combo, "Data/Thesis/Tidy/TroutStatus_sites.csv", row.names = F)

@@ -57,8 +57,10 @@ sd(final_covs$Cross_Cat)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #inspect correlations between covariates
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-psi.vars <- brown[,7:22]
-psi.cv <- brown[,16:22]
+brown <- brown %>%
+  mutate(area_sq = (Area_km2)^2)
+psi.vars <- brown[,7:23]
+psi.cv <- brown[,16:23]
 psi.lv <- brown[,7:15]
 
 #correlation test
