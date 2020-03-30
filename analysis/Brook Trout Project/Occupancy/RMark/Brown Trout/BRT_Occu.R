@@ -30,6 +30,30 @@ setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 #read in data, rearrange and change some labels to work with grouping ("freq"), and time-varying covariates ("Effort1 --> Effort3")
 brown <- read_csv("Data/Thesis/Tidy/BRT_RMark.csv", col_names = T)
 
+#random summaries for manuscript table
+names(brown)
+final_covs <- brown %>%
+  select(effort1, avgT, MEANT, avdep, mFlow, pctrun, pctslow, pctBrBnk, HAiFLS_alt, HAiFLS_for, AvgSlope, Area_km2, Cross_Cat) %>%
+  mutate(area_sq = (Area_km2)^2)
+summary(final_covs)
+summary(final_covs$effort1)
+summary(final_covs$MEANT)
+names(final_covs)
+sd(final_covs$effort1)
+sd(final_covs$avgT)
+sd(final_covs$MEANT)
+sd(final_covs$avdep)
+sd(final_covs$mFlow)
+sd(final_covs$pctrun)
+sd(final_covs$pctslow)
+sd(final_covs$pctBrBnk)
+sd(final_covs$HAiFLS_alt)
+sd(final_covs$HAiFLS_for)
+sd(final_covs$AvgSlope)
+sd(final_covs$Area_km2)
+sd(final_covs$area_sq)
+sd(final_covs$Cross_Cat)
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #inspect correlations between covariates
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#

@@ -412,7 +412,7 @@ ggsave("FIBI_ObsY_vs_PredX_BW.png", dpi = 350)
 ggplot(snore, aes(x=estimate, y=IBIScore)) + 
   geom_point(
     color="black",
-    fill="darkseagreen4",
+    fill="royalblue2",
     shape=21,
     alpha=0.75,
     size=4,
@@ -430,7 +430,7 @@ ggplot(snore, aes(x=estimate, y=IBIScore)) +
   theme(axis.title = element_text(size = 14, face = "bold"))+
   theme(axis.text = element_text(size = 12))+
   theme(panel.grid = element_blank())+
-  annotate("text",x=15,y=110,label="Pearson's r = 0.72",
+  annotate("text",x=20,y=110,label="Pearson's r = 0.72",
            fontface="bold", size=5)
 
 ggsave("FIBI_ObsY_vs_PredX_color.png", dpi = 350)

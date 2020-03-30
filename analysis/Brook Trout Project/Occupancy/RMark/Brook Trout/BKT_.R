@@ -35,6 +35,13 @@ brook.df <- as.data.frame(brook) %>%
 skim(brook.df)
 names(brook.df)
 
+#need random summaries for manuscript table - canopy cover, rock, BRT_CPUE
+summary(brook.df$pctrock)
+sd(brook.df$pctrock)
+summary(brook.df$pctShade)
+sd(brook.df$pctShade)
+summary(brook.df$BRT_100m)
+sd(brook.df$BRT_100m)
 ##########################################################################################
 # Local Scale: instream and immediate riparian area
 #> pctex21 (-) "percentage of summer temperature observations that exceed 21 degrees C"
