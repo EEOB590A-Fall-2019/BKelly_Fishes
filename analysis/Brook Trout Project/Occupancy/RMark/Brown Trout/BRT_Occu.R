@@ -363,6 +363,46 @@ setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 write_csv(cat.for.preds, "Data/Thesis/Tidy/BRT_cat_for_preds.csv")
 write_csv(cat.area.preds, "Data/Thesis/Tidy/BRT_cat_area_preds.csv")
 
+
+
+
+
+
+#-----------------------------------------------------------------------------------------------
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+#### Visualizing HAiFLS_for effect on psi -- prediction surface map ####
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+gis <- read.csv("Data/Thesis/Tidy/gis_points.csv", header = T)
+
+brt.ddl #par.index = 1, model.index = 4
+
+#covariate.predictions method
+for.values2 <- gis$HAiFLS_for
+area.values2 <- gis$Area_km2
+
+#####################################################################
+#predict across range of observed values (forest and catchment area)
+#####################################################################
+preds_brt_cat_occ <- covariate.predictions(tmnq.cat, 
+                                         data = data.frame(HAiFLS_for = for.values2,
+                                                           Area_km2 = area.values2),
+                                         indices = 4)
+
+head(preds_brt_cat_occ$estimates)
+
+gis2 <- as.data.frame(preds_brt_cat_occ$estimates) %>%
+  select(HAiFLS_for, Area_km2, estimate, se, lcl, ucl)
+
+gis2$OBJECTID <- seq(from=1, to=4664)
+
+gis3 <- left_join(gis, gis2, by="OBJECTID") %>%
+  select(-HAiFLS_for.y, -Area_km2.y) %>%
+  rename(HAiFLS_for = HAiFLS_for.x, Area_km2 = Area_km2.x)
+summary(gis3$estimate)
+
+write.csv(gis3, "Data/Thesis/Tidy/BrownTrout_Psi_Points.csv", row.names = F)
+#-----------------------------------------------------------------------------------------------
+
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 #### Visualizing effort effect on p   ####
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
