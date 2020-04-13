@@ -315,6 +315,43 @@ setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 write_csv(catch.mod.predictions, "Data/Thesis/Tidy/BKT_Catchment_Model_Predictions.csv")
 
 
+
+#-----------------------------------------------------------------------------------------------
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+#### Visualizing HAiFLS_for effect on psi -- prediction surface map ####
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+gis <- read.csv("Data/Thesis/Tidy/gis_points.csv", header = T)
+
+bkt.ddl #par.index = 1, model.index = 4
+
+#covariate.predictions method
+for.valuesg <- gis$HAiFLS_for
+
+##################################################
+#predict across range of observed values (forest)
+##################################################
+
+#predictions of Psi for full range of p21 & -1SD of forest values (would be negative so just forest=0)
+predictions_forg <- covariate.predictions(tm.cat, 
+                                         data = data.frame(HAiFLS_for = for.valuesg),
+                                         indices = 4)
+
+head(predictions_forg$estimates)
+
+gis2 <- as.data.frame(predictions_forg$estimates) %>%
+  select(HAiFLS_for = covdata, estimate, se, lcl, ucl)
+
+gis2$OBJECTID <- seq(from=1, to=4664)
+
+gis3 <- left_join(gis, gis2, by="OBJECTID") %>%
+  select(-HAiFLS_for.y) %>%
+  rename(HAiFLS_for = HAiFLS_for.x)
+summary(gis3$estimate)
+
+write.csv(gis3, "Data/Thesis/Tidy/BrookTrout_Psi_Points.csv", row.names = F)
+#-----------------------------------------------------------------------------------------------
+
+
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 #### Visualizing effort effect on p   ####
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
@@ -340,9 +377,6 @@ P.predictions.eff1 <- p.pred.eff1$estimates %>%
 ##       Write tidy csv for P predictions         ## 
 ####################################################
 write_csv(P.predictions.eff1, "Data/Thesis/Tidy/BKT_CatchMod_DProb_predictions.csv")
-
-
-
 
 ##########################################################################################
 ##### ----------------- Local and Catchment Scale Models -------------------------- ######
