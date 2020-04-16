@@ -881,6 +881,11 @@ effort.preds <- predictions_effort$estimates %>%
   rename(Effort_sec = covdata) %>%
   round(digits = 4)
 
+
+
+
+effort.preds <- read.csv("Data/Thesis/BRT_p_effort_preds.csv", header = T)
+
 ggplot(data=effort.preds, aes(x=Effort_sec))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
