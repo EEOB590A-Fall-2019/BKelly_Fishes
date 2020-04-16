@@ -30,9 +30,9 @@ bk3 <- bk2 %>%
             n())
 
 #summarize data - brown trout
-skim(bk2)
+skim(br2)
 
-bk3 <- bk2 %>%
+br3 <- br2 %>%
   group_by(HUC8) %>%
   summarise(mean_psi = mean(estimate), min_psi = min(estimate), max_psi = max(estimate), sd_psi = sd(estimate),
             mean_lcl = mean(lcl), min_lcl = min(lcl), max_lcl = max(lcl),
