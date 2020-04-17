@@ -2,6 +2,11 @@
 
 library(tidyverse)
 library(cowplot)
+install.packages("extrafont")
+library(extrafont)
+font_import()
+loadfonts(device="win")       #Register fonts for Windows bitmap output
+fonts() 
 
 #Brown Trout Detection Probability
 effort.preds <- read.csv("Data/Thesis/BRT_p_effort_preds.csv", header = T)
@@ -10,12 +15,14 @@ brt.p <- ggplot(data=effort.preds, aes(x=Effort_sec))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
   labs(x="Electrofishing Effort (sec)",
-       y="Detection Probability (p)")+
+       y="Detection Probability (p)",
+       title = "Brown Trout")+
   scale_y_continuous(limits = c(0,1), breaks = c(0.00,0.25,0.50,0.75,1.00), labels = c("0.00","0.25","0.50","0.75","1.00"))+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold", size = 12))+
-  ggtitle("Brown Trout")
+  theme(axis.title = element_text(face = "bold", size = 12, family="Times New Roman"))+
+  theme(plot.title = element_text(face = "bold", size = 16, family="Times New Roman"))
+  #ggtitle("Brown , family="Times New Roman")
 brt.p
 
 #Brown Trout Cumulative Detection Probability
@@ -33,7 +40,7 @@ ggplot(data = brt_cdp, aes(x=reach))+
   scale_x_continuous(breaks = c(1,2,3), labels = c("1","2","3"))+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold", size = 12))
+  theme(axis.title = element_text(face = "bold", size = 12, family = "Times New Roman"))
 brt.cdp
 
 #Brown Trout combination figure
@@ -50,12 +57,14 @@ bkt.p <- ggplot(data=effort.bkt, aes(x=Effort_sec))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
   labs(x="Electrofishing Effort (sec)",
-       y="")+
+       y="",
+       title = "Brook Trout")+
   scale_y_continuous(limits = c(0,1), breaks = c(0.00,0.25,0.50,0.75,1.00), labels = c("0.00","0.25","0.50","0.75","1.00"))+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold", size = 12))+
-  ggtitle("Brook Trout")
+  theme(axis.title = element_text(face = "bold", size = 12, family = "Times New Roman"))+
+  theme(plot.title = element_text(face = "bold", size = 16, family="Times New Roman"))
+  #ggtitle("Brook Trout")
 bkt.p
 
 #Brook Trout Cumulative Detection Probability
@@ -73,7 +82,7 @@ bkt.cdp <-
   scale_x_continuous(breaks = c(1,2,3), labels = c("1","2","3"))+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold", size = 12))
+  theme(axis.title = element_text(face = "bold", size = 12, family = "Times New Roman"))
 bkt.cdp
 
 #Brook Trout combination figure
