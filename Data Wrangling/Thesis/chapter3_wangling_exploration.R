@@ -105,6 +105,35 @@ levels(sgcn2$species)
 sgcn2$species <- recode(sgcn2$species, MTS = "Cottus", SLS = "Cottus", SCULPIN = "Cottus")
 levels(sgcn2$species)
 
+#-----
+
+#Encounter History for Occupancy Modeling
+names(sgcn2)
+
+ehist <- sgcn2 %>%
+  select(newID, HUC8, site, reach, species, X30_60, X60_90, X90_120, X120_150, X150_180) %>%
+  filter(species %in% c("LND","SRD","Cottus")) %>%
+  droplevels()
+
+#split by species
+class(ehist$reach)
+
+#longnose dace
+lnd <- ehist %>%
+  filter(species == "LND") %>%
+  select(newID, reach, species) %>%
+  pivot_wider(names_from = reach, values_from = species) %>%
+  rename(p1=2, p2=3, p3=4) %>%
+  mutate(ch1 = ifelse(p1 == "LND",1,0), ch2 = ifelse(p2 == "LND",1,0), ch3 = ifelse(p3 == "LND",1,0)) %>%
+  replace_na(list("ch1"=0, "ch2"=0, "ch3"=0)) %>%
+  unite(ch, c(ch1,ch2,ch3), sep = "", remove = F) %>%
+  mutate(freq = 1) %>%
+  select(-p1,-p2,-p3) %>%
+  select(ch, freq, newID, ch1, ch2, ch3)
+#lnd2 <- left_join(lnd, bdat4, by="newID")
+  
+
+
 sgcn_counts <- sgcn2 %>% #sum across size bins for 3 sgcns
   group_by(newID, species) %>%
   summarise(n_30_60 = sum(X30_60), n_60_90 = sum(X60_90), n_90_120 = sum(X90_120),
