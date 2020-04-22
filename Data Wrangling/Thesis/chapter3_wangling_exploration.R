@@ -60,6 +60,7 @@ env <- read.csv("Data/Thesis/Tidy/enviro_tidy.csv", header = T)
 reach <- read.csv("Data/Thesis/Tidy/reachlengths.csv", header = T)
 etc <- read.csv("Data/Thesis/Tidy/BKT_Occu_File.csv", header = T)
 misc <- read.csv("Data/Thesis/Tidy/BKT_occDF_RMARK.csv", header = T)
+ndata <- read.csv("Data/Thesis/Tidy/SGCN_AllCovariates.csv", header=T)
 
 names(misc)
 cov1 <- misc %>%
@@ -84,10 +85,21 @@ names(bdat3)
 bdat4 <- bdat3 %>%
   select(newID, BRT_100m, adult_100m, mean_len, med_len, pctSlope, HAiFLS_for, HAiFLS_ag,
          avwid, pctRiffle, pctfines, BrBnk, MEANT)
+
+names(ndata)
+
+nd2 <- ndata %>%
+  select(newID, HUC_12, BRT, LND_CPUE, SRD_CPUE, Cottus_CPUE, avwid, pctfines, pctriffle, BrBank, MEANT, HAiFLS_ag, HAiFLS_for)
+
+names(bdat4)
+bdat5 <- bdat4 %>%
+  select(-HAiFLS_for, -HAiFLS_ag, -avwid, -pctRiffle, -pctfines, -BrBnk, -MEANT)
+
+cpue_mod_data <- left_join(nd2, bdat5, by="newID")
+
+
 #export
 write.csv(bdat4, "Data/Thesis/Tidy/BrownTrout_chpt3_tidy.csv", row.names = F)
-
-
 
 
 #----------
