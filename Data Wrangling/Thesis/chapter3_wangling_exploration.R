@@ -89,17 +89,23 @@ bdat4 <- bdat3 %>%
 names(ndata)
 
 nd2 <- ndata %>%
-  select(newID, HUC_12, BRT, LND_CPUE, SRD_CPUE, Cottus_CPUE, avwid, pctfines, pctriffle, BrBank, MEANT, HAiFLS_ag, HAiFLS_for)
+  select(newID, HUC_12, BRT, LND_CPUE, SRD_CPUE, Cottus_CPUE, avwid, pctfines, pctriffle, BrBank, MEANT, HAiFLS_ag, HAiFLS_for, 
+         pctSlope)
 
 names(bdat4)
 bdat5 <- bdat4 %>%
-  select(-HAiFLS_for, -HAiFLS_ag, -avwid, -pctRiffle, -pctfines, -BrBnk, -MEANT)
+  select(-HAiFLS_for, -HAiFLS_ag, -avwid, -pctRiffle, -pctfines, -BrBnk, -MEANT, -pctSlope)
 
-cpue_mod_data <- left_join(nd2, bdat5, by="newID")
+cpue_mod_data <- left_join(nd2, bdat5, by="newID") %>%
+  select(-HUC8) %>%
+  replace_na(list("BRT_100m" = 0, "adult_100m" = 0, "mean_len" = 0, "med_len" = 0))
 
+cpue_mod_data[97,14]
+s <- mean(cpue_mod_data$pctSlope, na.rm = T)
+cpue_mod_data[97,14] <- s
 
 #export
-write.csv(bdat4, "Data/Thesis/Tidy/BrownTrout_chpt3_tidy.csv", row.names = F)
+write.csv(cpue_mod_data, "Data/Thesis/Tidy/chpt3_tidy.csv", row.names = F)
 
 
 #----------
@@ -117,9 +123,11 @@ levels(sgcn2$species)
 sgcn2$species <- recode(sgcn2$species, MTS = "Cottus", SLS = "Cottus", SCULPIN = "Cottus")
 levels(sgcn2$species)
 
-#-----
 
-#Encounter History for Occupancy Modeling
+
+#------------------------------------------------------------------------------------------------------------
+#                               Encounter History for Occupancy Modeling
+#------------------------------------------------------------------------------------------------------------
 names(sgcn2)
 
 ehist <- sgcn2 %>%
@@ -130,7 +138,9 @@ ehist <- sgcn2 %>%
 #split by species
 class(ehist$reach)
 
+#-----
 #longnose dace
+#-----
 lnd <- ehist %>%
   filter(species == "LND") %>%
   select(newID, reach, species) %>%
@@ -138,14 +148,66 @@ lnd <- ehist %>%
   rename(p1=2, p2=3, p3=4) %>%
   mutate(ch1 = ifelse(p1 == "LND",1,0), ch2 = ifelse(p2 == "LND",1,0), ch3 = ifelse(p3 == "LND",1,0)) %>%
   replace_na(list("ch1"=0, "ch2"=0, "ch3"=0)) %>%
-  unite(ch, c(ch1,ch2,ch3), sep = "", remove = F) %>%
+  select(-p1,-p2,-p3)
+
+#occupancy modeling ready dataframe
+lnd.occu.frame <- left_join(cpue_mod_data, lnd, by="newID") %>%
+  replace_na(list("ch1"=0, "ch2"=0, "ch3"=0)) %>%
+  unite(ch, c(ch1,ch2,ch3), sep = "", remove = T) %>%
   mutate(freq = 1) %>%
-  select(-p1,-p2,-p3) %>%
-  select(ch, freq, newID, ch1, ch2, ch3)
-#lnd2 <- left_join(lnd, bdat4, by="newID")
+  select(ch, freq, everything()) %>%
+  select(-HUC_12, -BRT, -LND_CPUE, -SRD_CPUE, -Cottus_CPUE)
+
+write.csv(lnd.occu.frame, "Data/Thesis/Tidy/lnd_occu_data.csv", row.names = F)
+
+#-----
+#southern redbelly dace
+#-----
+srd <- ehist %>%
+  filter(species == "SRD") %>%
+  select(newID, reach, species) %>%
+  pivot_wider(names_from = reach, values_from = species) %>%
+  rename(p1=2, p2=3, p3=4) %>%
+  mutate(ch1 = ifelse(p1 == "SRD",1,0), ch2 = ifelse(p2 == "SRD",1,0), ch3 = ifelse(p3 == "SRD",1,0)) %>%
+  replace_na(list("ch1"=0, "ch2"=0, "ch3"=0)) %>%
+  select(-p1,-p2,-p3)
+
+#occupancy modeling ready dataframe
+srd.occu.frame <- left_join(cpue_mod_data, srd, by="newID") %>%
+  replace_na(list("ch1"=0, "ch2"=0, "ch3"=0)) %>%
+  unite(ch, c(ch1,ch2,ch3), sep = "", remove = T) %>%
+  mutate(freq = 1) %>%
+  select(ch, freq, everything()) %>%
+  select(-HUC_12, -BRT, -LND_CPUE, -SRD_CPUE, -Cottus_CPUE)
   
+write.csv(srd.occu.frame, "Data/Thesis/Tidy/srd_occu_data.csv", row.names = F)
+
+#-----
+#Sculpins - "Cottus"
+#-----
+cott <- ehist %>%
+  filter(species == "Cottus") %>%
+  select(newID, reach, species) %>%
+  droplevels() %>%
+  mutate(p1 = ifelse(reach == 1, 1,0), p2 = ifelse(reach == 2, 1,0), p3 = ifelse(reach == 3, 1,0)) %>%
+  group_by(newID) %>%
+  summarise(ch1 = max(p1), ch2 = max(p2), ch3 = max(p3))
 
 
+#occupancy modeling ready dataframe
+cott.occu.frame <- left_join(cpue_mod_data, cott, by="newID") %>%
+  replace_na(list("ch1"=0, "ch2"=0, "ch3"=0)) %>%
+  unite(ch, c(ch1,ch2,ch3), sep = "", remove = T) %>%
+  mutate(freq = 1) %>%
+  select(ch, freq, everything()) %>%
+  select(-HUC_12, -BRT, -LND_CPUE, -SRD_CPUE, -Cottus_CPUE)
+
+
+write.csv(cott.occu.frame, "Data/Thesis/Tidy/cott_occu_data.csv", row.names = F)
+
+#------------------------------------------------------------------------------------------------------------
+#                               Count data for length frequency distributions
+#------------------------------------------------------------------------------------------------------------
 sgcn_counts <- sgcn2 %>% #sum across size bins for 3 sgcns
   group_by(newID, species) %>%
   summarise(n_30_60 = sum(X30_60), n_60_90 = sum(X60_90), n_90_120 = sum(X90_120),
@@ -168,8 +230,20 @@ summary(trial)
 trial[is.na(trial)] <- 0 #replace NAs with zeros
 summary(trial)
 
+brt_col <- cpue_mod_data %>%
+  select(newID, BRT, BRT_100m, adult_100m) %>%
+  mutate(prop_adults = (adult_100m/BRT_100m)) %>%
+  mutate(adult_status = ifelse(prop_adults>0.49,1,0)) %>%
+  replace_na(list("adult_status" = 0)) %>%
+  select(newID, BRT, adult_status)
+
+tidy.data <- left_join(trial, brt_col, by="newID") %>%
+  select(-bin4_LND, -bin4_SRD)
+
+summary(tidy.data)
+
 #write tidy csv
-write.csv(trial, "Data/Thesis/Tidy/sgcn_size_tidy.csv", row.names = F)
+write.csv(tidy.data, "Data/Thesis/Tidy/sgcn_size_tidy.csv", row.names = F)
 
 
 
