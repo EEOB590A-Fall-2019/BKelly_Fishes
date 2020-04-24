@@ -153,7 +153,7 @@ lnd <- ehist %>%
 #occupancy modeling ready dataframe
 lnd.occu.frame <- left_join(cpue_mod_data, lnd, by="newID") %>%
   replace_na(list("ch1"=0, "ch2"=0, "ch3"=0)) %>%
-  unite(ch, c(ch1,ch2,ch3), sep = "", remove = T) %>%
+  unite(ch, c(ch1,ch2,ch3), sep = "", remove = F) %>%
   mutate(freq = 1) %>%
   select(ch, freq, everything()) %>%
   select(-HUC_12, -BRT, -LND_CPUE, -SRD_CPUE, -Cottus_CPUE)
@@ -175,7 +175,7 @@ srd <- ehist %>%
 #occupancy modeling ready dataframe
 srd.occu.frame <- left_join(cpue_mod_data, srd, by="newID") %>%
   replace_na(list("ch1"=0, "ch2"=0, "ch3"=0)) %>%
-  unite(ch, c(ch1,ch2,ch3), sep = "", remove = T) %>%
+  unite(ch, c(ch1,ch2,ch3), sep = "", remove = F) %>%
   mutate(freq = 1) %>%
   select(ch, freq, everything()) %>%
   select(-HUC_12, -BRT, -LND_CPUE, -SRD_CPUE, -Cottus_CPUE)
@@ -197,7 +197,7 @@ cott <- ehist %>%
 #occupancy modeling ready dataframe
 cott.occu.frame <- left_join(cpue_mod_data, cott, by="newID") %>%
   replace_na(list("ch1"=0, "ch2"=0, "ch3"=0)) %>%
-  unite(ch, c(ch1,ch2,ch3), sep = "", remove = T) %>%
+  unite(ch, c(ch1,ch2,ch3), sep = "", remove = F) %>%
   mutate(freq = 1) %>%
   select(ch, freq, everything()) %>%
   select(-HUC_12, -BRT, -LND_CPUE, -SRD_CPUE, -Cottus_CPUE)
