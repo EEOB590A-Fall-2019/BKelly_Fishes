@@ -89,8 +89,8 @@ bdat4 <- bdat3 %>%
 names(ndata)
 
 nd2 <- ndata %>%
-  select(newID, HUC_12, BRT, LND_CPUE, SRD_CPUE, Cottus_CPUE, avwid, pctfines, pctriffle, BrBank, MEANT, HAiFLS_ag, HAiFLS_for, 
-         pctSlope)
+  select(newID, HUC_12, BRT, LND_CPUE, SRD_CPUE, Cottus_CPUE, avwid, pctfines, pctriffle, BrBank, MEANT, HAiFLS_alt, HAiFLS_for, 
+         pctSlope, avgT, avdep, mFlow)
 
 names(bdat4)
 bdat5 <- bdat4 %>%
@@ -101,8 +101,8 @@ cpue_mod_data <- left_join(nd2, bdat5, by="newID") %>%
   replace_na(list("BRT_100m" = 0, "adult_100m" = 0, "mean_len" = 0, "med_len" = 0))
 
 cpue_mod_data[97,14]
-s <- mean(cpue_mod_data$pctSlope, na.rm = T)
-cpue_mod_data[97,14] <- s
+#s <- mean(cpue_mod_data$pctSlope, na.rm = T)
+#cpue_mod_data[97,14] <- s
 
 #export
 write.csv(cpue_mod_data, "Data/Thesis/Tidy/chpt3_tidy.csv", row.names = F)

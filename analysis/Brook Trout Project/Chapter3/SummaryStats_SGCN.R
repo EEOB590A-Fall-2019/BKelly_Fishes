@@ -442,7 +442,7 @@ summary(huc12)
 habby <- hab %>%
   select(HUC_Site, HUC8, avwid, avdep, pctfines, pctcbbl, pctrock,
          mFlow, pctRiffle, pctrun, pctslow, bnkbare.,
-         AvChnlShd., MEANT, HAiFLS_ag, HAiFLS_for, pctSlope) %>%
+         AvChnlShd., MEANT, HAiFLS_alt, HAiFLS_for, pctSlope, avgT, CatArea_km2) %>%
   rename(newID=HUC_Site, pctriffle = pctRiffle, pctpool=pctslow,
          BrBank = bnkbare., Canopy=AvChnlShd.) #trim the fat
 
@@ -456,8 +456,14 @@ sgcn[97,30:31] <- c(89.50991,1.911236) #-- missing HAiFLS values for UPI_165
 x <- mean(sgcn$MEANT, na.rm = T) #mean value of MEANT
 x
 
+y <- mean(sgcn$avgT, na.rm = T)
+y
+
 sgcn2 <- sgcn %>%
   mutate_at(vars(MEANT), ~replace(.,is.na(.), x)) #replace NAs with mean value
+
+sgcn2 <- sgcn2 %>%
+  mutate_at(vars(avgT), ~replace(.,is.na(.), y)) #replace NAs with mean value
 
 basins <- huc12 %>%
   select(newID, HUC_10, HUC_12) #trim excess info
@@ -469,13 +475,18 @@ sgcn3 <- left_join(sgcn2, basins, by="newID") #join basin info to fish&hab data
 names(sgcn3)
 
 sgcn4 <- sgcn3 %>%
-  select(newID, HUC8, HUC_10, HUC_12, 2:11, 13:16, SegLen, avwid, avdep, pctfines, pctcbbl, pctrock, mFlow, pctriffle,
-         pctrun, pctpool, BrBank, Canopy, MEANT, HAiFLS_ag, HAiFLS_for, pctSlope) #organize
+  select(newID, HUC8, HUC_10, HUC_12, everything()) #organize
 
 sgcn4[97,3:4] <- sgcn4[88,3:4] ##missing values for UPI_165
 sgcn4[88,3:4] ##UPI_165 is in the same HUC_12 and HUC_10 as UPI_23 & UPI_25
+sgcn4[97,36] <- 28.827
+
+z = mean(sgcn4$pctSlope, na.rm = T)
+sgcn4[97,34] <- z
 
 skim(sgcn4)
+
+
 
 #Write tidy csv
 write.csv(sgcn4, "Data/Thesis/Tidy/SGCN_AllCovariates.csv", row.names = F)

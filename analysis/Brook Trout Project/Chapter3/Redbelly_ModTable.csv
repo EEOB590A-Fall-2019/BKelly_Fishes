@@ -1,0 +1,5 @@
+"p","Psi","model","npar","AICc","DeltaAICc","weight","Neg2LnL"
+"~avdep","~MEANT + HAiFLS_alt","p(~avdep)Psi(~MEANT + HAiFLS_alt)",5,264.252437819549,0,0.600718953421296,253.80131
+"~avdep","~MEANT + HAiFLS_alt + med_len + BRT","p(~avdep)Psi(~MEANT + HAiFLS_alt + med_len + BRT)",7,265.084791832061,0.832354012512212,0.396212303414337,250.22983
+"~avdep","~med_len + BRT","p(~avdep)Psi(~med_len + BRT)",5,275.147307819549,10.89487,0.0025875000905403,264.69618
+"~avdep","~1","p(~avdep)Psi(~1)",3,278.511457777778,14.259019958229,0.000481243073826968,272.33368
