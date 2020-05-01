@@ -22,7 +22,21 @@ library(coin)
 #load data
 newdat <- read.csv("Data/Thesis/Tidy/chpt3_tidy.csv", header=T)
 mydat <- read.csv("Data/Thesis/Tidy/SGCN_AllCovariates.csv", header=T)
-all <- left_join(newdat, mydat, by="newID")
+ef <- read.csv("Data/Thesis/Tidy/AllCovariates.csv", header=T) %>%
+  select(HUC_Site, effsec) %>%
+  rename(newID = HUC_Site)
+
+names(newdat)
+names(mydat)
+
+cobble <- mydat %>%
+  select(newID, HUC8, HUC_10, pctcbbl, SegLen, LND_ab, SRD_ab, Cottus_ab)
+
+newdata <- left_join(newdat, cobble, by="newID")
+newdata <- left_join(newdata, ef, by="newID")
+
+summary(newdata)
+
 #inspect
 skim(mydat)
 
@@ -282,18 +296,99 @@ require(MASS)
 require(boot)
 
 
-names(all)
+names(newdata)
 
 #Longnose Dace all additive global model
 #zero-inflated negative binomial model 
 
-lnd.mod <- zeroinfl(LND_ab ~ avwid.x+pctcbbl+pctSlope.x+med_len+adult_100m | avwid.x+adult_100m,
-               data = all, dist = "negbin", EM = TRUE)
-summary(lnd.mod)
+lnd.full.mod <- zeroinfl(LND_ab ~ avwid+pctcbbl+pctSlope+med_len+BRT_100m | 1,
+               data = newdata,
+               dist = "negbin",
+               offset = log(SegLen)
+               )
+summary(lnd.full.mod)
 
-#lnd.mod <- mixed_model(fixed = LND_CPUE ~ avwid.x+pctcbbl+pctSlope.x+med_len+adult_100m,
-                    #data = all,
-                    #family = zi.negative.binomial(), zi_fixed = ~ avwid.x+adult_100m,
-                    #iter_EM=0)
-#summary(lnd.mod)
+lnd.env.mod <- zeroinfl(LND_ab ~ avwid+pctcbbl+pctSlope | 1,
+                        data = newdata,
+                        dist = "negbin",
+                        offset = log(SegLen)
+)
+summary(lnd.env.mod)
+
+lnd.brt.mod <- zeroinfl(LND_ab ~ med_len+BRT_100m | 1,
+                        data = newdata,
+                        dist = "negbin",
+                        offset = log(SegLen)
+)
+summary(lnd.brt.mod)
+
+lnd.null.mod <- zeroinfl(LND_ab ~ 1 | 1,
+                        data = newdata,
+                        dist = "negbin",
+                        offset = log(SegLen)
+)
+summary(lnd.null.mod)
+
+AIC(lnd.full.mod, lnd.env.mod, lnd.brt.mod, lnd.null.mod)
+
+# emmeans on continuous predictors
+# See Russ Lenth's long response to this question:
+# https://stackoverflow.com/questions/52381434/emmeans-continuous-independant-variable
+# Also the "basics" vignette to emmeans
+library(emmeans)
+library(MuMIn)
+
+ref_grid(lnd.full.mod) #these are the mean values for all the covariates
+
+# look at temperature and BRT_CPUE
+summary(mydat$MEANT)
+summary(mydat$BRT_CPUE)
+
+# Plot at quantile values
+emmip(negbin_mod, BRT_CPUE ~ MEANT, at = list(MEANT = c(9.76, 24.08), BRT_CPUE = c(0, 6.13, 7.25, 41.56)), type = "response")  +
+  labs(title = "Effect of temperature on response, at levels of predator",
+       subtitle = "Levels of predator are min = 25% quantile = 0, mean = 6.13, 75% quantile = 7.25, max = 41.56\nValues of other covariates held at their means")
+
+emmip(negbin_mod, MEANT ~ BRT_CPUE, at = list(MEANT = c(9.76, 17.82, 18.98, 20.61, 24.08), BRT_CPUE = c(0, 41.5556)), type = "response") +
+  labs(title = "Effect of predator on response, at levels of temperature",
+       subtitle = "Levels of temperature are min = 9.76, 25% quantile = 17.82, mean = 18.94, 75% quantile = 20.61, max = 24.08\nValues of other covariates held at their means")
+
+# Plot effect of temp only (other covariates at their mean)
+temp_rg <- ref_grid(negbin_mod, at = list(MEANT = mydat$MEANT))
+temp_val <- temp_rg@grid$MEANT
+temp_pred <- predict(temp_rg, type = "response")
+
+plot_df_temp <- data.frame(MEANT = temp_val, effect = temp_pred)
+ggplot(plot_df_temp, aes(x = MEANT, y = effect)) + geom_line() +
+  xlab("MEANT") + ylab("Predicted effect") +
+  labs(title = "Predicted effect of mean temperature on response",
+       subtitle = "Other covariates held at their mean values")
+
+# Plot effect of predator
+brt_rg <- ref_grid(negbin_mod, at = list(BRT_CPUE = mydat$BRT_CPUE))
+brt_val <- brt_rg@grid$BRT_CPUE
+brt_pred <- predict(brt_rg, type = "response")
+
+plot_df_brt <- data.frame(BRT_CPUE = brt_val, effect = brt_pred)
+ggplot(plot_df_brt, aes(x = BRT_CPUE, y = effect)) + geom_line() +
+  xlab("BRT_CPUE") + ylab("Predicted effect") +
+  labs(title = "Predicted effect of predator on response",
+       subtitle = "Other covariates held at their mean values")
+
+# Plot them together
+plot_df_merge <- merge(plot_df_brt, plot_df_temp, by = "effect", all.x = T, all.y = T)
+plot_df_both <- melt(plot_df_merge, id.vars = "effect"); rm(plot_df_merge)
+ggplot(plot_df_both, aes(x = value, y = effect, color = variable)) + geom_line() +
+  xlab("Predicted effect") + ylab("Value of covariate") +
+  scale_color_discrete(name = "covariate") +
+  labs(title = "Effect of individual covariates on response",
+       subtitle = "All other covariate values held at their mean")
+# You can extend this to keep adding your covariates
+
+# Plot predicted vs observed
+all_rg <- predict(negbin_mod, newdata = mydat[,c(3:8)]) # This gives you predictions at your data points
+plot_df_compare <- data.frame(obs_value = mydat$LND_CPUE, estimate = all_rg)
+ggplot(data = plot_df_compare, aes(x = obs_value, y = estimate)) + geom_point() +
+  xlab("Observed CPUE") + ylab("Predicted CPUE")
+# This looks weird because you're using a two-part model.  The line of points at zero is the zero-inflated part of the model.
 
