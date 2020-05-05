@@ -329,6 +329,10 @@ lnd.null.mod <- zeroinfl(LND_ab ~ 1 | 1,
 )
 summary(lnd.null.mod)
 
+#Compare models
 AIC(lnd.full.mod, lnd.env.mod, lnd.brt.mod, lnd.null.mod)
 
+library(AICcmodavg)
+lnd.models <- list(c(lnd.full.mod, lnd.env.mod, lnd.brt.mod, lnd.null.mod)) 
+aictab(lnd.models, modnames = NULL, second.ord = T, sort = T)
 
