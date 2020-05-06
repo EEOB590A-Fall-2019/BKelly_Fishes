@@ -417,6 +417,7 @@ mean.trout <- mean(newdata$BRT_100m)
 med.trout <- median(newdata$BRT_100m)
 #Segment Length
 segment <- mean(newdata$SegLen)
+segment <- 100
 #########################################################################
 
 #new df for predictions: based on width
@@ -432,7 +433,7 @@ lnd.width.df <- data.frame(avwid = width.values,
 lnd.width.df$phat <- predict(lnd.full.mod, lnd.width.df)
 
 ggplot(lnd.width.df, aes(x = avwid, y = phat)) +
-  geom_point() +
+  #geom_point() +
   geom_line() +
   labs(x = "Mean Wetted Width (m)", y = "Predicted Longnose Dace Count")
 
