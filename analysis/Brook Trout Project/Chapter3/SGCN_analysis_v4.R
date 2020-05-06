@@ -60,7 +60,7 @@ lnd4 <- mixed_model(fixed = LND_CPUE ~ BRT_CPUE + MEANT + mFlow + avwid + HAiFLS
                                family = zi.negative.binomial(), zi_fixed = ~ 1,
                                zi_random = ~ 1 | watershed_sm, iter_EM=0)
 
-lnd5 <- mixed_model(fixed = LND_CPUE ~ BRT_CPUE + MEANT + pctcbbl + avwid + HAiFLS_alt,
+negbin_mod <- mixed_model(fixed = LND_CPUE ~ BRT_CPUE + MEANT + pctcbbl + avwid + HAiFLS_alt,
                                random = ~ 1 | watershed_sm, data = mydat,
                                family = zi.negative.binomial(), zi_fixed = ~ 1,
                                zi_random = ~ 1 | watershed_sm, iter_EM=0)

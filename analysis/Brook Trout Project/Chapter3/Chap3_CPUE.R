@@ -210,10 +210,6 @@ oneway_test(Cottus_CPUE~BRT, data=cott,
 #---------------------------------CPUE models--------------------------------
 
 #############################################################################
-#libraries
-library(pscl)
-#library(MASS)
-library(boot)
 
 #explore data
 names(newdat)
@@ -291,14 +287,15 @@ ggplot(predictors, aes(mean_len))+
 # of a function of habitat since intolerant, and coldwater
 
 #############################################################################
-require(pscl)
-require(MASS)
-require(boot)
+#libraries
+library(pscl)
+#library(MASS)
+library(boot)
 
 
 names(newdata)
 
-#Longnose Dace all additive global model
+#Longnose Dace Count = response, segment length = offset
 #zero-inflated negative binomial model 
 
 lnd.full.mod <- zeroinfl(LND_ab ~ avwid+pctcbbl+pctSlope+med_len+BRT_100m | 1,
@@ -330,9 +327,119 @@ lnd.null.mod <- zeroinfl(LND_ab ~ 1 | 1,
 summary(lnd.null.mod)
 
 #Compare models
-AIC(lnd.full.mod, lnd.env.mod, lnd.brt.mod, lnd.null.mod)
+library(MuMIn)
+lnd.mod.AICc <- model.sel(lnd.full.mod, lnd.env.mod, lnd.brt.mod, lnd.null.mod)
+lnd.mod.AICc
 
-library(AICcmodavg)
-lnd.models <- list(c(lnd.full.mod, lnd.env.mod, lnd.brt.mod, lnd.null.mod)) 
-aictab(lnd.models, modnames = NULL, second.ord = T, sort = T)
+#export model table
+lnd.cpue.table <- as.data.frame(lnd.mod.AICc) %>%
+  select(df, logLik, AICc, delta, weight)
+
+write.csv(lnd.cpue.table, "Data/Thesis/Tidy/lnd_cpue_ModelTable.csv", row.names = T)
+
+
+#-----
+#extracting confidence intervals for the parameters
+
+#top model 
+dput(round(coef(lnd.full.mod, "count"), 4)) #count process
+dput(round(coef(lnd.full.mod, "zero"), 4)) #extra zero process
+
+f <- function(data, i) {
+  require(pscl)
+  m <- zeroinfl(LND_ab ~ avwid+pctcbbl+pctSlope+med_len+BRT_100m | 1,
+                data = data[i, ],
+                dist = "negbin",
+                offset = log(SegLen),
+                start = list(count = c(-7.724,0.7464,0.0186,-0.0781,
+                                       0.0027,-0.0808),
+                             zero = c(-8.7639)))
+  as.vector(t(do.call(rbind, coef(summary(m)))[, 1:2]))
+}
+
+set.seed(10)
+(res <- boot(newdata, f, R = 10000))
+
+## basic parameter estimates with percentile and bias adjusted CIs
+parms <- t(sapply(c(1, 3, 5, 7, 9, 11, 15), function(i) {
+  out <- boot.ci(res, index = c(i, i + 1), type = c("perc", "bca"))
+  with(out, c(Est = t0, pLL = percent[4], pUL = percent[5],
+              bcaLL = bca[4], bcaUL = bca[5]))
+}))
+
+## add row names
+row.names(parms) <- names(coef(lnd.full.mod))
+## print results
+parms
+
+## compare with normal based approximation
+confint(lnd.full.mod)
+
+## exponentiated parameter estimates with percentile and bias adjusted CIs
+expparms <- t(sapply(c(1, 3, 5, 7, 9, 11, 15), function(i) {
+  out <- boot.ci(res, index = c(i, i + 1), type = c("perc", "bca"), h = exp)
+  with(out, c(Est = t0, pLL = percent[4], pUL = percent[5],
+              bcaLL = bca[4], bcaUL = bca[5]))
+}))
+
+## add row names
+row.names(expparms) <- names(coef(lnd.full.mod))
+## print results
+expparms
+
+
+#########################################################################
+#width
+min.width <- min(newdata$avwid)
+max.width <- max(newdata$avwid)
+width.values <- seq(from = min.width, to = max.width, length = 100)
+mean.width <- mean(newdata$avwid)
+#cobble
+min.cobble <- min(newdata$pctcbbl)
+max.cobble <- max(newdata$pctcbbl)
+cobble.values <- seq(from = min.cobble, to = max.cobble, length = 100)
+mean.cobble <- mean(newdata$pctcbbl)
+#slope
+min.slope <- min(newdata$pctSlope)
+max.slope <- max(newdata$pctSlope)
+slope.values <- seq(from = min.slope, to = max.slope, length = 100)
+mean.slope <- mean(newdata$pctSlope)
+#median TL
+min.length <- min(newdata$med_len)
+max.length <- max(newdata$med_len)
+length.values <- seq(from = min.length, to = max.length, length = 100)
+mean.length <- mean(newdata$med_len)
+#brown trout density
+min.trout <- min(newdata$BRT_100m)
+max.trout <- max(newdata$BRT_100m)
+trout.values <- seq(from = min.trout, to = max.trout, length = 100)
+mean.trout <- mean(newdata$BRT_100m)
+med.trout <- median(newdata$BRT_100m)
+#Segment Length
+segment <- mean(newdata$SegLen)
+#########################################################################
+
+#new df for predictions: based on width
+names(newdata)
+
+lnd.width.df <- data.frame(avwid = width.values,
+                           pctcbbl = mean.cobble,
+                           pctSlope = mean.slope,
+                           med_len = mean.length,
+                           BRT_100m = mean.trout,
+                           SegLen = segment)
+
+lnd.width.df$phat <- predict(lnd.full.mod, lnd.width.df)
+
+ggplot(lnd.width.df, aes(x = avwid, y = phat)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Mean Wetted Width (m)", y = "Predicted Longnose Dace Count")
+
+
+
+
+
+
+
 
