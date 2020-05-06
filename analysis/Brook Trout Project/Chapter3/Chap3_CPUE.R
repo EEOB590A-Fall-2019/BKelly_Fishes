@@ -37,6 +37,8 @@ newdata <- left_join(newdata, ef, by="newID")
 
 summary(newdata)
 
+write.csv(newdata, "Data/Thesis/Tidy/cpue_data.csv", row.names = F)
+
 #inspect
 skim(mydat)
 
@@ -294,6 +296,7 @@ library(boot)
 
 
 names(newdata)
+summary(newdata)
 
 #Longnose Dace Count = response, segment length = offset
 #zero-inflated negative binomial model 
@@ -301,8 +304,7 @@ names(newdata)
 lnd.full.mod <- zeroinfl(LND_ab ~ avwid+pctcbbl+pctSlope+med_len+BRT_100m | 1,
                data = newdata,
                dist = "negbin",
-               offset = log(SegLen)
-               )
+               offset = log(SegLen))
 summary(lnd.full.mod)
 
 lnd.env.mod <- zeroinfl(LND_ab ~ avwid+pctcbbl+pctSlope | 1,
@@ -388,6 +390,532 @@ row.names(expparms) <- names(coef(lnd.full.mod))
 expparms
 
 
+
+#########################################################################
+lnd_log_dat <- newdata %>%
+  mutate(log_lnd = log(1+LND_CPUE))
+
+a <- ggplot(lnd_log_dat, aes(x = avwid, y = log_lnd)) +
+  geom_point(
+    color="Black",
+    fill="white",
+    shape=21,
+    alpha=0.75,
+    size=2,
+    stroke = 1
+  ) +
+  geom_smooth(method = "lm", se=F, color="black", size=1.25)+
+  labs(x = "Mean Wetted Width (m)", y = NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold"))+
+  scale_x_continuous(breaks = c(2,4,6,8,10),
+                     labels = c("2","4","6","8","10"))+
+  scale_y_continuous(limits = c(0,4),
+                     breaks = c(0,1,2,3,4),
+                     labels = c("0","1","2","3","4"))+
+  ggtitle("(a)")+
+  theme(plot.title = element_text(size=14))
+
+
+
+b <- ggplot(lnd_log_dat, aes(x = pctcbbl, y = log_lnd)) +
+  geom_point(
+    color="Black",
+    fill="white",
+    shape=21,
+    alpha=0.75,
+    size=2,
+    stroke = 1
+  ) +
+  geom_smooth(method = "lm", se=F, color="black", size=1.25)+
+  labs(x = "% Cobble Substrate", y = NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold"))+
+  scale_y_continuous(limits = c(0,4),
+                     breaks = c(0,1,2,3,4),
+                     labels = c("0","1","2","3","4"))
+
+
+c <- ggplot(lnd_log_dat, aes(x = pctSlope, y = log_lnd)) +
+  geom_point(
+    color="Black",
+    fill="white",
+    shape=21,
+    alpha=0.75,
+    size=2,
+    stroke = 1
+  ) +
+  geom_smooth(method = "lm", se=F, color="black", size=1.25)+
+  labs(x = "% Catchment Slope", y = NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold"))+
+  scale_y_continuous(limits = c(0,4),
+                     breaks = c(0,1,2,3,4),
+                     labels = c("0","1","2","3","4"))
+
+
+d <- ggplot(lnd_log_dat, aes(x = med_len, y = log_lnd)) +
+  geom_point(
+    color="Black",
+    fill="white",
+    shape=21,
+    alpha=0.75,
+    size=2,
+    stroke = 1
+  ) +
+  geom_smooth(method = "lm", se=F, color="black", size=1.25)+
+  labs(x = "Median Brown Trout TL (mm)", y = NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold"))+
+  scale_y_continuous(limits = c(0,4),
+                     breaks = c(0,1,2,3,4),
+                     labels = c("0","1","2","3","4"))
+
+
+
+e <- ggplot(lnd_log_dat, aes(x = BRT_100m, y = log_lnd)) +
+  geom_point(
+    color="Black",
+    fill="white",
+    shape=21,
+    alpha=0.75,
+    size=2,
+    stroke = 1
+  ) +
+  geom_smooth(method = "lm", se=F, color="black", size=1.25)+
+  labs(x = "Brown Trout Density (n/100m)", y = NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold"))+
+  scale_y_continuous(limits = c(0,4),
+                     breaks = c(0,1,2,3,4),
+                     labels = c("0","1","2","3","4"))
+e
+
+#cowplot
+library(cowplot)
+vert.lnd <- plot_grid(a,b,c,d,e, labels = NULL, ncol = 1)
+vert.lnd
+
+#create common y axis label
+library(gridExtra)
+library(grid)
+y.grob <- textGrob("Log CPUE (fish/100m)", 
+                   gp=gpar(fontface="bold", col="black", fontsize=14), rot=90)
+#add to plot
+lnd.f <- grid.arrange(arrangeGrob(vert.lnd, left = y.grob))
+
+getwd()
+#setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+ggsave("lnd_cpue.png", plot=lnd.f, dpi = 600)
+#########################################################################
+
+
+
+
+
+#Sculpin = response, segment length = offset
+#zero-inflated negative binomial model 
+
+cott.full.mod <- zeroinfl(Cottus_ab ~ avgT+BrBank+HAiFLS_for+mFlow+med_len+BRT_100m | 1,
+                         data = newdata,
+                         dist = "negbin",
+                         offset = log(SegLen))
+summary(cott.full.mod)
+
+cott.env.mod <- zeroinfl(Cottus_ab ~ avgT+BrBank+HAiFLS_for+mFlow | 1,
+                        data = newdata,
+                        dist = "negbin",
+                        offset = log(SegLen)
+)
+summary(cott.env.mod)
+
+cott.brt.mod <- zeroinfl(Cottus_ab ~ med_len+BRT_100m | 1,
+                        data = newdata,
+                        dist = "negbin",
+                        offset = log(SegLen)
+)
+summary(cott.brt.mod)
+
+cott.null.mod <- zeroinfl(Cottus_ab ~ 1 | 1,
+                         data = newdata,
+                         dist = "negbin",
+                         offset = log(SegLen)
+)
+summary(cott.null.mod)
+
+#Compare models
+cott.mod.AICc <- model.sel(cott.full.mod, cott.env.mod, cott.brt.mod, cott.null.mod)
+cott.mod.AICc
+
+#export model table
+cott.cpue.table <- as.data.frame(cott.mod.AICc) %>%
+  select(df, logLik, AICc, delta, weight)
+
+write.csv(cott.cpue.table, "Data/Thesis/Tidy/cottus_cpue_ModelTable.csv", row.names = T)
+
+
+#-----
+#extracting confidence intervals for the parameters
+
+#top model 
+dput(round(coef(cott.full.mod, "count"), 4)) #count process
+dput(round(coef(cott.full.mod, "zero"), 4)) #extra zero process
+
+ff <- function(data, i) {
+  require(pscl)
+  m <- zeroinfl(Cottus_ab ~ avgT+BrBank+HAiFLS_for+mFlow+med_len+BRT_100m | 1,
+                data = data[i, ],
+                dist = "negbin",
+                offset = log(SegLen),
+                start = list(count = c(-0.2634,-0.4231,-1.3225, 
+                                       0.0705,-13.5032,0.0168,0.0507),
+                             zero = c(-5.6055)))
+  as.vector(t(do.call(rbind, coef(summary(m)))[, 1:2]))
+}
+
+set.seed(10)
+(res.cott <- boot(newdata, ff, R = 10000))
+
+## basic parameter estimates with percentile and bias adjusted CIs
+parms.cott <- t(sapply(c(1, 3, 5, 7, 9, 11, 13, 17), function(i) {
+  out <- boot.ci(res.cott, index = c(i, i + 1), type = c("perc", "bca"))
+  with(out, c(Est = t0, pLL = percent[4], pUL = percent[5],
+              bcaLL = bca[4], bcaUL = bca[5]))
+}))
+
+## add row names
+row.names(parms.cott) <- names(coef(cott.full.mod))
+## print results
+parms.cott
+
+## compare with normal based approximation
+confint(cott.full.mod)
+
+## exponentiated parameter estimates with percentile and bias adjusted CIs
+expparms.cott <- t(sapply(c(1, 3, 5, 7, 9, 11, 13, 17), function(i) {
+  out <- boot.ci(res.cott, index = c(i, i + 1), type = c("perc", "bca"), h = exp)
+  with(out, c(Est = t0, pLL = percent[4], pUL = percent[5],
+              bcaLL = bca[4], bcaUL = bca[5]))
+}))
+
+## add row names
+row.names(expparms.cott) <- names(coef(cott.full.mod))
+## print results
+expparms.cott
+
+
+
+#########################################################################
+cott_log_dat <- newdata %>%
+  mutate(log_cott = log(1+Cottus_CPUE))
+
+aa <- ggplot(cott_log_dat, aes(x = avgT, y = log_cott)) +
+  geom_point(
+    color="Black",
+    fill="white",
+    shape=21,
+    alpha=0.75,
+    size=2,
+    stroke = 1
+  ) +
+  geom_smooth(method = "lm", se=F, color="black", size=1.25)+
+  labs(x = "Mean Stream Temperature (°C)", y = NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold"))+
+  ggtitle("(b)")+
+  theme(plot.title = element_text(size=14))
+aa
+
+
+
+b <- ggplot(lnd_log_dat, aes(x = pctcbbl, y = log_lnd)) +
+  geom_point(
+    color="Black",
+    fill="white",
+    shape=21,
+    alpha=0.75,
+    size=2,
+    stroke = 1
+  ) +
+  geom_smooth(method = "lm", se=F, color="black", size=1.25)+
+  labs(x = "% Cobble Substrate", y = NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold"))+
+  scale_y_continuous(limits = c(0,4),
+                     breaks = c(0,1,2,3,4),
+                     labels = c("0","1","2","3","4"))
+
+
+c <- ggplot(lnd_log_dat, aes(x = pctSlope, y = log_lnd)) +
+  geom_point(
+    color="Black",
+    fill="white",
+    shape=21,
+    alpha=0.75,
+    size=2,
+    stroke = 1
+  ) +
+  geom_smooth(method = "lm", se=F, color="black", size=1.25)+
+  labs(x = "% Catchment Slope", y = NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold"))+
+  scale_y_continuous(limits = c(0,4),
+                     breaks = c(0,1,2,3,4),
+                     labels = c("0","1","2","3","4"))
+
+
+d <- ggplot(lnd_log_dat, aes(x = med_len, y = log_lnd)) +
+  geom_point(
+    color="Black",
+    fill="white",
+    shape=21,
+    alpha=0.75,
+    size=2,
+    stroke = 1
+  ) +
+  geom_smooth(method = "lm", se=F, color="black", size=1.25)+
+  labs(x = "Median Brown Trout TL (mm)", y = NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold"))+
+  scale_y_continuous(limits = c(0,4),
+                     breaks = c(0,1,2,3,4),
+                     labels = c("0","1","2","3","4"))
+
+
+
+e <- ggplot(lnd_log_dat, aes(x = BRT_100m, y = log_lnd)) +
+  geom_point(
+    color="Black",
+    fill="white",
+    shape=21,
+    alpha=0.75,
+    size=2,
+    stroke = 1
+  ) +
+  geom_smooth(method = "lm", se=F, color="black", size=1.25)+
+  labs(x = "Brown Trout Density (n/100m)", y = NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold"))+
+  scale_y_continuous(limits = c(0,4),
+                     breaks = c(0,1,2,3,4),
+                     labels = c("0","1","2","3","4"))
+e
+
+#cowplot
+library(cowplot)
+vert.lnd <- plot_grid(a,b,c,d,e, labels = NULL, ncol = 1)
+vert.lnd
+
+#create common y axis label
+library(gridExtra)
+library(grid)
+y.grob <- textGrob("Log CPUE (fish/100m)", 
+                   gp=gpar(fontface="bold", col="black", fontsize=14), rot=90)
+#add to plot
+lnd.f <- grid.arrange(arrangeGrob(vert.lnd, left = y.grob))
+
+getwd()
+#setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+ggsave("lnd_cpue.png", plot=lnd.f, dpi = 600)
+#######################################################################################
+
+
+
+#SRD = response, segment length = offset
+#zero-inflated negative binomial model 
+
+srd.full.mod <- zeroinfl(SRD_ab ~ avgT+pctfines+avdep+med_len+BRT_100m | 1,
+                          data = newdata,
+                          dist = "negbin",
+                          offset = log(SegLen))
+summary(srd.full.mod)
+
+srd.env.mod <- zeroinfl(SRD_ab ~ avgT+pctfines+avdep | 1,
+                         data = newdata,
+                         dist = "negbin",
+                         offset = log(SegLen)
+)
+summary(srd.env.mod)
+
+srd.brt.mod <- zeroinfl(SRD_ab ~ med_len+BRT_100m | 1,
+                         data = newdata,
+                         dist = "negbin",
+                         offset = log(SegLen)
+)
+summary(srd.brt.mod)
+
+srd.null.mod <- zeroinfl(SRD_ab ~ 1 | 1,
+                          data = newdata,
+                          dist = "negbin",
+                          offset = log(SegLen)
+)
+summary(srd.null.mod)
+
+#Compare models
+srd.mod.AICc <- model.sel(srd.full.mod, srd.env.mod, srd.brt.mod, srd.null.mod)
+srd.mod.AICc
+
+#export model table
+srd.cpue.table <- as.data.frame(srd.mod.AICc) %>%
+  select(df, logLik, AICc, delta, weight)
+
+write.csv(srd.cpue.table, "Data/Thesis/Tidy/SRD_cpue_ModelTable.csv", row.names = T)
+
+
+#-----
+#extracting confidence intervals for the parameters
+
+#top model 
+dput(round(coef(srd.full.mod, "count"), 4)) #count process
+dput(round(coef(srd.full.mod, "zero"), 4)) #extra zero process
+
+f3 <- function(data, i) {
+  require(pscl)
+  m <- zeroinfl(SRD_ab ~ avgT+pctfines+avdep+med_len+BRT_100m | 1,
+                data = data[i, ],
+                dist = "negbin",
+                offset = log(SegLen),
+                start = list(count = c(-17.7018,0.8004,-0.0176, 3.6761,-0.0052, -0.3086),
+                             zero = c(-9.1721)))
+  as.vector(t(do.call(rbind, coef(summary(m)))[, 1:2]))
+}
+
+set.seed(10)
+(res.srd <- boot(newdata, f3, R = 10000))
+
+## basic parameter estimates with percentile and bias adjusted CIs
+summary(srd.full.mod)
+
+parms.srd <- t(sapply(c(1, 3, 5, 7, 9, 11, 15), function(i) {
+  out <- boot.ci(res.srd, index = c(i, i + 1), type = c("perc", "bca"))
+  with(out, c(Est = t0, pLL = percent[4], pUL = percent[5],
+              bcaLL = bca[4], bcaUL = bca[5]))
+}))
+
+## add row names
+row.names(parms.srd) <- names(coef(srd.full.mod))
+## print results
+parms.srd
+
+## compare with normal based approximation
+confint(srd.full.mod)
+
+## exponentiated parameter estimates with percentile and bias adjusted CIs
+expparms.srd <- t(sapply(c(1, 3, 5, 7, 9, 11, 15), function(i) {
+  out <- boot.ci(res.srd, index = c(i, i + 1), type = c("perc", "bca"), h = exp)
+  with(out, c(Est = t0, pLL = percent[4], pUL = percent[5],
+              bcaLL = bca[4], bcaUL = bca[5]))
+}))
+
+## add row names
+row.names(expparms.srd) <- names(coef(srd.full.mod))
+## print results
+expparms.srd
+
+
+
+#########################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#########################################################################
+library(emmeans)
+library(skimr)
+# emmeans on continuous predictors
+# See Russ Lenth's long response to this question:
+# https://stackoverflow.com/questions/52381434/emmeans-continuous-independant-variable
+# Also the "basics" vignette to emmeans
+
+ref_grid(lnd.full.mod) #these are the mean values for all the covariates
+
+# look at temperature and BRT_CPUE
+skim(newdata)
+
+# Plot at quantile values
+emmip(lnd.full.mod, BRT_100m~avwid, at = list(avwid = c(0.82, 11.21)), type = "response")  +
+  labs(title = "(a)")+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+#emmip(negbin_mod, MEANT ~ BRT_CPUE, at = list(MEANT = c(9.76, 17.82, 18.98, 20.61, 24.08), BRT_CPUE = c(0, 41.5556)), type = "response") +
+#  labs(title = "Effect of predator on response, at levels of temperature",
+#       subtitle = "Levels of temperature are min = 9.76, 25% quantile = 17.82, mean = 18.94, 75% quantile = 20.61, max = 24.08\nValues of other covariates held at their means")
+
+# Plot effect of temp only (other covariates at their mean)
+width_rg <- ref_grid(lnd.full.mod, at = list(avwid = newdata$avwid))
+width_val <- width_rg@grid$avwid
+width_pred <- predict(width_rg, type = "response")
+
+plot_df_width <- data.frame(avwid = width_val, effect = width_pred)
+ggplot(plot_df_width, aes(x = avwid, y = effect)) + geom_line() +
+  xlab("avwid") + ylab("Predicted effect") +
+  labs(title = "Predicted effect of mean stream width on LND CPUE",
+       subtitle = "Other covariates held at their mean values")
+
+# Plot effect of predator
+brt_rg <- ref_grid(negbin_mod, at = list(BRT_CPUE = mydat$BRT_CPUE))
+brt_val <- brt_rg@grid$BRT_CPUE
+brt_pred <- predict(brt_rg, type = "response")
+
+plot_df_brt <- data.frame(BRT_CPUE = brt_val, effect = brt_pred)
+ggplot(plot_df_brt, aes(x = BRT_CPUE, y = effect)) + geom_line() +
+  xlab("BRT_CPUE") + ylab("Predicted effect") +
+  labs(title = "Predicted effect of predator on response",
+       subtitle = "Other covariates held at their mean values")
+
+# Plot them together
+plot_df_merge <- merge(plot_df_brt, plot_df_temp, by = "effect", all.x = T, all.y = T)
+plot_df_both <- melt(plot_df_merge, id.vars = "effect"); rm(plot_df_merge)
+ggplot(plot_df_both, aes(x = value, y = effect, color = variable)) + geom_line() +
+  xlab("Predicted effect") + ylab("Value of covariate") +
+  scale_color_discrete(name = "covariate") +
+  labs(title = "Effect of individual covariates on response",
+       subtitle = "All other covariate values held at their mean")
+# You can extend this to keep adding your covariates
+
+# Plot predicted vs observed
+ld.df <- newdata %>%
+  select(avwid, pctSlope, pctcbbl, med_len, BRT_100m, SegLen)
+
+all_rg <- predict(lnd.full.mod, newdata = ld.df)# This gives you predictions at your data points
+
+plot_df_compare <- data.frame(obs_value = newdata$LND_ab, estimate = all_rg)
+ggplot(data = plot_df_compare, aes(x = obs_value, y = estimate)) + geom_point() +
+  xlab("Observed CPUE") + ylab("Predicted CPUE")+
+  scale_y_continuous(limits = c(0,200))
+# This looks weird because you're using a two-part model.  The line of points at zero is the zero-inflated part of the model.
+
+
 #########################################################################
 #width
 min.width <- min(newdata$avwid)
@@ -416,7 +944,6 @@ trout.values <- seq(from = min.trout, to = max.trout, length = 100)
 mean.trout <- mean(newdata$BRT_100m)
 med.trout <- median(newdata$BRT_100m)
 #Segment Length
-segment <- mean(newdata$SegLen)
 segment <- 100
 #########################################################################
 
@@ -431,13 +958,22 @@ lnd.width.df <- data.frame(avwid = width.values,
                            SegLen = segment)
 
 lnd.width.df$phat <- predict(lnd.full.mod, lnd.width.df)
+lnd.width.df$log_p <- log(lnd.width.df$phat)
 
 ggplot(lnd.width.df, aes(x = avwid, y = phat)) +
-  #geom_point() +
-  geom_line() +
-  labs(x = "Mean Wetted Width (m)", y = "Predicted Longnose Dace Count")
-
-
+  geom_line(size=1, color="black") +
+  labs(x = "Mean Wetted Width (m)", y = "Predicted Longnose Dace Count")+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold"))+
+  scale_x_continuous(breaks = c(2,4,6,8,10),
+                     labels = c("2","4","6","8","10"))+
+  scale_y_continuous(limits = c(0,300),
+                     breaks = c(0,50,100,150,200,250,300),
+                     labels = c("0","50","100","150","200","250","300"))+
+  ggtitle("(a)")+
+  theme(plot.title = element_text(size=14))
+#########################################################################
 
 
 
