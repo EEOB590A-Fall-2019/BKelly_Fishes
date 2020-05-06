@@ -11,7 +11,7 @@ library(boot)
 
 
 #load data
-data <- read.csv("Data/Thesis/Tidy/cpue_data.csv", header = T)
+newdata <- read.csv("Data/Thesis/Tidy/cpue_data.csv", header = T)
 #----------------------------------------------------------------
 
 #Longnose Dace Count = response
@@ -45,7 +45,14 @@ ref_grid(lnd.full.mod) #these are the mean values for all the covariates
 skim(newdata)
 
 # Plot at quantile values
-emmip(lnd.full.mod, BRT_100m~avwid, at = list(avwid = c(0.82, 11.21), BRT_100m = c()), type = "response")  +
+emmip(lnd.full.mod, BRT_100m~avwid, at = list(avwid = c(0.82, 11.21), BRT_100m = c(0,0.56,7.33,96.14)), type = "response")  +
   labs(title = "(a)")+
   theme_bw()+
   theme(panel.grid = element_blank())
+
+#My Main Question:
+#how to interpret the y axis in this case? Predicted response but how exactly do these values relate the the response variable of fish counts?
+
+
+
+
