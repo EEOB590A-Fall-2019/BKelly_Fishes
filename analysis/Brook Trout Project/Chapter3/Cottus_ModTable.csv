@@ -1,5 +1,5 @@
 "p","Psi","model","npar","AICc","DeltaAICc","weight","Neg2LnL"
-"~mFlow","~avgT + BrBank + HAiFLS_for + med_len + BRT_100m","p(~mFlow)Psi(~avgT + BrBank + HAiFLS_for + med_len + BRT_100m)",8,150.761522307692,0,0.959132677210812,133.65383
-"~mFlow","~avgT + BrBank + HAiFLS_for","p(~mFlow)Psi(~avgT + BrBank + HAiFLS_for)",6,157.444843636364,6.68332132867133,0.0339323470777788,144.80848
-"~mFlow","~med_len + BRT_100m","p(~mFlow)Psi(~med_len + BRT_100m)",5,160.636447819549,9.87492551185656,0.00687964229733888,150.18532
-"~mFlow","~1","p(~mFlow)Psi(~1)",3,170.282337777778,19.5208154700855,5.53334140706478e-05,164.10456
+"~mFlow","~avgT + mFlow + HAiFLS_for + med_len + BRT_100m","p(~mFlow)Psi(~avgT + mFlow + HAiFLS_for + med_len + BRT_100m)",8,146.766202307692,0,0.995722391214409,129.65851
+"~mFlow","~avgT + mFlow + HAiFLS_for","p(~mFlow)Psi(~avgT + mFlow + HAiFLS_for)",6,158.184703636364,11.4185013286713,0.00330097483936854,145.54834
+"~mFlow","~med_len + BRT_100m","p(~mFlow)Psi(~med_len + BRT_100m)",5,160.636447819549,13.8702455118566,0.000968841490589929,150.18532
+"~mFlow","~1","p(~mFlow)Psi(~1)",3,170.282337777778,23.5161354700855,7.79245563223147e-06,164.10456

@@ -9,8 +9,6 @@
   #2.) CPUE models - 1) all BRT, 2) all environment, 3) full model, 4) null model
 
 #> Size - compare length frequency bins with permutation tests
-hist(lnd2$BRT_100m)
-hist(lnd2$adult_100m)
 library(tidyverse)
 library(skimr)
 
@@ -35,11 +33,12 @@ cott <- read.csv("Data/Thesis/Tidy/cott_occu_data.csv", header = T) %>%
 
 #load environmental data
 env <- read.csv("Data/Thesis/Tidy/AllCovariates.csv", header = T)
+names(env)
 
 #extract vars for detection probability
 dp.cov <- env %>%
   unite(newID, c(HUC8, Site), sep = "_", remove = T) %>%
-  select(newID, pctcbbl, CatArea_km2)
+  select(newID, pctcbbl, pctpool = pctslow)
 
 #add detection probability vars to enc histories
 
@@ -48,13 +47,21 @@ lnd2 <- left_join(lnd, dp.cov, by="newID")
 
 #srd
 srd2 <- left_join(srd, dp.cov, by="newID") %>%
-  mutate(BRT = ifelse(BRT_100m > 0,1,0)) %>%
-  replace_na(list("CatArea_km2" = 28.827)) %>%
-  rename(Area_km2 = CatArea_km2)
+  mutate(BRT = ifelse(BRT_100m > 0,1,0)) #%>%
+  #replace_na(list("CatArea_km2" = 28.827)) %>%
+  #rename(Area_km2 = CatArea_km2)
 
+#outlier in BRT_100m
 srd2[115,]
+
+#checking something
 srd3 <- srd2 %>%
-  filter(BRT_100m < 90)
+  filter(BRT_100m > 3) %>%
+  select(ch, newID, avgT, pctfines, avdep, BRT_100m)
+
+#changing false-presence of SRD in site 20
+#srd2[136,1] <- "000"
+#srd2[136,]
 
 #cott
 cott2 <- left_join(cott, dp.cov, by="newID")
@@ -120,7 +127,7 @@ cott2 <- left_join(cott, dp.cov, by="newID")
 #----------
 #collinearity assessment 
 #----------
-c <- cor(lnd2[,4:19])
+c <- cor(lnd2[,4:20])
 head(round(c,2)) 
 
 #round down
@@ -146,7 +153,7 @@ cor.mtest <- function(mat, ...) {
   p.mat
 }
 # matrix of the p-value of the correlation
-p.mat <- cor.mtest(lnd2[,4:19])
+p.mat <- cor.mtest(lnd2[,4:20])
 
 #correlogram
 col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
@@ -291,7 +298,7 @@ preds.lnd.width <- covariate.predictions(tm.lnd,
                                                            pctcbbl = mean.cobble,
                                                            pctSlope = mean.slope,
                                                            med_len = mean.length,
-                                                           BRT_100m = med.trout),
+                                                           BRT_100m = mean.trout),
                                          indices = 4)
 
 head(preds.lnd.width$estimates)
@@ -307,7 +314,7 @@ preds.lnd.cobble <- covariate.predictions(tm.lnd,
                                                            pctcbbl = cobble.values,
                                                            pctSlope = mean.slope,
                                                            med_len = mean.length,
-                                                           BRT_100m = med.trout),
+                                                           BRT_100m = mean.trout),
                                          indices = 4)
 
 head(preds.lnd.cobble$estimates)
@@ -323,7 +330,7 @@ preds.lnd.slope <- covariate.predictions(tm.lnd,
                                                             pctcbbl = mean.cobble,
                                                             pctSlope = slope.values,
                                                             med_len = mean.length,
-                                                            BRT_100m = med.trout),
+                                                            BRT_100m = mean.trout),
                                           indices = 4)
 
 head(preds.lnd.slope$estimates)
@@ -339,7 +346,7 @@ preds.lnd.length <- covariate.predictions(tm.lnd,
                                                            pctcbbl = mean.cobble,
                                                            pctSlope = mean.slope,
                                                            med_len = length.values,
-                                                           BRT_100m = med.trout),
+                                                           BRT_100m = mean.trout),
                                          indices = 4)
 
 head(preds.lnd.length$estimates)
@@ -374,6 +381,11 @@ write_csv(lnd.cbl.preds, "Data/Thesis/Tidy/LND_OccuMod_Predictions_cobble.csv")
 write_csv(lnd.slp.preds, "Data/Thesis/Tidy/LND_OccuMod_Predictions_slope.csv")
 write_csv(lnd.len.preds, "Data/Thesis/Tidy/LND_OccuMod_Predictions_length.csv")
 write_csv(lnd.brt.preds, "Data/Thesis/Tidy/LND_OccuMod_Predictions_trout.csv")
+###################################################################################
+library(extrafont)
+#font_import()
+loadfonts(device="win")       #Register fonts for Windows bitmap output
+fonts() 
 
 #-----
 #avwid
@@ -385,12 +397,11 @@ a <- ggplot(data=lnd.wid.preds, aes(x=avwid))+
        y=NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
   scale_x_continuous(breaks = c(2,4,6,8,10),
                      labels = c("2","4","6","8","10"))+
-  ggtitle("(a)")+
-  theme(plot.title = element_text(size=14))#+
-  #theme(plot.title = element_text(vjust = -6, hjust = 0.02))
+  ggtitle("Longnose Dace")+
+  theme(plot.title = element_text(size = 16, family = "Times New Roman"))
 a
 
 #-----
@@ -403,7 +414,7 @@ b <- ggplot(data=lnd.cbl.preds, aes(x=pctcbbl))+
        y=NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
   scale_y_continuous(limits = c(0,1),
                      breaks = c(0,0.25,0.50,0.75,1),
                      labels = c("0.00","0.25","0.50","0.75","1.00"))
@@ -419,7 +430,7 @@ c <- ggplot(data=lnd.slp.preds, aes(x=pctSlope))+
        y=NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
   scale_y_continuous(limits = c(0,1),
                      breaks = c(0,0.25,0.50,0.75,1),
                      labels = c("0.00","0.25","0.50","0.75","1.00"))
@@ -436,7 +447,7 @@ d <- ggplot(data=lnd.len.preds, aes(x=med_len))+
        y=NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))
 d
 
 
@@ -452,7 +463,7 @@ e <- ggplot(data=lnd.brt.preds, aes(x=BRT_100m))+
        y=NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))
 e
 
 #cowplot
@@ -464,12 +475,12 @@ vert.lnd
 library(gridExtra)
 library(grid)
 y.grob <- textGrob("Occupancy Probability (Ψ)", 
-                   gp=gpar(fontface="bold", col="black", fontsize=14), rot=90)
+                   gp=gpar(fontface="bold", col="black", fontsize=14, fontfamily="Times New Roman"), rot=90)
 #add to plot
 lnd.f <- grid.arrange(arrangeGrob(vert.lnd, left = y.grob))
 
 getwd()
-#setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 ggsave("lnd_occu.png", plot=lnd.f, dpi = 600)
 
 
@@ -527,7 +538,8 @@ srd.results.p$p.Dot.Psi.global$results$real
 summary(srd.results.p$p.flow.Psi.global) #2nd model 
 srd.results.p$p.flow.Psi.global$results$real
 
-## continue with depth on d-prob
+
+## continue with null on d-prob
 
 ###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 ####        Occupancy models        ####
@@ -572,6 +584,10 @@ write.csv(AICc.Table.srd, "Redbelly_ModTable.csv", row.names = F)
 summary(srd.results.psi$p.Dot.Psi.global) #top model 
 srd.results.psi$p.Dot.Psi.global$results$real
 
+#look at summary of top model(s)
+summary(srd.results.psi$p.Dot.Psi.habitat) #2nd model (delta AIC = 6.9) 
+srd.results.psi$p.Dot.Psi.habitat$results$real
+
 #designate top model(s)
 tm.srd <- srd.results.psi$p.Dot.Psi.global
 cleanup(ask = F)
@@ -615,7 +631,7 @@ preds.srd.avgT <- covariate.predictions(tm.srd,
                                                            avdep = mean.depth,
                                                            pctfines = mean.fines,
                                                            med_len = mean.length,
-                                                           BRT_100m = med.trout),
+                                                           BRT_100m = mean.trout),
                                          indices = 4)
 
 head(preds.srd.avgT$estimates)
@@ -632,7 +648,7 @@ preds.srd.fines <- covariate.predictions(tm.srd,
                                                           avdep = mean.depth,
                                                           pctfines = fines.values,
                                                           med_len = mean.length,
-                                                          BRT_100m = med.trout),
+                                                          BRT_100m = mean.trout),
                                         indices = 4)
 
 head(preds.srd.fines$estimates)
@@ -648,7 +664,7 @@ preds.srd.depth <- covariate.predictions(tm.srd,
                                                            avdep = depth.values,
                                                            pctfines = mean.fines,
                                                            med_len = mean.length,
-                                                           BRT_100m = med.trout),
+                                                           BRT_100m = mean.trout),
                                          indices = 4)
 
 head(preds.srd.depth$estimates)
@@ -664,7 +680,7 @@ preds.srd.length <- covariate.predictions(tm.srd,
                                                            avdep = mean.depth,
                                                            pctfines = mean.fines,
                                                            med_len = length.values,
-                                                           BRT_100m = med.trout),
+                                                           BRT_100m = mean.trout),
                                          indices = 4)
 
 head(preds.srd.length$estimates)
@@ -704,7 +720,7 @@ write_csv(srd.length.preds, "Data/Thesis/Tidy/SRD_OccuMod_Predictions_length.csv
 write_csv(srd.trout.preds, "Data/Thesis/Tidy/SRD_OccuMod_Predictions_BRT_100m.csv")
 
 #-----
-#HAiFLS_avgT
+#avgT
 #-----
 aa <- ggplot(data=srd.avgT.preds, aes(x=avgT))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
@@ -713,15 +729,14 @@ aa <- ggplot(data=srd.avgT.preds, aes(x=avgT))+
        y=NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
   #scale_x_continuous(breaks = c(2,4,6,8,10),
    #                  labels = c("2","4","6","8","10"))+
   scale_y_continuous(limits = c(0,1),
                      breaks = c(0,.25,.50,.75,1),
                      labels = c("0.00","0.25","0.50","0.75","1.00"))+
-  ggtitle("(c)")+
-  theme(plot.title = element_text(size=14))#+
-  #theme(plot.title = element_text(vjust = -6, hjust = 0.02))
+  ggtitle("Southern Redbelly Dace")+
+  theme(plot.title = element_text(size = 16, family = "Times New Roman"))
 aa
 
 #-----
@@ -734,7 +749,7 @@ bb <- ggplot(data=srd.fine.preds, aes(x=pctfines))+
        y=NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
   scale_y_continuous(limits = c(0,1),
                      breaks = c(0,0.25,0.50,0.75,1),
                      labels = c("0.00","0.25","0.50","0.75","1.00"))#+
@@ -753,7 +768,7 @@ cc <- ggplot(data=srd.depth.preds, aes(x=avdep))+
        y=NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
   scale_y_continuous(limits = c(0,1),
                      breaks = c(0,0.25,0.50,0.75,1),
                      labels = c("0.00","0.25","0.50","0.75","1.00"))#+
@@ -774,7 +789,7 @@ dd <- ggplot(data=srd.length.preds, aes(x=med_len))+
        y=NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))
 dd
 
 
@@ -785,12 +800,12 @@ ee <- ggplot(data=srd.trout.preds, aes(x=BRT_100m))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
   scale_y_continuous(limits = c(0,1), breaks = c(0,0.25,0.50,0.75,1.00), labels = c("0.00","0.25","0.50","0.75","1.00"))+
-  scale_x_continuous(limits = c(0,40), breaks = c(0,10,20,30,40), labels = c("0","10","20","30","40"))+
+  scale_x_continuous(limits = c(0,30), breaks = c(0,10,20,30), labels = c("0","10","20","30"))+
   labs(x="Brown Trout Density (n/100m)",
        y=NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))
 ee
 
 
@@ -799,12 +814,12 @@ ee
 vert.srd <- plot_grid(aa,bb,cc,dd,ee, labels = NULL, ncol = 1, nrow = 5)
 vert.srd
 #create common y axis label
-y.grob <- textGrob("Occupancy Probability (Ψ)", 
-                   gp=gpar(fontface="bold", col="black", fontsize=14), rot=90)
+#y.grob <- textGrob("Occupancy Probability (Ψ)", 
+ #                  gp=gpar(fontface="bold", col="black", fontsize=14), rot=90)
 #add to plot
 srd.f <- grid.arrange(arrangeGrob(vert.srd, left = y.grob))
 
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+#setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 ggsave("srd_occu.png", plot=srd.f, dpi = 600)
 
 
@@ -842,7 +857,7 @@ run.occ.cott.p=function()
   Psi.Dot        = list(formula=~1) 
   #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
   #all covariates
-  Psi.global = list(formula = ~avgT+BrBank+HAiFLS_for+med_len+BRT_100m)
+  Psi.global = list(formula = ~avgT+mFlow+HAiFLS_for+med_len+BRT_100m)
   #~~~~~~~~~~~~ model list & wrapper ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   cml.cott.p=create.model.list("Occupancy")
   results.cott.p=mark.wrapper(cml.cott.p, data=cott.process, ddl=cott.ddl, output=F)
@@ -855,6 +870,8 @@ cott.results.p
 
 #only one model <2 DeltaAICc 
 summary(cott.results.p$p.flow.Psi.global) #top model 
+#only one model <2 DeltaAICc 
+summary(cott.results.p$p.full.Psi.global) #2nd model 
 
 ## continue with d-prob as a function of mFlow
 
@@ -871,9 +888,9 @@ run.occ.cott=function()
   Psi.Dot        = list(formula=~1) 
   #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
   #all covariates
-  Psi.global = list(formula = ~avgT+BrBank+HAiFLS_for+med_len+BRT_100m)
+  Psi.global = list(formula = ~avgT+mFlow+HAiFLS_for+med_len+BRT_100m)
   #Habitat Only
-  Psi.habitat = list(formula = ~avgT+BrBank+HAiFLS_for)
+  Psi.habitat = list(formula = ~avgT+mFlow+HAiFLS_for)
   #Brown Trout only
   Psi.trout = list(formula = ~med_len+BRT_100m)
   #~~~~~~~~~~~~ model list & wrapper ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -908,23 +925,17 @@ cleanup(ask = F)
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 cott.ddl #par.index = 1, model.index = 4
 
-#BrBank
-min.bare <- min(cott2$BrBank)
-max.bare <- max(cott2$BrBank)
-bare.values <- seq(from = min.bare, to = max.bare, length = 100)
-mean.bare <- mean(cott2$BrBank)
 #HAiFLS_for
 min.forest <- min(cott2$HAiFLS_for)
 max.forest <- max(cott2$HAiFLS_for)
 forest.values <- seq(from = min.forest, to = max.forest, length = 100)
 mean.forest <- mean(cott2$HAiFLS_for)
-#avgT
-min.avgT <- min(cott2$avgT)
-max.avgT <- max(cott2$avgT)
-avgT.values <- seq(from = min.avgT, to = max.avgT, length = 100)
-mean.avgT <- mean(cott2$avgT)
 
-
+#mFlow
+min.flow <- min(cott2$mFlow)
+max.flow <- max(cott2$mFlow)
+flow.values <- seq(from = min.flow, to = max.flow, length = 100)
+mean.flow <- mean(cott2$mFlow)
 
 ##################################################
 #covariate.predictions method
@@ -933,71 +944,71 @@ mean.avgT <- mean(cott2$avgT)
 #predictions of Psi for full range of avgT
 preds.cott.avgT <- covariate.predictions(tm.cott, 
                                          data = data.frame(avgT = avgT.values,
-                                                           BrBank = mean.bare,
+                                                           mFlow = mean.flow,
                                                            HAiFLS_for = mean.forest,
                                                            med_len = mean.length,
-                                                           BRT_100m = med.trout),
+                                                           BRT_100m = mean.trout),
                                          indices = 4)
 
 head(preds.cott.avgT$estimates)
 
 cott.avgT.preds <- preds.cott.avgT$estimates %>%
-  select(avgT, BrBank, HAiFLS_for, med_len, BRT_100m, estimate, se, lcl, ucl)
+  select(avgT, mFlow, HAiFLS_for, med_len, BRT_100m, estimate, se, lcl, ucl)
 
 names(cott.avgT.preds)
 
-#predictions of Psi for full range of BrBank
-preds.cott.bare <- covariate.predictions(tm.cott, 
+#predictions of Psi for full range of mFlow
+preds.cott.flow <- covariate.predictions(tm.cott, 
                                           data = data.frame(avgT = mean.avgT,
-                                                            BrBank = bare.values,
+                                                            mFlow = flow.values,
                                                             HAiFLS_for = mean.forest,
                                                             med_len = mean.length,
-                                                            BRT_100m = med.trout),
+                                                            BRT_100m = mean.trout),
                                           indices = 4)
 
-head(preds.cott.bare$estimates)
+head(preds.cott.flow$estimates)
 
-cott.bare.preds <- preds.cott.bare$estimates %>%
-  select(avgT, BrBank, HAiFLS_for, med_len, BRT_100m, estimate, se, lcl, ucl)
+cott.flow.preds <- preds.cott.flow$estimates %>%
+  select(avgT, mFlow, HAiFLS_for, med_len, BRT_100m, estimate, se, lcl, ucl)
 
-names(cott.bare.preds)
+names(cott.flow.preds)
 
 #predictions of Psi for full range of forest
 preds.cott.forest <- covariate.predictions(tm.cott, 
                                           data = data.frame(avgT = mean.avgT,
-                                                            BrBank = mean.bare,
+                                                            mFlow = mean.flow,
                                                             HAiFLS_for = forest.values,
                                                             med_len = mean.length,
-                                                            BRT_100m = med.trout),
+                                                            BRT_100m = mean.trout),
                                           indices = 4)
 
 head(preds.cott.forest$estimates)
 
 cott.forest.preds <- preds.cott.forest$estimates %>%
-  select(avgT, BrBank, HAiFLS_for, med_len, BRT_100m, estimate, se, lcl, ucl)
+  select(avgT, mFlow, HAiFLS_for, med_len, BRT_100m, estimate, se, lcl, ucl)
 
 names(cott.forest.preds)
 
 #predictions of Psi for full range of length
 preds.cott.length <- covariate.predictions(tm.cott, 
                                           data = data.frame(avgT = mean.avgT,
-                                                            BrBank = mean.bare,
+                                                            mFlow = mean.flow,
                                                             HAiFLS_for = mean.forest,
                                                             med_len = length.values,
-                                                            BRT_100m = med.trout),
+                                                            BRT_100m = mean.trout),
                                           indices = 4)
 
 head(preds.cott.length$estimates)
 
 cott.length.preds <- preds.cott.length$estimates %>%
-  select(avgT, BrBank, HAiFLS_for, med_len, BRT_100m, estimate, se, lcl, ucl)
+  select(avgT, mFlow, HAiFLS_for, med_len, BRT_100m, estimate, se, lcl, ucl)
 
 names(cott.length.preds)
 
 #predictions of Psi for full range of adult_100m
 preds.cott.trout <- covariate.predictions(tm.cott, 
                                           data = data.frame(avgT = mean.avgT,
-                                                            BrBank = mean.bare,
+                                                            mFlow = mean.flow,
                                                             HAiFLS_for = mean.forest,
                                                             med_len = mean.length,
                                                             BRT_100m = trout.values),
@@ -1006,7 +1017,7 @@ preds.cott.trout <- covariate.predictions(tm.cott,
 head(preds.cott.trout$estimates)
 
 cott.trout.preds <- preds.cott.trout$estimates %>%
-  select(avgT, BrBank, HAiFLS_for, med_len, BRT_100m, estimate, se, lcl, ucl)
+  select(avgT, mFlow, HAiFLS_for, med_len, BRT_100m, estimate, se, lcl, ucl)
 
 names(cott.trout.preds)
 
@@ -1015,7 +1026,7 @@ names(cott.trout.preds)
 ####################################################
 setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 write_csv(cott.avgT.preds, "Data/Thesis/Tidy/Cottus_OccuMod_Predictions_avgT.csv")
-write_csv(cott.bare.preds, "Data/Thesis/Tidy/Cottus_OccuMod_Predictions_bare.csv")
+write_csv(cott.flow.preds, "Data/Thesis/Tidy/Cottus_OccuMod_Predictions_flow.csv")
 write_csv(cott.forest.preds, "Data/Thesis/Tidy/Cottus_OccuMod_Predictions_forest.csv")
 write_csv(cott.length.preds, "Data/Thesis/Tidy/Cottus_OccuMod_Predictions_length.csv")
 write_csv(cott.trout.preds, "Data/Thesis/Tidy/Cottus_OccuMod_Predictions_trout.csv")
@@ -1030,26 +1041,25 @@ aaa <- ggplot(data=cott.avgT.preds, aes(x=avgT))+
        y=NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
   scale_y_continuous(limits = c(0,1),
                      breaks = c(0,0.25,0.50,0.75,1),
                      labels = c("0.00","0.25","0.50","0.75","1.00"))+
-  ggtitle("(b)")+
-  theme(plot.title = element_text(size=14))#+
-  #theme(plot.title = element_text(vjust = -6, hjust = 0.02))
+  ggtitle("Sculpin")+
+  theme(plot.title = element_text(size = 16, family = "Times New Roman"))
 aaa
 
 #-----
 #BrBank
 #-----
-bbb <- ggplot(data=cott.bare.preds, aes(x=BrBank))+
+bbb <- ggplot(data=cott.flow.preds, aes(x=mFlow))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
-  labs(x="Bare Bank Index Rating",
+  labs(x="Mean Stream Velocity (m/s)",
        y=NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
   scale_y_continuous(limits = c(0,1),
                      breaks = c(0,0.25,0.50,0.75,1),
                      labels = c("0.00","0.25","0.50","0.75","1.00"))
@@ -1065,7 +1075,7 @@ ccc <- ggplot(data=cott.forest.preds, aes(x=HAiFLS_for))+
        y=NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
   scale_y_continuous(limits = c(0,1),
                      breaks = c(0,0.25,0.50,0.75,1),
                      labels = c("0.00","0.25","0.50","0.75","1.00"))
@@ -1082,7 +1092,7 @@ ddd <- ggplot(data=cott.length.preds, aes(x=med_len))+
        y=NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))
 ddd
 
 
@@ -1097,19 +1107,19 @@ eee <- ggplot(data=cott.trout.preds, aes(x=BRT_100m))+
        y=NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))
 eee
 
 #cowplot
-library(cowplot)
+#library(cowplot)
 vert.cott <- plot_grid(aaa,bbb,ccc,ddd,eee, labels = NULL, ncol = 1)
 vert.cott
 
 #create common y axis label
-library(gridExtra)
-library(grid)
-y.grob <- textGrob("Occupancy Probability (Ψ)", 
-                   gp=gpar(fontface="bold", col="black", fontsize=14), rot=90)
+#library(gridExtra)
+#library(grid)
+#y.grob <- textGrob("Occupancy Probability (Ψ)", 
+                   #gp=gpar(fontface="bold", col="black", fontsize=14), rot=90)
 #add to plot
 ff <- grid.arrange(arrangeGrob(vert.cott, left = y.grob))
 
@@ -1120,22 +1130,23 @@ ggsave("cott_occu.png", plot=ff, dpi = 600)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 #### overall Psi figure for thesis   ####
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
-occupancy.figure <- plot_grid(lnd.f,vert.cott,vert.srd, labels = NULL, ncol = 3)
+occupancy.figure <- plot_grid(ff,vert.lnd,vert.srd, labels = NULL, ncol = 3)
 occupancy.figure
-ggsave("Figure_2.png", plot = occupancy.figure, dpi = 600)
+ggsave("Figure_3_occupancy.png", plot = occupancy.figure, dpi = 600)
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 #### Visualizing effort effect on p   ####
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
-min.mFlow <- min(cott2$mFlow)
-max.mFlow <- max(cott2$mFlow)
-mFlow.values <- seq(min.mFlow, max.mFlow, length.out = 100)
-mean.mFlow <- mean(cott2$mFlow) 
+#mFlow
+min.flow <- min(cott2$mFlow)
+max.flow <- max(cott2$mFlow)
+flow.values <- seq(from = min.flow, to = max.flow, length = 100)
+mean.flow <- mean(cott2$mFlow)
 
 #predictions of p for full range of effort1 values
 p.pred.cott <- covariate.predictions(tm.cott, 
-                                     data = data.frame(mFlow = mFlow.values),
+                                     data = data.frame(mFlow = flow.values),
                                      indices = 1)
 
 head(p.pred.cott$estimates)
@@ -1150,25 +1161,139 @@ cott.dp <- ggplot(data=P.predictions.cott, aes(x=mFlow))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
   labs(x="Mean Stream Velocity (m/s)",
-       y="Detection Probability (p)",
+       y=expression(bold('Detection Probability '~bold(italic((p)))~'')),
        title = "")+
   scale_y_continuous(limits = c(0,1), breaks = c(0.00,0.25,0.50,0.75,1.00), labels = c("0.00","0.25","0.50","0.75","1.00"))+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold", size = 12))+
-  ggtitle("Sculpins")+
-  theme(plot.title = element_text(size=12))
+  theme(axis.title.y = element_text(margin = margin(r=5)))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))
 cott.dp
+  #ggtitle("Sculpins")+
+  #theme(plot.title = element_text(size=12))
+
 
 ggsave("cott_dprob.png", dpi = 600)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 #### overall (p) figure for thesis   ####
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
-#detection.figure <- plot_grid(cott.dp,srd.dp, labels = NULL, ncol = 2)
-#detection.figure
-#ggsave("Figure_1.png", plot = detection.figure, dpi = 600)
+#Sculpin Cumulative Detection Probability
+
+#Chosen Model results
+cott.results.psi$p.flow.Psi.global$results$real
+
+#estimate
+cpe <- 0.7949061
+cpe2 <- 1-(1-cpe)^2
+cpe3 <- 1-(1-cpe)^3
+#lower confidence limit
+clc <- 0.6498150
+clc2 <- 1-(1-clc)^2
+clc3 <- 1-(1-clc)^3
+#upper confidence limit
+cuc <- 0.8900533
+cuc2 <- 1-(1-cuc)^2
+cuc3 <- 1-(1-cuc)^3
+#Dataframe
+cott_cdp <- data.frame(reach = 1:3, p = c(cpe,cpe2,cpe3), lcl = c(clc,clc2,clc3),
+                      ucl = c(cuc,cuc2,cuc3))
+
+cott.cdp <- 
+  ggplot(data = cott_cdp, aes(x=reach))+
+  geom_errorbar(aes(ymin=lcl, ymax=ucl), colour="black", width=.1) +
+  geom_line(aes(y=p), size=1, color="black")+
+  geom_point(aes(y=p))+
+  labs(x="Sampling Occassions",
+       y="Cumulative Detection Probability")+
+  ggtitle("Sculpin")+
+  scale_y_continuous(limits = c(0,1), breaks = c(0.00,0.25,0.50,0.75,1.00), labels = c("0.00","0.25","0.50","0.75","1.00"))+
+  scale_x_continuous(breaks = c(1,2,3), labels = c("1","2","3"))+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  theme(axis.title.y = element_text(margin = margin(r=5)))+
+  theme(plot.title = element_text(size = 16, family = "Times New Roman"))
+cott.cdp
+
+
+#Longnose Dace Cumulative Detection Probability
+
+#Chosen Model results
+lnd.results.psi$p.Dot.Psi.global$results$real
+
+#estimate
+lpe <- 0.6660873
+lpe2 <- 1-(1-lpe)^2
+lpe3 <- 1-(1-lpe)^3
+#lower confidence limit
+llc <- 0.5600865
+llc2 <- 1-(1-llc)^2
+llc3 <- 1-(1-llc)^3
+#upper confidence limit
+luc <- 0.7576005
+luc2 <- 1-(1-luc)^2
+luc3 <- 1-(1-luc)^3
+#Dataframe
+lnd_cdp <- data.frame(reach = 1:3, p = c(lpe,lpe2,lpe3), lcl = c(llc,llc2,llc3),
+                       ucl = c(luc,luc2,luc3))
+
+lnd.cdp <- 
+  ggplot(data = lnd_cdp, aes(x=reach))+
+  geom_errorbar(aes(ymin=lcl, ymax=ucl), colour="black", width=.1) +
+  geom_line(aes(y=p), size=1, color="black")+
+  geom_point(aes(y=p))+
+  labs(x="Sampling Occassions",
+       y="")+
+  ggtitle("Longnose Dace")+
+  scale_y_continuous(limits = c(0,1), breaks = c(0.00,0.25,0.50,0.75,1.00), labels = c("0.00","0.25","0.50","0.75","1.00"))+
+  scale_x_continuous(breaks = c(1,2,3), labels = c("1","2","3"))+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  theme(plot.title = element_text(size = 16, family = "Times New Roman"))
+lnd.cdp
 
 
 
+#Southern Redbelly Dace Cumulative Detection Probability
 
+#Chosen Model results
+srd.results.psi$p.Dot.Psi.global$results$real
+
+#estimate
+spe <- 0.5405216
+spe2 <- 1-(1-spe)^2
+spe3 <- 1-(1-spe)^3
+#lower confidence limit
+slc <- 0.4235900
+slc2 <- 1-(1-slc)^2
+slc3 <- 1-(1-slc)^3
+#upper confidence limit
+suc <- 0.6531555
+suc2 <- 1-(1-suc)^2
+suc3 <- 1-(1-suc)^3
+#Dataframe
+srd_cdp <- data.frame(reach = 1:3, p = c(spe,spe2,spe3), lcl = c(slc,slc2,slc3),
+                      ucl = c(suc,suc2,suc3))
+
+srd.cdp <- 
+  ggplot(data = srd_cdp, aes(x=reach))+
+  geom_errorbar(aes(ymin=lcl, ymax=ucl), colour="black", width=.1) +
+  geom_line(aes(y=p), size=1, color="black")+
+  geom_point(aes(y=p))+
+  labs(x="Sampling Occassions",
+       y="")+
+  ggtitle("Southern Redbelly Dace")+
+  scale_y_continuous(limits = c(0,1), breaks = c(0.00,0.25,0.50,0.75,1.00), labels = c("0.00","0.25","0.50","0.75","1.00"))+
+  scale_x_continuous(breaks = c(1,2,3), labels = c("1","2","3"))+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  theme(plot.title = element_text(size = 16, family = "Times New Roman"))
+srd.cdp
+
+
+#Plot full grided figure
+plot_grid(cott.cdp, lnd.cdp, srd.cdp, cott.dp, ncol = 3)
+ggsave("Chapt3_Figure_Dprob.png", dpi = 600)
