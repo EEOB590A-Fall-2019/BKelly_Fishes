@@ -9,6 +9,11 @@ library(tidyverse)
 library(coin)
 library(tidyselect)
 
+library(extrafont)
+#font_import()
+loadfonts(device="win")   #Register fonts for Windows bitmap output
+fonts() 
+
 #load data
 sizes <- read.csv("Data/Thesis/Tidy/sgcn_size_tidy.csv", header = T)
 skim(sizes)
@@ -49,11 +54,10 @@ a <- ggplot(lnd.b.long, aes(fill=BRT, y=Count, x=Bin)) +
   scale_fill_manual(values = c("white", "black"),
                     labels = c("0" = "No Brown Trout", "1" = "Brown Trout"))+
   theme(axis.title = element_text(size = 12))+
-  ggtitle("(a)")+
-  theme(plot.title = element_text(size=14, face = "bold"))+
+  ggtitle("Longnose Dace")+
   theme(legend.position = c(0.85,0.80))+
   theme(legend.title = element_blank())+
-  annotate("text", x = 0.70, y = 299, label = "Longnose Dace")
+  theme(plot.title = element_text(size=16, family = "Times New Roman"))
 a  
 
 
@@ -87,14 +91,13 @@ a2 <- ggplot(lnd_sums, aes(fill=BRT, y=Mean_Count, x=Bin)) +
   theme(panel.grid = element_blank())+
   labs(y=NULL, x=NULL)+
   scale_x_discrete(labels = c("1" = "30-60", "2" = "60-90", "3" = "90-120"))+
-  scale_fill_manual(values = c("white", "black"),
-                    labels = c("0" = "No Brown Trout", "1" = "Brown Trout"))+
+  scale_fill_manual(values = c("white", "black"))+
   theme(axis.title = element_text(size = 12))+
-  ggtitle("(a)")+
-  theme(plot.title = element_text(size=14, face = "bold"))+
-  theme(legend.position = c(0.85,0.80))+
+  ggtitle("Longnose Dace")+
+  theme(legend.position = "none")+
   theme(legend.title = element_blank())+
-  annotate("text", x = 0.75, y = 22, label = "Longnose Dace")
+  theme(plot.title = element_text(size=16, family = "Times New Roman"))+
+  theme(legend.text = element_text(family = "Times New Roman", size = 12))
 a2
 
 
@@ -169,14 +172,16 @@ b2 <- ggplot(cott_sums, aes(fill=BRT, y=Mean_Count, x=Bin)) +
   theme(panel.grid = element_blank())+
   labs(y=NULL, x=NULL)+
   scale_x_discrete(labels = c("1" = "30-60", "2" = "60-90", "3" = "90-120", "4" = "120-150"))+
-  scale_fill_manual(values = c("white", "black"))+
+  scale_fill_manual(values = c("white", "black"),
+                    labels = c("0" = "No Brown Trout", "1" = "Brown Trout"))+
   theme(axis.title = element_text(size = 12))+
-  ggtitle("(b)")+
-  theme(plot.title = element_text(size=14, face = "bold"))+
-  theme(legend.position = "none")+
+  ggtitle("Sculpin")+
+  theme(legend.position = c(0.75,0.80))+
   theme(legend.title = element_blank())+
-  annotate("text", x = 0.65, y = 70, label = "Sculpins")
+  theme(plot.title = element_text(size=16, family = "Times New Roman"))+
+  theme(legend.text = element_text(family = "Times New Roman", size = 12))
 b2
+
 #-----------------------------------
 
 
@@ -250,31 +255,33 @@ c2 <- ggplot(srd_sums, aes(fill=BRT, y=Mean_Count, x=Bin)) +
   scale_x_discrete(labels = c("1" = "30-60", "2" = "60-90", "3" = "90-120", "4" = "120-150"))+
   scale_fill_manual(values = c("white", "black"))+
   theme(axis.title = element_text(size = 12))+
-  ggtitle("(b)")+
-  theme(plot.title = element_text(size=14, face = "bold"))+
+  ggtitle("Southern Redbelly Dace")+
   theme(legend.position = "none")+
   theme(legend.title = element_blank())+
-  annotate("text", x = 0.9, y = 25, label = "Southern Redbelly Dace")
+  theme(plot.title = element_text(size=16, family = "Times New Roman"))+
+  theme(legend.text = element_text(family = "Times New Roman", size = 12))
 c2
 
-combo2 <- plot_grid(a2,b2,c2, ncol=1)
+
+combo2 <- plot_grid(b2,a2,c2, ncol=1)
+combo2
 #-----------------------------------
 
 #create common x axis label
 library(gridExtra)
 library(grid)
 y.grob <- textGrob("Number of Fish", 
-                   gp=gpar(col="black", fontsize=14),
+                   gp=gpar(fontface="bold", col="black", fontsize=14, fontfamily="Times New Roman"),
                    rot = 90)
 x.grob <- textGrob("Size Class (mm)", 
-                   gp=gpar(col="black", fontsize=14))
+                   gp=gpar(fontface="bold", col="black", fontsize=14, fontfamily="Times New Roman"))
 #add to plot
 fig_5 <- grid.arrange(arrangeGrob(combo, left = y.grob, bottom = x.grob))
 fig_5
 
 fig_5.2 <- grid.arrange(arrangeGrob(combo2, left = y.grob, bottom = x.grob))
 fig_5.2
-ggsave("Figure_5.png", plot = fig_5.2, dpi = 600)
+ggsave("Figure_6_barcharts.png", plot = fig_5.2, dpi = 600)
 #-----------------------------------
 
 

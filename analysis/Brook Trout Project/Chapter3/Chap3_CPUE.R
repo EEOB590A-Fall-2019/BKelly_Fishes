@@ -51,23 +51,29 @@ mydat <- mydat %>%
 #----------------------------Boxplots of CPUE------------------------------#
 
 #-----------------------Filter by presence of SGCN-------------------------#
+library(extrafont)
+#font_import()
+loadfonts(device="win")   #Register fonts for Windows bitmap output
+fonts() 
 
 #LND
 ldace <- mydat %>%
   filter(LND == 1)
 
-p1 <- ggplot(data = ldace, aes(x=BRT,y=LND_CPUE)) +
+p2 <- ggplot(data = ldace, aes(x=BRT,y=LND_CPUE)) +
   stat_boxplot(geom = 'errorbar', width=0.25)+
   geom_boxplot(aes(fill=BRT), width = 0.50)+
-  labs(x=NULL, y="Longnose Dace CPUE (fish/100m)")+
+  labs(x=NULL, y=NULL)+
   theme_bw()+
   scale_x_discrete(labels=c("Absent", "Present"))+
   theme(legend.position = "NULL")+
   scale_fill_manual(values = c("white", "grey"))+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(size = 12))+
-  ggtitle("(a)")+
-  theme(plot.title = element_text(size=14, face = "bold"))
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  ggtitle("Longnose Dace")+
+  theme(plot.title = element_text(size=16, family = "Times New Roman"))+
+  theme(axis.text.x = element_text(size=12, family = "Times New Roman"))
+p2
 
 #SRD
 sdace <- mydat %>%
@@ -76,34 +82,37 @@ sdace <- mydat %>%
 p3 <- ggplot(data = sdace, aes(x=BRT,y=SRD_CPUE)) +
   stat_boxplot(geom = 'errorbar', width=0.25)+
   geom_boxplot(aes(fill=BRT), width=0.50)+
-  labs(x=NULL, y="Southern Redbelly Dace CPUE (fish/100m)")+
+  labs(x=NULL, y=NULL)+
   theme_bw()+
   scale_x_discrete(labels=c("Absent", "Present"))+
   theme(legend.position = "NULL")+
   scale_fill_manual(values = c("white", "grey"))+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(size = 12))+
-  ggtitle("(c)")+
-  theme(plot.title = element_text(size=14, face = "bold"))
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  ggtitle("Southern Redbelly Dace")+
+  theme(plot.title = element_text(size=16, family = "Times New Roman"))+
+  theme(axis.text.x = element_text(size=12, family = "Times New Roman"))
+p3
   
 
 #Sculpins
 cott <- mydat %>%
   filter(Cottus == 1)
 
-p2 <- ggplot(data = cott, aes(x=BRT,y=Cottus_CPUE)) +
+p1 <- ggplot(data = cott, aes(x=BRT,y=Cottus_CPUE)) +
   stat_boxplot(geom = 'errorbar', width=0.25)+
   geom_boxplot(aes(fill=BRT), width=0.50)+
-  labs(x=NULL, y="Sculpin CPUE (fish/100m)")+
+  labs(x=NULL, y="Catch Per Unit Effort (fish/100m)")+
   theme_bw()+
   scale_x_discrete(labels=c("Absent", "Present"))+
   theme(legend.position = "NULL")+
   scale_fill_manual(values = c("white", "grey"))+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(size = 12))+
-  ggtitle("(b)")+
-  theme(plot.title = element_text(size=14, face = "bold"))
-p2
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  ggtitle("Sculpin")+
+  theme(plot.title = element_text(size=16, family = "Times New Roman"))+
+  theme(axis.text.x = element_text(size=12, family = "Times New Roman"))
+p1
 
 
 #Overall figure for thesis:
@@ -114,12 +123,12 @@ boxplot.figure
 library(gridExtra)
 library(grid)
 x.grob <- textGrob("Brown Trout Status (Presence/Absence)", 
-                   gp=gpar(col="black", fontsize=14))
+                   gp=gpar(col="black", fontsize=14, fontfamily="Times New Roman", fontface="bold"))
 #add to plot
 bf2 <- grid.arrange(arrangeGrob(boxplot.figure, bottom = x.grob))
 bf2
 
-#ggsave("Figure_3.png", plot = bf2, dpi = 600)
+ggsave("Figure_4_boxplots.png", plot = bf2, dpi = 600)
 
 
 
