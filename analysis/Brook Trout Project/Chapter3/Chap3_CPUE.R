@@ -20,6 +20,28 @@ library(coin)
 
 
 #load data
+###############For Map##################
+rand <- read.csv("Data/Thesis/Tidy/AllCovariates.csv", header=T)
+names(rand)
+rand2 <- rand %>%
+  select(newID=HUC_Site, Xcoord=Easting, Ycoord=Northing)
+
+fish_part <- mydat %>%
+  select(newID, BRT, LND, SRD, Cottus) %>%
+  mutate_at(vars(c("LND","SRD","Cottus")), as.numeric)%>%
+  mutate(SGCN=(LND+SRD+Cottus))
+
+for_map <- left_join(rand2, fish_part, by="newID") %>%
+  filter(newID != "UPI_29") %>%
+  filter(newID != "YEL_33")
+
+for_map[97,2] <- 569734
+for_map[97,3] <- 4804779
+for_map[97,]
+
+write.csv(for_map, "Data/Thesis/Spatial/Map_chpt3_points.csv", row.names = F)
+########################################
+
 newdat <- read.csv("Data/Thesis/Tidy/chpt3_tidy.csv", header=T)
 mydat <- read.csv("Data/Thesis/Tidy/SGCN_AllCovariates.csv", header=T)
 ef <- read.csv("Data/Thesis/Tidy/AllCovariates.csv", header=T) %>%
