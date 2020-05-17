@@ -39,7 +39,11 @@ for_map[97,2] <- 569734
 for_map[97,3] <- 4804779
 for_map[97,]
 
-write.csv(for_map, "Data/Thesis/Spatial/Map_chpt3_points.csv", row.names = F)
+for_map2 <- for_map %>%
+  mutate(status = ifelse(SGCN < 1 & BRT == 0,0,ifelse(SGCN>0 & BRT==0,1,ifelse(SGCN<1 & BRT==1,2,ifelse(SGCN>0
+                                                                                                        &BRT==1,3,NA)))))
+
+write.csv(for_map2, "Data/Thesis/Spatial/Map_chpt3_points.csv", row.names = F)
 ########################################
 
 newdat <- read.csv("Data/Thesis/Tidy/chpt3_tidy.csv", header=T)
