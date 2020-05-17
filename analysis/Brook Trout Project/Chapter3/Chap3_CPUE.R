@@ -43,7 +43,7 @@ for_map2 <- for_map %>%
   mutate(status = ifelse(SGCN < 1 & BRT == 0,0,ifelse(SGCN>0 & BRT==0,1,ifelse(SGCN<1 & BRT==1,2,ifelse(SGCN>0
                                                                                                         &BRT==1,3,NA)))))
 
-write.csv(for_map2, "Data/Thesis/Spatial/Map_chpt3_points.csv", row.names = F)
+write.csv(for_map2, "Data/Thesis/Spatial/Map_chpt3_pointsv2.csv", row.names = F)
 ########################################
 
 newdat <- read.csv("Data/Thesis/Tidy/chpt3_tidy.csv", header=T)
