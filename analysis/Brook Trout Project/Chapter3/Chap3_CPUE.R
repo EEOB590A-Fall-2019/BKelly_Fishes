@@ -20,32 +20,6 @@ library(coin)
 
 
 #load data
-###############For Map##################
-rand <- read.csv("Data/Thesis/Tidy/AllCovariates.csv", header=T)
-names(rand)
-rand2 <- rand %>%
-  select(newID=HUC_Site, Xcoord=Easting, Ycoord=Northing)
-
-fish_part <- mydat %>%
-  select(newID, BRT, LND, SRD, Cottus) %>%
-  mutate_at(vars(c("LND","SRD","Cottus")), as.numeric)%>%
-  mutate(SGCN=(LND+SRD+Cottus))
-
-for_map <- left_join(rand2, fish_part, by="newID") %>%
-  filter(newID != "UPI_29") %>%
-  filter(newID != "YEL_33")
-
-for_map[97,2] <- 569734
-for_map[97,3] <- 4804779
-for_map[97,]
-
-for_map2 <- for_map %>%
-  mutate(status = ifelse(SGCN < 1 & BRT == 0,0,ifelse(SGCN>0 & BRT==0,1,ifelse(SGCN<1 & BRT==1,2,ifelse(SGCN>0
-                                                                                                        &BRT==1,3,NA)))))
-
-write.csv(for_map2, "Data/Thesis/Spatial/Map_chpt3_pointsv2.csv", row.names = F)
-########################################
-
 newdat <- read.csv("Data/Thesis/Tidy/chpt3_tidy.csv", header=T)
 mydat <- read.csv("Data/Thesis/Tidy/SGCN_AllCovariates.csv", header=T)
 ef <- read.csv("Data/Thesis/Tidy/AllCovariates.csv", header=T) %>%
@@ -73,7 +47,32 @@ mydat <- mydat %>%
   mutate_at(vars(c("BRT","LND","SRD","Cottus")), as.factor)
 
 #############################################################################
+###############For Map##################
+rand <- read.csv("Data/Thesis/Tidy/AllCovariates.csv", header=T)
+names(rand)
+rand2 <- rand %>%
+  select(newID=HUC_Site, Xcoord=Easting, Ycoord=Northing)
 
+fish_part <- mydat %>%
+  select(newID, BRT, LND, SRD, Cottus) %>%
+  mutate_at(vars(c("LND","SRD","Cottus")), as.numeric)%>%
+  mutate(SGCN=(LND+SRD+Cottus))
+
+for_map <- left_join(rand2, fish_part, by="newID") %>%
+  filter(newID != "UPI_29") %>%
+  filter(newID != "YEL_33")
+
+for_map[97,2] <- 569734
+for_map[97,3] <- 4804779
+for_map[97,]
+
+for_map2 <- for_map %>%
+  mutate(status = ifelse(SGCN < 1 & BRT == 0,0,ifelse(SGCN>0 & BRT==0,1,ifelse(SGCN<1 & BRT==1,2,ifelse(SGCN>0
+                                                                                                        &BRT==1,3,NA)))))
+
+write.csv(for_map2, "Data/Thesis/Spatial/Map_chpt3_pointsv2.csv", row.names = F)
+########################################
+#############################################################################
 #----------------------------Boxplots of CPUE------------------------------#
 
 #-----------------------Filter by presence of SGCN-------------------------#
@@ -443,15 +442,15 @@ a <- ggplot(lnd_log_dat, aes(x = avwid, y = log_lnd)) +
   labs(x = "Mean Wetted Width (m)", y = NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
   scale_x_continuous(breaks = c(2,4,6,8,10),
                      labels = c("2","4","6","8","10"))+
   scale_y_continuous(limits = c(0,4),
                      breaks = c(0,1,2,3,4),
-                     labels = c("0","1","2","3","4"))+
-  ggtitle("(a)")+
-  theme(plot.title = element_text(size=14))
-
+                     labels = c("0","1","2","3","4"))
+  #ggtitle("(a)")+
+  #theme(plot.title = element_text(size=14))
+a
 
 
 b <- ggplot(lnd_log_dat, aes(x = pctcbbl, y = log_lnd)) +
@@ -467,7 +466,7 @@ b <- ggplot(lnd_log_dat, aes(x = pctcbbl, y = log_lnd)) +
   labs(x = "% Cobble Substrate", y = NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
   scale_y_continuous(limits = c(0,4),
                      breaks = c(0,1,2,3,4),
                      labels = c("0","1","2","3","4"))
@@ -486,7 +485,7 @@ c <- ggplot(lnd_log_dat, aes(x = pctSlope, y = log_lnd)) +
   labs(x = "% Catchment Slope", y = NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
   scale_y_continuous(limits = c(0,4),
                      breaks = c(0,1,2,3,4),
                      labels = c("0","1","2","3","4"))
@@ -505,7 +504,7 @@ d <- ggplot(lnd_log_dat, aes(x = med_len, y = log_lnd)) +
   labs(x = "Median Brown Trout TL (mm)", y = NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
   scale_y_continuous(limits = c(0,4),
                      breaks = c(0,1,2,3,4),
                      labels = c("0","1","2","3","4"))
@@ -522,10 +521,10 @@ e <- ggplot(lnd_log_dat, aes(x = BRT_100m, y = log_lnd)) +
     stroke = 1
   ) +
   geom_smooth(method = "lm", se=F, color="black", size=1.25)+
-  labs(x = "Brown Trout Density (n/100m)", y = NULL)+
+  labs(x = "Brown Trout Density (fish/100m)", y = NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
   scale_y_continuous(limits = c(0,4),
                      breaks = c(0,1,2,3,4),
                      labels = c("0","1","2","3","4"))
@@ -533,16 +532,27 @@ e
 
 #cowplot
 library(cowplot)
-vert.lnd <- plot_grid(a,b,c,d,e, labels = NULL, ncol = 1)
-vert.lnd
+horiz.lnd <- plot_grid(a,b,c,d,e, labels = NULL, ncol = 5)
+horiz.lnd
+
+title1 <- ggdraw()+
+  draw_label("Longnose Dace",
+             fontfamily = "Times New Roman",
+             size = 16,
+             x=0,
+             hjust = 0)+
+  theme(plot.margin = margin(0,0,0,7))
+
+cpue2 <- plot_grid(title1, horiz.lnd, ncol = 1,
+          rel_heights = c(0.1,1))
 
 #create common y axis label
 library(gridExtra)
 library(grid)
 y.grob <- textGrob("Log CPUE (fish/100m)", 
-                   gp=gpar(fontface="bold", col="black", fontsize=14), rot=90)
+                   gp=gpar(fontface="bold", col="black", fontsize=14, fontfamily="Times New Roman"), rot=90)
 #add to plot
-lnd.f <- grid.arrange(arrangeGrob(vert.lnd, left = y.grob))
+#lnd.f <- grid.arrange(arrangeGrob(vert.lnd, left = y.grob))
 
 getwd()
 #setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
@@ -649,6 +659,9 @@ expparms.cott
 cott_log_dat <- newdata %>%
   mutate(log_cott = log(1+Cottus_CPUE))
 
+plot(newdata$avgT, newdata$Cottus_ab)
+plot(newdata$avgT, newdata$Cottus_CPUE)
+
 aa <- ggplot(cott_log_dat, aes(x = avgT, y = log_cott)) +
   geom_point(
     color="Black",
@@ -659,17 +672,17 @@ aa <- ggplot(cott_log_dat, aes(x = avgT, y = log_cott)) +
     stroke = 1
   ) +
   geom_smooth(method = "lm", se=F, color="black", size=1.25)+
-  labs(x = "Mean Stream Temperature (°C)", y = NULL)+
+  labs(x = "Mean Summer Stream Temperature (°C)", y = NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))+
-  ggtitle("(b)")+
-  theme(plot.title = element_text(size=14))
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  scale_y_continuous(limits = c(0,5),
+                     breaks = c(0,1,2,3,4,5),
+                     labels = c("0","1","2","3","4","5"))
 aa
 
 
-
-b <- ggplot(lnd_log_dat, aes(x = pctcbbl, y = log_lnd)) +
+bb <- ggplot(cott_log_dat, aes(x = mFlow, y = log_cott)) +
   geom_point(
     color="Black",
     fill="white",
@@ -679,16 +692,17 @@ b <- ggplot(lnd_log_dat, aes(x = pctcbbl, y = log_lnd)) +
     stroke = 1
   ) +
   geom_smooth(method = "lm", se=F, color="black", size=1.25)+
-  labs(x = "% Cobble Substrate", y = NULL)+
+  labs(x = "Mean Stream Velocity (m/s)", y = NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))+
-  scale_y_continuous(limits = c(0,4),
-                     breaks = c(0,1,2,3,4),
-                     labels = c("0","1","2","3","4"))
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  scale_y_continuous(limits = c(0,5),
+                     breaks = c(0,1,2,3,4,5),
+                     labels = c("0","1","2","3","4","5"))
+bb
 
 
-c <- ggplot(lnd_log_dat, aes(x = pctSlope, y = log_lnd)) +
+cc <- ggplot(cott_log_dat, aes(x = HAiFLS_for, y = log_cott)) +
   geom_point(
     color="Black",
     fill="white",
@@ -698,16 +712,17 @@ c <- ggplot(lnd_log_dat, aes(x = pctSlope, y = log_lnd)) +
     stroke = 1
   ) +
   geom_smooth(method = "lm", se=F, color="black", size=1.25)+
-  labs(x = "% Catchment Slope", y = NULL)+
+  labs(x = "% HAiFLS Forest Land Cover", y = NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))+
-  scale_y_continuous(limits = c(0,4),
-                     breaks = c(0,1,2,3,4),
-                     labels = c("0","1","2","3","4"))
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  scale_y_continuous(limits = c(0,5),
+                     breaks = c(0,1,2,3,4,5),
+                     labels = c("0","1","2","3","4","5"))
+cc
 
 
-d <- ggplot(lnd_log_dat, aes(x = med_len, y = log_lnd)) +
+dd <- ggplot(cott_log_dat, aes(x = med_len, y = log_cott)) +
   geom_point(
     color="Black",
     fill="white",
@@ -720,14 +735,14 @@ d <- ggplot(lnd_log_dat, aes(x = med_len, y = log_lnd)) +
   labs(x = "Median Brown Trout TL (mm)", y = NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))+
-  scale_y_continuous(limits = c(0,4),
-                     breaks = c(0,1,2,3,4),
-                     labels = c("0","1","2","3","4"))
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  scale_y_continuous(limits = c(0,5),
+                     breaks = c(0,1,2,3,4,5),
+                     labels = c("0","1","2","3","4","5"))
+dd
 
 
-
-e <- ggplot(lnd_log_dat, aes(x = BRT_100m, y = log_lnd)) +
+ee <- ggplot(cott_log_dat, aes(x = BRT_100m, y = log_cott)) +
   geom_point(
     color="Black",
     fill="white",
@@ -737,31 +752,32 @@ e <- ggplot(lnd_log_dat, aes(x = BRT_100m, y = log_lnd)) +
     stroke = 1
   ) +
   geom_smooth(method = "lm", se=F, color="black", size=1.25)+
-  labs(x = "Brown Trout Density (n/100m)", y = NULL)+
+  labs(x = "Brown Trout Density (fish/100m)", y = NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))+
-  scale_y_continuous(limits = c(0,4),
-                     breaks = c(0,1,2,3,4),
-                     labels = c("0","1","2","3","4"))
-e
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  scale_y_continuous(limits = c(0,5),
+                     breaks = c(0,1,2,3,4,5),
+                     labels = c("0","1","2","3","4","5"))
+ee
 
 #cowplot
-library(cowplot)
-vert.lnd <- plot_grid(a,b,c,d,e, labels = NULL, ncol = 1)
-vert.lnd
+horiz.cott <- plot_grid(aa,bb,cc,dd,ee, labels = NULL, ncol = 5)
+horiz.cott
 
-#create common y axis label
-library(gridExtra)
-library(grid)
-y.grob <- textGrob("Log CPUE (fish/100m)", 
-                   gp=gpar(fontface="bold", col="black", fontsize=14), rot=90)
-#add to plot
-lnd.f <- grid.arrange(arrangeGrob(vert.lnd, left = y.grob))
+title2 <- ggdraw()+
+  draw_label("Sculpin",
+             fontfamily = "Times New Roman",
+             size = 16,
+             x=0,
+             hjust = 0)+
+  theme(plot.margin = margin(0,0,0,7))
 
-getwd()
-#setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
-ggsave("lnd_cpue.png", plot=lnd.f, dpi = 600)
+cpue1 <- plot_grid(title2, horiz.cott, ncol = 1,
+          rel_heights = c(0.1,1))
+cpue1
+
+
 #######################################################################################
 
 
@@ -857,14 +873,138 @@ row.names(expparms.srd) <- names(coef(srd.full.mod))
 ## print results
 expparms.srd
 
+############################################################################
+
+srd_log_dat <- newdata %>%
+  mutate(log_srd = log(1+SRD_CPUE))
+
+aaa <- ggplot(srd_log_dat, aes(x = avgT, y = log_srd)) +
+  geom_point(
+    color="Black",
+    fill="white",
+    shape=21,
+    alpha=0.75,
+    size=2,
+    stroke = 1
+  ) +
+  geom_smooth(method = "lm", se=F, color="black", size=1.25)+
+  labs(x = "Mean Summer Stream Temperature (°C)", y = NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  scale_y_continuous(limits = c(0,4),
+                     breaks = c(0,1,2,3,4),
+                     labels = c("0","1","2","3","4"))
+aaa
+
+
+bbb <- ggplot(srd_log_dat, aes(x = pctfines, y = log_srd)) +
+  geom_point(
+    color="Black",
+    fill="white",
+    shape=21,
+    alpha=0.75,
+    size=2,
+    stroke = 1
+  ) +
+  geom_smooth(method = "lm", se=F, color="black", size=1.25)+
+  labs(x = "% Fine Substrates (clay, silt, sand)", y = NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  scale_y_continuous(limits = c(0,4),
+                     breaks = c(0,1,2,3,4),
+                     labels = c("0","1","2","3","4"))
+bbb
+
+
+ccc <- ggplot(srd_log_dat, aes(x = avdep, y = log_srd)) +
+  geom_point(
+    color="Black",
+    fill="white",
+    shape=21,
+    alpha=0.75,
+    size=2,
+    stroke = 1
+  ) +
+  geom_smooth(method = "lm", se=F, color="black", size=1.25)+
+  labs(x = "Mean Stream Depth (m)", y = NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  scale_y_continuous(limits = c(0,4),
+                     breaks = c(0,1,2,3,4),
+                     labels = c("0","1","2","3","4"))
+ccc
+
+
+ddd <- ggplot(srd_log_dat, aes(x = med_len, y = log_srd)) +
+  geom_point(
+    color="Black",
+    fill="white",
+    shape=21,
+    alpha=0.75,
+    size=2,
+    stroke = 1
+  ) +
+  geom_smooth(method = "lm", se=F, color="black", size=1.25)+
+  labs(x = "Median Brown Trout TL (mm)", y = NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  scale_y_continuous(limits = c(0,4),
+                     breaks = c(0,1,2,3,4),
+                     labels = c("0","1","2","3","4"))
+ddd
+
+
+eee <- ggplot(srd_log_dat, aes(x = BRT_100m, y = log_srd)) +
+  geom_point(
+    color="Black",
+    fill="white",
+    shape=21,
+    alpha=0.75,
+    size=2,
+    stroke = 1
+  ) +
+  geom_smooth(method = "lm", se=F, color="black", size=1.25)+
+  labs(x = "Brown Trout Density (fish/100m)", y = NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  scale_y_continuous(limits = c(0,4),
+                     breaks = c(0,1,2,3,4),
+                     labels = c("0","1","2","3","4"))
+eee
+
+#cowplot
+horiz.srd <- plot_grid(aaa,bbb,ccc,ddd,eee, labels = NULL, ncol = 5)
+horiz.srd
+
+title3 <- ggdraw()+
+  draw_label("Southern Redbelly Dace",
+             fontfamily = "Times New Roman",
+             size = 16,
+             x=0,
+             hjust = 0)+
+  theme(plot.margin = margin(0,0,0,7))
+
+cpue3 <- plot_grid(title3, horiz.srd, ncol = 1,
+                   rel_heights = c(0.1,1))
+cpue3
 
 
 #########################################################################
 
+cpue.plot <- plot_grid(cpue1,cpue2,cpue3, ncol = 1)
+cpue.plot
 
+#add to plot
+cpue.plot2 <- grid.arrange(arrangeGrob(cpue.plot, left = y.grob))
 
-
-
+getwd()
+#setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+ggsave("ch3_cpue.png", plot=cpue.plot2, width = 19, height = 10.5, units = "in", dpi = 600)
 
 
 
