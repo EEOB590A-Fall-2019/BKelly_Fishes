@@ -997,14 +997,15 @@ cpue3
 #########################################################################
 
 cpue.plot <- plot_grid(cpue1,cpue2,cpue3, ncol = 1)
-cpue.plot
+#cpue.plot
 
 #add to plot
 cpue.plot2 <- grid.arrange(arrangeGrob(cpue.plot, left = y.grob))
+#cpue.plot2
 
 getwd()
 #setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
-ggsave("ch3_cpue.png", plot=cpue.plot2, width = 19, height = 10.5, units = "in", dpi = 600)
+ggsave("chpt3_Figure_Five.png", plot=cpue.plot2, width = 19, height = 10.5, units = "in", dpi = 600)
 
 
 
