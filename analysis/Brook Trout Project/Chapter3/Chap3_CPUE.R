@@ -566,13 +566,13 @@ ggsave("lnd_cpue.png", plot=lnd.f, dpi = 600)
 #Sculpin = response, segment length = offset
 #zero-inflated negative binomial model 
 
-cott.full.mod <- zeroinfl(Cottus_ab ~ avgT+BrBank+HAiFLS_for+mFlow+med_len+BRT_100m | 1,
+cott.full.mod <- zeroinfl(Cottus_ab ~ avgT+HAiFLS_for+mFlow+med_len+BRT_100m | 1,
                          data = newdata,
                          dist = "negbin",
                          offset = log(SegLen))
 summary(cott.full.mod)
 
-cott.env.mod <- zeroinfl(Cottus_ab ~ avgT+BrBank+HAiFLS_for+mFlow | 1,
+cott.env.mod <- zeroinfl(Cottus_ab ~ avgT+HAiFLS_for+mFlow | 1,
                         data = newdata,
                         dist = "negbin",
                         offset = log(SegLen)
@@ -613,13 +613,13 @@ dput(round(coef(cott.full.mod, "zero"), 4)) #extra zero process
 
 ff <- function(data, i) {
   require(pscl)
-  m <- zeroinfl(Cottus_ab ~ avgT+BrBank+HAiFLS_for+mFlow+med_len+BRT_100m | 1,
+  m <- zeroinfl(Cottus_ab ~ avgT+HAiFLS_for+mFlow+med_len+BRT_100m | 1,
                 data = data[i, ],
                 dist = "negbin",
                 offset = log(SegLen),
-                start = list(count = c(-0.2634,-0.4231,-1.3225, 
-                                       0.0705,-13.5032,0.0168,0.0507),
-                             zero = c(-5.6055)))
+                start = list(count = c(-1.561,-0.4688, 
+                                       0.0859,-13.0608,0.0186,0.0602),
+                             zero = c(-5.1326)))
   as.vector(t(do.call(rbind, coef(summary(m)))[, 1:2]))
 }
 
@@ -627,7 +627,7 @@ set.seed(10)
 (res.cott <- boot(newdata, ff, R = 10000))
 
 ## basic parameter estimates with percentile and bias adjusted CIs
-parms.cott <- t(sapply(c(1, 3, 5, 7, 9, 11, 13, 17), function(i) {
+parms.cott <- t(sapply(c(1, 3, 5, 7, 9, 11, 15), function(i) {
   out <- boot.ci(res.cott, index = c(i, i + 1), type = c("perc", "bca"))
   with(out, c(Est = t0, pLL = percent[4], pUL = percent[5],
               bcaLL = bca[4], bcaUL = bca[5]))
@@ -642,7 +642,7 @@ parms.cott
 confint(cott.full.mod)
 
 ## exponentiated parameter estimates with percentile and bias adjusted CIs
-expparms.cott <- t(sapply(c(1, 3, 5, 7, 9, 11, 13, 17), function(i) {
+expparms.cott <- t(sapply(c(1, 3, 5, 7, 9, 11, 15), function(i) {
   out <- boot.ci(res.cott, index = c(i, i + 1), type = c("perc", "bca"), h = exp)
   with(out, c(Est = t0, pLL = percent[4], pUL = percent[5],
               bcaLL = bca[4], bcaUL = bca[5]))
@@ -1034,14 +1034,15 @@ library(skimr)
 
 ref_grid(lnd.full.mod) #these are the mean values for all the covariates
 
-# look at temperature and BRT_CPUE
+#
 skim(newdata)
 
 # Plot at quantile values
-emmip(lnd.full.mod, BRT_100m~avwid, at = list(avwid = c(0.82, 11.21)), type = "response")  +
-  labs(title = "(a)")+
+emmip(lnd.full.mod, BRT_100m~avwid, at = list(avwid = c(2,4,6,8,10), 
+                                              BRT_100m = c(6.73)), type = "response")  +
   theme_bw()+
   theme(panel.grid = element_blank())
+  
 
 #emmip(negbin_mod, MEANT ~ BRT_CPUE, at = list(MEANT = c(9.76, 17.82, 18.98, 20.61, 24.08), BRT_CPUE = c(0, 41.5556)), type = "response") +
 #  labs(title = "Effect of predator on response, at levels of temperature",
@@ -1079,6 +1080,10 @@ ggplot(plot_df_both, aes(x = value, y = effect, color = variable)) + geom_line()
        subtitle = "All other covariate values held at their mean")
 # You can extend this to keep adding your covariates
 
+
+
+
+
 # Plot predicted vs observed
 ld.df <- newdata %>%
   select(avwid, pctSlope, pctcbbl, med_len, BRT_100m, SegLen)
@@ -1090,6 +1095,13 @@ ggplot(data = plot_df_compare, aes(x = obs_value, y = estimate)) + geom_point() 
   xlab("Observed CPUE") + ylab("Predicted CPUE")+
   scale_y_continuous(limits = c(0,200))
 # This looks weird because you're using a two-part model.  The line of points at zero is the zero-inflated part of the model.
+
+
+
+
+
+
+
 
 
 #########################################################################
