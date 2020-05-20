@@ -1267,6 +1267,7 @@ c.3
 
 library(cowplot)
 cp.plot <- plot_grid(c.2,c.1,c.3, ncol=3)
+cp.plot
 
 ggsave("chpt3_Figure_Five.png", plot=cp.plot, dpi = 600)
 
