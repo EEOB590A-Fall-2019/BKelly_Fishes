@@ -563,17 +563,13 @@ d <- ggplot(lnd_log_dat, aes(x = med_len, y = log_lnd)) +
 
 
 
-e <- ggplot(lnd_log_dat, aes(x = BRT_100m, y = log_lnd)) +
+e <- ggplot(lnd_log_dat, aes(x = BRT_100m, y = LND_CPUE)) +
   geom_point(
-    color="Black",
-    fill="white",
-    shape=21,
-    alpha=0.75,
-    size=2,
-    stroke = 1
-  ) +
-  geom_smooth(method = "lm", se=F, color="black", size=1.25)+
-  labs(x = "Brown Trout Density (fish/100m)", y = NULL)+
+    shape=2,
+    color="black",
+    fill="grey70",
+    ) +
+  labs(x = "Brown Trout CPUE (fish/100m)", y = "Longnose Dace CPUE (fish/100m)")+
   theme_bw()+
   theme(panel.grid = element_blank())+
   theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
@@ -1207,6 +1203,71 @@ plot(newdata$resp_lnd, newdata$LND_CPUE)
 ggplot(aes(x=resp_lnd,y=LND_ab), data = newdata)+
   geom_point()+
   scale_x_continuous(limits=c(0,150))
+#################################################################################
+#########################################################################
 
+
+c.1 <- ggplot(newdata, aes(x=BRT_100m, y=LND_CPUE)) +
+  geom_point(
+    color="black",
+    fill="grey70",
+    shape=18,
+    alpha=0.5,
+    size=3,
+    stroke = 2
+  ) +
+  labs(x = "Brown Trout CPUE (fish/100m)", y = "Longnose Dace CPUE (fish/100m)")+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  scale_y_continuous(limits = c(0,40),
+                     breaks = c(0,10,20,30,40,50),
+                     labels = c("0","10","20","30","40","50"))
+c.1
+
+
+
+
+c.2 <- ggplot(newdata, aes(x=BRT_100m, y=Cottus_CPUE)) +
+  geom_point(
+    color="black",
+    fill="grey70",
+    shape=18,
+    alpha=0.5,
+    size=3,
+    stroke = 2
+  ) +
+  labs(x = "Brown Trout CPUE (fish/100m)", y = "Sculpin CPUE (fish/100m)")+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  scale_y_continuous(limits = c(0,100),
+                     breaks = c(0,25,50,75,100),
+                     labels = c("0","25","50","75","100"))
+c.2
+
+
+c.3 <- ggplot(newdata, aes(x=BRT_100m, y=SRD_CPUE)) +
+  geom_point(
+    color="black",
+    fill="grey70",
+    shape=18,
+    alpha=0.5,
+    size=3,
+    stroke = 2
+  ) +
+  labs(x = "Brown Trout CPUE (fish/100m)", y = "Southern Redbelly Dace CPUE (fish/100m)")+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  scale_y_continuous(limits = c(0,50),
+                     breaks = c(0,10,20,30,40,50),
+                     labels = c("0","10","20","30","40","50"))
+c.3
+
+library(cowplot)
+cp.plot <- plot_grid(c.2,c.1,c.3, ncol=3)
+
+ggsave("chpt3_Figure_Five.png", plot=cp.plot, dpi = 600)
 
 
