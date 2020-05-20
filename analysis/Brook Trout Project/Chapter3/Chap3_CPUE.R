@@ -30,7 +30,9 @@ names(newdat)
 names(mydat)
 
 cobble <- mydat %>%
-  select(newID, HUC8, HUC_10, pctcbbl, SegLen, LND_ab, SRD_ab, Cottus_ab)
+  select(newID, pctcbbl, SegLen, LND_ab, SRD_ab, Cottus_ab, Area_km2=CatArea_km2)
+
+cobble[97,7] = 28.8615
 
 newdata <- left_join(newdat, cobble, by="newID")
 newdata <- left_join(newdata, ef, by="newID")
@@ -45,6 +47,61 @@ skim(mydat)
 #wrangle
 mydat <- mydat %>%
   mutate_at(vars(c("BRT","LND","SRD","Cottus")), as.factor)
+
+
+
+
+#############################################################################
+#----------
+#collinearity assessment 
+#----------
+library(corrplot)
+correl <- newdata %>%
+  select(Cottus_CPUE, SRD_CPUE, LND_CPUE, Area_km2, pctcbbl, pctSlope,
+         avgT, pctfines, avdep, mFlow, HAiFLS_for, med_len, BRT_100m)
+  
+c <- cor(correl)
+head(round(c,2))
+
+#round down
+cround <- round(c,3)
+
+#visualize these correlations
+corrplot(c, method = "number")
+
+# mat : is a matrix of data
+# ... : further arguments to pass to the native R cor.test function
+cor.mtest <- function(mat, ...) {
+  mat <- as.matrix(c)
+  n <- ncol(mat)
+  p.mat<- matrix(NA, n, n)
+  diag(p.mat) <- 0
+  for (i in 1:(n - 1)) {
+    for (j in (i + 1):n) {
+      tmp <- cor.test(mat[, i], mat[, j], ...)
+      p.mat[i, j] <- p.mat[j, i] <- tmp$p.value
+    }
+  }
+  colnames(p.mat) <- rownames(p.mat) <- colnames(mat)
+  p.mat
+}
+# matrix of the p-value of the correlation
+p.mat <- cor.mtest(lnd2[,4:22])
+
+#correlogram
+col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
+corrplot(c, method="color", col=col(200),  
+         type="upper", order="hclust", 
+         addCoef.col = "black", # Add coefficient of correlation
+         tl.col="black", tl.srt=45, #Text label color and rotation
+         # Combine with significance
+         p.mat = p.mat, sig.level = 0.01, insig = "blank", 
+         # hide correlation coefficient on the principal diagonal
+         diag=FALSE)
+
+
+
+
 
 #############################################################################
 ###############For Map##################
@@ -335,13 +392,13 @@ summary(newdata)
 #Longnose Dace Count = response, segment length = offset
 #zero-inflated negative binomial model 
 
-lnd.full.mod <- zeroinfl(LND_ab ~ avwid+pctcbbl+pctSlope+med_len+BRT_100m | 1,
+lnd.full.mod <- zeroinfl(LND_ab ~ Area_km2+pctcbbl+pctSlope+med_len+BRT_100m | 1,
                data = newdata,
                dist = "negbin",
                offset = log(SegLen))
 summary(lnd.full.mod)
 
-lnd.env.mod <- zeroinfl(LND_ab ~ avwid+pctcbbl+pctSlope | 1,
+lnd.env.mod <- zeroinfl(LND_ab ~ Area_km2+pctcbbl+pctSlope | 1,
                         data = newdata,
                         dist = "negbin",
                         offset = log(SegLen)
@@ -372,7 +429,6 @@ lnd.cpue.table <- as.data.frame(lnd.mod.AICc) %>%
   select(df, logLik, AICc, delta, weight)
 
 write.csv(lnd.cpue.table, "Data/Thesis/Tidy/lnd_cpue_ModelTable.csv", row.names = T)
-
 
 #-----
 #extracting confidence intervals for the parameters
@@ -429,7 +485,7 @@ expparms
 lnd_log_dat <- newdata %>%
   mutate(log_lnd = log(1+LND_CPUE))
 
-a <- ggplot(lnd_log_dat, aes(x = avwid, y = log_lnd)) +
+a <- ggplot(lnd_log_dat, aes(x = Area_km2, y = LND_CPUE)) +
   geom_point(
     color="Black",
     fill="white",
@@ -439,21 +495,17 @@ a <- ggplot(lnd_log_dat, aes(x = avwid, y = log_lnd)) +
     stroke = 1
   ) +
   geom_smooth(method = "lm", se=F, color="black", size=1.25)+
-  labs(x = "Mean Wetted Width (m)", y = NULL)+
+  labs(x = bquote(bold('Total Catchment Area'~(km^2))), y = NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
-  scale_x_continuous(breaks = c(2,4,6,8,10),
-                     labels = c("2","4","6","8","10"))+
-  scale_y_continuous(limits = c(0,4),
-                     breaks = c(0,1,2,3,4),
-                     labels = c("0","1","2","3","4"))
-  #ggtitle("(a)")+
-  #theme(plot.title = element_text(size=14))
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))
+  #scale_y_continuous(limits = c(0,4),
+  #                   breaks = c(0,1,2,3,4),
+  #                   labels = c("0","1","2","3","4"))
 a
 
 
-b <- ggplot(lnd_log_dat, aes(x = pctcbbl, y = log_lnd)) +
+b <- ggplot(lnd_log_dat, aes(x = pctcbbl, y = LND_CPUE)) +
   geom_point(
     color="Black",
     fill="white",
@@ -1105,11 +1157,11 @@ ggplot(data = plot_df_compare, aes(x = obs_value, y = estimate)) + geom_point() 
 
 
 #########################################################################
-#width
-min.width <- min(newdata$avwid)
-max.width <- max(newdata$avwid)
-width.values <- seq(from = min.width, to = max.width, length = 100)
-mean.width <- mean(newdata$avwid)
+#area
+min.area <- min(newdata$Area_km2)
+max.area <- max(newdata$Area_km2)
+area.values <- seq(from = min.area, to = max.area, length = 100)
+mean.area <- mean(newdata$Area_km2)
 #cobble
 min.cobble <- min(newdata$pctcbbl)
 max.cobble <- max(newdata$pctcbbl)
@@ -1138,20 +1190,23 @@ segment <- 100
 #new df for predictions: based on width
 names(newdata)
 
-lnd.width.df <- data.frame(avwid = width.values,
+df1 <- data.frame(Area_km2 = area.values,
                            pctcbbl = mean.cobble,
                            pctSlope = mean.slope,
-                           med_len = mean.length,
-                           BRT_100m = mean.trout,
                            SegLen = segment)
 
-#lnd.width.df$phat <- predict(lnd.full.mod, lnd.width.df)
-#lnd.width.df$log_p <- log(lnd.width.df$phat)
+
+
 #################################################################################
 #########################################################################
 
+newdata$resp_lnd <- predict(lnd.env.mod)
 
+plot(newdata$resp_lnd, newdata$LND_CPUE)
 
+ggplot(aes(x=resp_lnd,y=LND_ab), data = newdata)+
+  geom_point()+
+  scale_x_continuous(limits=c(0,150))
 
 
 
