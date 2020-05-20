@@ -1145,22 +1145,9 @@ lnd.width.df <- data.frame(avwid = width.values,
                            BRT_100m = mean.trout,
                            SegLen = segment)
 
-lnd.width.df$phat <- predict(lnd.full.mod, lnd.width.df)
-lnd.width.df$log_p <- log(lnd.width.df$phat)
-
-ggplot(lnd.width.df, aes(x = avwid, y = phat)) +
-  geom_line(size=1, color="black") +
-  labs(x = "Mean Wetted Width (m)", y = "Predicted Longnose Dace Count")+
-  theme_bw()+
-  theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))+
-  scale_x_continuous(breaks = c(2,4,6,8,10),
-                     labels = c("2","4","6","8","10"))+
-  scale_y_continuous(limits = c(0,300),
-                     breaks = c(0,50,100,150,200,250,300),
-                     labels = c("0","50","100","150","200","250","300"))+
-  ggtitle("(a)")+
-  theme(plot.title = element_text(size=14))
+#lnd.width.df$phat <- predict(lnd.full.mod, lnd.width.df)
+#lnd.width.df$log_p <- log(lnd.width.df$phat)
+#################################################################################
 #########################################################################
 
 
