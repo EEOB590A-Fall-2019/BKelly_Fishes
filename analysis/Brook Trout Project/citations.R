@@ -1,0 +1,5 @@
+citation()
+citation("coin")
+citation("RMark")
+citation("pscl")
+citation("MASS")
