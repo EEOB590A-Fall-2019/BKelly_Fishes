@@ -100,7 +100,7 @@ test <- big2 %>%
 
 envars <- big2 %>%
   select(uid, HUC8, Site, Order, SegLen, elev_m, RchLength, effsec, t1_eff, t2_eff, t3_eff, ph, do, temp, avgT, sdT, MAXT,
-         MEANT, RNGT, pctex21, avwid, sdwid, t1_avwid, t2_avwid, t3_avwid, avdep, t1_avdep, t2_avdep, t3_avdep,
+         MEANT, RNGT, avwid, sdwid, t1_avwid, t2_avwid, t3_avwid, avdep, t1_avdep, t2_avdep, t3_avdep,
          maxdep, t1_maxdep, t2_maxdep, t3_maxdep, sdDep, `W/D`, mFlow, sdFlow, t1_flow, t2_flow, t3_flow, maxflow,
          t1_maxflow, t2_maxflow, t3_maxflow, pctRiffle, pctrun, pctslow, machabprop, pctclay, pctsilt, pctsand,
          pctfines, pctgrvl, pctcbbl, pctbldr, pctrock, subprop, pctEmb1, LWD, t1_LWD, t2_LWD, t3_LWD, FWD, under, 
@@ -116,10 +116,10 @@ skim(envars)
   # i.e. loggers were lost, or broken, 
   # or UPI_165 not included due to the site being thrown out. 
 
-#Let's remove sites we won't analyze for various reasons
+#Let's remove fishless sites that we won't analyze 
 EnVars <- envars %>%
   unite(newID, c(HUC8, Site), sep = "_", remove = F)%>%
-  filter(!newID %in% c("UPI_29", "UPI_165", "YEL_33", "YEL_98"))%>%
+  filter(!newID %in% c("UPI_29", "YEL_33", "YEL_98"))%>%
   select(-newID)
 
 #now let's check for NA's again
@@ -133,27 +133,28 @@ skim(EnVars)
 #Replace NA's with averages of variable across all sites
 ########################################################
 
-pctmiss = 8/138*100 #~6% of obs have data missing for instream temp variables (8/138)
+pctmiss = 9/138*100 #~6.52% of obs have data missing for instream temp variables (9/138)
 
 notemp <- EnVars %>%
   filter(is.na(avgT))
 means <- c(mean(EnVars$avgT, na.rm = T), mean(EnVars$sdT, na.rm = T), mean(EnVars$MAXT, na.rm = T), mean(EnVars$MEANT, na.rm = T),
-           mean(EnVars$RNGT, na.rm = T), mean(EnVars$pctex21, na.rm = T))
+           mean(EnVars$RNGT, na.rm = T))
 means
 
 names(EnVars)
-EnVars[18,15:20] <- means
-EnVars[28,15:20] <- means
-EnVars[53,15:20] <- means
-EnVars[58,15:20] <- means
-EnVars[63,15:20] <- means
-EnVars[70,15:20] <- means
-EnVars[81,15:20] <- means
-EnVars[83,15:20] <- means
+EnVars[18,15:19] <- means
+EnVars[28,15:19] <- means
+EnVars[53,15:19] <- means
+EnVars[58,15:19] <- means
+EnVars[63,15:19] <- means
+EnVars[70,15:19] <- means
+EnVars[81,15:19] <- means
+EnVars[83,15:19] <- means
+EnVars[97,15:19] <- means
 skim(EnVars)
 
-EnVars[115,13] <- mean(EnVars$DO, na.rm = T)
-EnVars[115,]
+EnVars[116,13] <- mean(EnVars$DO, na.rm = T)
+EnVars[116,]
 
 ################
 #Write tidy csv

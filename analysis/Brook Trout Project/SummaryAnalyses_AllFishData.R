@@ -13,7 +13,7 @@ library(tidyverse)
 library(skimr)
 
 #load data
-getwd()
+#getwd()
 fish <- read_csv("Data/Thesis/Tidy/tidyfish1.csv", col_names = T)
 
 #skim data
@@ -63,9 +63,13 @@ ab.wide <- abundance %>%
 
 
 ##join together
-summary.fish <- left_join(occ.wide, ab.wide, by = "Species") %>%
-  select(-richness)
+summary.fish <- left_join(occ.wide, ab.wide, by = "Species")
+  #select(-richness)
 
+summary.fish <- summary.fish %>%
+  filter(Species != "MTS" & Species != "SLS")
+
+write.csv(summary.fish, "Data/Thesis/Tidy/AllFish_SummaryTable_2020.csv", row.names = F)
 
 ##exploration of richness
 rich <- presence %>%

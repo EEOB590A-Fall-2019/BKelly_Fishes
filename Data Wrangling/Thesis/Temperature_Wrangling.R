@@ -400,7 +400,7 @@ n_unique(tmp18_joined$Site)
 #3 missing obs for logger number 20351163
 missing <- tmp18_joined %>%
   filter(SN18 == '20351163')
-mean(missing$Temp_F)
+mean(missing$Temp_F, na.rm = T)
 
 #-------------------------------------------------
 #81 unique values, here is what is missing: 
@@ -634,7 +634,7 @@ ggplot(YEL_82_all, aes(x=Date, y=Temp_C))+
 oop2 <- oop[-c(57265:57336),]
 70584-70512
 
-tmp18trim <- oop2
+tmp18trim2 <- oop2
 #################################################################
 # Make summary dataset for occupancy covariates
 # Variables of interest:
@@ -647,28 +647,30 @@ tmp18trim <- oop2
 ################################################################
 
 #new df with mean, sd, and max
-tmpvars18 <- tmp18trim %>%
+tmpvars18 <- tmp18trim2 %>%
+  filter(Temp_C<30) %>%
   group_by(SN18) %>%
   summarise(avgT = mean(Temp_C, na.rm = T), sdT = sd(Temp_C, na.rm = T), MAXT = max(Temp_C, na.rm = T))
 
 #new df with MEANT and RNGT
-tmp18trim$Date <- ymd(tmp18trim$Date)
-tmpvars18_2 <- tmp18trim %>%
+tmp18trim2$Date <- ymd(tmp18trim2$Date)
+tmpvars18_2 <- tmp18trim2 %>%
+  filter(Temp_C<30) %>%
   group_by(SN18, Date) %>%
   summarise(dailymean = mean(Temp_C), dailyrng = (max(Temp_C))-(min(Temp_C))) %>%
   group_by(SN18) %>%
   summarise(MEANT = max(dailymean), RNGT = max(dailyrng))
 
 #mutate new variable pctex21 to be the (num obs > 21)/(num obs)*100
-tmpvars18_3 <- tmp18trim %>%
-  group_by(SN18) %>%
-  summarise(obsex21 = sum(Temp_C > 21), obs = length(Temp_C)) %>%
-  mutate(pctex21 = (obsex21)/(obs)*100)
+#tmpvars18_3 <- tmp18trim %>%
+#  group_by(SN18) %>%
+#  summarise(obsex21 = sum(Temp_C > 21), obs = length(Temp_C)) %>%
+#  mutate(pctex21 = (obsex21)/(obs)*100)
 
 #join all variables together
-tmpvars18 <- left_join(tmpvars18, tmpvars18_2, by = "SN18")
-tmpvars18 <- left_join(tmpvars18, tmpvars18_3, by = "SN18")
-summary(tmpvars18)
+tmpvars18.2 <- left_join(tmpvars18, tmpvars18_2, by = "SN18")
+#tmpvars18 <- left_join(tmpvars18, tmpvars18_3, by = "SN18")
+summary(tmpvars18.2)
 
 #add HUC8 and Site info to variable df
 
@@ -679,14 +681,13 @@ loggerinfo18 <- logger18 %>%
 str(loggerinfo18)
 loggerinfo18$SN18 <- as.character(loggerinfo18$SN18)
 
-tmpvars18 <- left_join(tmpvars18, loggerinfo18, by = "SN18")
+tmpvars18.3 <- left_join(tmpvars18.2, loggerinfo18, by = "SN18")
 
-tmpvars18_tidy <- tmpvars18 %>%
-  select(-obs, -obsex21)
+tmpvars18_tidy <- tmpvars18.3
 
 #rearrange columns to be more logical
 names(tmpvars18_tidy)
-tmpvars18_tidy <- tmpvars18_tidy[,c(8,9,1:7)]  
+tmpvars18_tidy <- tmpvars18_tidy[,c(7,8,1:6)]  
 
 #one last check to make sure the data set is correct
 skim(tmpvars18_tidy)
@@ -939,7 +940,7 @@ skim(tvars)
 
 #drop the SN18 and SN19 columns because for raw data they will be uninformative
 tvars <- tvars %>%
-  select(-SN18, -SN19)
+  select(-SN18, -SN19, -pctex21)
 
 #need common column between the two
 #we will combine HUC8 and site
