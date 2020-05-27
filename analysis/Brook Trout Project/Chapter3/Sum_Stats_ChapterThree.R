@@ -7,8 +7,11 @@ library(skimr)
 newdat <- read.csv("Data/Thesis/Tidy/chpt3_tidy.csv", header=T)
 mydat <- read.csv("Data/Thesis/Tidy/SGCN_AllCovariates.csv", header=T)
 ef <- read.csv("Data/Thesis/Tidy/AllCovariates.csv", header=T) %>%
-  select(HUC_Site, effsec) %>%
+  select(HUC_Site, effsec, avgT) %>%
   rename(newID = HUC_Site)
+
+skim(ef)
+
 
 names(newdat)
 names(mydat)

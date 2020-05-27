@@ -49,7 +49,7 @@ mydat <- mydat %>%
   mutate_at(vars(c("BRT","LND","SRD","Cottus")), as.factor)
 
 
-
+skim(newdata)
 
 #############################################################################
 #----------
@@ -141,6 +141,19 @@ fonts()
 #LND
 ldace <- mydat %>%
   filter(LND == 1)
+skim(ldace)
+
+nobrt.ldace <- ldace %>%
+  filter(BRT==0) %>%
+  summarise(mncpue=mean(LND_CPUE), mincpue=min(LND_CPUE), maxcpue=max(LND_CPUE),
+            ab=sum(LND_ab)) %>%
+  mutate(Status=0)
+brt.ldace <- ldace %>%
+  filter(BRT==1) %>%
+  summarise(mncpue=mean(LND_CPUE), mincpue=min(LND_CPUE), maxcpue=max(LND_CPUE),
+            ab=sum(LND_ab)) %>%
+  mutate(Status=1)
+ldace.cpue.summary <- rbind(nobrt.ldace, brt.ldace[1,])
 
 p2 <- ggplot(data = ldace, aes(x=BRT,y=LND_CPUE)) +
   stat_boxplot(geom = 'errorbar', width=0.25)+
@@ -160,6 +173,19 @@ p2
 #SRD
 sdace <- mydat %>%
   filter(SRD == 1)
+skim(sdace)
+
+nobrt.sdace <- sdace %>%
+  filter(BRT==0) %>%
+  summarise(mncpue=mean(SRD_CPUE), mincpue=min(SRD_CPUE), maxcpue=max(SRD_CPUE),
+            ab=sum(SRD_ab)) %>%
+  mutate(Status=0)
+brt.sdace <- sdace %>%
+  filter(BRT==1) %>%
+  summarise(mncpue=mean(SRD_CPUE), mincpue=min(SRD_CPUE), maxcpue=max(SRD_CPUE),
+            ab=sum(SRD_ab)) %>%
+  mutate(Status=1)
+sdace.cpue.summary <- rbind(nobrt.sdace, brt.sdace[1,])
 
 p3 <- ggplot(data = sdace, aes(x=BRT,y=SRD_CPUE)) +
   stat_boxplot(geom = 'errorbar', width=0.25)+
@@ -180,6 +206,19 @@ p3
 #Sculpins
 cott <- mydat %>%
   filter(Cottus == 1)
+skim(cott)
+
+nobrt.cott <- cott %>%
+  filter(BRT==0) %>%
+  summarise(mncpue=mean(Cottus_CPUE), mincpue=min(Cottus_CPUE), maxcpue=max(Cottus_CPUE),
+            ab=sum(Cottus_ab)) %>%
+  mutate(Status=0)
+brt.cott <- cott %>%
+  filter(BRT==1) %>%
+  summarise(mncpue=mean(Cottus_CPUE), mincpue=min(Cottus_CPUE), maxcpue=max(Cottus_CPUE),
+            ab=sum(Cottus_ab)) %>%
+  mutate(Status=1)
+cott.cpue.summary <- rbind(nobrt.cott, brt.cott[1,])
 
 p1 <- ggplot(data = cott, aes(x=BRT,y=Cottus_CPUE)) +
   stat_boxplot(geom = 'errorbar', width=0.25)+
@@ -215,8 +254,86 @@ ggsave("Figure_4_boxplots.png", plot = bf2, dpi = 600)
 
 
 
+#############################################################################
+##New figure 4: just show group means
+nobrt <- newdata %>%
+  filter(BRT==0) %>%
+  summarise(mcpue_SRD=mean(SRD_CPUE), mcpue_LND=mean(LND_CPUE), mcpue_cott=mean(Cottus_CPUE),
+            sd_SRD=sd(SRD_CPUE), sd_LND=sd(LND_CPUE), sd_cott=sd(Cottus_CPUE),
+            se_srd=(sd_SRD/sqrt(65)), se_lnd=(sd_LND/sqrt(65)), se_cott=(sd_cott/sqrt(65))) %>%
+  mutate(Status=0)
 
+brt <- newdata %>%
+  filter(BRT==1) %>%
+  summarise(mcpue_SRD=mean(SRD_CPUE), mcpue_LND=mean(LND_CPUE), mcpue_cott=mean(Cottus_CPUE),
+            sd_SRD=sd(SRD_CPUE), sd_LND=sd(LND_CPUE), sd_cott=sd(Cottus_CPUE),
+            se_srd=(sd_SRD/sqrt(65)), se_lnd=(sd_LND/sqrt(65)), se_cott=(sd_cott/sqrt(65))) %>%
+  mutate(Status=1)
 
+cpue.summary <- rbind(nobrt, brt[1,])
+cpue.summary$Status <- as.factor(cpue.summary$Status)
+
+#new plots
+#sculpin
+p1 <- ggplot(data = cpue.summary)+
+  geom_bar(aes(x=Status,y=mcpue_cott,fill=Status), stat = "identity", color="black", width = 0.5)+
+  geom_errorbar(aes(x=Status, y=mcpue_cott, ymin=mcpue_cott, ymax=mcpue_cott+se_cott), width=0.1)+
+  labs(x=NULL, y="Sculpin CPUE (fish/100m)")+
+  theme_bw()+
+  scale_x_discrete(labels=c("No Brown Trout", "Brown Trout"))+
+  scale_fill_manual(values = c("white", "black"))+
+  theme(panel.grid = element_blank())+
+  theme(legend.position = "none")+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  theme(plot.title = element_text(size=16, family = "Times New Roman"))+
+  theme(axis.text.x = element_text(size=12, family = "Times New Roman"))+
+  scale_y_continuous(limits = c(0,8),
+                     breaks = c(0,2,4,6,8),
+                     labels = c("0","2","4","6","8"))
+p1
+
+#longnose dace
+p2 <- ggplot(data = cpue.summary)+
+  geom_bar(aes(x=Status,y=mcpue_LND,fill=Status), stat = "identity", color="black", width = 0.5)+
+  geom_errorbar(aes(x=Status, ymin=mcpue_LND, ymax=mcpue_LND+se_lnd), width=0.1)+
+  labs(x=NULL, y="Longnose Dace CPUE (fish/100m)")+
+  theme_bw()+
+  scale_x_discrete(labels=c("No Brown Trout", "Brown Trout"))+
+  scale_fill_manual(values = c("white", "black"))+
+  theme(panel.grid = element_blank())+
+  theme(legend.position = "none")+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  theme(plot.title = element_text(size=16, family = "Times New Roman"))+
+  theme(axis.text.x = element_text(size=12, family = "Times New Roman"))+
+  scale_y_continuous(limits = c(0,3),
+                     breaks = c(0,1,2,3),
+                     labels = c("0","1","2","3"))
+p2
+
+#southern redbelly dace
+p3 <- ggplot(data = cpue.summary)+
+  geom_bar(aes(x=Status,y=mcpue_SRD,fill=Status), stat = "identity", color="black", width = 0.5)+
+  geom_errorbar(aes(x=Status, ymin=mcpue_SRD, ymax=mcpue_SRD+se_srd), width=0.1)+
+  labs(x=NULL, y="Southern Redbelly Dace CPUE (fish/100m)")+
+  theme_bw()+
+  scale_x_discrete(labels=c("No Brown Trout", "Brown Trout"))+
+  scale_fill_manual(values = c("white", "black"))+
+  theme(panel.grid = element_blank())+
+  theme(legend.position = "none")+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  theme(plot.title = element_text(size=16, family = "Times New Roman"))+
+  theme(axis.text.x = element_text(size=12, family = "Times New Roman"))+
+  scale_y_continuous(limits = c(0,3),
+                     breaks = c(0,1,2,3),
+                     labels = c("0","1","2","3"))
+p3
+
+library(cowplot)
+
+fig4 <- plot_grid(p1,p2,p3, ncol = 3, nrow = 1)
+fig4
+
+ggsave("Chpt3_Fig4_new.png", plot = fig4, dpi = 600)
 #############################################################################
 
 # Mann Whitney U / Wilcox Sign Rank Test 
@@ -227,12 +344,33 @@ help("wilcox.test")
 
 # Ho: Median CPUE of SGCN when BRT are present = CPUE when BRT are absent
 # two-sided
+summary(newdata$BRT)
+brt.pr <- newdata %>%
+  filter(BRT==1)
+brt.ab <- newdata %>%
+  filter(BRT==0)
+
+#longnose
+a <- brt.ab$LND_CPUE
+b <- brt.pr$LND_CPUE
+#sculpin
+aa <- brt.ab$Cottus_CPUE
+bb <- brt.pr$Cottus_CPUE
+
+#southern
+a3 <- brt.ab$SRD_CPUE
+b3 <- brt.pr$SRD_CPUE
 
 #-----
 #LND
 #-----
 class(ldace$BRT)
 wilcox.test(ldace$LND_CPUE ~ ldace$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+
+#full dataset
+#two sided
+wilcox.test(a, b, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
             exact=F)
 # no difference
 
@@ -243,11 +381,32 @@ class(sdace$BRT)
 wilcox.test(sdace$SRD_CPUE ~ sdace$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
             exact=F)
 #no difference
+
+#full dataset
+#two sided
+wilcox.test(a3, b3, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+#greater without 
+wilcox.test(a3, b3, mu=0, alt="g", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+
 #-----
 #Cottus
 #-----
 class(cott$BRT)
 wilcox.test(cott$Cottus_CPUE ~ cott$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+
+#full dataset
+#two sided
+wilcox.test(aa, bb, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+#greater than
+wilcox.test(aa, bb, mu=0, alt="g", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+
+#less than without BRT
+wilcox.test(aa, bb, mu=0, alt="l", conf.int=T, conf.level=0.95, paired=F,
             exact=F)
 #no difference
 
@@ -1272,3 +1431,6 @@ cp.plot
 ggsave("chpt3_Figure_Five.png", plot=cp.plot, dpi = 600)
 
 
+
+
+544/(680+544+1232)*100

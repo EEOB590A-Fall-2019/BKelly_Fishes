@@ -5,7 +5,7 @@
 
 #libraries
 library(tidyverse)
-#library(skimr)
+library(skimr)
 library(coin)
 library(tidyselect)
 
@@ -59,8 +59,20 @@ a <- ggplot(lnd.b.long, aes(fill=BRT, y=Count, x=Bin)) +
   theme(legend.title = element_blank())+
   theme(plot.title = element_text(size=16, family = "Times New Roman"))
 a  
-
-
+#-----
+lnd.b.long2 <- lnd.brt %>%
+  rename(bin1 = bin1_LND, bin2 = bin2_LND, bin3 = bin3_LND) %>%
+  pivot_longer(
+    cols = starts_with("bin"),
+    names_to = "Bin",
+    names_prefix = "bin",
+    values_to = "count"
+  ) %>%
+  mutate_if(is.character, as.factor) %>%
+  mutate_at("BRT", as.factor) %>%
+  group_by(Bin) %>%
+  summarise(Count = sum(count), Mean_Count = mean(count), SD = sd(count))
+#-----
 #lnd.ad <- sizes %>%
 #  select(adult_status, lnd.list)
 
@@ -141,7 +153,20 @@ b <- ggplot(cott.b.long, aes(fill=BRT, y=Count, x=Bin)) +
                      labels = c("0","100","200","300","400","500","600","700"))
 b
 
-
+#-----
+cott.b.long2 <- cott.brt %>%
+  rename(bin1 = bin1_Cottus, bin2 = bin2_Cottus, bin3 = bin3_Cottus, bin4 = bin4_Cottus) %>%
+  pivot_longer(
+    cols = starts_with("bin"),
+    names_to = "Bin",
+    names_prefix = "bin",
+    values_to = "count"
+  ) %>%
+  mutate_if(is.character, as.factor) %>%
+  mutate_at("BRT", as.factor) %>%
+  group_by(Bin) %>%
+  summarise(Count = sum(count), Mean_Count = mean(count), SD = sd(count))
+#-----
 #cott.ad <- sizes %>%
 #  select(adult_status, cott.list)
 
@@ -223,6 +248,21 @@ c
 
 library(cowplot)
 combo <- plot_grid(a,b,c, ncol=1)
+
+#-----
+srd.b.long2 <- srd.brt %>%
+  rename(bin1 = bin1_SRD, bin2 = bin2_SRD, bin3 = bin3_SRD) %>%
+  pivot_longer(
+    cols = starts_with("bin"),
+    names_to = "Bin",
+    names_prefix = "bin",
+    values_to = "count"
+  ) %>%
+  mutate_if(is.character, as.factor) %>%
+  mutate_at("BRT", as.factor) %>%
+  group_by(Bin) %>%
+  summarise(Count = sum(count), Mean_Count = mean(count), SD = sd(count))
+#-----
 
 #srd.ad <- sizes %>%
 #  select(adult_status, srd.list)
@@ -316,6 +356,16 @@ lnd.comp <- sizes2 %>%
   mutate_at("P_A", as.factor) %>%
   filter(P_A == 1)
 
+lnd.comp.brt.ab <- lnd.comp %>%
+  filter(BRT==0)
+lnd.comp.brt.pr <- lnd.comp %>%
+  filter(BRT==1)
+a1<- lnd.comp.brt.ab$bin1_LND
+b1<- lnd.comp.brt.pr$bin1_LND
+
+wilcox.test(a1, b1, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+
 ## compare across BRT status
 #size class 1
 wilcox.test(lnd.comp$bin1_LND ~ lnd.comp$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
@@ -361,6 +411,32 @@ srd.comp <- sizes2 %>%
   mutate(P_A = ifelse(Sum>0,1,0)) %>%
   mutate_at("P_A", as.factor) %>%
   filter(P_A == 1)
+#############################################################################
+srd.comp.brt.ab <- srd.comp %>%
+  filter(BRT==0)
+srd.comp.brt.pr <- srd.comp %>%
+  filter(BRT==1)
+
+
+#-----tests
+#size class 1
+aa1<- srd.comp.brt.ab$bin1_SRD
+bb1<- srd.comp.brt.pr$bin1_SRD
+wilcox.test(aa1, bb1, mu=0, alt="g", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+
+#size class 2
+aa2<- srd.comp.brt.ab$bin2_SRD
+bb2<- srd.comp.brt.pr$bin2_SRD
+wilcox.test(aa2, bb2, mu=0, alt="g", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+
+#size class 3
+aa3<- srd.comp.brt.ab$bin3_SRD
+bb3<- srd.comp.brt.pr$bin3_SRD
+wilcox.test(aa3, bb3, mu=0, alt="g", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+#############################################################################
 
 ## compare across BRT status
 #size class 1

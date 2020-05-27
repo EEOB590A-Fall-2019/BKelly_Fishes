@@ -246,6 +246,39 @@ summary(tidy.data)
 write.csv(tidy.data, "Data/Thesis/Tidy/sgcn_size_tidy.csv", row.names = F)
 
 
+#------------------------------------------------------------------------------------------------------------
+#                               data for length  distributions permutation analysis
+#------------------------------------------------------------------------------------------------------------
+names(sgcn2)
+
+dat.new <- sgcn2 %>%
+  filter(species %in% c("LND","SRD","Cottus")) %>%
+  select(newID, species, bin1=X30_60, bin2=X60_90, bin3=X90_120, bin4=X120_150) %>%
+  pivot_longer(
+    cols = starts_with("bin"),
+    names_to = "Bin",
+    values_to = "count"
+  )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
