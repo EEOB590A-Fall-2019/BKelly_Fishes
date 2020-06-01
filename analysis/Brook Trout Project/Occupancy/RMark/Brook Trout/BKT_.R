@@ -30,10 +30,19 @@ library(corrplot)
 #read in data, rearrange and change some labels to work with grouping ("freq"), and time-varying covariates ("Effort1 --> Effort3")
 brook <- read_csv("Data/Thesis/Tidy/BKT_Occu_File.csv", col_names = T)
 brook.df <- as.data.frame(brook) %>%
-  rename(BrBnk = pctBrBnk)
+  rename(BrBnk = pctBrBnk) %>%
+  select(-pctex21, -RNGT, -EFac_Cat)
 #examine
 skim(brook.df)
 names(brook.df)
+
+cat <- read.csv("Data/Thesis/Tidy/AllCovariates.csv", header=T) %>%
+  select(newID = HUC_Site, elev_m)
+#examine
+skim(cat)
+names(cat)
+
+brook.df <- left_join(brook.df, cat, by="newID")
 
 #need random summaries for manuscript table - canopy cover, rock, BRT_CPUE
 summary(brook.df$pctrock)
@@ -74,46 +83,16 @@ sd(brook.df$BRT_100m)
 #----------------#
 #correlation test
 #----------------#
-c <- cor(brook.df[,4:22])
+c <- cor(brook.df[,4:20])
 head(round(c,2)) 
 
 #round down
 cround <- round(c,3)
 
 #visualize these correlations
-corrplot(c, method = "number")
+col4 <- colorRampPalette(c("#7F0000", "red", "#FF7F00", "gray", "#007FFF", "blue", "#00007F"))
 
-# mat : is a matrix of data
-# ... : further arguments to pass to the native R cor.test function
-cor.mtest <- function(mat, ...) {
-  mat <- as.matrix(c)
-  n <- ncol(mat)
-  p.mat<- matrix(NA, n, n)
-  diag(p.mat) <- 0
-  for (i in 1:(n - 1)) {
-    for (j in (i + 1):n) {
-      tmp <- cor.test(mat[, i], mat[, j], ...)
-      p.mat[i, j] <- p.mat[j, i] <- tmp$p.value
-    }
-  }
-  colnames(p.mat) <- rownames(p.mat) <- colnames(mat)
-  p.mat
-}
-# matrix of the p-value of the correlation
-p.mat <- cor.mtest(brook3[,4:22])
-
-#correlogram
-col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
-corrplot(c, method="color", col=col(200),  
-         type="upper", order="hclust", 
-         addCoef.col = "black", # Add coefficient of correlation
-         tl.col="black", tl.srt=45, #Text label color and rotation
-         # Combine with significance
-         p.mat = p.mat, sig.level = 0.01, insig = "blank", 
-         # hide correlation coefficient on the principal diagonal
-         diag=FALSE 
-)
-
+corrplot(c, type = "upper", order = "alphabet", method = "number", col = col4(5))
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 ## Colinear variables to not include in the same model (> 0.6):
 # Strong #
