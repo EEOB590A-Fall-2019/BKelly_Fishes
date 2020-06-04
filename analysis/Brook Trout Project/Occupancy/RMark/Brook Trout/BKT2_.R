@@ -354,6 +354,10 @@ P.predictions.eff1 <- p.pred.eff1$estimates %>%
   rename(Effort_sec = covdata) %>%
   round(digits = 4)
 
+names(P.predictions.eff1)
+summary(P.predictions.eff1)
+
+
 ####################################################
 ##       Write tidy csv for P predictions         ## 
 ####################################################
@@ -372,61 +376,7 @@ setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/An
 brook.process = process.data(brook.df, model="Occupancy", groups = "freq")
 bkt.ddl = make.design.data(brook.process)
 
-###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
-####   Temperature covariates        ####
-##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
-
-run.occ.temp=function()
-{
-  #~~~~~~~~~~~~~ Model List ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  #~~~~~~~~~~~ Detection Probability - null model ~~~~~~~~~~~~
-  #p.Dot = list(formula= ~1)
-  #~~~~~~~~~~~ Detection Probability - single covariate ~~~~~~~~~~~~
-  p.tv.effort = list(formula = ~effort)
-  #~~~~~~~~~~~~~ Occupancy - null model ~~~~~~~~~~~~~~~~~~~~~~
-  Psi.Dot        = list(formula=~1) 
-  #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
-  #2 covariates
-  Psi.MEANT.RNGT = list(formula = ~MEANT+RNGT)
-  Psi.avgT.RNGT = list(formula = ~avgT+RNGT)
-  #~~~~~~~~~~~~~ Occupancy - single covariate ~~~~~~~~~~~~~~~~~~~~~~
-  #Psi.p21 = list(formula = ~pctex21)
-  Psi.MEANT = list(formula = ~MEANT)
-  Psi.MAXT = list(formula = ~MAXT)
-  Psi.RNGT = list(formula = ~RNGT)
-  Psi.avgT = list(formula = ~avgT)
-  #~~~~~~~~~~~~ model list & wrapper ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  cml.temp=create.model.list("Occupancy")
-  results.temp=mark.wrapper(cml.temp, data=brook.process, ddl=bkt.ddl, output=F)
-  return(results.temp)
-}
-
-bkt.results.temp = run.occ.temp()
-
-
-##Examine model list and look at model comparisons
-bkt.results.temp
-##Model Table
-AICc.Table.temp = model.table(bkt.results.temp, use.lnl = T)
-AICc.Table.temp
-
-getwd()
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
-#write csv for model table
-write.csv(AICc.Table.temp, "Data/Thesis/Tidy/BrookTrout_OccuModTemp_Table.csv", row.names = F)
-
-#look at summary of top model
-summary(bkt.results.temp$p.tv.effort.Psi.avgT)
-bkt.results.temp$p.tv.effort.Psi.avgT$results$real
-
-summary(bkt.results.temp$p.tv.effort.Psi.avgT) #top 
-bkt.results.temp$p.tv.effort.Psi.avgT$results$real
-
-cleanup(ask = F)
-
 #---------------------------------------------------------------------------------------------------------------------------------------#
-#set wd to scratch folder because MARK outputs an insane amount of files
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/Occupancy/RMark/Brook Trout") #because MARK loves output files
 
 ###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 ####   dot versus effort on detection probability   ####
@@ -438,8 +388,6 @@ run.occ.dp2=function()
   p.Dot = list(formula= ~1)
   #~~~~~~~~~~~ Detection Probability - single covariate ~~~~~~~~~~~~
   p.tv.effort = list(formula = ~effort)
-  #~~~~~~~~~~~~~ Occupancy - null model ~~~~~~~~~~~~~~~~~~~~~~
-  Psi.Dot        = list(formula=~1) 
   #~~~~~~~~~~~~~ Occupancy - multiple covariates ~~~~~~~~~~~~~~~~~~~~~~
   #all covariates
   Psi.global = list(formula = ~avgT+pctpool+pctrock+BRT_100m+BrBnk+pctShade+HAiFLS_for)
@@ -469,8 +417,6 @@ bkt.results.dp2
 run.occ=function()
 {
   #~~~~~~~~~~~~~ Model List ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  #~~~~~~~~~~~ Detection Probability - null model ~~~~~~~~~~~~
-  #p.Dot = list(formula= ~1)
   #~~~~~~~~~~~ Detection Probability - single covariate ~~~~~~~~~~~~
   p.tv.effort = list(formula = ~effort)
   #~~~~~~~~~~~~~ Occupancy - null model ~~~~~~~~~~~~~~~~~~~~~~
@@ -632,6 +578,9 @@ bkt.results$p.tv.effort.Psi.mixed75$results$real
 ## 4th top model (dAIC=1.69) -- num parms = 6 (avgT+BrBank+BRT_100m)
 summary(bkt.results$p.tv.effort.Psi.mixed68) 
 bkt.results$p.tv.effort.Psi.mixed68$results$real
+## 5th top model (dAIC=1.81) -- num parms = 6 (avgT+BrBank+BRT_100m)
+summary(bkt.results$p.tv.effort.Psi.avgT) 
+bkt.results$p.tv.effort.Psi.avgT$results$real
 
 ## Exploratory -- avgT+HAiFLS_for
 #summary(bkt.results$p.tv.effort.Psi.avgT_for) 

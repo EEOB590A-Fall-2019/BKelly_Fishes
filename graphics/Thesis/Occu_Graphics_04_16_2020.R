@@ -15,14 +15,13 @@ brt.p <- ggplot(data=effort.preds, aes(x=Effort_sec))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
   labs(x="Electrofishing Effort (sec)",
-       y="Detection Probability (p)",
+       y=expression(bold('Detection Probability '~bold(italic((p)))~'')),
        title = "Brown Trout")+
   scale_y_continuous(limits = c(0,1), breaks = c(0.00,0.25,0.50,0.75,1.00), labels = c("0.00","0.25","0.50","0.75","1.00"))+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold", size = 12, family="Times New Roman"))+
+  theme(axis.title = element_text(face = "bold", size = 14, family="Times New Roman"))+
   theme(plot.title = element_text(face = "bold", size = 16, family="Times New Roman"))
-  #ggtitle("Brown , family="Times New Roman")
 brt.p
 
 #Brown Trout Cumulative Detection Probability
@@ -35,12 +34,13 @@ ggplot(data = brt_cdp, aes(x=reach))+
   geom_line(aes(y=p), size=1, color="black")+
   geom_point(aes(y=p))+
   labs(x="Number of Sampling Occassions",
-       y="Cumulative Detection Probability")+
+       y=expression(bold('Cumulative Detection Probability')))+
   scale_y_continuous(limits = c(0.4,1), breaks = c(0.40,0.60,0.80,1.00), labels = c("0.40","0.60","0.80","1.00"))+
   scale_x_continuous(breaks = c(1,2,3), labels = c("1","2","3"))+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold", size = 12, family = "Times New Roman"))
+  theme(axis.title.y = element_text(margin = margin(r=5)))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))
 brt.cdp
 
 #Brown Trout combination figure
@@ -62,9 +62,8 @@ bkt.p <- ggplot(data=effort.bkt, aes(x=Effort_sec))+
   scale_y_continuous(limits = c(0,1), breaks = c(0.00,0.25,0.50,0.75,1.00), labels = c("0.00","0.25","0.50","0.75","1.00"))+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold", size = 12, family = "Times New Roman"))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
   theme(plot.title = element_text(face = "bold", size = 16, family="Times New Roman"))
-  #ggtitle("Brook Trout")
 bkt.p
 
 #Brook Trout Cumulative Detection Probability
@@ -82,7 +81,7 @@ bkt.cdp <-
   scale_x_continuous(breaks = c(1,2,3), labels = c("1","2","3"))+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold", size = 12, family = "Times New Roman"))
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))
 bkt.cdp
 
 #Brook Trout combination figure
@@ -96,7 +95,7 @@ dprob
 
 
 # save final figure
-ggsave("DetProb_4_16_2020.png",
+ggsave("DetProb_6_1_2020.png",
        dpi = 600)
 
 
@@ -120,15 +119,16 @@ ap <-
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
   labs(x= "% HAiFLS Forest Land Cover",
-       y="Occupancy Probability (Ψ)")+
+       y="Occupancy Probability (Ψ)",
+       title = "Brown Trout")+
   theme_bw()+
   theme(panel.grid = element_blank())+
   scale_y_continuous(limits = c(0.00,1.00),
                      breaks = c(0.00, 0.25, 0.50, 0.75, 1.00),
                      labels = c("0.00", "0.25", "0.50", "0.75", "1.00"))+
-  theme(axis.title = element_text(size = 12, face = "bold"))+
-  theme(axis.title.x = element_text(margin = margin(b = 6)))+
-  ggtitle("Brown Trout")
+  theme(axis.title.y = element_text(margin = margin(r=7)))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  theme(plot.title = element_text(face = "bold", size = 16, family="Times New Roman"))
 ap
 
 
@@ -148,7 +148,9 @@ bp <-
                      breaks = c(0.00, 0.25, 0.50, 0.75, 1.00),
                      labels = c("0.00", "0.25", "0.50", "0.75", "1.00"))+
   theme(axis.title = element_text(size = 12, face = "bold"))+
-  theme(axis.title.x = element_text(margin = margin(b = 0.1)))
+  theme(axis.title.x = element_text(margin = margin(b = 0.1)))+
+  theme(axis.title.y = element_text(margin = margin(r=7)))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))
 bp
 
 brt_grid <- plot_grid(ap, bp, ncol = 1)
@@ -161,15 +163,16 @@ cp <- ggplot(data=Psi.for_Cat, aes(x=covdata))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
   labs(x="% HAiFLS Forest Land Cover",
-       y="")+
+       y="",
+       title = "Brook Trout")+
   theme_bw()+
   theme(panel.grid = element_blank())+
   scale_y_continuous(limits = c(0,1),
                      breaks = c(0.00, 0.25, 0.50, 0.75, 1.00),
                      labels = c("0.00", "0.25", "0.50", "0.75", "1.00"))+
-  theme(axis.title = element_text(size = 12, face = "bold"))+
-  ggtitle("Brook Trout")
-
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))+
+  theme(plot.title = element_text(face = "bold", size = 16, family="Times New Roman"))
+cp
 
 # save final figure
 plot_grid(ap, cp, bp, ncol = 2)
@@ -185,12 +188,14 @@ Psi1 <- ggplot(data = pred.temps, aes(x=estimates.avgT))+
   geom_ribbon(aes(ymin=estimates.lcl, ymax=estimates.ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimates.estimate), colour="black", size=1)+
   scale_y_continuous(limits = c(0,1), breaks = c(0.00,0.25,0.50,0.75,1.00))+
-  labs(x="Average Summer Stream Temperature (°C)",
+  labs(x="Mean Summer Stream Temperature (°C)",
        y="Occupancy Probability (Ψ)")+
   theme_bw()+
   theme(axis.title = element_text(face = "bold", size = 12))+
   theme(panel.grid = element_blank())+
-  theme(strip.text.x = element_text(size=10,face = "bold"))
+  theme(strip.text.x = element_text(size=10,face = "bold"))+
+  theme(axis.title.y = element_text(margin = margin(r=7)))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))
 Psi1
 
 
@@ -206,7 +211,8 @@ Psi2 <- ggplot(data = pred.bare, aes(x=estimates.BrBnk))+
   theme_bw()+
   theme(axis.title = element_text(face = "bold", size = 12))+
   theme(panel.grid = element_blank())+
-  theme(strip.text.x = element_text(size=10,face = "bold"))
+  theme(strip.text.x = element_text(size=10,face = "bold"))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))
 Psi2
 
 ###############################################################################
@@ -220,13 +226,14 @@ Psi3 <- ggplot(data = pred.pool, aes(x=estimates.pctpool))+
   theme_bw()+
   theme(axis.title = element_text(face = "bold", size = 12))+
   theme(panel.grid = element_blank())+
-  theme(strip.text.x = element_text(size=10,face = "bold"))
+  theme(strip.text.x = element_text(size=10,face = "bold"))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))
 Psi3
 
 #cowplot
 plot_grid(Psi1,Psi3,Psi2, align = "h", labels = c(NA,NA,NA), nrow = 1)
 
-ggsave("bkt_OccuProb_AvgT_Bnk_Pool.png",
+ggsave("bkt_Psi_Local.png",
        dpi = 600)
 
 
@@ -234,7 +241,7 @@ ggsave("bkt_OccuProb_AvgT_Bnk_Pool.png",
 
 
 ####################################################
-##     Psi predictions for Brown Trout CatMod     ## 
+##     Psi predictions for Brown Trout FullMod    ## 
 ####################################################
 
 #-----
@@ -245,10 +252,11 @@ a <- ggplot(data=flow.preds, aes(x=mFlow))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
   labs(x="Mean Flow Velocity (m/sec)",
-       y=NULL)+
+       y="Occupancy Probability (Ψ)")+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))
+  theme(axis.title.y = element_text(margin = margin(r=7)))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))
 a
 
 #-----
@@ -262,24 +270,24 @@ b <- ggplot(data=run.preds, aes(x=pctrun))+
        y=NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))
 b
 
 #-----
-#pctBrBnk
+#avgT
 #-----
-bare.preds <- read.csv("Data/Thesis/Tidy/BRT_psi_bare_preds.csv", header = T)
-e <- ggplot(data=bare.preds, aes(x=pctBrBnk))+
+avgT.preds <- read.csv("Data/Thesis/Tidy/BRT_psi_avgT_preds.csv", header = T)
+e <- ggplot(data=avgT.preds, aes(x=avgT))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
-  labs(x="Bare Bank Index",
+  labs(x="Mean Summer Stream Temperature (°C)",
        y=NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))+
   scale_y_continuous(limits = c(0,1),
                      breaks = c(0,0.25,0.50,0.75,1),
-                     labels = c("0.00","0.25","0.50","0.75","1.00"))
+                     labels = c("0.00","0.25","0.50","0.75","1.00"))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))
 e
 #-----
 #HAiFLS_for
@@ -289,11 +297,13 @@ c <- ggplot(data=for.preds, aes(x=HAiFLS_for))+
   geom_ribbon(aes(ymin=for.preds$lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
   scale_y_continuous(limits = c(0,1), breaks = c(0,0.25,0.50,0.75,1.00), labels = c("0.00","0.25","0.50","0.75","1.00"))+
-  labs(x="% HAiFLS Forest Land Cover",
-       y=NULL)+
+  labs(x= bquote(bold('% HAiFLS Forest Land Cover')),
+       y="Occupancy Probability (Ψ)")+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))
+  theme(axis.title.x = element_text(margin = margin(t=5,b=5)))+
+  theme(axis.title.y = element_text(margin = margin(r=7)))+
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))
 c
 
 
@@ -305,26 +315,19 @@ d <- ggplot(data=area.preds, aes(x=Area_km2))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
   geom_line(aes(y=estimate), size=1, color="black")+
   scale_y_continuous(limits = c(0,1), breaks = c(0,0.25,0.50,0.75,1.00), labels = c("0.00","0.25","0.50","0.75","1.00"))+
-  labs(x="Upstream Catchment Area (km^2)",
+  labs(x= bquote(bold('Upstream Catchment Area' ~(km^2))),
        y=NULL)+
   theme_bw()+
   theme(panel.grid = element_blank())+
-  theme(axis.title = element_text(face = "bold"))
+  theme(axis.title = element_text(face = "bold", size = 14, family = "Times New Roman"))
 d
 
 #cowplot
-vert <- plot_grid(a,b,e,c,d, labels = NULL, ncol = 1)
-
-#create common y axis label
-library(gridExtra)
-library(grid)
-y.grob <- textGrob("Occupancy Probability (Ψ)", 
-                   gp=gpar(fontface="bold", col="black", fontsize=14), rot=90)
-#add to plot
-f <- grid.arrange(arrangeGrob(vert, left = y.grob))
+vert <- plot_grid(a,b,e,c,d, labels = NULL, ncol = 3, nrow = 2)
+vert
 
 
-ggsave("brt_occupancy_all_2020.png", plot=f, dpi = 600)
+ggsave("brt_psi_local_June.png", plot=vert, dpi = 600)
 
 
 
