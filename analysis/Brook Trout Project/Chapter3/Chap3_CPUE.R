@@ -18,28 +18,10 @@ library(coin)
 #Sympatry = alongside Brown Trout 
 #Allopatry = in the absence of Brown Trout
 
-
-#load data
-newdat <- read.csv("Data/Thesis/Tidy/chpt3_tidy.csv", header=T)
+#load
+newdata <- read.csv("Data/Thesis/Tidy/cpue_data.csv", header=T)
 mydat <- read.csv("Data/Thesis/Tidy/SGCN_AllCovariates.csv", header=T)
-ef <- read.csv("Data/Thesis/Tidy/AllCovariates.csv", header=T) %>%
-  select(HUC_Site, effsec) %>%
-  rename(newID = HUC_Site)
 
-names(newdat)
-names(mydat)
-
-cobble <- mydat %>%
-  select(newID, pctcbbl, SegLen, LND_ab, SRD_ab, Cottus_ab, Area_km2=CatArea_km2)
-
-cobble[97,7] = 28.8615
-
-newdata <- left_join(newdat, cobble, by="newID")
-newdata <- left_join(newdata, ef, by="newID")
-
-summary(newdata)
-
-write.csv(newdata, "Data/Thesis/Tidy/cpue_data.csv", row.names = F)
 
 #inspect
 skim(mydat)
@@ -1434,3 +1416,77 @@ ggsave("chpt3_Figure_Five.png", plot=cp.plot, dpi = 600)
 
 
 544/(680+544+1232)*100
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#load data
+#newdat <- read.csv("Data/Thesis/Tidy/chpt3_tidy.csv", header=T)
+#mydat <- read.csv("Data/Thesis/Tidy/SGCN_AllCovariates.csv", header=T)
+#allcov <- read.csv("Data/Thesis/Tidy/AllCovariates.csv", header=T) 
+
+names(allcov)
+
+ef <- allcov %>%
+  select(newID = HUC_Site, effsec, elev_m, boulder)
+
+
+names(newdat)
+names(mydat)
+
+cobble <- mydat %>%
+  select(newID, pctcbbl, SegLen, LND_ab, SRD_ab, Cottus_ab, Area_km2=CatArea_km2)
+
+cobble[97,7] = 28.8615 #catchment area - site UPI_165
+
+newdata <- left_join(newdat, cobble, by="newID")
+newdata <- left_join(newdata, ef, by="newID")
+
+summary(newdata)
+
+newdata[97,29] = 355.164337 #elevation - site UPI_165
+
+#write.csv(newdata, "Data/Thesis/Tidy/cpue_data.csv", row.names = F)
+
+
+###############################################
+for_lunch <- newdata %>%
+  select(newID, Cottus_ab, LND_ab, SRD_ab, avdep, avgT, mFlow, pctcbbl, pctfines, boulder, elev_m, Area_km2, HAiFLS_for, med_len, BRT_100m,
+         BRT, Cottus_CPUE, LND_CPUE, SRD_CPUE, SegLen)
+
+write.csv(for_lunch, "Data/Thesis/Tidy/zeroinfl_data.csv", row.names = F)
+###############################################

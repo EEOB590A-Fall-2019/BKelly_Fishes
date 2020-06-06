@@ -40,8 +40,7 @@ habby <- read.csv("Data/Thesis/Tidy/enviro_tidy.csv", header = T)
 #extract vars for detection probability
 dp.cov <- env %>%
   unite(newID, c(HUC8, Site), sep = "_", remove = T) %>%
-  select(newID, pctcbbl, pctpool = pctslow, Order, Area_km2=CatArea_km2, pctbldr, boulder, brbnk = bnkbare.,
-         canopy = AvChnlShd., elev_m)
+  select(newID, pctcbbl, pctpool = pctslow, Order, Area_km2=CatArea_km2, boulder, elev_m)
 
 dp.cov[99,]
 dp.cov[99,4] = 4
@@ -144,37 +143,9 @@ head(round(c,2))
 cround <- round(c,3)
 
 #visualize these correlations
-corrplot(c, method = "number")
+col4 <- colorRampPalette(c("#7F0000", "red", "#FF7F00", "gray", "#007FFF", "blue", "#00007F"))
 
-# mat : is a matrix of data
-# ... : further arguments to pass to the native R cor.test function
-cor.mtest <- function(mat, ...) {
-  mat <- as.matrix(c)
-  n <- ncol(mat)
-  p.mat<- matrix(NA, n, n)
-  diag(p.mat) <- 0
-  for (i in 1:(n - 1)) {
-    for (j in (i + 1):n) {
-      tmp <- cor.test(mat[, i], mat[, j], ...)
-      p.mat[i, j] <- p.mat[j, i] <- tmp$p.value
-    }
-  }
-  colnames(p.mat) <- rownames(p.mat) <- colnames(mat)
-  p.mat
-}
-# matrix of the p-value of the correlation
-p.mat <- cor.mtest(lnd2[,4:22])
-
-#correlogram
-col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
-corrplot(c, method="color", col=col(200),  
-         type="upper", order="hclust", 
-         addCoef.col = "black", # Add coefficient of correlation
-         tl.col="black", tl.srt=45, #Text label color and rotation
-         # Combine with significance
-         p.mat = p.mat, sig.level = 0.01, insig = "blank", 
-         # hide correlation coefficient on the principal diagonal
-         diag=FALSE)
+corrplot(c, type = "upper", order = "alphabet", method = "number", col = col4(5))
 
 ##########################################################################################
 ################################################################################################################################
