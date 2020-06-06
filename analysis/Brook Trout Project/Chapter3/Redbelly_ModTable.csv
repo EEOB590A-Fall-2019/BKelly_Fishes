@@ -1,5 +1,27 @@
 "p","Psi","model","npar","AICc","DeltaAICc","weight","Neg2LnL"
-"~1","~avgT + avdep + pctfines + med_len + BRT_100m","p(~1)Psi(~avgT + avdep + pctfines + med_len + BRT_100m)",7,253.133891832061,0,0.967187087475278,238.27893
-"~1","~avgT + avdep + pctfines","p(~1)Psi(~avgT + avdep + pctfines)",5,260.034187819549,6.90029598748777,0.0306994259293662,249.58306
-"~1","~med_len + BRT_100m","p(~1)Psi(~med_len + BRT_100m)",4,265.386137462687,12.2522456306255,0.00211333894149183,257.08763
-"~1","~1","p(~1)Psi(~1)",2,284.523955294118,31.3900634620566,1.47653863687697e-07,280.43572
+"~avdep","~avgT + BRT_100m","p(~avdep)Psi(~avgT + BRT_100m)",5,245.168997819549,0,0.455680034550699,234.71787
+"~avdep","~avgT + avdep + BRT_100m","p(~avdep)Psi(~avgT + avdep + BRT_100m)",6,246.641613636364,1.47261581681474,0.218215471539332,234.00525
+"~avdep","~avgT + pctfines + BRT_100m","p(~avdep)Psi(~avgT + pctfines + BRT_100m)",6,247.070523636364,1.90152581681474,0.176095766729502,234.43416
+"~avdep","~avgT + avdep + pctfines + BRT_100m","p(~avdep)Psi(~avgT + avdep + pctfines + BRT_100m)",7,248.475271832061,3.30627401251218,0.0872392093488867,233.62031
+"~avdep","~avgT + avdep + pctfines + med_len + BRT_100m","p(~avdep)Psi(~avgT + avdep + pctfines + med_len + BRT_100m)",8,250.683512307692,5.51451448814342,0.0289200070346047,233.57582
+"~avdep","~avgT + med_len","p(~avdep)Psi(~avgT + med_len)",5,252.588177819549,7.41917999999998,0.0111584926944039,242.13705
+"~avdep","~avgT + avdep + med_len","p(~avdep)Psi(~avgT + avdep + med_len)",6,254.312383636364,9.14338581681474,0.00471193181714265,241.67602
+"~avdep","~avgT","p(~avdep)Psi(~avgT)",4,254.736257462687,9.56725964313767,0.00381202697855358,246.43775
+"~avdep","~avgT + pctfines + med_len","p(~avdep)Psi(~avgT + pctfines + med_len)",6,254.764043636364,9.59504581681475,0.0037594323535285,242.12768
+"~avdep","~avgT + avdep","p(~avdep)Psi(~avgT + avdep)",5,256.017357819549,10.84836,0.00200894736242464,245.56623
+"~avdep","~avgT + pctfines","p(~avdep)Psi(~avgT + pctfines)",5,256.123387819549,10.95439,0.00190521694618405,245.67226
+"~avdep","~avgT + avdep + pctfines + med_len","p(~avdep)Psi(~avgT + avdep + pctfines + med_len)",7,256.529701832061,11.3607040125122,0.00155494298342263,241.67474
+"~avdep","~BRT_100m","p(~avdep)Psi(~BRT_100m)",4,256.886727462687,11.7177296431377,0.00130073054333024,248.58822
+"~avdep","~pctfines + BRT_100m","p(~avdep)Psi(~pctfines + BRT_100m)",5,257.391177819549,12.22218,0.0010107583438435,246.94005
+"~avdep","~avgT + avdep + pctfines","p(~avdep)Psi(~avgT + avdep + pctfines)",6,257.700513636364,12.5315158168148,0.000865916302216216,245.06415
+"~avdep","~med_len + BRT_100m","p(~avdep)Psi(~med_len + BRT_100m)",5,258.010227819549,12.84123,0.000741689849790345,247.5591
+"~avdep","~avdep + BRT_100m","p(~avdep)Psi(~avdep + BRT_100m)",5,258.524037819549,13.3550399999999,0.000573653848827437,248.07291
+"~avdep","~avdep + pctfines + BRT_100m","p(~avdep)Psi(~avdep + pctfines + BRT_100m)",6,259.029173636364,13.8601758168147,0.000445616294360403,246.39281
+"~avdep","~med_len","p(~avdep)Psi(~med_len)",4,277.635457462687,32.4664596431377,4.06123261791172e-08,269.33695
+"~avdep","~avdep + med_len","p(~avdep)Psi(~avdep + med_len)",5,278.491567819549,33.32257,2.64701171652442e-08,268.04044
+"~avdep","~1","p(~avdep)Psi(~1)",3,278.511457777778,33.3424599582289,2.62081770562109e-08,272.33368
+"~avdep","~avdep","p(~avdep)Psi(~avdep)",4,279.275867462687,34.1068696431377,1.78832875626575e-08,270.97736
+"~avdep","~pctfines + med_len","p(~avdep)Psi(~pctfines + med_len)",5,279.764817819549,34.59582,1.40046783628754e-08,269.31369
+"~avdep","~pctfines","p(~avdep)Psi(~pctfines)",4,279.924137462687,34.7551396431377,1.29323460796682e-08,271.62563
+"~avdep","~avdep + pctfines + med_len","p(~avdep)Psi(~avdep + pctfines + med_len)",6,280.675993636364,35.5069958168147,8.8800175571863e-09,268.03963
+"~avdep","~avdep + pctfines","p(~avdep)Psi(~avdep + pctfines)",5,281.016997819549,35.848,7.4879977790208e-09,270.56587

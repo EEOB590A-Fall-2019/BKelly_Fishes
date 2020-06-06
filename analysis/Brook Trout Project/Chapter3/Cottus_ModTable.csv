@@ -1,5 +1,43 @@
 "p","Psi","model","npar","AICc","DeltaAICc","weight","Neg2LnL"
-"~mFlow","~avgT + mFlow + HAiFLS_for + boulder + med_len + BRT_100m","p(~mFlow)Psi(~avgT + mFlow + HAiFLS_for + boulder + med_len + BRT_100m)",9,143.933538837209,0,0.996371339954,124.53819
-"~mFlow","~avgT + mFlow + HAiFLS_for + boulder","p(~mFlow)Psi(~avgT + mFlow + HAiFLS_for + boulder)",7,155.299191832061,11.3656529948518,0.0033915719702573,140.44423
-"~mFlow","~med_len + BRT_100m","p(~mFlow)Psi(~med_len + BRT_100m)",5,160.636447819549,16.7029089823396,0.000235196375870466,150.18532
-"~mFlow","~1","p(~mFlow)Psi(~1)",3,170.282337777778,26.3487989405685,1.89169987209804e-06,164.10456
+"~mFlow","~avgT + mFlow + HAiFLS_for + boulder + med_len + BRT_100m","p(~mFlow)Psi(~avgT + mFlow + HAiFLS_for + boulder + med_len + BRT_100m)",9,143.933538837209,0,0.390318457748878,124.53819
+"~mFlow","~HAiFLS_for + boulder + BRT_100m","p(~mFlow)Psi(~HAiFLS_for + boulder + BRT_100m)",6,145.962783636364,2.02924479915436,0.141505780052219,133.32642
+"~mFlow","~mFlow + HAiFLS_for + boulder + BRT_100m","p(~mFlow)Psi(~mFlow + HAiFLS_for + boulder + BRT_100m)",7,146.769211832061,2.83567299485179,0.0945497798615153,131.91425
+"~mFlow","~avgT + mFlow + HAiFLS_for + boulder + BRT_100m","p(~mFlow)Psi(~avgT + mFlow + HAiFLS_for + boulder + BRT_100m)",8,147.225512307692,3.29197347048301,0.0752620654521143,130.11782
+"~mFlow","~avgT + mFlow + HAiFLS_for + boulder + med_len","p(~mFlow)Psi(~avgT + mFlow + HAiFLS_for + boulder + med_len)",8,147.323802307692,3.39026347048301,0.0716527281067761,130.21611
+"~mFlow","~HAiFLS_for + boulder + med_len","p(~mFlow)Psi(~HAiFLS_for + boulder + med_len)",6,148.863863636364,4.93032479915433,0.0331751321846021,136.2275
+"~mFlow","~mFlow + HAiFLS_for + boulder + med_len","p(~mFlow)Psi(~mFlow + HAiFLS_for + boulder + med_len)",7,149.254501832061,5.32096299485178,0.0272889393157761,134.39954
+"~mFlow","~mFlow + HAiFLS_for + BRT_100m","p(~mFlow)Psi(~mFlow + HAiFLS_for + BRT_100m)",6,149.647753636364,5.71421479915435,0.0224178062437602,137.01139
+"~mFlow","~HAiFLS_for + BRT_100m","p(~mFlow)Psi(~HAiFLS_for + BRT_100m)",5,149.847397819549,5.91385898233958,0.0202880790184074,139.39627
+"~mFlow","~avgT + boulder + BRT_100m","p(~mFlow)Psi(~avgT + boulder + BRT_100m)",6,150.028593636364,6.09505479915435,0.0185308250550792,137.39223
+"~mFlow","~avgT + mFlow + HAiFLS_for + med_len","p(~mFlow)Psi(~avgT + mFlow + HAiFLS_for + med_len)",7,150.367921832061,6.43438299485177,0.0156390574323281,135.51296
+"~mFlow","~avgT + mFlow + HAiFLS_for + BRT_100m","p(~mFlow)Psi(~avgT + mFlow + HAiFLS_for + BRT_100m)",7,150.588011832061,6.65447299485177,0.0140093710558602,135.73305
+"~mFlow","~avgT + mFlow + boulder + BRT_100m","p(~mFlow)Psi(~avgT + mFlow + boulder + BRT_100m)",7,150.628801832061,6.69526299485179,0.0137265438670056,135.77384
+"~mFlow","~avgT + HAiFLS_for + BRT_100m","p(~mFlow)Psi(~avgT + HAiFLS_for + BRT_100m)",6,150.946763636364,7.01322479915433,0.0117089155527486,138.3104
+"~mFlow","~avgT + HAiFLS_for + med_len","p(~mFlow)Psi(~avgT + HAiFLS_for + med_len)",6,151.353173636364,7.41963479915435,0.00955577386195237,138.71681
+"~mFlow","~mFlow + HAiFLS_for + med_len","p(~mFlow)Psi(~mFlow + HAiFLS_for + med_len)",6,151.412663636364,7.47912479915433,0.00927572307176332,138.7763
+"~mFlow","~HAiFLS_for + med_len","p(~mFlow)Psi(~HAiFLS_for + med_len)",5,152.343167819549,8.4096289823396,0.00582493868421866,141.89204
+"~mFlow","~boulder + BRT_100m","p(~mFlow)Psi(~boulder + BRT_100m)",5,152.636417819549,8.7028789823396,0.00503052057645721,142.18529
+"~mFlow","~mFlow + boulder + BRT_100m","p(~mFlow)Psi(~mFlow + boulder + BRT_100m)",6,152.959333636364,9.02579479915434,0.00428048176285814,140.32297
+"~mFlow","~avgT + mFlow + boulder + med_len","p(~mFlow)Psi(~avgT + mFlow + boulder + med_len)",7,153.348021832061,9.4144829948518,0.00352443967726805,138.49306
+"~mFlow","~avgT + boulder + med_len","p(~mFlow)Psi(~avgT + boulder + med_len)",6,153.505823636364,9.57228479915435,0.00325704572332623,140.86946
+"~mFlow","~avgT + HAiFLS_for + boulder","p(~mFlow)Psi(~avgT + HAiFLS_for + boulder)",6,153.897063636364,9.96352479915436,0.00267834901275295,141.2607
+"~mFlow","~avgT + mFlow + HAiFLS_for + boulder","p(~mFlow)Psi(~avgT + mFlow + HAiFLS_for + boulder)",7,155.299191832061,11.3656529948518,0.00132861423014864,140.44423
+"~mFlow","~boulder + HAiFLS_for","p(~mFlow)Psi(~boulder + HAiFLS_for)",5,156.036007819549,12.1024689823396,0.000919181639650147,145.58488
+"~mFlow","~avgT + mFlow + BRT_100m","p(~mFlow)Psi(~avgT + mFlow + BRT_100m)",6,156.348843636364,12.4153047991543,0.00078608571893863,143.71248
+"~mFlow","~avgT + BRT_100m","p(~mFlow)Psi(~avgT + BRT_100m)",5,157.266747819549,13.3332089823396,0.000496763348165875,146.81562
+"~mFlow","~avgT + HAiFLS_for","p(~mFlow)Psi(~avgT + HAiFLS_for)",5,157.358117819549,13.4245789823396,0.000474579311717361,146.90699
+"~mFlow","~avgT + mFlow + med_len","p(~mFlow)Psi(~avgT + mFlow + med_len)",6,157.611673636364,13.6781347991543,0.000418070819851832,144.97531
+"~mFlow","~mFlow + HAiFLS_for + boulder","p(~mFlow)Psi(~mFlow + HAiFLS_for + boulder)",6,157.709243636364,13.7757047991543,0.000398164741758054,145.07288
+"~mFlow","~avgT + mFlow + HAiFLS_for","p(~mFlow)Psi(~avgT + mFlow + HAiFLS_for)",6,158.184703636364,14.2511647991543,0.00031391926771331,145.54834
+"~mFlow","~mFlow + BRT_100m","p(~mFlow)Psi(~mFlow + BRT_100m)",5,158.386407819549,14.4528689823396,0.000283803969634334,147.93528
+"~mFlow","~HAiFLS_for","p(~mFlow)Psi(~HAiFLS_for)",4,158.489357462687,14.5558186254773,0.000269564833366605,150.19085
+"~mFlow","~BRT_100m","p(~mFlow)Psi(~BRT_100m)",4,159.439767462687,15.5062286254773,0.000167603979281405,151.14126
+"~mFlow","~avgT + med_len","p(~mFlow)Psi(~avgT + med_len)",5,159.635877819549,15.7023389823396,0.000151949579509545,149.18475
+"~mFlow","~mFlow + HAiFLS_for","p(~mFlow)Psi(~mFlow + HAiFLS_for)",5,159.670067819549,15.7365289823396,0.000149374078266233,149.21894
+"~mFlow","~mFlow + boulder + med_len","p(~mFlow)Psi(~mFlow + boulder + med_len)",6,160.049873636364,16.1163347991543,0.000123538252340036,147.41351
+"~mFlow","~med_len + BRT_100m","p(~mFlow)Psi(~med_len + BRT_100m)",5,160.636447819549,16.7029089823396,9.2135816253129e-05,150.18532
+"~mFlow","~boulder + med_len","p(~mFlow)Psi(~boulder + med_len)",5,160.710347819549,16.7768089823396,8.87935268994004e-05,150.25922
+"~mFlow","~mFlow + med_len","p(~mFlow)Psi(~mFlow + med_len)",5,163.692797819549,19.7592589823396,1.99871337105133e-05,153.24167
+"~mFlow","~mFlow + boulder","p(~mFlow)Psi(~mFlow + boulder)",5,164.860167819549,20.9266289823396,1.11496014409849e-05,154.40904
+"~mFlow","~med_len","p(~mFlow)Psi(~med_len)",4,166.375767462687,22.4422286254773,5.22577927617328e-06,158.07726
+"~mFlow","~1","p(~mFlow)Psi(~1)",3,170.282337777778,26.3487989405685,7.41054411134652e-07,164.10456

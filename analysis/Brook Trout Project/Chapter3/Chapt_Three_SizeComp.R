@@ -19,6 +19,9 @@ sizes <- read.csv("Data/Thesis/Tidy/sgcn_size_tidy.csv", header = T)
 skim(sizes)
 
 
+sizes2 <- sizes %>%
+  mutate_at(c("BRT","adult_status"), as.factor)
+
 #select data
 nms <- names(sizes)
 
@@ -328,13 +331,6 @@ ggsave("Figure_6_barcharts.png", plot = fig_5.2, dpi = 600)
 #---------------
 # Comparisons
 #---------------
-
-str(sizes)
-
-sizes2 <- sizes %>%
-  mutate_at(c("BRT","adult_status"), as.factor)
-
-
 #############################################################################
 
 # Mann Whitney U / Wilcox Sign Rank Test 
@@ -347,7 +343,7 @@ help("wilcox.test")
 # two-sided
 
 #-----
-#LND
+#LND - counts
 #-----
 lnd.comp <- sizes2 %>%
   select(newID, BRT, adult_status, lnd.list) %>%
@@ -398,6 +394,79 @@ wilcox.test(lnd.comp$bin2_LND ~ lnd.comp$adult_status, mu=0, alt="two.sided", co
 wilcox.test(lnd.comp$bin3_LND ~ lnd.comp$adult_status, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
             exact=F)
 # p-value = 0.7078
+
+
+
+
+#-----
+#LND - %
+#-----
+names(lnd.comp)
+
+lnd.comp2 <- lnd.comp %>%
+  mutate(bin1_pct = (bin1_LND/Sum)*100,
+         bin2_pct = (bin2_LND/Sum)*100,
+         bin3_pct = (bin3_LND/Sum)*100)
+
+lnd_sums2 <- lnd.comp2 %>%
+  select(BRT, bin1_pct, bin2_pct, bin3_pct) %>%
+  rename(bin1 = bin1_pct, bin2 = bin2_pct, bin3 = bin3_pct) %>%
+  pivot_longer(
+    cols = starts_with("bin"),
+    names_to = "Bin",
+    names_prefix = "bin",
+    values_to = "percent"
+  ) %>%
+  mutate_if(is.character, as.factor) %>%
+  mutate_at("BRT", as.factor) %>%
+  group_by(BRT, Bin) %>%
+  summarise(Mean_Pct = mean(percent), SD = sd(percent)) %>%
+  mutate(SE = (SD/sqrt(n())))
+
+lnd.pct.plot <- ggplot(lnd_sums2, aes(fill=BRT, y=Mean_Pct, x=Bin)) + 
+  geom_bar(position="dodge", stat="identity", colour = "black") +
+  geom_errorbar(aes(ymin=Mean_Pct, ymax=Mean_Pct+SE), width=.2,
+                position=position_dodge(.9))+
+  theme_bw() +
+  theme(panel.grid = element_blank())+
+  labs(y=NULL, x=NULL)+
+  scale_x_discrete(labels = c("1" = "30-59", "2" = "60-89", "3" = "90-119"))+
+  scale_fill_manual(values = c("white", "black"))+
+  theme(axis.title = element_text(size = 12))+
+  ggtitle("Longnose Dace")+
+  theme(legend.position = "none")+
+  theme(legend.title = element_blank())+
+  theme(plot.title = element_text(size=16, family = "Times New Roman"))+
+  theme(legend.text = element_text(family = "Times New Roman", size = 12))
+lnd.pct.plot
+
+
+
+lnd.comp2.brt.ab <- lnd.comp2 %>%
+  filter(BRT==0)
+lnd.comp2.brt.pr <- lnd.comp2 %>%
+  filter(BRT==1)
+a1.2<- lnd.comp2.brt.ab$bin1_pct
+b1.2<- lnd.comp2.brt.pr$bin1_pct
+
+wilcox.test(a1.2, b1.2, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+
+## compare across BRT status and size bins (percentage based %)
+#size class 1
+wilcox.test(lnd.comp2$bin1_pct ~ lnd.comp2$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+# p-value = 0.5162
+
+#size class 2
+wilcox.test(lnd.comp2$bin2_pct ~ lnd.comp2$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+# p-value = 0.486
+
+#size class 3
+wilcox.test(lnd.comp2$bin3_pct ~ lnd.comp2$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+# p-value = 0.6761
 
 
 
@@ -473,6 +542,84 @@ wilcox.test(srd.comp$bin3_SRD ~ srd.comp$adult_status, mu=0, alt="two.sided", co
 
 
 
+
+
+#-----
+#SRD - %
+#-----
+names(srd.comp)
+
+srd.comp2 <- srd.comp %>%
+  mutate(bin1_pct = (bin1_SRD/Sum)*100,
+         bin2_pct = (bin2_SRD/Sum)*100,
+         bin3_pct = (bin3_SRD/Sum)*100)
+
+srd_sums2 <- srd.comp2 %>%
+  select(BRT, bin1_pct, bin2_pct, bin3_pct) %>%
+  rename(bin1 = bin1_pct, bin2 = bin2_pct, bin3 = bin3_pct) %>%
+  pivot_longer(
+    cols = starts_with("bin"),
+    names_to = "Bin",
+    names_prefix = "bin",
+    values_to = "percent"
+  ) %>%
+  mutate_if(is.character, as.factor) %>%
+  mutate_at("BRT", as.factor) %>%
+  group_by(BRT, Bin) %>%
+  summarise(Mean_Pct = mean(percent), SD = sd(percent)) %>%
+  mutate(SE = (SD/sqrt(n())))
+
+srd.pct.plot <- ggplot(srd_sums2, aes(fill=BRT, y=Mean_Pct, x=Bin)) + 
+  geom_bar(position="dodge", stat="identity", colour = "black") +
+  geom_errorbar(aes(ymin=Mean_Pct, ymax=Mean_Pct+SE), width=.2,
+                position=position_dodge(.9))+
+  theme_bw() +
+  theme(panel.grid = element_blank())+
+  labs(y=NULL, x=NULL)+
+  scale_x_discrete(labels = c("1" = "30-59", "2" = "60-89", "3" = "90-119"))+
+  scale_fill_manual(values = c("white", "black"))+
+  theme(axis.title = element_text(size = 12))+
+  ggtitle("Southern Redbelly Dace")+
+  theme(legend.position = "none")+
+  theme(legend.title = element_blank())+
+  theme(plot.title = element_text(size=16, family = "Times New Roman"))+
+  theme(legend.text = element_text(family = "Times New Roman", size = 12))
+srd.pct.plot
+
+
+
+srd.comp2.brt.ab <- srd.comp2 %>%
+  filter(BRT==0)
+srd.comp2.brt.pr <- srd.comp2 %>%
+  filter(BRT==1)
+aa1.2<- srd.comp2.brt.ab$bin1_pct
+bb1.2<- srd.comp2.brt.pr$bin1_pct
+
+wilcox.test(aa1.2, bb1.2, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+
+## compare across BRT status and size bins (percentage based %)
+#size class 1
+wilcox.test(srd.comp2$bin1_pct ~ srd.comp2$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+# p-value = 0.
+
+#size class 2
+wilcox.test(srd.comp2$bin2_pct ~ srd.comp2$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+# p-value = 0.
+
+#size class 3
+wilcox.test(srd.comp2$bin3_pct ~ srd.comp2$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+# p-value = 0.
+
+
+
+
+
+
+
 #-----
 #Cottus
 #-----
@@ -503,6 +650,108 @@ wilcox.test(cott.comp$bin3_Cottus ~ cott.comp$BRT, mu=0, alt="two.sided", conf.i
 wilcox.test(cott.comp$bin4_Cottus ~ cott.comp$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
             exact=F)
 # p-value = 0.611
+
+#-----
+#cott - %
+#-----
+names(cott.comp)
+
+cott.comp2 <- cott.comp %>%
+  mutate(bin1_pct = (bin1_Cottus/Sum)*100,
+         bin2_pct = (bin2_Cottus/Sum)*100,
+         bin3_pct = (bin3_Cottus/Sum)*100,
+         bin4_pct = (bin4_Cottus/Sum)*100)
+
+cott_sums2 <- cott.comp2 %>%
+  select(BRT, bin1_pct, bin2_pct, bin3_pct, bin4_pct) %>%
+  rename(bin1 = bin1_pct, bin2 = bin2_pct, bin3 = bin3_pct, bin4 = bin4_pct) %>%
+  pivot_longer(
+    cols = starts_with("bin"),
+    names_to = "Bin",
+    names_prefix = "bin",
+    values_to = "percent"
+  ) %>%
+  mutate_if(is.character, as.factor) %>%
+  mutate_at("BRT", as.factor) %>%
+  group_by(BRT, Bin) %>%
+  summarise(Mean_Pct = mean(percent), SD = sd(percent)) %>%
+  mutate(SE = (SD/sqrt(n())))
+
+cott.pct.plot <- ggplot(cott_sums2, aes(fill=BRT, y=Mean_Pct, x=Bin)) + 
+  geom_bar(position="dodge", stat="identity", colour = "black") +
+  geom_errorbar(aes(ymin=Mean_Pct, ymax=Mean_Pct+SE), width=.2,
+                position=position_dodge(.9))+
+  theme_bw() +
+  theme(panel.grid = element_blank())+
+  labs(y=NULL, x=NULL)+
+  scale_x_discrete(labels = c("1" = "30-59", "2" = "60-89", "3" = "90-119", "4" = "120-149"))+
+  theme(axis.title = element_text(size = 12))+
+  ggtitle("Sculpin")+
+  theme(legend.position = c(0.70,0.85))+
+  scale_fill_manual(values = c("white", "black"),
+                    labels = c("0" = "Brown Trout Absent", "1" = "Brown Trout Present"))+
+  theme(legend.title = element_blank())+
+  theme(plot.title = element_text(size=16, family = "Times New Roman"))+
+  theme(legend.text = element_text(family = "Times New Roman", size = 12))
+cott.pct.plot
+
+
+combo3 <- plot_grid(cott.pct.plot,lnd.pct.plot,srd.pct.plot, ncol=1)
+combo3
+#-----------------------------------
+
+#create common x axis label
+library(gridExtra)
+library(grid)
+y.grob <- textGrob("Percentage of Fish (%)", 
+                   gp=gpar(fontface="bold", col="black", fontsize=14, fontfamily="Times New Roman"),
+                   rot = 90)
+x.grob <- textGrob("Size Class (mm)", 
+                   gp=gpar(fontface="bold", col="black", fontsize=14, fontfamily="Times New Roman"))
+#add to plot
+fig_6 <- grid.arrange(arrangeGrob(combo3, left = y.grob, bottom = x.grob))
+fig_6
+
+ggsave("Figure_6_percentage.png", plot = fig_6, dpi = 600)
+#-----------------------------------
+
+
+cott.comp2.brt.ab <- cott.comp2 %>%
+  filter(BRT==0)
+cott.comp2.brt.pr <- cott.comp2 %>%
+  filter(BRT==1)
+aaa1.2<- cott.comp2.brt.ab$bin1_pct
+bbb1.2<- cott.comp2.brt.pr$bin1_pct
+
+wilcox.test(aaa1.2, bbb1.2, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+
+## compare across BRT status and size bins (percentage based %)
+#size class 1
+wilcox.test(cott.comp2$bin1_pct ~ cott.comp2$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+# p-value = 0.
+
+#size class 2
+wilcox.test(cott.comp2$bin2_pct ~ cott.comp2$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+# p-value = 0.
+
+#size class 3
+wilcox.test(cott.comp2$bin3_pct ~ cott.comp2$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+# p-value = 0.
+
+#size class 4
+wilcox.test(cott.comp2$bin3_pct ~ cott.comp2$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+# p-value = 0.
+
+
+
+
+
+
 
 #-----
 ## compare across adult proportion status
@@ -592,12 +841,5 @@ oneway_test(bin4_Cottus~BRT, data=cott.comp,
 # no significant difference in size when BRT present vs. absent
 
 #############################################################################
-
-
-
-
-
-
-
 
 
