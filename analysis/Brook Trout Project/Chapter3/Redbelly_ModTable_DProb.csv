@@ -1,0 +1,5 @@
+"p","Psi","model","npar","AICc","DeltaAICc","weight","Neg2LnL"
+"~avdep","~avgT + avdep + pctfines + med_len + BRT_100m","p(~avdep)Psi(~avgT + avdep + pctfines + med_len + BRT_100m)",8,250.683512307692,0,0.541729004569409,233.57582
+"~mFlow + avdep","~avgT + avdep + pctfines + med_len + BRT_100m","p(~mFlow + avdep)Psi(~avgT + avdep + pctfines + med_len + BRT_100m)",9,252.686948837209,2.00343652951699,0.1989488228564,233.2916
+"~1","~avgT + avdep + pctfines + med_len + BRT_100m","p(~1)Psi(~avgT + avdep + pctfines + med_len + BRT_100m)",7,253.133891832061,2.45037952436877,0.159106871248552,238.27893
+"~mFlow","~avgT + avdep + pctfines + med_len + BRT_100m","p(~mFlow)Psi(~avgT + avdep + pctfines + med_len + BRT_100m)",8,254.058402307692,3.37488999999999,0.10021530132564,236.95071

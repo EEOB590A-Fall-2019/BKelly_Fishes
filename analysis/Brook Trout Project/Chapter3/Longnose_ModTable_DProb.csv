@@ -1,0 +1,5 @@
+"p","Psi","model","npar","AICc","DeltaAICc","weight","Neg2LnL"
+"~1","~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m","p(~1)Psi(~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m)",8,232.121442307692,0,0.446848243565886,215.01375
+"~pctcbbl","~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m","p(~pctcbbl)Psi(~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m)",9,232.877848837209,0.756406529516994,0.306131813526587,213.4825
+"~mFlow","~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m","p(~mFlow)Psi(~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m)",9,234.296218837209,2.174776529517,0.150630643740464,214.90087
+"~pctcbbl + mFlow","~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m","p(~pctcbbl + mFlow)Psi(~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m)",10,235.18909,3.0676476923077,0.0963892991670625,213.47034

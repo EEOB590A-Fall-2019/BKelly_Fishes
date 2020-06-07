@@ -190,6 +190,13 @@ lnd.results.p = run.occ.lnd.p()
 
 lnd.results.p
 
+##Model Table
+AICc.Table.lnd.p = model.table(lnd.results.p, use.lnl = T)
+AICc.Table.lnd.p
+
+#save model table output
+write.csv(AICc.Table.lnd.p, "Longnose_ModTable_DProb.csv", row.names = F)
+
 #Two models <2 DeltaAICc 
 summary(lnd.results.p$p.Dot.Psi.global)#top model 
 lnd.results.p$p.Dot.Psi.global$results$real
@@ -607,6 +614,13 @@ srd.results.p = run.occ.srd.p()
 
 srd.results.p
 
+##Model Table
+AICc.Table.srd.p = model.table(srd.results.p, use.lnl = T)
+AICc.Table.srd.p
+
+#save model table output
+write.csv(AICc.Table.srd.p, "Redbelly_ModTable_DProb.csv", row.names = F)
+
 #Compare model results - 1 model <2deltaAICc 
 summary(srd.results.p$p.depth.Psi.global) #top model 
 srd.results.p$p.depth.Psi.global$results$real
@@ -931,6 +945,13 @@ run.occ.cott.p=function()
 cott.results.p = run.occ.cott.p()
 
 cott.results.p
+
+##Model Table
+AICc.Table.cott.p = model.table(cott.results.p, use.lnl = T)
+AICc.Table.cott.p
+
+#save model table output
+write.csv(AICc.Table.cott.p, "Cottus_ModTable_DProb.csv", row.names = F)
 
 #only one model <2 DeltaAICc 
 summary(cott.results.p$p.flow.Psi.global) #top model 
