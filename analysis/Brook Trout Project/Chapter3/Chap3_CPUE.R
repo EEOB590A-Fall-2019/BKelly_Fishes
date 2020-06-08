@@ -1439,3 +1439,69 @@ for_lunch <- newdata %>%
 
 write.csv(for_lunch, "Data/Thesis/Tidy/zeroinfl_data.csv", row.names = F)
 ###############################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################
+#New exploratory analysis for results section 
+###############################################
+skim(newdata)
+
+d <- newdata %>%
+  select(newID, BRT, BRT_100m, Cottus_ab, Cottus_CPUE, LND_ab, LND_CPUE, 
+         SRD_ab, SRD_CPUE)
+skim(d)
+
+sculp.under <- d %>%
+  filter(BRT_100m < 25) %>%
+  filter(Cottus_ab > 0) %>%
+  summarise(mean_cpue=mean(Cottus_CPUE), sd_cpue=sd(Cottus_CPUE), min_cpue=min(Cottus_CPUE),
+            max_cpue=max(Cottus_CPUE))
+
+sculp.over <- d %>%
+  filter(BRT_100m > 25) %>%
+  filter(Cottus_ab >0) %>%
+  summarise(mean_cpue=mean(Cottus_CPUE), sd_cpue=sd(Cottus_CPUE), min_cpue=min(Cottus_CPUE),
+            max_cpue=max(Cottus_CPUE))
+
+
+long.under.mean <- d %>%
+  filter(BRT_100m < 6.74) %>%
+  filter(LND_ab > 0) %>%
+  summarise(mean_ab=mean(LND_ab), sd_ab=sd(LND_ab), sum_ab=sum(LND_ab))
+632/680*100
+
+red.under.mean <- d %>%
+  filter(BRT_100m < 6.74) %>%
+  filter(SRD_ab > 0) %>%
+  summarise(mean_ab=mean(SRD_ab), sd_ab=sd(SRD_ab), sum_ab=sum(SRD_ab))
+543/544*100
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

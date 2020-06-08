@@ -68,8 +68,9 @@ srd2[115,]
 
 #checking something
 srd3 <- srd2 %>%
-  filter(BRT_100m > 3) %>%
-  select(ch, newID, avgT, pctfines, avdep, BRT_100m)
+  filter(BRT == 1) %>%
+  summarise(mean_cpue = mean(BRT_100m), min_cpue = min(BRT_100m),
+            max_cpue = max(BRT_100m), sd_cpue = sd(BRT_100m))
 
 #changing false-presence of SRD in site 20
 #srd2[136,1] <- "000"

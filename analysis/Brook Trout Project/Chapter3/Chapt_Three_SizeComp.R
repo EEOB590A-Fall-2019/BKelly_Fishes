@@ -743,7 +743,7 @@ wilcox.test(cott.comp2$bin3_pct ~ cott.comp2$BRT, mu=0, alt="two.sided", conf.in
 # p-value = 0.
 
 #size class 4
-wilcox.test(cott.comp2$bin3_pct ~ cott.comp2$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+wilcox.test(cott.comp2$bin4_pct ~ cott.comp2$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
             exact=F)
 # p-value = 0.
 
