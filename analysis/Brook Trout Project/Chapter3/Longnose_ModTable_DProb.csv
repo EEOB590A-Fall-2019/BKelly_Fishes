@@ -1,5 +1,5 @@
 "p","Psi","model","npar","AICc","DeltaAICc","weight","Neg2LnL"
-"~1","~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m","p(~1)Psi(~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m)",8,232.121442307692,0,0.446848243565886,215.01375
-"~pctcbbl","~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m","p(~pctcbbl)Psi(~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m)",9,232.877848837209,0.756406529516994,0.306131813526587,213.4825
-"~mFlow","~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m","p(~mFlow)Psi(~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m)",9,234.296218837209,2.174776529517,0.150630643740464,214.90087
-"~pctcbbl + mFlow","~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m","p(~pctcbbl + mFlow)Psi(~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m)",10,235.18909,3.0676476923077,0.0963892991670625,213.47034
+"~1","~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m","p(~1)Psi(~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m)",8,231.792159069767,0,0.446209540856477,214.67588
+"~pctcbbl","~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m","p(~pctcbbl)Psi(~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m)",9,232.5388,0.746640930232559,0.307190537724133,213.13255
+"~mFlow","~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m","p(~mFlow)Psi(~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m)",9,233.97325,2.18109093023256,0.149941197282422,214.567
+"~pctcbbl + mFlow","~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m","p(~pctcbbl + mFlow)Psi(~Area_km2 + pctcbbl + elev_m + avgT + med_len + BRT_100m)",10,234.851363464567,3.05920439479948,0.0966587241369677,213.11908

@@ -1,5 +1,4 @@
 ### summary stats for Chapter Three
-
 library(tidyverse)
 library(skimr)
 
@@ -22,7 +21,8 @@ cobble <- mydat %>%
 cobble[97,7] = 28.8615
 
 newdata <- left_join(newdat, cobble, by="newID")
-newdata <- left_join(newdata, ef, by="newID")
+newdata <- left_join(newdata, ef, by="newID") %>%
+  filter(newID != "UPI_165")
 
 names(newdata)
 
@@ -36,9 +36,9 @@ fish <- newdata %>%
 huc.lnd <- fish %>%
   group_by(HUC8) %>%
   tally(LND)
-
+33/138*100
 22/68*100
-9/57*100
+9/56*100
 2/14*100
 
 ldace <- fish %>%
@@ -48,43 +48,51 @@ ldace <- fish %>%
 huc.srd <- fish %>%
   group_by(HUC8) %>%
   tally(SRD)
-
+32/138*100
 19/68*100
-10/57*100
+9/56*100
 4/14*100
 
 sdace <- fish %>%
   filter(SRD == 1)
 
-#-----SRD
+#-----Cott
 huc.cot <- fish %>%
   group_by(HUC8) %>%
   tally(Cott)
-
+20/138*100
 4/68*100
-13/57*100
+13/56*100
 3/14*100 
 
 scul <- fish %>%
   filter(Cott ==1)
 
 #-----BRT
-74/139*100
+74/138*100
 9/14*100
-31/57*100
+31/56*100
 34/68*100
 
 #-----Sympat
-37/139*100 #total
+37/138*100 #total
 2/20*100 #sculp
 19/33*100 #lnd
 21/33*100 #srd
 
+
+
+
+20/32*100
+
+
+
 ## habitat
 means <- newdata %>%
   group_by(HUC8) %>%
-  summarise(mean_for = mean(HAiFLS_for), sd_for = sd(HAiFLS_for),
-            mean_flow = mean(mFlow), sd_flow = sd(mFlow),
+  summarise(mean_area = mean(Area_km2), sd_area = sd(Area_km2), min_ar=min(Area_km2), max_ar=max(Area_km2),
+            mean_for = mean(HAiFLS_for), sd_for = sd(HAiFLS_for), min_for=min(Area_km2), max_for=max(Area_km2),
+            mean_flow = mean(mFlow), sd_flow = sd(mFlow), min_flo=min(mFlow), max_flo=max(mFlow),
             mean_cob = mean(pctcbbl), sd_cob = sd(pctcbbl),
             mean_fines = mean(pctfines), sd_fines = sd(pctfines),
             mean_dep = mean(avdep), sd_dep = sd(avdep))
@@ -94,10 +102,21 @@ means <- newdata %>%
 
 
 
+cpue <- read.csv("Data/Thesis/Tidy/cpue_data.csv", header=T) %>%
+  filter(newID != "UPI_165") %>%
+  separate(newID, into = c("HUC8","Site"), remove = T)
 
+skim(cpue)
 
-
-
+means2 <- cpue %>%
+  group_by(HUC8) %>%
+  summarise(mean_area = mean(Area_km2), sd_area = sd(Area_km2),
+            mean_for = mean(HAiFLS_for), sd_for = sd(HAiFLS_for),
+            mean_avgT = mean(avgT), sd_avgT = sd(avgT),
+            mean_flow = mean(mFlow), sd_flow = sd(mFlow),
+            mean_cob = mean(pctcbbl), sd_cob = sd(pctcbbl),
+            mean_fines = mean(pctfines), sd_fines = sd(pctfines),
+            mean_dep = mean(avdep), sd_dep = sd(avdep))
 
 
 

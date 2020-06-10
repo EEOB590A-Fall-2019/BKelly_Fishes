@@ -19,8 +19,10 @@ library(coin)
 #Allopatry = in the absence of Brown Trout
 
 #load
-newdata <- read.csv("Data/Thesis/Tidy/cpue_data.csv", header=T)
-mydat <- read.csv("Data/Thesis/Tidy/SGCN_AllCovariates.csv", header=T)
+cpue <- read.csv("Data/Thesis/Tidy/cpue_data.csv", header=T)%>%
+  filter(newID != "UPI_165")
+mydat <- read.csv("Data/Thesis/Tidy/SGCN_AllCovariates.csv", header=T)%>%
+  filter(newID != "UPI_165")
 
 
 #inspect
@@ -187,6 +189,9 @@ ggsave("Figure_4_boxplots.png", plot = bf2, dpi = 600)
 
 #############################################################################
 ##New figure 4: just show group means
+newdata <- newdata %>%
+  filter(newID != "UPI_165")
+
 nobrt <- newdata %>%
   filter(BRT==0) %>%
   summarise(mcpue_SRD=mean(SRD_CPUE), mcpue_LND=mean(LND_CPUE), mcpue_cott=mean(Cottus_CPUE),
@@ -264,7 +269,7 @@ library(cowplot)
 fig4 <- plot_grid(p1,p2,p3, ncol = 3, nrow = 1)
 fig4
 
-ggsave("Chpt3_Fig4_6_6_2020.png", plot = fig4, dpi = 600)
+ggsave("Chpt3_Fig4_6_10_2020.png", plot = fig4, dpi = 600)
 #############################################################################
 
 # Mann Whitney U / Wilcox Sign Rank Test 
@@ -332,14 +337,11 @@ wilcox.test(cott$Cottus_CPUE ~ cott$BRT, mu=0, alt="two.sided", conf.int=T, conf
 #two sided
 wilcox.test(aa, bb, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
             exact=F)
-#greater than
-wilcox.test(aa, bb, mu=0, alt="g", conf.int=T, conf.level=0.95, paired=F,
-            exact=F)
 
 #less than without BRT
 wilcox.test(aa, bb, mu=0, alt="l", conf.int=T, conf.level=0.95, paired=F,
             exact=F)
-#no difference
+
 
 #############################################################################
 
@@ -1364,7 +1366,7 @@ ggsave("chpt3_Figure_Five.png", plot=cp.plot, dpi = 600)
 
 
 
-544/(680+544+1232)*100
+
 
 
 
@@ -1460,8 +1462,10 @@ skim(newdata)
 
 d <- newdata %>%
   select(newID, BRT, BRT_100m, Cottus_ab, Cottus_CPUE, LND_ab, LND_CPUE, 
-         SRD_ab, SRD_CPUE)
+         SRD_ab, SRD_CPUE) %>%
+  mutate(SumSGCN=(Cottus_ab+LND_ab+SRD_ab))
 skim(d)
+
 
 sculp.under <- d %>%
   filter(BRT_100m < 25) %>%
@@ -1480,23 +1484,39 @@ long.under.mean <- d %>%
   filter(BRT_100m < 6.74) %>%
   filter(LND_ab > 0) %>%
   summarise(mean_ab=mean(LND_ab), sd_ab=sd(LND_ab), sum_ab=sum(LND_ab))
-632/680*100
+
 
 red.under.mean <- d %>%
   filter(BRT_100m < 6.74) %>%
   filter(SRD_ab > 0) %>%
   summarise(mean_ab=mean(SRD_ab), sd_ab=sd(SRD_ab), sum_ab=sum(SRD_ab))
-543/544*100
 
 
 
 
 
+###############################################
+e <- d %>%
+  select(Cottus_ab,LND_ab,SRD_ab,SumSGCN)
+summed = colSums(e)
+summed
 
+1232/2440*100 #cott
+680/2440*100 #lnd
+528/2440*100 #srd
 
+sculpin = d %>%
+  filter(Cottus_ab>0)
+skim(sculpin)
 
+southern = d %>%
+  filter(SRD_ab>0)
+skim(southern)
 
-
+nose = d %>%
+  filter(LND_ab>0) %>%
+  select(LND_ab, LND_CPUE)
+skim(nose)
 
 
 

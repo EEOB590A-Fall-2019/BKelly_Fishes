@@ -21,15 +21,18 @@ library(corrplot)
 #load encounter history data 
 lnd <- read.csv("Data/Thesis/Tidy/lnd_occu_data.csv", header = T) %>%
   unite(ch, c(ch1,ch2,ch3), sep = "", remove = T) %>%
-  select(ch, freq, everything())
+  select(ch, freq, everything()) %>%
+  filter(newID != "UPI_165")
 
 srd <- read.csv("Data/Thesis/Tidy/srd_occu_data.csv", header = T) %>%
   unite(ch, c(ch1,ch2,ch3), sep = "", remove = T) %>%
-  select(ch, freq, everything())
+  select(ch, freq, everything())%>%
+  filter(newID != "UPI_165")
 
 cott <- read.csv("Data/Thesis/Tidy/cott_occu_data.csv", header = T) %>%
   unite(ch, c(ch1,ch2,ch3), sep = "", remove = T) %>%
-  select(ch, freq, everything())
+  select(ch, freq, everything())%>%
+  filter(newID != "UPI_165")
 
 #load environmental data
 env <- read.csv("Data/Thesis/Tidy/AllCovariates.csv", header = T)
@@ -42,11 +45,11 @@ dp.cov <- env %>%
   unite(newID, c(HUC8, Site), sep = "_", remove = T) %>%
   select(newID, pctcbbl, pctpool = pctslow, Order, Area_km2=CatArea_km2, boulder, elev_m)
 
-dp.cov[99,]
-dp.cov[99,4] = 4
-dp.cov[99,5] = 28.8615
-dp.cov[99,7] = 355.164337
-dp.cov[99,]
+#dp.cov[99,]
+#dp.cov[99,4] = 4
+#dp.cov[99,5] = 28.8615
+#dp.cov[99,7] = 355.164337
+#dp.cov[99,]
 
 #add detection probability vars to enc histories
 
@@ -205,7 +208,7 @@ summary(lnd.results.p$p.cobble.Psi.global)#2nd model
 lnd.results.p$p.cobble.Psi.global$results$real
 summary(lnd.results.p$p.flow.Psi.global)#3rd model 
 lnd.results.p$p.flow.Psi.global$results$real
-summary(lnd.results.p$p.flow.Psi.global) # 4th model
+summary(lnd.results.p$p.full.Psi.global) # 4th model
 lnd.results.p$p.flow.Psi.global$results$real
 ## continue with null d-prob
 
@@ -305,7 +308,7 @@ lnd.results.psi$p.Dot.Psi.combo2.3$results$real
 
 #designate top model
 tm.lnd <- lnd.results.psi$p.Dot.Psi.combo2
-sm.lnd <- lnd.results.psi$p.Dot.Psi.habitat
+#sm.lnd <- lnd.results.psi$p.Dot.Psi.habitat
 cleanup(ask = F)
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
@@ -622,12 +625,12 @@ AICc.Table.srd.p
 #save model table output
 write.csv(AICc.Table.srd.p, "Redbelly_ModTable_DProb.csv", row.names = F)
 
-#Compare model results - 1 model <2deltaAICc 
+#Compare model results - 2 models <2deltaAICc 
 summary(srd.results.p$p.depth.Psi.global) #top model 
 srd.results.p$p.depth.Psi.global$results$real
 
-summary(srd.results.p$p.full.Psi.global) #2nd model 
-srd.results.p$p.full.Psi.global$results$real
+summary(srd.results.p$p.Dot.Psi.global) #2nd model 
+srd.results.p$p.Dot.Psi.global$results$real
 
 
 ## continue with depth on d-prob
@@ -1403,15 +1406,15 @@ ggsave("cott_dprob.png", dpi = 600)
 cott.results.psi$p.flow.Psi.global$results$real
 
 #estimate
-cpe <- 0.7938250
+cpe <- 0.7946285
 cpe2 <- 1-(1-cpe)^2
 cpe3 <- 1-(1-cpe)^3
 #lower confidence limit
-clc <- 0.6471543
+clc <- 0.6483078
 clc2 <- 1-(1-clc)^2
 clc3 <- 1-(1-clc)^3
 #upper confidence limit
-cuc <- 0.8899001
+cuc <- 0.8903674
 cuc2 <- 1-(1-cuc)^2
 cuc3 <- 1-(1-cuc)^3
 #Dataframe
@@ -1444,22 +1447,22 @@ cott.cdp
 lnd.results.psi$p.Dot.Psi.combo2$results$real
 
 #estimate
-lpe <- 0.6871504
+lpe <- 0.6871649
 lpe2 <- 1-(1-lpe)^2
 lpe3 <- 1-(1-lpe)^3
 #lower confidence limit
-llc <- 0.5796786
+llc <- 0.5797093
 llc2 <- 1-(1-llc)^2
 llc3 <- 1-(1-llc)^3
 #upper confidence limit
-luc <- 0.7776817 
+luc <- 0.7776832
 luc2 <- 1-(1-luc)^2
 luc3 <- 1-(1-luc)^3
 #Dataframe
 lnd_cdp <- data.frame(reach = 1:3, p = c(lpe,lpe2,lpe3), lcl = c(llc,llc2,llc3),
                        ucl = c(luc,luc2,luc3))
-getwd()
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+#getwd()
+#setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 write.csv(lnd_cdp, "Data/Thesis/Tidy/LND_CumulativeDetectionProb.csv", row.names = F)
 
 lnd.cdp <- 
@@ -1486,15 +1489,15 @@ lnd.cdp
 srd.results.psi$p.depth.Psi.combo2.4$results$real
 
 #estimate
-spe <- 0.4129207
+spe <- 0.4042820
 spe2 <- 1-(1-spe)^2
 spe3 <- 1-(1-spe)^3
 #lower confidence limit
-slc <- 0.2904924
+slc <- 0.2815700
 slc2 <- 1-(1-slc)^2
 slc3 <- 1-(1-slc)^3
 #upper confidence limit
-suc <- 0.5471558
+suc <- 0.5402571
 suc2 <- 1-(1-suc)^2
 suc3 <- 1-(1-suc)^3
 #Dataframe

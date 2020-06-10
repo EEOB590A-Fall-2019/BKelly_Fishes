@@ -2,7 +2,6 @@
 ## Size Comparison Analysis:
 ### Permutation Tests for each size bin for two groups (1. no Brown Trout, 2. Brown Trout present),
 ### and three species of greatest conservation need (1. Longnose Dace, 2. SouthernRedbelly Dace, 3.Sculpins)
-
 #libraries
 library(tidyverse)
 library(skimr)
@@ -15,15 +14,17 @@ loadfonts(device="win")   #Register fonts for Windows bitmap output
 fonts() 
 
 #load data
-sizes <- read.csv("Data/Thesis/Tidy/sgcn_size_tidy.csv", header = T)
+sizes <- read.csv("Data/Thesis/Tidy/sgcn_size_tidy.csv", header = T)%>%
+  filter(newID != "UPI_165")
 skim(sizes)
 
 
 sizes2 <- sizes %>%
-  mutate_at(c("BRT","adult_status"), as.factor)
+  mutate_at(c("BRT","adult_status"), as.factor) %>%
+  filter(newID != "UPI_165")
 
 #select data
-nms <- names(sizes)
+nms <- names(sizes2)
 
 lnd.list <- vars_select(nms, ends_with("LND"))
 srd.list <- vars_select(nms, ends_with("SRD"))
@@ -324,7 +325,7 @@ fig_5
 
 fig_5.2 <- grid.arrange(arrangeGrob(combo2, left = y.grob, bottom = x.grob))
 fig_5.2
-ggsave("Figure_6_barcharts.png", plot = fig_5.2, dpi = 600)
+#ggsave("Figure_6_barcharts.png", plot = fig_5.2, dpi = 600)
 #-----------------------------------
 
 
@@ -423,14 +424,18 @@ lnd_sums2 <- lnd.comp2 %>%
   summarise(Mean_Pct = mean(percent), SD = sd(percent)) %>%
   mutate(SE = (SD/sqrt(n())))
 
-lnd.pct.plot <- ggplot(lnd_sums2, aes(fill=BRT, y=Mean_Pct, x=Bin)) + 
+lnd_sums2$binn <- as.integer(lnd_sums2$Bin)
+
+lnd.pct.plot <- ggplot(lnd_sums2, aes(fill=BRT, y=Mean_Pct, x=binn)) + 
   geom_bar(position="dodge", stat="identity", colour = "black") +
   geom_errorbar(aes(ymin=Mean_Pct, ymax=Mean_Pct+SE), width=.2,
                 position=position_dodge(.9))+
   theme_bw() +
   theme(panel.grid = element_blank())+
   labs(y=NULL, x=NULL)+
-  scale_x_discrete(labels = c("1" = "30-59", "2" = "60-89", "3" = "90-119"))+
+  scale_x_continuous(limits = c(0.5,4.5),
+                     breaks = 1:4,
+                     labels = c("1" = "30-59", "2" = "60-89", "3" = "90-119", "4" = "120-149"))+
   scale_fill_manual(values = c("white", "black"))+
   theme(axis.title = element_text(size = 12))+
   ggtitle("Longnose Dace")+
@@ -569,14 +574,18 @@ srd_sums2 <- srd.comp2 %>%
   summarise(Mean_Pct = mean(percent), SD = sd(percent)) %>%
   mutate(SE = (SD/sqrt(n())))
 
-srd.pct.plot <- ggplot(srd_sums2, aes(fill=BRT, y=Mean_Pct, x=Bin)) + 
+srd_sums2$binn <- as.integer(srd_sums2$Bin)
+
+srd.pct.plot <- ggplot(srd_sums2, aes(fill=BRT, y=Mean_Pct, x=binn)) + 
   geom_bar(position="dodge", stat="identity", colour = "black") +
   geom_errorbar(aes(ymin=Mean_Pct, ymax=Mean_Pct+SE), width=.2,
                 position=position_dodge(.9))+
   theme_bw() +
   theme(panel.grid = element_blank())+
   labs(y=NULL, x=NULL)+
-  scale_x_discrete(labels = c("1" = "30-59", "2" = "60-89", "3" = "90-119"))+
+  scale_x_continuous(limits = c(0.5,4.5),
+                     breaks = 1:4,
+                     labels = c("1" = "30-59", "2" = "60-89", "3" = "90-119", "4" = "120-149"))+
   scale_fill_manual(values = c("white", "black"))+
   theme(axis.title = element_text(size = 12))+
   ggtitle("Southern Redbelly Dace")+
@@ -677,14 +686,18 @@ cott_sums2 <- cott.comp2 %>%
   summarise(Mean_Pct = mean(percent), SD = sd(percent)) %>%
   mutate(SE = (SD/sqrt(n())))
 
-cott.pct.plot <- ggplot(cott_sums2, aes(fill=BRT, y=Mean_Pct, x=Bin)) + 
+cott_sums2$binn <- as.integer(cott_sums2$Bin)
+
+cott.pct.plot <- ggplot(cott_sums2, aes(fill=BRT, y=Mean_Pct, x=binn)) + 
   geom_bar(position="dodge", stat="identity", colour = "black") +
   geom_errorbar(aes(ymin=Mean_Pct, ymax=Mean_Pct+SE), width=.2,
                 position=position_dodge(.9))+
   theme_bw() +
   theme(panel.grid = element_blank())+
-  labs(y=NULL, x=NULL)+
-  scale_x_discrete(labels = c("1" = "30-59", "2" = "60-89", "3" = "90-119", "4" = "120-149"))+
+  labs(y="", x=NULL)+
+  scale_x_continuous(limits=c(0.5,4.5),
+                   breaks=1:4,
+                   labels = c("1" = "30-59", "2" = "60-89", "3" = "90-119", "4" = "120-149"))+
   theme(axis.title = element_text(size = 12))+
   ggtitle("Sculpin")+
   theme(legend.position = c(0.70,0.85))+
@@ -692,10 +705,12 @@ cott.pct.plot <- ggplot(cott_sums2, aes(fill=BRT, y=Mean_Pct, x=Bin)) +
                     labels = c("0" = "Brown Trout Absent", "1" = "Brown Trout Present"))+
   theme(legend.title = element_blank())+
   theme(plot.title = element_text(size=16, family = "Times New Roman"))+
-  theme(legend.text = element_text(family = "Times New Roman", size = 12))
-cott.pct.plot
+  theme(legend.text = element_text(family = "Times New Roman", size = 12))+
+  theme(axis.title.y = element_text(margin = margin(l=-7)))
+#cott.pct.plot
 
 
+#library(cowplot)
 combo3 <- plot_grid(cott.pct.plot,lnd.pct.plot,srd.pct.plot, ncol=1)
 combo3
 #-----------------------------------
