@@ -62,6 +62,17 @@ for_map2 <- for_map %>%
 
 write.csv(for_map2, "Data/Thesis/Spatial/Map_chpt3_pointsv2.csv", row.names = F)
 ########################################
+srd.with <- cpue %>%
+  filter(BRT == 1) %>%
+  filter(SRD_CPUE > 0) %>%
+  select(SRD_CPUE) %>%
+  summarise(mcpue=mean(SRD_CPUE))
+
+srd.w_o <- cpue %>%
+  filter(BRT == 0) %>%
+  filter(SRD_CPUE > 0) %>%
+  select(SRD_CPUE) %>%
+  summarise(mcpue=mean(SRD_CPUE))
 #############################################################################
 #----------------------------Boxplots of CPUE------------------------------#
 
@@ -189,17 +200,15 @@ ggsave("Figure_4_boxplots.png", plot = bf2, dpi = 600)
 
 #############################################################################
 ##New figure 4: just show group means
-newdata <- newdata %>%
-  filter(newID != "UPI_165")
 
-nobrt <- newdata %>%
+nobrt <- cpue %>%
   filter(BRT==0) %>%
   summarise(mcpue_SRD=mean(SRD_CPUE), mcpue_LND=mean(LND_CPUE), mcpue_cott=mean(Cottus_CPUE),
             sd_SRD=sd(SRD_CPUE), sd_LND=sd(LND_CPUE), sd_cott=sd(Cottus_CPUE),
             se_srd=(sd_SRD/sqrt(65)), se_lnd=(sd_LND/sqrt(65)), se_cott=(sd_cott/sqrt(65))) %>%
   mutate(Status=0)
 
-brt <- newdata %>%
+brt <- cpue %>%
   filter(BRT==1) %>%
   summarise(mcpue_SRD=mean(SRD_CPUE), mcpue_LND=mean(LND_CPUE), mcpue_cott=mean(Cottus_CPUE),
             sd_SRD=sd(SRD_CPUE), sd_LND=sd(LND_CPUE), sd_cott=sd(Cottus_CPUE),
@@ -1520,8 +1529,26 @@ skim(nose)
 
 
 
+###############################################
+srd <- cpue %>%
+  filter(SRD_ab > 0)
+skim(srd)
+
+
+skim(cpue)
+bnt <- cpue %>%
+  filter(BRT == 1) %>%
+  summarise(mlen=mean(med_len), minlen=min(med_len), maxlen=max(med_len))
+bnt.over <- cpue %>%
+  filter(med_len > 129)
+62/74*100
+bnt.large <- cpue %>%
+  filter(med_len > 169)
+55/74*100
+###############################################
 
 
 
-
-
+southern = cpue %>%
+  filter(SRD_ab>0)
+skim(southern)
