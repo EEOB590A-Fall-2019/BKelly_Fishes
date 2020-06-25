@@ -454,7 +454,7 @@ fonts()
 #-----
 ar <- ggplot(data=lnd.area.preds, aes(x=Area_km2))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
-  geom_line(aes(y=estimate), size=1, color="black", linetype="longdash")+
+  geom_line(aes(y=estimate), size=1, color="black")+#, linetype="longdash")+
   labs(x="Total Catchment Area (Km )",
        y=NULL)+
   theme_bw()+
@@ -471,7 +471,7 @@ ar
 #-----
 cob <- ggplot(data=lnd.cbl.preds, aes(x=pctcbbl))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
-  geom_line(aes(y=estimate), size=1, color="black",linetype="longdash")+
+  geom_line(aes(y=estimate), size=1, color="black")+ #,linetype="longdash")+
   labs(x= "% Cobble Substrate",
        y=NULL)+
   theme_bw()+
@@ -487,7 +487,7 @@ cob
 #-----
 elev <- ggplot(data=lnd.elev.preds, aes(x=elev_m))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
-  geom_line(aes(y=estimate), size=1, color="black", linetype="longdash")+
+  geom_line(aes(y=estimate), size=1, color="black")+ #, linetype="longdash")+
   labs(x="Elevation (m)",
        y=NULL)+
   theme_bw()+
@@ -505,7 +505,7 @@ elev
 #-----
 avt <- ggplot(data=lnd.avgt.preds, aes(x=avgT))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
-  geom_line(aes(y=estimate), size=1, color="black", linetype="longdash")+
+  geom_line(aes(y=estimate), size=1, color="black")+ #, linetype="longdash")+
   labs(x="Mean Stream Temperature (°C)",
        y=NULL)+
   theme_bw()+
@@ -522,7 +522,7 @@ avt
 #-----
 bt <- ggplot(data=lnd.brt.preds, aes(x=BRT_100m))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
-  geom_line(aes(y=estimate), size=1, color="black", linetype="longdash")+
+  geom_line(aes(y=estimate), size=1, color="black")+ #, linetype="longdash")+
   scale_y_continuous(limits = c(0,1), breaks = c(0,0.25,0.50,0.75,1.00), labels = c("0.00","0.25","0.50","0.75","1.00"))+
   labs(x="Brown Trout CPUE (fish/100m)",
        y=NULL)+
@@ -536,16 +536,38 @@ library(cowplot)
 plot.lnd <- plot_grid(avt,cob,elev,ar,bt, labels = NULL, ncol = 3)
 plot.lnd
 
+# now add the title
+title <- ggdraw() + 
+  draw_label(
+    "Longnose Dace",
+    fontfamily = "Times New Roman",
+    size = 14,
+    x = 0,
+    hjust = 0
+  ) +
+  theme(
+    # add margin on the left of the drawing canvas,
+    # so title is aligned with left edge of first plot
+    plot.margin = margin(0, 0, 0, 7)
+  )
+
+lnd.plot <- plot_grid(
+  title, plot.lnd,
+  ncol = 1,
+  # rel_heights values control vertical title margins
+  rel_heights = c(0.1, 1)
+)
+
 #create common y axis label
 library(gridExtra)
 library(grid)
 y.grob <- textGrob("Occupancy Probability (Ψ)", 
                    gp=gpar(fontface="bold", col="black", fontsize=14, fontfamily="Times New Roman"), rot=90)
 #add to plot
-lnd.f <- grid.arrange(arrangeGrob(plot.lnd, left = y.grob))
+lnd.f <- grid.arrange(arrangeGrob(lnd.plot, left = y.grob))
 
 getwd()
-#setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 ggsave("lnd_occu.png", plot=lnd.f, dpi = 600)
 
 
@@ -841,7 +863,7 @@ write_csv(srd.dprob.preds, "Data/Thesis/Tidy/SRD_DetectMod_Predictions_depth.csv
 #-----
 srd.avt <- ggplot(data=srd.avgT.preds, aes(x=avgT))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
-  geom_line(aes(y=estimate), size=1, color="black", linetype="dotdash")+
+  geom_line(aes(y=estimate), size=1, color="black")+ #, linetype="dotdash")+
   labs(x="Mean Stream Temperature (°C)",
        y=NULL)+
   theme_bw()+
@@ -859,7 +881,7 @@ srd.avt
 #-----
 srd.bt <- ggplot(data=srd.trout.preds, aes(x=BRT_100m))+
   geom_ribbon(aes(ymin=lcl, ymax=ucl), fill="grey70", alpha=0.7)+
-  geom_line(aes(y=estimate), size=1, color="black", linetype="dotdash")+
+  geom_line(aes(y=estimate), size=1, color="black")+ #, linetype="dotdash")+
   scale_y_continuous(limits = c(0,1), breaks = c(0,0.25,0.50,0.75,1.00), labels = c("0.00","0.25","0.50","0.75","1.00"))+
   #scale_x_continuous(limits = c(0,50), breaks = c(0,10,20,30,40,50), labels = c("0","10","20","30","40","50"))+
   labs(x="Brown Trout CPUE (fish/100m)",
@@ -871,7 +893,9 @@ srd.bt
 
 
 
-
+#cowplot
+plot.srd2 <- plot_grid(srd.avt,srd.bt, labels = NULL, ncol = 2, nrow = 1)
+plot.srd2
 
 
 #cowplot
@@ -894,7 +918,7 @@ title2 <- ggdraw() +
   )
 
 final.srd <- plot_grid(
-  title2, plot.srd,
+  title2, plot.srd2,
   ncol = 1,
   # rel_heights values control vertical title margins
   rel_heights = c(0.1, 1)
@@ -905,7 +929,6 @@ srd.f <- grid.arrange(arrangeGrob(final.srd, left = y.grob))
 
 #setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 ggsave("srd_occu.png", plot=srd.f, dpi = 600)
-
 
 
 
