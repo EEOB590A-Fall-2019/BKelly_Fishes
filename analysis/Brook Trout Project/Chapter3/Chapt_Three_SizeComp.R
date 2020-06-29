@@ -35,6 +35,20 @@ cott.list <- vars_select(nms, ends_with("Cottus"))
 lnd.brt <- sizes %>%
   select(BRT, lnd.list)
 
+lnd_pr <- lnd.brt %>%
+  mutate(sum_lnd = bin1_LND+bin2_LND+bin3_LND) %>%
+  filter(sum_lnd > 0)
+
+#size class 1
+wilcox.test(lnd_pr$bin1_LND ~ lnd_pr$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+#size class 2
+wilcox.test(lnd_pr$bin2_LND ~ lnd_pr$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+#size class 3
+wilcox.test(lnd_pr$bin3_LND ~ lnd_pr$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+
 
 lnd.b.long <- lnd.brt %>%
   rename(bin1 = bin1_LND, bin2 = bin2_LND, bin3 = bin3_LND) %>%
@@ -409,6 +423,19 @@ lnd.comp2 <- lnd.comp %>%
          bin2_pct = (bin2_LND/Sum)*100,
          bin3_pct = (bin3_LND/Sum)*100)
 
+#------all data------------
+#size class 1
+wilcox.test(lnd.comp2$bin1_LND ~ lnd.comp2$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+#size class 2
+wilcox.test(lnd.comp2$bin2_LND ~ lnd.comp2$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+#size class 3
+wilcox.test(lnd.comp2$bin3_LND ~ lnd.comp2$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+#------all data------------
+
+
 lnd_sums2 <- lnd.comp2 %>%
   select(BRT, bin1_pct, bin2_pct, bin3_pct) %>%
   rename(bin1 = bin1_pct, bin2 = bin2_pct, bin3 = bin3_pct) %>%
@@ -558,6 +585,18 @@ srd.comp2 <- srd.comp %>%
   mutate(bin1_pct = (bin1_SRD/Sum)*100,
          bin2_pct = (bin2_SRD/Sum)*100,
          bin3_pct = (bin3_SRD/Sum)*100)
+
+#------all data------------
+#size class 1
+wilcox.test(srd.comp2$bin1_SRD ~ srd.comp2$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+#size class 2
+wilcox.test(srd.comp2$bin2_SRD ~ srd.comp2$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+#size class 3
+wilcox.test(srd.comp2$bin3_SRD ~ srd.comp2$BRT, mu=0, alt="two.sided", conf.int=T, conf.level=0.95, paired=F,
+            exact=F)
+#------all data------------
 
 srd_sums2 <- srd.comp2 %>%
   select(BRT, bin1_pct, bin2_pct, bin3_pct) %>%
