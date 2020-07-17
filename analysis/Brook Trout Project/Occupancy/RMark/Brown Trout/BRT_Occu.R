@@ -29,7 +29,7 @@ library(cowplot)
 ##--------------------------------------------------------------------------------------------------------------------------------##
 #read in data, rearrange and change some labels to work with grouping ("freq"), and time-varying covariates ("Effort1 --> Effort3")
 brown <- read_csv("Data/Thesis/Tidy/BRT_RMark.csv", col_names = T)
-
+skim(brown)
 #random summaries for manuscript table
 names(brown)
 final_covs <- brown %>%
