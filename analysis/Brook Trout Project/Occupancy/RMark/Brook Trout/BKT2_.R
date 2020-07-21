@@ -19,7 +19,6 @@
 library(RMark)
 library(tidyverse)
 library(skimr)
-library(psycho)
 library(corrplot)
 
 ##Occupancy example
@@ -45,12 +44,12 @@ names(cat)
 brook.df <- left_join(brook.df, cat, by="newID")
 
 #need random summaries for manuscript table - canopy cover, rock, BRT_CPUE
-summary(brook.df$pctrock)
-sd(brook.df$pctrock)
-summary(brook.df$pctShade)
-sd(brook.df$pctShade)
-summary(brook.df$BRT_100m)
-sd(brook.df$BRT_100m)
+#summary(brook.df$pctrock)
+#sd(brook.df$pctrock)
+#summary(brook.df$pctShade)
+#sd(brook.df$pctShade)
+#summary(brook.df$BRT_100m)
+#sd(brook.df$BRT_100m)
 ##########################################################################################
 # Local Scale: instream and immediate riparian area
 #> pctex21 (-) "percentage of summer temperature observations that exceed 21 degrees C"
@@ -66,19 +65,6 @@ sd(brook.df$BRT_100m)
 #> EFac_Cat (-) "Environmental Facility density of upstream catchment (count/Area_km2)"
 #> Cross_Cat (-) "Road Crossing density of upstream catchment (count/Area_km2)"
 ##########################################################################################
-
-#---------------------------------------------#
-#standardize covariates to have center 0 --- Only effort variables (all high and 3-4 digits) (subtract mean and divide by sd)
-#---------------------------------------------#
-#x <- brook.df %>%
-#  select(4:6) %>%
-#  psycho::standardize()
-#summary(x)
-#skim(x)
-
-#brook2 <- brook.df 
-#brook2[,4:6]=x
-
 
 #----------------#
 #correlation test
@@ -312,7 +298,7 @@ for.valuesg <- gis$HAiFLS_for
 #predict across range of observed values (forest)
 ##################################################
 
-#predictions of Psi for full range of p21 & -1SD of forest values (would be negative so just forest=0)
+#predictions of Psi for full range of forest values
 predictions_forg <- covariate.predictions(tm.cat, 
                                          data = data.frame(HAiFLS_for = for.valuesg),
                                          indices = 4)
@@ -593,7 +579,7 @@ top.mod <- bkt.results$p.tv.effort.Psi.mixed65
 cleanup(ask = F)
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
-#### Visualizing pctex21 effect on psi ####
+####  Visualizing avgT effect on psi  ####
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
 
 #covariate.predictions method
