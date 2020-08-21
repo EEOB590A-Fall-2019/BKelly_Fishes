@@ -159,7 +159,7 @@ corrplot(c, type = "upper", order = "alphabet", method = "number", col = col4(5)
 ##########################################################################################
 ################################################################################################################################
 #set wd to scratch folder because MARK outputs an insane amount of files
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/Chapter3") 
+#setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/Chapter3") 
 
 #Process Data
 #?process.data
@@ -436,7 +436,7 @@ names(lnd.brt.preds)
 ####################################################
 ##     Write tidy csv's for Psi predictions       ## 
 ####################################################
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+#setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 #top mod
 write_csv(lnd.area.preds, "Data/Thesis/Tidy/LND_OccuMod_Predictions_area_km2.csv")
 write_csv(lnd.cbl.preds, "Data/Thesis/Tidy/LND_OccuMod_Predictions_cobble.csv")
@@ -567,7 +567,7 @@ y.grob <- textGrob("Occupancy Probability (Ψ)",
 lnd.f <- grid.arrange(arrangeGrob(lnd.plot, left = y.grob))
 
 getwd()
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+#setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 ggsave("lnd_occu.png", plot=lnd.f, dpi = 600)
 
 
@@ -606,7 +606,7 @@ final.lnd <- plot_grid(
 ##########################################################################################
 ################################################################################################################################
 #set wd to scratch folder because MARK outputs an insane amount of files
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/Chapter3") 
+#setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/Chapter3") 
 
 #Process Data
 #?process.data
@@ -853,7 +853,7 @@ names(srd.depth.preds)
 ####################################################
 ##     Write tidy csv's for p & Psi predictions   ## 
 ####################################################
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+#setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 write_csv(srd.avgT.preds, "Data/Thesis/Tidy/SRD_OccuMod_Predictions_avgT.csv")
 write_csv(srd.trout.preds, "Data/Thesis/Tidy/SRD_OccuMod_Predictions_BRT_100m.csv")
 write_csv(srd.dprob.preds, "Data/Thesis/Tidy/SRD_DetectMod_Predictions_depth.csv")
@@ -938,7 +938,7 @@ ggsave("srd_occu.png", plot=srd.f, dpi = 600)
 ##########################################################################################
 ################################################################################################################################
 #set wd to scratch folder because MARK outputs an insane amount of files
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/Chapter3") 
+#setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/Chapter3") 
 
 #Process Data
 #?process.data
@@ -1217,7 +1217,7 @@ names(cott.trout.preds)
 ####################################################
 ##     Write tidy csv's for Psi predictions       ## 
 ####################################################
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+#setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 write_csv(cott.avgT.preds, "Data/Thesis/Tidy/Cottus_OccuMod_Predictions_avgT.csv")
 write_csv(cott.flow.preds, "Data/Thesis/Tidy/Cottus_OccuMod_Predictions_flow.csv")
 write_csv(cott.forest.preds, "Data/Thesis/Tidy/Cottus_OccuMod_Predictions_forest.csv")
@@ -1350,7 +1350,7 @@ final.cott
 ff <- grid.arrange(arrangeGrob(final.cott, left = y.grob))
 
 getwd()
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+#setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
 ggsave("cott_occu.png", plot=ff, dpi = 600)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
