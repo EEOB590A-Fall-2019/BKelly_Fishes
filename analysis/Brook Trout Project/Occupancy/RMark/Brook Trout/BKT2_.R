@@ -43,6 +43,8 @@ names(cat)
 
 brook.df <- left_join(brook.df, cat, by="newID")
 
+#write_csv(brook.df, "Data/Thesis/Tidy/BrookTrout_dataframe.csv")
+
 #need random summaries for manuscript table - canopy cover, rock, BRT_CPUE
 #summary(brook.df$pctrock)
 #sd(brook.df$pctrock)
