@@ -3,7 +3,6 @@
 #------------------------------------------------#
 
 #working with tidyfish1.xlsx data
-#goal for 10/17/19 is to quantify metrics of IBI
 library(tidyverse)
 library(ggplot2)
 library(forcats)

@@ -205,12 +205,86 @@ summary(metrics2$WWindv150)
 
 names(metrics2)
 
+#----------------------------------------------------------------
+#NEW - Lyons metrics to add to the Mundahl metrics
+#________________________________________________________________
+#Metric 1: number of intolerant species: ABL, BKT, SPS, Cottus
+IntolSP <- metrics2 %>%
+  select(Cottus, SPS, BKT, ABL)
+summary(IntolSP)
+#Add column with rowSums()
+metrics2 <- metrics2 %>%
+  mutate(numIntolSP = rowSums(IntolSP))
+summary(metrics2$numIntolSP)
+
+#Metric 2: Percent Tolerant Indv
+#Tolerant species numbers needed: CMM, BNM, FHM, WBD, CRC, WSU, GSF
+#in order of select: CMM, WSU, CRC, WBD, FHM, BNM, GSF
+tol_ab <- metrics2 %>%
+  select(CMM_ab, WSU_ab, CRC_ab, WBD_ab, FHM_ab, BNM_ab, GSF_ab)
+summary(tol_ab)
+#Add column with rowSums()
+metrics2 <- metrics2 %>%
+  mutate(Tolerant_ab = rowSums(tol_ab))
+summary(metrics2$Tolerant_ab)
+
+#add column for %Tolerant individuals
+metrics2 <- metrics2 %>%
+  mutate(pctTOLindv = (Tolerant_ab)/(total_ab)*100)
+summary(metrics2$pctTOLindv)
+
+ggplot(metrics2, aes(HUC8, pctTOLindv))+
+  geom_boxplot()
+
+#Metric 3: % Top Carnivore
+metrics2 <- metrics2 %>%
+  mutate(TC_noRBT = (TopCarn_ab-RBT_ab)) %>%
+  mutate(pctTC_noRBT = (TC_noRBT/total_ab)*100)
+summary(metrics2$pctTOPCARNindv)
+summary(metrics2$pctTC_noRBT)
+
+#Metric 4: % stenothermal coolwater and coldwater
+#stenothermal: BKT, BRT, TGT, Cottus, ABL
+steno_ab <- metrics2 %>%
+  select(BKT_ab, BRT_ab, TGT_ab, Cottus_ab, BSB_ab, ABL_ab)
+summary(steno_ab)
+#Add column with rowSums()
+metrics2 <- metrics2 %>%
+  mutate(CWnoRBT_ab = rowSums(steno_ab))
+summary(metrics2$CWnoRBT_ab)
+
+#add column for %CW individuals
+metrics2 <- metrics2 %>%
+  mutate(pctCW_noRBT = (CWnoRBT_ab)/(total_ab)*100)
+summary(metrics2$pctCWindv)
+summary(metrics2$pctCW_noRBT)
+
+#Metric 5: % salmonids as BKT (no RBT in salmonids total!)
+#add trout_ab column
+salmos <- metrics %>%
+  select(BKT_ab, BRT_ab, TGT_ab)
+
+metrics2 <- metrics2 %>%
+  mutate(troutnoRBT_ab = rowSums(salmos))
+summary(metrics2$troutnoRBT_ab)
+
+#pctBKT column
+metrics2 <- metrics2 %>%
+  mutate(pctBKT_noRBT = (BKT_ab)/(troutnoRBT_ab)*100)
+summary(metrics$pctBKT_noRBT)
+
+#replace NAs in pctBKT_noRBT column with zero
+#metrics2$pctBKT_noRBT[is.na(metrics2$pctBKT_noRBT)]=0
+#skim(metrics2)
+##############################################################################################################################
+
 
 
 #create new df without raw fish data to use for IBI calculation, then write this as a csv as an intermediate step
 IBI <- metrics2 %>%
   select(uid, HUC8, site, numspecies, TopCarn_ab, total_ab, numCWspp, numTOLspp, numMINspp, numBENspp, CW_ab, 
-         pctCWindv, Intol_ab, pctINTOLindv, trout_ab, pctBKTsalmon, pctWSUindv, pctTOPCARNindv, CWindv150, WW_ab, WWindv150)
+         pctCWindv, Intol_ab, pctINTOLindv, trout_ab, pctBKTsalmon, pctWSUindv, pctTOPCARNindv, CWindv150, WW_ab, WWindv150,
+         numIntolSP, pctTOLindv, pctTC_noRBT, pctCW_noRBT, pctBKT_noRBT)
 head(IBI)
 skim(IBI)
 IBI[72,3] <- "97b"
@@ -312,37 +386,112 @@ check_M12 <- IBI %>%
   select(WWindv150, M12_WWindv150)
 check_M12 #worked
 
-#new DF with M1 --> M12
+#ML1
+IBI <- IBI %>%
+  mutate(ML1_numIntolSp = ifelse(IBI$numIntolSP>1, 20, ifelse(IBI$numIntolSP==1, 10, 0)))
+summary(IBI$ML1_numIntolSp)
+check_ML1 <- IBI %>%
+  select(numIntolSP, ML1_numIntolSp)
+check_ML1 #worked
+
+#ML2
+IBI <- IBI %>%
+  mutate(ML2_pctTolindv = ifelse(IBI$pctTOLindv<6, 20, ifelse(IBI$pctTOLindv<23, 10, 0)))
+summary(IBI$ML2_pctTolindv)
+check_ML2 <- IBI %>%
+  select(pctTOLindv, ML2_pctTolindv)
+check_ML2 #worked
+
+#ML3
+IBI <- IBI %>%
+  mutate(ML3_pctTCnoRBT = ifelse(IBI$pctTC_noRBT>45, 20, ifelse(IBI$pctTC_noRBT>14, 10, 0)))
+summary(IBI$ML3_pctTCnoRBT)
+check_ML3 <- IBI %>%
+  select(pctTC_noRBT, ML3_pctTCnoRBT)
+check_ML3 #worked
+
+#ML4
+IBI <- IBI %>%
+  mutate(ML4_pctCWnoRBT = ifelse(IBI$pctCW_noRBT>85, 20, ifelse(IBI$pctCW_noRBT>42.0, 10, 0)))
+summary(IBI$ML4_pctCWnoRBT)
+check_ML4 <- IBI %>%
+  select(pctCW_noRBT, ML4_pctCWnoRBT)
+check_ML4 #worked
+
+#ML5
+IBI <- IBI %>%
+  mutate(ML5_pctBKTnoRBT = ifelse(IBI$pctBKT_noRBT>95, 20, ifelse(IBI$pctBKT_noRBT>4, 10, 0)))
+summary(IBI$ML5_pctBKTnoRBT)
+check_ML5 <- IBI %>%
+  select(pctBKT_noRBT, ML5_pctBKTnoRBT)
+check_ML5 #worked
+
+
+
+#############################################
+#new DF with M1 --> M12 
 names(IBI)
-scores <- IBI %>%
+scores_Mundahl <- IBI %>%
   select(M1_spp, M2_CWspp, M3_MINspp, M4_BENspp, M5_TOLspp, M6_BKTsalmonid, M7_pctIntol, 
          M8_pctCW, M9_pctWSU, M10_pctTC, M11_CWindv150, M12_WWindv150)
-head(scores)
+head(scores_Mundahl)
 
-IBI <- IBI %>%
-  mutate(IBIScore = rowSums(scores, na.rm = T))
+IBI_Mun <- IBI %>%
+  mutate(IBIScore = rowSums(scores_Mundahl, na.rm = T))
 
-ggplot(IBI, aes(HUC8, IBIScore, color=HUC8))+
+ggplot(IBI_Mun, aes(HUC8, IBIScore, color=HUC8))+
   geom_boxplot()
 
 #Add column for Rating (Very Poor, Poor, Fair, Good, Excellent)
-IBI <- IBI %>%
+IBI_Mun <- IBI_Mun %>%
   mutate(Rating = ifelse(IBIScore>104, "Excellent", ifelse(
     IBIScore>69, "Good", ifelse(IBIScore>34, "Fair", ifelse(
       IBIScore>9, "Poor", ifelse(IBIScore<6, "Very Poor", "No Score")
     ))
   )))
-class(IBI$Rating)
+class(IBI_Mun$Rating)
 
-IBI$Rating <- as.factor(IBI$Rating)
-class(IBI$Rating)
-levels(IBI$Rating)
+IBI_Mun$Rating <- as.factor(IBI_Mun$Rating)
+class(IBI_Mun$Rating)
+levels(IBI_Mun$Rating)
 
-g <- ggplot(IBI, aes(Rating, color = HUC8)) +
+g <- ggplot(IBI_Mun, aes(Rating, color = HUC8)) +
   geom_bar()
 g
 
-max(IBI$IBIScore)
+max(IBI_Mun$IBIScore)
+
+#######################################################################################
+
+scores_Lyons <- IBI %>%
+  select(ML1_numIntolSp, ML2_pctTolindv, ML3_pctTCnoRBT, ML4_pctCWnoRBT, ML5_pctBKTnoRBT)
+head(scores_Lyons)
+
+IBI_Lyons <- IBI %>%
+  mutate(IBIScore = rowSums(scores_Lyons, na.rm = T))
+
+ggplot(IBI_Lyons, aes(HUC8, IBIScore, color=HUC8))+
+  geom_boxplot()
+
+#Add column for Rating (Very Poor, Poor, Fair, Good, Excellent)
+IBI_Lyons <- IBI_Lyons %>%
+  mutate(Rating = ifelse(IBIScore>80, "Excellent", ifelse(
+    IBIScore>50, "Good", ifelse(IBIScore>20, "Fair", ifelse(
+      IBIScore>0, "Poor", ifelse(IBIScore<1, "Very Poor", "No Score")
+    ))
+  )))
+class(IBI_Lyons$Rating)
+
+IBI_Lyons$Rating <- as.factor(IBI_Lyons$Rating)
+class(IBI_Lyons$Rating)
+levels(IBI_Lyons$Rating)
+
+gg <- ggplot(IBI_Lyons, aes(Rating, color = HUC8)) +
+  geom_bar()
+gg
+
+
+
 
 #write tidy csv of IBI 
 getwd()
