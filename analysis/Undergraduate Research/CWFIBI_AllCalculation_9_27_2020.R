@@ -538,7 +538,102 @@ skim(IBI2)
 
 #visualize data
 
+#####
+##BARPLOT COMPARISON
+#first things first, we need to sort the levels of the "Rating" columns, so that histograms display in order of rating (Very Poor - Excellent)
+IBI2$Rating_M <- factor(IBI2$Rating_M, levels = c("Very Poor", "Poor", "Fair", "Good", "Excellent"))
+IBI2$Rating_L <- factor(IBI2$Rating_L, levels = c("Very Poor", "Poor", "Fair", "Good", "Excellent"))
+class(IBI2$Rating_M)
 
+a <- ggplot(IBI2, aes(Rating_M)) +
+  geom_bar(color="black", fill="black")+
+  labs(title = "Mundahl FIBI", x="FIBI Rating", y="Count")+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+a
+
+b <- ggplot(IBI2, aes(Rating_L)) +
+  geom_bar(color="black", fill="white")+
+  labs(title = "Lyons FIBI", x="FIBI Rating", y="Count")+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+b
+
+library(cowplot)
+plot_grid(a,b, labels=NULL)
+#####
+
+#####
+##LINEAR MODEL RELATING TWO FIBIs
+
+lm.ibi.mod <- lm(IBI2$IBIScore_M~IBI2$IBIScore_L)
+summary(lm.ibi.mod)
+
+#####
+##SCATTERPLOT COMPARISON
+scat <- ggplot(IBI2, aes(x=IBIScore_L, y=IBIScore_M))+
+  geom_point(color="black",
+             fill="grey",
+             shape=21,
+             alpha=0.75,
+             size=4,
+             stroke = 1.5)+
+  scale_y_continuous(limits = c(0,110), breaks = c(0,10,35,70,105))+
+  scale_x_continuous(limits = c(0,100), breaks = c(0,10,30,60,90))+
+  geom_abline(intercept = 0, slope = 1, color="black", linetype="dashed",
+              size=1)+
+  stat_smooth(method = "lm", se=F, color="black", size=1.5)+
+  theme_bw()+
+  theme(legend.position = "bottom")+
+  labs(y="Mundahl & Simon FIBI Score", 
+       x="Lyons et al. FIBI Score")+
+  theme(axis.title = element_text(size = 14, face = "bold"))+
+  theme(axis.text = element_text(size = 12))+
+  theme(panel.grid = element_blank())+
+  annotate("text",x=20,y=110,label="Y = 20.92 + 0.98x (R^2=0.77)",
+           fontface="bold", size=5)
+scat
+
+
+
+ggsave("Mundahl_vs_Lyons.png", dpi = 350)
+
+
+#---------------------------------------------------
+### Below Code NOT RUN -- EXAMPLE 
+#---------------------------------------------------
+
+ggplot(snore, aes(x=estimate, y=IBIScore)) + 
+  geom_point(
+    color="black",
+    fill="royalblue2",
+    shape=21,
+    alpha=0.75,
+    size=4,
+    stroke = 1.5
+  )+
+  scale_y_continuous(limits = c(0,112), breaks = c(0,10,35,70,105))+
+  scale_x_continuous(limits = c(0,112), breaks = c(0,10,35,70,105))+
+  geom_abline(intercept = 0, slope = 1, color="black", linetype="dashed",
+              size=1)+
+  stat_smooth(method = "lm", se=F, color="black", size=1.5)+
+  theme_bw()+
+  theme(legend.position = "bottom")+
+  labs(y="Observed FIBI Score", 
+       x="Predicted FIBI Score")+
+  theme(axis.title = element_text(size = 14, face = "bold"))+
+  theme(axis.text = element_text(size = 12))+
+  theme(panel.grid = element_blank())+
+  annotate("text",x=20,y=110,label="Pearson's r = 0.72",
+           fontface="bold", size=5)
+
+#ggsave("FIBI_ObsY_vs_PredX_color.png", dpi = 350)
+#---------------------------------------------------
+
+
+
+
+################################################################################
 #summarize data
 IBI_table <- IBI2 %>%
   group_by(HUC8) %>%
