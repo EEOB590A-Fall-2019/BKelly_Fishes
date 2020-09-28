@@ -437,29 +437,29 @@ scores_Mundahl <- IBI %>%
 head(scores_Mundahl)
 
 IBI_Mun <- IBI %>%
-  mutate(IBIScore = rowSums(scores_Mundahl, na.rm = T))
+  mutate(IBIScore_M = rowSums(scores_Mundahl, na.rm = T))
 
-ggplot(IBI_Mun, aes(HUC8, IBIScore, color=HUC8))+
+ggplot(IBI_Mun, aes(HUC8, IBIScore_M, color=HUC8))+
   geom_boxplot()
 
 #Add column for Rating (Very Poor, Poor, Fair, Good, Excellent)
 IBI_Mun <- IBI_Mun %>%
-  mutate(Rating = ifelse(IBIScore>104, "Excellent", ifelse(
-    IBIScore>69, "Good", ifelse(IBIScore>34, "Fair", ifelse(
-      IBIScore>9, "Poor", ifelse(IBIScore<6, "Very Poor", "No Score")
+  mutate(Rating_M = ifelse(IBIScore_M>104, "Excellent", ifelse(
+    IBIScore_M>69, "Good", ifelse(IBIScore_M>34, "Fair", ifelse(
+      IBIScore_M>9, "Poor", ifelse(IBIScore_M<6, "Very Poor", "No Score")
     ))
   )))
-class(IBI_Mun$Rating)
+class(IBI_Mun$Rating_M)
 
-IBI_Mun$Rating <- as.factor(IBI_Mun$Rating)
-class(IBI_Mun$Rating)
-levels(IBI_Mun$Rating)
+IBI_Mun$Rating_M <- as.factor(IBI_Mun$Rating_M)
+class(IBI_Mun$Rating_M)
+levels(IBI_Mun$Rating_M)
 
-g <- ggplot(IBI_Mun, aes(Rating, color = HUC8)) +
+g <- ggplot(IBI_Mun, aes(Rating_M, color = HUC8)) +
   geom_bar()
 g
 
-max(IBI_Mun$IBIScore)
+max(IBI_Mun$IBIScore_M)
 
 #######################################################################################
 
@@ -468,34 +468,42 @@ scores_Lyons <- IBI %>%
 head(scores_Lyons)
 
 IBI_Lyons <- IBI %>%
-  mutate(IBIScore = rowSums(scores_Lyons, na.rm = T))
+  mutate(IBIScore_L = rowSums(scores_Lyons, na.rm = T))
 
-ggplot(IBI_Lyons, aes(HUC8, IBIScore, color=HUC8))+
+ggplot(IBI_Lyons, aes(HUC8, IBIScore_L, color=HUC8))+
   geom_boxplot()
 
 #Add column for Rating (Very Poor, Poor, Fair, Good, Excellent)
 IBI_Lyons <- IBI_Lyons %>%
-  mutate(Rating = ifelse(IBIScore>80, "Excellent", ifelse(
-    IBIScore>50, "Good", ifelse(IBIScore>20, "Fair", ifelse(
-      IBIScore>0, "Poor", ifelse(IBIScore<1, "Very Poor", "No Score")
+  mutate(Rating_L = ifelse(IBIScore_L>80, "Excellent", ifelse(
+    IBIScore_L>50, "Good", ifelse(IBIScore_L>20, "Fair", ifelse(
+      IBIScore_L>0, "Poor", ifelse(IBIScore_L<1, "Very Poor", "No Score")
     ))
   )))
-class(IBI_Lyons$Rating)
+class(IBI_Lyons$Rating_L)
 
-IBI_Lyons$Rating <- as.factor(IBI_Lyons$Rating)
-class(IBI_Lyons$Rating)
-levels(IBI_Lyons$Rating)
+IBI_Lyons$Rating_L <- as.factor(IBI_Lyons$Rating_L)
+class(IBI_Lyons$Rating_L)
+levels(IBI_Lyons$Rating_L)
 
-gg <- ggplot(IBI_Lyons, aes(Rating, color = HUC8)) +
+gg <- ggplot(IBI_Lyons, aes(Rating_L, color = HUC8)) +
   geom_bar()
 gg
 
+###################################
+### REDUCE AND COMBINE DATASETS ###
+###################################
+names(IBI_Lyons)
 
+ibi_lyons_short <- IBI_Lyons %>%
+  select(uid, IBIScore_L, Rating_L)
+
+full.ibi.df <- left_join(IBI_Mun, ibi_lyons_short, by="uid")
 
 
 #write tidy csv of IBI 
 getwd()
-write.csv(IBI, "Data/Thesis/Tidy/tidy_IBI1.csv", row.names = F)
+write.csv(full.ibi.df, "Data/Thesis/Tidy/tidy_FIBI_FULL.csv", row.names = F)
 
 ###################################################
 ###################################################
@@ -514,27 +522,22 @@ library(corrplot)
 library(ggResidpanel)
 
 #read in data
-IBI <- read.csv("Data/Thesis/Tidy/tidy_IBI1.csv", header = T)
+IBIf <- read.csv("Data/Thesis/Tidy/tidy_FIBI_FULL.csv", header = T)
 
-names(IBI)
+names(IBIf)
 
 #subset data
-IBI2 <- IBI %>%
+IBI2 <- IBIf %>%
   select(uid,HUC8,site,M1_spp,M2_CWspp,M3_MINspp,M4_BENspp,M5_TOLspp,M6_BKTsalmonid,
          M7_pctIntol,M8_pctCW,M9_pctWSU,M10_pctTC,M11_CWindv150,
-         M12_WWindv150,IBIScore,Rating)
+         M12_WWindv150,ML1_numIntolSp, ML2_pctTolindv, ML3_pctTCnoRBT, ML4_pctCWnoRBT,
+         ML5_pctBKTnoRBT, IBIScore_M, Rating_M, IBIScore_L, Rating_L)
 
 #explore data
 skim(IBI2)
 
 #visualize data
-ggplot(IBI2, aes(HUC8, IBIScore, color=HUC8))+
-  geom_boxplot()
 
-
-g <- ggplot(IBI2, aes(Rating, color = HUC8)) +
-  geom_bar()
-g
 
 #summarize data
 IBI_table <- IBI2 %>%
