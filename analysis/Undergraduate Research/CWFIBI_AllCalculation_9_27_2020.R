@@ -598,8 +598,12 @@ scat
 
 ggsave("Mundahl_vs_Lyons.png", dpi = 350)
 
+library(ggResidpanel)
+resid_panel(lm.ibi.mod)
 
-#---------------------------------------------------
+
+
+---------------------------------------------------
 ### Below Code NOT RUN -- EXAMPLE 
 #---------------------------------------------------
 
@@ -629,15 +633,8 @@ ggplot(snore, aes(x=estimate, y=IBIScore)) +
 
 #ggsave("FIBI_ObsY_vs_PredX_color.png", dpi = 350)
 #---------------------------------------------------
-
-
-
-
 ################################################################################
-#summarize data
-IBI_table <- IBI2 %>%
-  group_by(HUC8) %>%
-  summarize(mean(IBIScore))
+
 
 #-----------------------------------------------
 
@@ -715,17 +712,10 @@ data <- left_join(IBI3, hab3, by='newID') %>%
 
 #inspect final df
 skim(data)
-names(data)
-
-#graph response variable
-hist(data$IBIScore)
-
-#plot all remaining variables
-pairs(data[,2:10])
 
 #----------
 #export data
-write.csv(data, "Data/Thesis/Tidy/FIBI_and_Hab.csv", row.names = F)
+write.csv(data, "Data/Thesis/Tidy/FIBI_and_covariates.csv", row.names = F)
 #----------
 
 ###################################################
