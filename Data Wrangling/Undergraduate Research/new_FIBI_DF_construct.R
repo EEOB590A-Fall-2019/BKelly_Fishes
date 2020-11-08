@@ -13,7 +13,7 @@ library(forcats)
 #----------------------------------
 
 #load data
-mydat <- read.csv("Data/Thesis/Tidy/FIBI_and_Hab.csv", header = T)
+mydat <- read.csv("Data/Thesis/Tidy/FIBI_and_covariates.csv", header = T)
 huc <- read.csv("Data/Thesis/Spatial/sites_with_HUC12.csv", header = T)
 bigdat <- read.csv("Data/Thesis/Tidy/AllCovariates.csv", header = T)
 
@@ -45,17 +45,13 @@ newDF <- left_join(mydat, bdhuc, by = "newID")
 skim(newDF)
 names(newDF)
 
-#organize
+#organize & subset
 newDF2 <- newDF %>%
-  select(newID, HUC8, HUC_10, HUC_12, Year, 3:24)
+  select(newID, HUC8, HUC_10, HUC_12, Year, M6_BKTsalmonid, IBIScore_M, Rating_M, IBIScore_L, Rating_L,
+         MEANT, pctrun, pctrock, pctShade, boulder, pctBrBnk, HAiFLS_dev, HAiFLS_for)
 
-#subset
-ndf <- newDF %>%
-  select(newID, HUC8, HUC_10, HUC_12, Year, IBIScore, Rating, MEANT, pctrun, pctrock, pctShade, pctBrBnk, HAiFLS_dev, HAiFLS_for)
-names(ndf)
 #Write csvs
-write.csv(newDF2, "Data/Thesis/Tidy/FIBI_full.csv", row.names = F)
-write.csv(ndf, "Data/Thesis/Tidy/FIBI_tidy2.csv", row.names = F)
+write.csv(newDF2, "Data/Thesis/Tidy/FIBI_tidy2.csv", row.names = F)
 
 
 
