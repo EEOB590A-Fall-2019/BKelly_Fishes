@@ -123,8 +123,8 @@ corrplot(c, type = "upper", order = "alphabet", method = "number", col = col4(5)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ################################################################################################################################
 #set wd to scratch folder because MARK outputs an insane amount of files
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/Occupancy/RMark/Brook Trout") #because MARK loves output files
-
+setwd("C:/Users/brett/OneDrive/Documents/Iowa State University/BKelly_Fishes/Analysis/Brook Trout Project/Occupancy/RMark/Brook Trout") #because MARK loves output files
+getwd()
 #Process Data
 #?process.data
 #?make.design.data

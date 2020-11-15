@@ -126,7 +126,7 @@ pairs(psi.vars) #pairs method of visualizing relationships
 #> Cross_Cat (-) "Road Crossing density of upstream catchment (count/Area_km2)"
 ##########################################################################################
 #set wd to scratch folder because MARK outputs an insane amount of files
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos/Analysis/Brook Trout Project/Occupancy/RMark/Brown Trout") #because MARK loves output files
+setwd("C:/Users/brett/OneDrive/Documents/Iowa State University/BKelly_Fishes/Analysis/Brook Trout Project/Occupancy/RMark/Brown Trout") #because MARK loves output files
 getwd()
 
 #Process Data
@@ -332,7 +332,7 @@ ggsave("brt_occuCAT_new.png", dpi = 350)
 ####################################################
 ##     Write tidy csv's for Psi predictions       ## 
 ####################################################
-setwd("C:/Users/bbkelly/Documents/Brook Trout_Brett/BKelly_Fishes_GithubRepos")
+setwd("C:/Users/brett/OneDrive/Documents/Iowa State University/BKelly_Fishes")
 write_csv(cat.for.preds, "Data/Thesis/Tidy/BRT_cat_for_preds.csv")
 write_csv(cat.area.preds, "Data/Thesis/Tidy/BRT_cat_area_preds.csv")
 
