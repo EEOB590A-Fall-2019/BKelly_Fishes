@@ -33,7 +33,7 @@ ggplot(data = brt_cdp, aes(x=reach))+
   geom_errorbar(aes(ymin=lcl, ymax=ucl), colour="black", width=.1) +
   geom_line(aes(y=p), size=1, color="black")+
   geom_point(aes(y=p))+
-  labs(x="Number of Sampling Occassions",
+  labs(x="Number of Sampling Occasions",
        y=expression(bold('Cumulative Detection Probability')))+
   scale_y_continuous(limits = c(0.4,1), breaks = c(0.40,0.60,0.80,1.00), labels = c("0.40","0.60","0.80","1.00"))+
   scale_x_continuous(breaks = c(1,2,3), labels = c("1","2","3"))+
@@ -77,7 +77,7 @@ bkt.cdp <-
   geom_errorbar(aes(ymin=lcl, ymax=ucl), colour="black", width=.1) +
   geom_line(aes(y=p), size=1, color="black")+
   geom_point(aes(y=p))+
-  labs(x="Number of Sampling Occassions",
+  labs(x="Number of Sampling Occasions",
        y="")+
   scale_y_continuous(limits = c(0.4,1), breaks = c(0.40,0.60,0.80,1.00), labels = c("0.40","0.60","0.80","1.00"))+
   scale_x_continuous(breaks = c(1,2,3), labels = c("1","2","3"))+
@@ -98,7 +98,7 @@ dprob
 
 
 # save final figure
-ggsave("DetProb_12_27_2020.png",
+ggsave("DetProb_2_28_2021.png",
        dpi = 600)
 
 
