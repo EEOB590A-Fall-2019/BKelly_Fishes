@@ -98,9 +98,9 @@ dprob
 
 
 # save final figure
-ggsave("DetProb_2_28_2021.png",
+getwd()
+ggsave("DetProb_3_28_2021.jpeg",
        dpi = 600)
-
 
 
 #-----
